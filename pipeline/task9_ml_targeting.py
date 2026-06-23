@@ -194,17 +194,29 @@ def run(cfg):
     feat_imp.to_csv(out(cfg, 'tables', 'task9_ml_feature_importance.csv'), index=False)
 
     # ── IDW-interpolated probability surface ──────────────────────────────────
+    # Use map_extent bounds so the colormap fills the same padded area as all other map panels
+    _xmin_g, _xmax_g, _ymin_g, _ymax_g = map_extent(cfg)
     lon_g, lat_g = np.meshgrid(
-        np.linspace(lon_min, lon_max, 200),
-        np.linspace(lat_min, lat_max, 200),
+        np.linspace(_xmin_g, _xmax_g, 220),
+        np.linspace(_ymin_g, _ymax_g, 220),
     )
     prob_grid = griddata(
         points=np.column_stack([df['lon'], df['lat']]),
         values=df['p_anomalous'].values,
         xi=(lon_g, lat_g),
+        method='nearest',   # 'nearest' avoids NaN outside convex hull in padded margins
+    )
+    # Also compute linear interpolation and blend: use linear inside data hull, nearest outside
+    prob_grid_lin = griddata(
+        points=np.column_stack([df['lon'], df['lat']]),
+        values=df['p_anomalous'].values,
+        xi=(lon_g, lat_g),
         method='linear',
     )
-    # Mask cells > 0.5° from nearest sample
+    # Replace valid linear values with the smoother linear estimate
+    valid_lin = ~np.isnan(prob_grid_lin)
+    prob_grid[valid_lin] = prob_grid_lin[valid_lin]
+    # Mask cells > 0.5° from nearest sample (sparse data guard)
     tree = cKDTree(np.column_stack([df['lon'], df['lat']]))
     dist, _ = tree.query(np.column_stack([lon_g.ravel(), lat_g.ravel()]))
     prob_grid[dist.reshape(lon_g.shape) > 0.5] = np.nan
@@ -287,10 +299,6 @@ def run(cfg):
         ax3.legend(fontsize=8, loc='lower left')
     except Exception as _e:
         print(f"  MRDS overlay skipped: {_e}")
-
-    ax3.plot([lon_min, lon_max, lon_max, lon_min, lon_min],
-             [lat_min, lat_min, lat_max, lat_max, lat_min],
-             color='white', lw=1.2, ls='--', zorder=7)
 
     # Annotation: high-P zones without MRDS = unrecorded targets
     ax3.text(0.97, 0.97,

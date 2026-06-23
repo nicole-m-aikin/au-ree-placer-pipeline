@@ -176,21 +176,23 @@ def run(cfg):
 
     ax1 = fig.add_subplot(gs[0, 0])
     im1 = ax1.pcolormesh(X, Y, pre_mining, cmap='cividis', shading='auto')
-    plt.colorbar(im1, ax=ax1, label='Elevation (m)', shrink=0.85)
+    plt.colorbar(im1, ax=ax1, label='Elevation (m)', shrink=0.85, pad=0.02)
     ax1.set_title(f'A.  Historical topo surface\n({example_site["topo_year"]} USGS 7.5-min quad, '
                   f'{example_site["topo_contour_ft"]}-ft contours)\nNorthings/Eastings relative to site SW corner', fontsize=8)
     ax1.set_xlabel('Easting (m)', fontsize=11); ax1.set_ylabel('Northing (m)', fontsize=11)
     ax1.tick_params(labelsize=9)
+    ax1.set_aspect('equal')
     cs1 = ax1.contour(X, Y, pre_mining, levels=8, colors='white', linewidths=0.5, alpha=0.7)
     ax1.clabel(cs1, inline=True, fontsize=6, fmt='%.0f m', colors='white')
 
     ax2 = fig.add_subplot(gs[0, 1])
     im2 = ax2.pcolormesh(X, Y, current_surface, cmap='cividis', shading='auto')
-    plt.colorbar(im2, ax=ax2, label='Elevation (m)', shrink=0.85)
+    plt.colorbar(im2, ax=ax2, label='Elevation (m)', shrink=0.85, pad=0.02)
     ax2.set_title(f'B.  Current lidar surface\n({example_site["lidar_year"]} acquisition, '
                   f'{example_site["lidar_res_m"]}m resolution)\nNorthings/Eastings relative to site SW corner', fontsize=8)
     ax2.set_xlabel('Easting (m)', fontsize=11)
     ax2.tick_params(labelsize=9)
+    ax2.set_aspect('equal')
     cs2 = ax2.contour(X, Y, current_surface, levels=8, colors='white', linewidths=0.5, alpha=0.7)
     ax2.clabel(cs2, inline=True, fontsize=6, fmt='%.0f m', colors='white')
 
@@ -205,10 +207,11 @@ def run(cfg):
     ax3 = fig.add_subplot(gs[0, 2])
     norm = TwoSlopeNorm(vmin=-3, vcenter=0, vmax=10)
     im3 = ax3.pcolormesh(X, Y, diff, cmap='PuOr_r', shading='auto', norm=norm)
-    cb3 = plt.colorbar(im3, ax=ax3, shrink=0.85)
+    cb3 = plt.colorbar(im3, ax=ax3, shrink=0.85, pad=0.02)
     cb3.set_label('+ve = net elevation\ngain (m)', fontsize=8)
     ax3.set_title('C.  Lidar − historical surface\n(warm = net gain; cool = net loss)', fontsize=9)
     ax3.set_xlabel('Easting (m)', fontsize=11)
+    ax3.set_aspect('equal')
     ax3.contour(X, Y, diff, levels=[0], colors='black', linewidths=1.5)
     ax3.text(0.5, -0.15,
              'Positive values = elevation gain since mining\n'

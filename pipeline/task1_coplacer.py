@@ -175,7 +175,9 @@ def run(cfg):
                      xytext=(ox, oy), textcoords='offset points', fontsize=7)
 
     ax2.set_facecolor('#e8f4f8')
-    ax2.set_xlim(LON_MIN, LON_MAX); ax2.set_ylim(LAT_MIN, LAT_MAX)
+    ax2.set_xlim(xmin_1, xmax_1); ax2.set_ylim(ymin_1, ymax_1)
+    north_arrow(ax2)
+    scale_bar(ax2, cfg)
     ax2.set_xlabel('Longitude', fontsize=11); ax2.set_ylabel('Latitude', fontsize=11)
     ax2.tick_params(labelsize=9)
     ax2.set_title('B.  Multi-criterion priority score\n'
