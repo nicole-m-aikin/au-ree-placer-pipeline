@@ -135,18 +135,34 @@ def run(cfg):
     results_df.to_csv(out(cfg, 'tables', 'task4_volume_tonnage_summary.csv'), index=False)
 
     # ── Figure 4: illustrative volume estimation (top-volume site) ────────────
-    # Use the first site from config as the illustration example (Oroville analog)
-    example_site = results_df.iloc[0]
+    # Use top-ranked site by p50; prefer Hunters Placer if available
+    if 'Hunters Placer' in results_df['site_name'].values:
+        example_site = results_df[results_df['site_name'] == 'Hunters Placer'].iloc[0]
+    else:
+        example_site = results_df.sort_values('ndpr_t_p50', ascending=False).iloc[0]
 
-    fig = plt.figure(figsize=(16, 14))
+    # Pre-check WGS availability to decide layout
+    _xl = wgs_path(cfg)
+    wgs_available = False
+    try:
+        import pandas as _pd_chk
+        _test = _pd_chk.read_excel(_xl, sheet_name='Endowment Calculations', header=0, nrows=1)
+        wgs_available = True
+    except Exception:
+        pass
+
+    fig = plt.figure(figsize=(16, 14 if wgs_available else 11))
     fig.suptitle(
         f'Figure 4 — Volume Estimation: Lidar Surface vs. Historical Topography\n'
         f'Illustrative example — {example_site["site_name"]} '
         f'(largest tailings volume; not necessarily top-ranked by NdPr metal)',
         fontsize=12, fontweight='bold',
     )
-    gs = gridspec.GridSpec(3, 3, figure=fig, hspace=0.50, wspace=0.35,
-                           height_ratios=[1, 1, 0.9])
+    if wgs_available:
+        gs = gridspec.GridSpec(3, 3, figure=fig, hspace=0.50, wspace=0.35,
+                               height_ratios=[1, 1, 0.9])
+    else:
+        gs = gridspec.GridSpec(2, 3, figure=fig, hspace=0.50, wspace=0.35)
 
     x = np.linspace(0, 500, 50)
     y = np.linspace(0, 500, 50)
@@ -227,34 +243,37 @@ def run(cfg):
     ax5.errorbar(plot_df['ndpr_t_p50'].values, y_pos,
                  xerr=[xerr_lo, xerr_hi],
                  fmt='o', color=WONG['orange'], ecolor=WONG['blue'],
-                 capsize=4, elinewidth=1.5, markersize=5)
+                 capsize=5, capthick=1.5, elinewidth=1.5, markersize=0)
+    ax5.scatter(plot_df['ndpr_t_p50'].values, y_pos,
+                color=WONG['orange'], edgecolors='black', linewidths=0.6,
+                s=60, zorder=5)
     ax5.set_yticks(y_pos)
     ax5.set_yticklabels([' '.join(n.split()[:2]) for n in plot_df['site_name']], fontsize=7)
-    ax5.set_xlabel('NdPr metal (tonnes)', fontsize=9)
+    ax5.set_xlabel('NdPr metal (tonnes) — P50 ± P10/P90 Monte Carlo', fontsize=9)
     ax5.set_title('E.  NdPr endowment P10 – P50 – P90\n(Monte Carlo, 2 000 samples/site)', fontsize=9)
     ax5.grid(True, alpha=0.3, axis='x')
     ax5.tick_params(labelsize=7)
 
-    # ── Panel F: WGS endowment table ─────────────────────────────────────────
-    ax6 = fig.add_subplot(gs[2, :])
-    ax6.axis('off')
-    _xl = wgs_path(cfg)
+    # ── Panel F: WGS endowment table (only when WGS data is available) ──────
     _f_title = 'F.  WGS OFR 2026-02: Field-Measured Mine Waste Tonnage\n(Earth MRI, 2024 field campaign)'
     wgs_end_df = None
-    try:
-        _end = pd.read_excel(_xl, sheet_name='Endowment Calculations', header=0)
-        for _col in ['Latitude', 'Longitude', 'Tonnage (metric tons)', 'Average Conc TREE (ppm)',
-                     'Endowment TREE (kg)', 'Area (m^2)', 'Est. Volume (m^3)']:
-            if _col in _end.columns:
-                _end[_col] = pd.to_numeric(_end[_col], errors='coerce')
-        if 'Latitude' in _end.columns and 'Longitude' in _end.columns:
-            _end = _end[_end['Latitude'].between(*wgs_b_lat) & _end['Longitude'].between(*wgs_b_lon)]
-        _mine_col = next((c for c in ['Mine Name','Mine_Name'] if c in _end.columns), _end.columns[0])
-        _end = _end[~_end[_mine_col].isin(wgs_exclude)]
-        wgs_end_df = _end.reset_index(drop=True)
-        print(f"WGS Endowment data loaded: {len(wgs_end_df)} rows")
-    except Exception as _e:
-        print(f"WGS Endowment data not available for Panel F: {_e}")
+    if wgs_available:
+        ax6 = fig.add_subplot(gs[2, :])
+        ax6.axis('off')
+        try:
+            _end = pd.read_excel(_xl, sheet_name='Endowment Calculations', header=0)
+            for _col in ['Latitude', 'Longitude', 'Tonnage (metric tons)', 'Average Conc TREE (ppm)',
+                         'Endowment TREE (kg)', 'Area (m^2)', 'Est. Volume (m^3)']:
+                if _col in _end.columns:
+                    _end[_col] = pd.to_numeric(_end[_col], errors='coerce')
+            if 'Latitude' in _end.columns and 'Longitude' in _end.columns:
+                _end = _end[_end['Latitude'].between(*wgs_b_lat) & _end['Longitude'].between(*wgs_b_lon)]
+            _mine_col = next((c for c in ['Mine Name','Mine_Name'] if c in _end.columns), _end.columns[0])
+            _end = _end[~_end[_mine_col].isin(wgs_exclude)]
+            wgs_end_df = _end.reset_index(drop=True)
+            print(f"WGS Endowment data loaded: {len(wgs_end_df)} rows")
+        except Exception as _e:
+            print(f"WGS Endowment data not available for Panel F: {_e}")
 
     if wgs_end_df is not None and len(wgs_end_df) > 0:
         _mine_col = next((c for c in ['Mine Name','Mine_Name'] if c in wgs_end_df.columns),
@@ -289,13 +308,14 @@ def run(cfg):
                  "No direct site overlap: WGS = hard-rock mine waste; Pipeline = placer Au operations.",
                  transform=ax6.transAxes, ha='center', va='bottom',
                  fontsize=7.5, color='#444444', style='italic')
-    else:
+    elif wgs_available:
         ax6.text(0.5, 0.5,
                  'WGS OFR 2026-02 endowment data not found.\n'
                  'Expected sheet "Endowment Calculations" in the Excel supplement.',
                  ha='center', va='center', transform=ax6.transAxes, fontsize=9, color='gray')
 
-    ax6.set_title(_f_title, fontsize=9, fontweight='bold', loc='left', pad=8)
+    if wgs_available:
+        ax6.set_title(_f_title, fontsize=9, fontweight='bold', loc='left', pad=8)
 
     watermark(fig, cfg)
     save_fig(fig, out(cfg, 'figures', 'fig4_volume_estimation.png'))

@@ -17,7 +17,8 @@ from matplotlib.lines import Line2D
 import warnings
 warnings.filterwarnings('ignore')
 
-from pipeline.utils import WONG, setup_mpl, watermark, save_fig, ensure_outputs, out
+from pipeline.utils import (WONG, setup_mpl, watermark, save_fig, ensure_outputs, out,
+                             map_extent, hillshade, north_arrow, scale_bar)
 
 
 def run(cfg):
@@ -105,7 +106,8 @@ def run(cfg):
     fig = plt.figure(figsize=(18, 12))
     fig.suptitle(
         f'Figure 7 — Integrated Multi-criterion Priority Tier Map\n'
-        f'{cfg["study_area"]["name"]} Placer Mine Tailings REE Assessment',
+        f'{cfg["study_area"]["name"]} Placer Mine Tailings REE Assessment — '
+        f'Mineral Systems: Integrated priority — all components',
         fontsize=13, fontweight='bold',
     )
     gs = gridspec.GridSpec(2, 3, figure=fig, hspace=0.40, wspace=0.35)
@@ -113,6 +115,9 @@ def run(cfg):
     # Panel A: priority score map
     ax1 = fig.add_subplot(gs[0, 0:2])
     b = cfg['study_area']['bbox']
+    xmin_a, xmax_a, ymin_a, ymax_a = map_extent(cfg)
+
+    hillshade(cfg, ax1, alpha=0.12)
 
     for patch in patches:
         lr, lt = patch['lon_range'], patch['lat_range']
@@ -135,8 +140,10 @@ def run(cfg):
                      (row.lon, row.lat), xytext=(5, 4), textcoords='offset points',
                      fontsize=7.5, fontweight='bold', color='black')
 
-    ax1.set_xlim(b['lon_min'] - 0.1, b['lon_max'] + 0.1)
-    ax1.set_ylim(b['lat_min'] - 0.1, b['lat_max'] + 0.2)
+    ax1.set_xlim(xmin_a, xmax_a)
+    ax1.set_ylim(ymin_a, ymax_a)
+    north_arrow(ax1)
+    scale_bar(ax1, cfg)
     ax1.set_xlabel('Longitude', fontsize=11); ax1.set_ylabel('Latitude', fontsize=11)
     ax1.tick_params(labelsize=9)
     ax1.set_title('A.  Multi-criterion combined priority score\n(★ = top 3 sites; circle size scales with score)', fontsize=9)
@@ -182,7 +189,7 @@ def run(cfg):
     ax3 = fig.add_subplot(gs[1, 0:2])
     score_comps  = ['score_th','score_mag','score_lith','score_conf','score_ndpr','score_au']
     comp_labels  = ['Th source (monazite)','Magnetic high','Source lithology',
-                    'Data coverage','NdPr volume','Au/As pathfinder (Task 7)']
+                    'Data coverage','NdPr P50 (Monte Carlo)','Au/As pathfinder']
     comp_colors  = [WONG['green'], WONG['blue'], WONG['sky'], WONG['pink'], WONG['orange'], WONG['vermillion']]
     sorted_df = merged_sorted.sort_values('combined_score', ascending=True).tail(12)
     y_pos    = np.arange(len(sorted_df))
@@ -204,6 +211,7 @@ def run(cfg):
     # Panel D: NdPr tonnes vs break-even price
     ax4 = fig.add_subplot(gs[1, 2])
     conf_cmap = {'HIGH': WONG['green'], 'MEDIUM': WONG['orange'], 'LOW': WONG['vermillion']}
+    t4_lookup = task4_df.set_index('site_name')
     for _, row in task4_df.iterrows():
         be = task5_df[task5_df['site'] == row['site_name']]['breakeven_$/kg'].values
         if len(be) > 0 and pd.notna(be[0]):
@@ -212,6 +220,13 @@ def run(cfg):
                         s=100, edgecolors='black', linewidths=0.8, zorder=4)
             ax4.annotate(row['site_name'].split()[0], (be[0], row['ndpr_tonnes']),
                          xytext=(3,3), textcoords='offset points', fontsize=7)
+            # P10-P90 error bars on NdPr endowment axis
+            p10 = row.get('ndpr_t_p10', np.nan)
+            p90 = row.get('ndpr_t_p90', np.nan)
+            if pd.notna(p10) and pd.notna(p90):
+                ax4.errorbar(be[0], row['ndpr_tonnes'],
+                             yerr=[[row['ndpr_tonnes'] - p10], [p90 - row['ndpr_tonnes']]],
+                             fmt='none', color='gray', lw=1.0, capsize=3, zorder=2)
     ax4.axvline(ndpr_cur, color=WONG['blue'], ls='--', lw=2,
                 label=f'Current NdPr price (${ndpr_cur:.0f}/kg)')
     ax4.axvline(cfg['economics']['ndpr_price_low'], color='gray', ls=':', lw=1.5,

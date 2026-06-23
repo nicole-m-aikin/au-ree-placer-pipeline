@@ -10,6 +10,7 @@ study_area:
     lon_max: -114.0
     lat_min:  44.0
     lat_max:  46.0
+  map_padding: 0.08   # TODO: adjust after verifying study area coverage
   wgs_bbox:  # TODO: refine to actual WGS data coverage
     lon_min: -116.0
     lon_max: -114.0

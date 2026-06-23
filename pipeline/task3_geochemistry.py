@@ -19,7 +19,8 @@ import warnings
 warnings.filterwarnings('ignore')
 
 from pipeline.utils import (WONG, CHONDRITE_SUN89, setup_mpl, load_nure, anomaly_threshold,
-                             wgs_path, watermark, save_fig, ensure_outputs, out)
+                             wgs_path, watermark, save_fig, ensure_outputs, out,
+                             map_extent, north_arrow, scale_bar)
 
 
 def run(cfg):
@@ -221,6 +222,25 @@ def run(cfg):
         ax5.text(0.5, -0.22, '† P: 66% NaN — correlation unreliable',
                  transform=ax5.transAxes, fontsize=6.5, color='#555555',
                  ha='center', style='italic')
+    # Dashed annotation boxes: REE block (Th, Ce, La, Nd) and Oxide block (Ti, Fe)
+    ree_els = ['Th', 'Ce', 'La', 'Nd']
+    ree_idxs = [elements.index(e) for e in ree_els if e in elements]
+    if len(ree_idxs) >= 2:
+        r0, r1 = min(ree_idxs) - 0.5, max(ree_idxs) + 0.5
+        ax5.add_patch(plt.Rectangle((r0, r0), r1 - r0, r1 - r0,
+                                    fill=False, edgecolor=WONG['green'], lw=1.8,
+                                    ls='--', zorder=5, clip_on=True))
+        ax5.text(r1 + 0.1, (r0 + r1) / 2, 'REE\nblock', fontsize=6,
+                 color=WONG['green'], va='center', style='italic')
+    oxide_els = ['Ti', 'Fe']
+    oxide_idxs = [elements.index(e) for e in oxide_els if e in elements]
+    if len(oxide_idxs) >= 2:
+        o0, o1 = min(oxide_idxs) - 0.5, max(oxide_idxs) + 0.5
+        ax5.add_patch(plt.Rectangle((o0, o0), o1 - o0, o1 - o0,
+                                    fill=False, edgecolor=WONG['orange'], lw=1.8,
+                                    ls='--', zorder=5, clip_on=True))
+        ax5.text(o1 + 0.1, (o0 + o1) / 2, 'Oxide\nblock', fontsize=6,
+                 color=WONG['orange'], va='center', style='italic')
 
     ax6 = fig.add_subplot(gs[1, 2])
     src_sizes   = {'BACKGROUND': 8,  'THORITE_UTHO': 35, 'MIXED_UNCLEAR': 35, 'ZIRCON': 35, 'MONAZITE': 35}
@@ -233,6 +253,11 @@ def run(cfg):
                     c=color, s=src_sizes.get(src, 18), marker=src_markers.get(src, 'o'),
                     alpha=src_alphas.get(src, 0.7), label=source_labels[src],
                     edgecolors='black' if src != 'BACKGROUND' else 'none', linewidths=0.3)
+    xmin_f, xmax_f, ymin_f, ymax_f = map_extent(cfg)
+    ax6.set_xlim(xmin_f, xmax_f)
+    ax6.set_ylim(ymin_f, ymax_f)
+    north_arrow(ax6, size=9)
+    scale_bar(ax6, cfg, length_km=50)
     ax6.set_xlabel('Longitude', fontsize=11); ax6.set_ylabel('Latitude', fontsize=11)
     ax6.set_title('F.  Spatial distribution of Th source types', fontsize=9)
     ax6.tick_params(labelsize=9)

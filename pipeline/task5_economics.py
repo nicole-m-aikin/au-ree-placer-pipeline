@@ -185,7 +185,11 @@ NdPr market context:
     ax2.grid(True, alpha=0.3, axis='y')
 
     ax3 = fig.add_subplot(gs[1, 1])
-    top_site = results_df.iloc[0]
+    # Use Sanpoil River Placer as tornado base case (#1 economic site by NdPr endowment)
+    if 'Sanpoil River Placer' in results_df['site'].values:
+        top_site = results_df[results_df['site'] == 'Sanpoil River Placer'].iloc[0]
+    else:
+        top_site = results_df.iloc[0]
     base_npv     = top_site['npv_central_$M']
     ndpr_oxide_t = top_site['ndpr_oxide_t']
     total_cost_base = top_site['total_cost_$M']

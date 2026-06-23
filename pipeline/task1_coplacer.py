@@ -18,7 +18,8 @@ from shapely.geometry import Point
 import warnings
 warnings.filterwarnings('ignore')
 
-from pipeline.utils import WONG, setup_mpl, watermark, save_fig, ensure_outputs, out
+from pipeline.utils import (WONG, setup_mpl, watermark, save_fig, ensure_outputs, out,
+                             map_extent, hillshade, north_arrow, scale_bar)
 
 
 def run(cfg):
@@ -112,11 +113,13 @@ def run(cfg):
     fig, axes = plt.subplots(1, 2, figsize=(16, 7))
     fig.suptitle(
         f'Figure 1 — Co-placer Mineral Targets: Aeromagnetic Anomalies × NURE Th Anomalies\n'
-        f'{cfg["study_area"]["name"]} Study Area',
+        f'Mineral Systems: Source mineralogy (co-placer indicators) — {cfg["study_area"]["name"]}',
         fontsize=12, fontweight='bold',
     )
 
     ax = axes[0]
+    xmin_1, xmax_1, ymin_1, ymax_1 = map_extent(cfg)
+    hillshade(cfg, ax, alpha=0.15)
     im = ax.pcolormesh(LON_G, LAT_G, mag_grid, cmap='RdBu_r', shading='auto',
                        vmin=-200, vmax=400)
     plt.colorbar(im, ax=ax, label='Total magnetic intensity anomaly (nT)', shrink=0.85)
@@ -148,7 +151,9 @@ def run(cfg):
     ax.tick_params(labelsize=9)
     ax.set_title('A.  Aeromagnetic anomaly map + mine sites\n'
                  '(dashed contour = mean+2SD threshold; ★ = multicommodity target)', fontsize=9)
-    ax.set_xlim(LON_MIN, LON_MAX); ax.set_ylim(LAT_MIN, LAT_MAX)
+    ax.set_xlim(xmin_1, xmax_1); ax.set_ylim(ymin_1, ymax_1)
+    north_arrow(ax)
+    scale_bar(ax, cfg)
     ax.grid(True, alpha=0.2, color='gray')
     ax.legend(handles=site_legend, loc='lower right', fontsize=8)
 

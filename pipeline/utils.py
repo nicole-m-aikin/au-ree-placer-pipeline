@@ -134,3 +134,87 @@ def bbox(cfg):
     """Return (lon_min, lon_max, lat_min, lat_max) tuple."""
     b = cfg['study_area']['bbox']
     return b['lon_min'], b['lon_max'], b['lat_min'], b['lat_max']
+
+
+def map_extent(cfg):
+    """
+    Canonical bounding box for all spatial map panels in this study area.
+    Returns (lon_min, lon_max, lat_min, lat_max) with consistent padding.
+    Use instead of raw bbox() + manual padding in every task script.
+    """
+    b = cfg['study_area']['bbox']
+    pad = cfg['study_area'].get('map_padding', cfg.get('map_padding', 0.08))
+    return (b['lon_min'] - pad, b['lon_max'] + pad,
+            b['lat_min'] - pad, b['lat_max'] + pad)
+
+
+def hillshade(cfg, ax, alpha=0.25, zorder=0):
+    """
+    Add a DEM-derived hillshade as a greyscale background to a map axis.
+    No-op if data.dem_tif is null/absent in config or file not found.
+    Sun azimuth 315° (NW), altitude 45°.
+    Always call this FIRST before plotting any data layers.
+    """
+    import os
+    dem_path = (cfg.get('data') or {}).get('dem_tif')
+    if not dem_path:
+        return
+    if not os.path.isabs(dem_path):
+        dem_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), dem_path)
+    if not os.path.exists(dem_path):
+        return
+    try:
+        import rasterio
+        from rasterio.windows import from_bounds as _win_from_bounds
+        import numpy as _np
+        xmin, xmax, ymin, ymax = map_extent(cfg)
+        with rasterio.open(dem_path) as src:
+            win = _win_from_bounds(xmin, ymin, xmax, ymax, src.transform)
+            data = src.read(1, window=win).astype(float)
+            nodata = src.nodata
+            if nodata is not None:
+                data[data == nodata] = _np.nan
+        mask = _np.isnan(data)
+        if mask.any():
+            filled = _np.where(mask, _np.nanmedian(data), data)
+        else:
+            filled = data
+        dy, dx = _np.gradient(filled)
+        az, alt = _np.radians(315), _np.radians(45)
+        shade = (_np.sin(alt) + _np.cos(alt) * (-dx * _np.cos(az) - dy * _np.sin(az)))
+        shade = _np.clip(shade, 0, 1)
+        ax.imshow(shade, cmap='gray', extent=[xmin, xmax, ymin, ymax],
+                  origin='upper', alpha=alpha, zorder=zorder, aspect='auto')
+    except Exception:
+        pass  # never crash a figure because of a missing hillshade
+
+
+def north_arrow(ax, x=0.96, y=0.96, size=12):
+    """Add a simple 'N ↑' north arrow to a map axis (axes fraction coords)."""
+    ax.annotate('N\n↑', xy=(x, y), xycoords='axes fraction',
+                ha='center', va='top', fontsize=size, fontweight='bold',
+                bbox=dict(boxstyle='round,pad=0.15', fc='white', ec='gray',
+                          alpha=0.8, linewidth=0.7))
+
+
+def scale_bar(ax, cfg, length_km=50, x=0.05, y=0.05):
+    """
+    Add a simple scale bar to a map axis.
+    length_km: bar length in km. At lat 48°N, 1 deg lon ≈ 74 km.
+    """
+    import numpy as _np
+    lat_mid = (cfg['study_area']['bbox']['lat_min'] +
+               cfg['study_area']['bbox']['lat_max']) / 2
+    deg_per_km = 1.0 / (111.32 * _np.cos(_np.radians(lat_mid)))
+    bar_deg = length_km * deg_per_km
+    xmin, xmax, ymin, ymax = map_extent(cfg)
+    x0 = xmin + (xmax - xmin) * x
+    y0 = ymin + (ymax - ymin) * y
+    ax.plot([x0, x0 + bar_deg], [y0, y0], color='black', lw=2.5,
+            solid_capstyle='butt', zorder=10)
+    ax.plot([x0, x0], [y0 - 0.01, y0 + 0.01], color='black', lw=1.5, zorder=10)
+    ax.plot([x0 + bar_deg, x0 + bar_deg], [y0 - 0.01, y0 + 0.01],
+            color='black', lw=1.5, zorder=10)
+    ax.text(x0 + bar_deg / 2, y0 + 0.025, f'{length_km} km',
+            ha='center', va='bottom', fontsize=7.5, fontweight='bold',
+            bbox=dict(fc='white', ec='none', alpha=0.7, pad=1))

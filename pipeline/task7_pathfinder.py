@@ -17,7 +17,9 @@ from shapely.geometry import Point
 import warnings
 warnings.filterwarnings('ignore')
 
-from pipeline.utils import WONG, setup_mpl, load_nure, anomaly_threshold, watermark, save_fig, ensure_outputs, out
+from pipeline.utils import (WONG, setup_mpl, load_nure, anomaly_threshold,
+                             watermark, save_fig, ensure_outputs, out,
+                             map_extent, hillshade, north_arrow, scale_bar)
 
 
 def run(cfg):
@@ -183,6 +185,8 @@ def run(cfg):
     print("="*60)
 
     fig, ax = plt.subplots(figsize=(11, 9))
+    xmin_7, xmax_7, ymin_7, ymax_7 = map_extent(cfg)
+    hillshade(cfg, ax, alpha=0.20)
 
     bg = df[df['au_class'] == 'BACKGROUND']
     ax.scatter(bg['lon'], bg['lat'], s=5, alpha=0.3, color='#CCCCCC', zorder=1, label='_nolegend_')
@@ -275,8 +279,15 @@ def run(cfg):
     ax.legend(handles=site_legend, loc='lower left', fontsize=7, framealpha=0.85,
               title='Classification', title_fontsize=8)
 
-    ax.set_title(f'{cfg["study_area"]["name"]} — Au/As/Pathfinder Anomaly Map (Task 7)',
-                 fontsize=13, fontweight='bold', pad=10)
+    ax.set_title(
+        f'Au/As Pathfinder Geochemistry — {cfg["study_area"]["name"]}\n'
+        'Mineral Systems: TRAP characterisation (Au/As halos)',
+        fontsize=13, fontweight='bold', pad=10,
+    )
+    ax.set_xlim(xmin_7, xmax_7)
+    ax.set_ylim(ymin_7, ymax_7)
+    north_arrow(ax)
+    scale_bar(ax, cfg)
     ax.set_xlabel('Longitude', fontsize=10)
     ax.set_ylabel('Latitude', fontsize=10)
     ax.grid(alpha=0.3, linestyle='--', linewidth=0.5)

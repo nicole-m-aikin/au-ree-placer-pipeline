@@ -12,6 +12,7 @@ study_area:
     lon_max: -117.0
     lat_min: 47.5
     lat_max: 49.1
+  map_padding: 0.08   # degrees of padding added to bbox for all map panels
   # Tighter bbox used for WGS site filtering
   wgs_bbox:
     lon_min: -120.0
@@ -28,7 +29,7 @@ data:
   mrds_geojson: "ne_wa_ree/data/mrds/mrds_ne_wa.geojson"
   geology_geojson: null        # ne_wa_ree/data/geologic/wa_geology.geojson (optional)
   aeromagnetic_tif: null       # ne_wa_ree/data/aeromagnetic/wa_mag_anomaly.tif (optional)
-  dem_tif: null                # ne_wa_ree/data/dem/ne_wa_dem_30m.tif (optional)
+  dem_tif: "ne_wa_ree/data/dem/ne_wa_dem_30m.tif"  # Copernicus GLO-30, 8 tiles mosaicked, covers lon -120→-116 / lat 47→49
   wgs_excel: null              # set or use WGS_OFR2026_PATH env var
 
 # ── MRDS commodity filter ─────────────────────────────────────────────────────

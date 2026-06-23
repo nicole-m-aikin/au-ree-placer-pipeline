@@ -21,7 +21,9 @@ from shapely.ops import unary_union
 import warnings
 warnings.filterwarnings('ignore')
 
-from pipeline.utils import WONG, setup_mpl, wgs_path, watermark, save_fig, ensure_outputs, out
+import matplotlib.patheffects as pe
+from pipeline.utils import (WONG, setup_mpl, wgs_path, watermark, save_fig, ensure_outputs, out,
+                             map_extent, hillshade, north_arrow, scale_bar)
 
 
 def run(cfg):
@@ -145,19 +147,76 @@ ACTION: No carbonatite flag required for any current priority site.
     fig, axes = plt.subplots(1, 2, figsize=(16, 7))
     fig.suptitle(
         f'Figure 2 — Hard Rock Source Characterization and Catchment Sediment Routing\n'
-        f'{cfg["study_area"]["name"]} Study Area',
+        f'Mineral Systems: Source characterisation + Pathway routing — {cfg["study_area"]["name"]}',
         fontsize=12, fontweight='bold',
     )
 
     ax = axes[0]
-    for _, row in geo_gdf.iterrows():
-        color = lith_colors[row['lith_type']]
-        xs, ys = row.geometry.exterior.xy
-        ax.fill(xs, ys, color=color, alpha=0.5, zorder=1)
-        ax.plot(xs, ys, color='gray', lw=0.5, zorder=2)
-        cx, cy = row.geometry.centroid.x, row.geometry.centroid.y
-        ax.text(cx, cy, row['name'].replace('_', '\n'), ha='center', va='center',
-                fontsize=7, fontweight='bold', color='black')
+    xmin, xmax, ymin, ymax = map_extent(cfg)
+
+    hillshade(cfg, ax, alpha=0.25, zorder=0)
+
+    # SGMC geology shapefile as map base layer
+    SGMC_LITH_MAP = {
+        'Metamorphic, gneiss':               'MCC_metapelite',
+        'Metamorphic, schist':               'MCC_metapelite',
+        'Metamorphic, amphibolite':          'MCC_metapelite',
+        'Metamorphic, sedimentary':          'MCC_metapelite',
+        'Metamorphic, sedimentary clastic':  'MCC_metapelite',
+        'Metamorphic and Sedimentary, undifferentiated': 'MCC_metapelite',
+        'Igneous, intrusive':                'felsic_intrusive',
+        'Igneous, volcanic':                 'sedimentary_cover',
+        'Sedimentary, clastic':              'sedimentary_cover',
+        'Sedimentary, carbonate':            'sedimentary_cover',
+        'Metamorphic, serpentinite':         'mafic_ultramafic',
+        'Metamorphic, volcanic':             'mafic_ultramafic',
+    }
+    from shapely.geometry import box as _box
+    sgmc_path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
+                             'ne_wa_ree', 'data', 'geologic',
+                             'WA_sgmc_extracted', 'WA_geol_poly.shp')
+    if os.path.exists(sgmc_path):
+        try:
+            sgmc = gpd.read_file(sgmc_path)
+            clip_box = _box(xmin - 0.05, ymin - 0.05, xmax + 0.05, ymax + 0.05)
+            sgmc = sgmc[sgmc.intersects(clip_box)].copy()
+            sgmc['lith_type'] = sgmc['GENERALIZE'].map(SGMC_LITH_MAP).fillna('sedimentary_cover')
+            for lt, color in lith_colors.items():
+                subset = sgmc[sgmc['lith_type'] == lt]
+                if len(subset):
+                    subset.plot(ax=ax, color=color, alpha=0.55, linewidth=0, zorder=1)
+            sgmc.boundary.plot(ax=ax, color='gray', linewidth=0.15, alpha=0.4, zorder=2)
+        except Exception as _sgmc_err:
+            import warnings as _w
+            _w.warn(f"SGMC shapefile error ({_sgmc_err}); falling back to domain rectangles.")
+            for _, row in geo_gdf.iterrows():
+                color = lith_colors[row['lith_type']]
+                xs, ys = row.geometry.exterior.xy
+                ax.fill(xs, ys, color=color, alpha=0.5, zorder=1)
+                ax.plot(xs, ys, color='gray', lw=0.5, zorder=2)
+    else:
+        for _, row in geo_gdf.iterrows():
+            color = lith_colors[row['lith_type']]
+            xs, ys = row.geometry.exterior.xy
+            ax.fill(xs, ys, color=color, alpha=0.5, zorder=1)
+            ax.plot(xs, ys, color='gray', lw=0.5, zorder=2)
+
+    # Domain outlines (scoring zones — dashed, not filled)
+    for d in cfg['geology_domains']:
+        coords = d['coords']
+        x_c, y_c = zip(*coords)
+        ax.plot(list(x_c) + [x_c[0]], list(y_c) + [y_c[0]],
+                color='black', lw=0.8, ls='--', alpha=0.5, zorder=3)
+
+    # Domain labels — upper-left of each domain bounding box
+    for d in cfg['geology_domains']:
+        coords = d['coords']
+        min_lon = min(c[0] for c in coords)
+        max_lat = max(c[1] for c in coords)
+        ax.text(min_lon + 0.04, max_lat - 0.06, d['name'].replace('_', ' '),
+                fontsize=6.5, ha='left', va='top', color='black',
+                fontweight='bold', alpha=0.85, zorder=8,
+                bbox=dict(boxstyle='round,pad=0.2', fc='white', ec='none', alpha=0.6))
 
     for _, row in sites_gdf.iterrows():
         ax.scatter(row.lon, row.lat, c=score_to_color(row['source_lith_score']),
@@ -176,7 +235,10 @@ ACTION: No carbonatite flag required for any current priority site.
         xs_r, ys_r = zip(*coords)
         ax.plot(xs_r, ys_r, **river_style)
         as_, ae_ = river['arrow_start'], river['arrow_end']
-        ax.annotate('', xy=ae_, xytext=as_, arrowprops=arrow_props, zorder=6)
+        ax.annotate('', xy=ae_, xytext=as_,
+                    arrowprops=dict(arrowstyle='->', color='#2196F3', lw=2.0,
+                        path_effects=[pe.withStroke(linewidth=4, foreground='white')]),
+                    zorder=6)
         lo, ly = river.get('label_offset', [0.05, 0.0])
         mid_x = (as_[0] + ae_[0]) / 2 + lo
         mid_y = (as_[1] + ae_[1]) / 2 + ly
@@ -245,13 +307,15 @@ ACTION: No carbonatite flag required for any current priority site.
     except Exception as _e:
         import warnings as w; w.warn(f"WGS layer error ({_e}); WGS layer skipped.", UserWarning)
 
+    north_arrow(ax)
+    scale_bar(ax, cfg, length_km=50)
+    ax.set_xlim(xmin, xmax)
+    ax.set_ylim(ymin, ymax)
     ax.set_xlabel('Longitude', fontsize=11); ax.set_ylabel('Latitude', fontsize=11)
     ax.tick_params(labelsize=9)
     ax.set_title('A.  Geologic domains and mine sites\n'
                  '(diamonds colored by source lithology score)\n'
                  'Arrow = drainage direction; monazite transport follows stream flow', fontsize=9)
-    ax.set_xlim(b['lon_min'] - 0.1, b['lon_max'] + 0.1)
-    ax.set_ylim(b['lat_min'] - 0.1, b['lat_max'] + 0.1)
     ax.grid(True, alpha=0.2)
     lith_patches = [mpatches.Patch(facecolor=c, alpha=0.6, edgecolor='gray', label=lith_labels[lt])
                     for lt, c in lith_colors.items()]

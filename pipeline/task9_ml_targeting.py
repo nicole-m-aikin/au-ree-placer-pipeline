@@ -26,10 +26,18 @@ from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import roc_curve, auc, precision_recall_fscore_support
 
 from pipeline.utils import (WONG, setup_mpl, load_nure, anomaly_threshold,
-                             watermark, save_fig, ensure_outputs, out, bbox)
+                             watermark, save_fig, ensure_outputs, out, bbox,
+                             map_extent, north_arrow, scale_bar)
 
-# Geological feature engineering: multi-element pathfinder suite
-FEATURES = ['Th', 'Ce', 'La', 'P', 'U', 'Au', 'As']
+# Geological feature engineering: full placer heavy mineral suite.
+# REE/actinide minerals: Th, Ce, La, P (monazite — (LREE)PO4), U (uraninite/thorite)
+# Au pathfinder:        Au, As (arsenopyrite halo around placer Au)
+# Oxide heavy minerals: Ti (rutile + ilmenite — TiO2, FeTiO3), Fe (magnetite — Fe3O4)
+# Silicate heavy minerals: Zr (zircon — ZrSiO4), Y (xenotime — YPO4)
+# Ti, Fe, Zr, Y co-concentrate with monazite in placer systems through identical
+# hydraulic sorting mechanisms; their inclusion captures the full heavy-mineral
+# assemblage rather than only the REE-bearing fraction.
+FEATURES = ['Th', 'Ce', 'La', 'P', 'U', 'Au', 'As', 'Ti', 'Fe', 'Zr', 'Y']
 
 
 def _log_impute(df, cols):
@@ -59,21 +67,87 @@ def run(cfg):
     ].copy().reset_index(drop=True)
 
     avail_feats = [f for f in FEATURES if f in df.columns]
-    X = _log_impute(df, avail_feats).values
+    log_X = _log_impute(df, avail_feats)   # DataFrame, log10-transformed + imputed
+    X = log_X.values
+    elements_used = avail_feats
 
-    # Anomaly label: Th > mean+2SD(log) OR Au > mean+2SD(log)
-    th_thresh = anomaly_threshold(df['Th']) if 'Th' in df.columns else None
-    au_thresh = anomaly_threshold(df['Au']) if 'Au' in df.columns else None
-    label = pd.Series(False, index=df.index)
-    if th_thresh is not None:
-        label = label | (df['Th'] > th_thresh)
-    if au_thresh is not None and 'Au' in df.columns:
-        label = label | (df['Au'] > au_thresh)
-    y = label.astype(int).values
+    # Label: MRDS proximity — geochemistry-independent ground truth.
+    #
+    # Any label derived from the input features (e.g. Th > threshold, or top-N% of
+    # anomaly index) creates a circular classifier that achieves near-perfect AUC by
+    # reconstructing its own label inputs. The only non-circular label available
+    # without assay data is spatial proximity to a known MRDS placer deposit: does
+    # this NURE sample have the geochemical signature of a sample taken near a known
+    # placer site? This is the exact question a real targeting model answers — train
+    # on confirmed deposit proximity, predict on unsampled terrain.
+    #
+    # label = 1 if NURE sample lies within `mrds_radius_deg` of any MRDS placer site.
+    # Radius default: 0.15 degrees (~15 km), roughly two average NURE sample spacings.
+    mrds_radius  = cfg.get('ml', {}).get('mrds_proximity_deg', 0.03)
+    max_elev_diff = cfg.get('ml', {}).get('mrds_elev_diff_m', 200)
+    top_pct       = cfg.get('ml', {}).get('anomaly_top_pct', 0.10)  # fallback only
+
+    mrds_label_used = False
+    try:
+        import geopandas as gpd
+        mrds_gdf = gpd.read_file(cfg['data']['mrds_geojson'])
+        mrds_coords  = np.column_stack([mrds_gdf.geometry.x.values,
+                                        mrds_gdf.geometry.y.values])
+        nure_coords  = np.column_stack([df['lon'].values, df['lat'].values])
+
+        from scipy.spatial import cKDTree as _cKDTree
+        mrds_tree = _cKDTree(mrds_coords)
+        dist_to_mrds, nearest_mrds_idx = mrds_tree.query(nure_coords)
+        in_radius = dist_to_mrds <= mrds_radius
+
+        # Elevation filter: stream sediment placers are hydraulically sorted on
+        # valley floors. A NURE sample taken on a steep hillside within 3 km of a
+        # placer mine is in the source-rock terrain, not the deposit zone — its
+        # geochemistry reflects bedrock weathering, not placer concentration.
+        # Require the NURE sample and its nearest MRDS site to be within
+        # `max_elev_diff` metres of each other (both on the valley floor).
+        elev_filter_applied = False
+        dem_path = cfg.get('data', {}).get('dem_tif')
+        if dem_path:
+            import os as _os
+            if not _os.path.isabs(dem_path):
+                dem_path = _os.path.join(_os.path.dirname(_os.path.dirname(__file__)),
+                                         dem_path)
+            if _os.path.exists(dem_path):
+                import rasterio as _rio
+                with _rio.open(dem_path) as src:
+                    nodata = src.nodata
+                    nure_elevs = np.array([
+                        v[0] if (v[0] != nodata and not np.isnan(v[0])) else np.nan
+                        for v in src.sample(zip(df['lon'], df['lat']))
+                    ])
+                    mrds_elevs = np.array([
+                        v[0] if (v[0] != nodata and not np.isnan(v[0])) else np.nan
+                        for v in src.sample(zip(mrds_gdf.geometry.x,
+                                                mrds_gdf.geometry.y))
+                    ])
+                nearest_mrds_elev = mrds_elevs[nearest_mrds_idx]
+                elev_diff = np.abs(nure_elevs - nearest_mrds_elev)
+                on_valley_floor = (elev_diff <= max_elev_diff) | np.isnan(elev_diff)
+                y = (in_radius & on_valley_floor).astype(int)
+                elev_filter_applied = True
+                label_desc = (f"MRDS proximity ≤{mrds_radius}° + "
+                              f"elevation within {max_elev_diff} m")
+        if not elev_filter_applied:
+            y = in_radius.astype(int)
+            label_desc = f"MRDS proximity ≤{mrds_radius}° (no DEM elevation filter)"
+
+        mrds_label_used = True
+    except Exception as _e:
+        print(f"  MRDS label unavailable ({_e}); falling back to top-{top_pct*100:.0f}% index")
+        z = (log_X - log_X.mean()) / log_X.std().replace(0, 1)
+        anomaly_index = z.clip(lower=0).sum(axis=1)
+        y = (anomaly_index >= anomaly_index.quantile(1.0 - top_pct)).astype(int).values
+        label_desc = f"top {top_pct*100:.0f}% anomaly index (fallback)"
 
     n_anom = int(y.sum())
-    print(f"Task 9: {len(y)} NURE samples; {n_anom} anomalous ({100*n_anom/len(y):.1f}%); "
-          f"features: {avail_feats}")
+    print(f"Task 9: {len(y)} NURE samples; {n_anom} positive ({100*n_anom/len(y):.1f}%); "
+          f"label: {label_desc}; features: {avail_feats}")
 
     # ── 5-fold stratified cross-validation ───────────────────────────────────
     skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
@@ -141,10 +215,10 @@ def run(cfg):
 
     fig = plt.figure(figsize=(18, 6))
     fig.suptitle(
-        'Figure 10 — ML Anomaly Probability: Geological Feature Engineering on NURE Stream Sediment\n'
-        f'Random Forest (200 trees; 5-fold stratified CV; ROC-AUC {mean_auc:.3f} ± {std_auc:.3f}); '
-        'IDW-interpolated probability surface',
-        fontsize=11, fontweight='bold',
+        'Figure 10 — ML Targeting Probability: Geological Feature Engineering on NURE Stream Sediment\n'
+        f'Random Forest · 5-fold CV · ROC-AUC {mean_auc:.3f} ± {std_auc:.3f} · '
+        f'label: {label_desc}',
+        fontsize=10, fontweight='bold',
     )
     gs = gridspec.GridSpec(1, 3, figure=fig, wspace=0.38)
 
@@ -163,6 +237,17 @@ def run(cfg):
     for bar, val in zip(bars, feat_imp['importance']):
         ax1.text(val + 0.002, bar.get_y() + bar.get_height() / 2,
                  f'{val:.3f}', va='center', fontsize=8)
+
+    # Callout on U bar explaining why it leads
+    try:
+        u_imp = feat_imp.loc[feat_imp['feature'] == 'U', 'importance'].values
+        u_pos = feat_imp.index[feat_imp['feature'] == 'U'].values
+        if len(u_imp) > 0:
+            ax1.text(u_imp[0] + 0.005, u_pos[0],
+                     'U/Th discriminates thorite\nvs. monazite catchments\n(cf. Task 3)',
+                     fontsize=6.5, va='center', color=WONG['vermillion'], style='italic')
+    except Exception:
+        pass
 
     # Panel B — ROC curve from CV folds (mean ± 1SD shaded band)
     ax2 = fig.add_subplot(gs[0, 1])
@@ -197,7 +282,8 @@ def run(cfg):
         import geopandas as gpd
         mrds_gdf = gpd.read_file(cfg['data']['mrds_geojson'])
         ax3.scatter(mrds_gdf.geometry.x, mrds_gdf.geometry.y,
-                    marker='D', c='black', s=45, zorder=6, label='MRDS placer sites')
+                    marker='D', facecolors='yellow', edgecolors='black',
+                    s=60, lw=0.8, zorder=6, label='MRDS placer sites')
         ax3.legend(fontsize=8, loc='lower left')
     except Exception as _e:
         print(f"  MRDS overlay skipped: {_e}")
@@ -205,25 +291,32 @@ def run(cfg):
     ax3.plot([lon_min, lon_max, lon_max, lon_min, lon_min],
              [lat_min, lat_min, lat_max, lat_max, lat_min],
              color='white', lw=1.2, ls='--', zorder=7)
-    ax3.set_xlim(lon_min - 0.05, lon_max + 0.05)
-    ax3.set_ylim(lat_min - 0.05, lat_max + 0.05)
+
+    # Annotation: high-P zones without MRDS = unrecorded targets
+    ax3.text(0.97, 0.97,
+             'High-P zones without\nMRDS sites = potential\nunrecorded targets\n(primary output)',
+             transform=ax3.transAxes, ha='right', va='top', fontsize=7,
+             style='italic', color='white',
+             bbox=dict(boxstyle='round,pad=0.3', fc='black', alpha=0.55, ec='none'))
+
+    xmin_m, xmax_m, ymin_m, ymax_m = map_extent(cfg)
+    ax3.set_xlim(xmin_m, xmax_m)
+    ax3.set_ylim(ymin_m, ymax_m)
+    north_arrow(ax3, x=0.96, y=0.96, size=9)
+    scale_bar(ax3, cfg, length_km=50, x=0.04, y=0.04)
+
     ax3.set_xlabel('Longitude', fontsize=10)
     ax3.set_ylabel('Latitude', fontsize=10)
     ax3.set_title(
-        'C.  ML anomaly probability surface\n'
-        '(geological feature engineering; IDW-interpolated;\n'
-        ' exploratory screening only)',
+        'C.  MRDS-proximity targeting probability\n'
+        f'(IDW-interpolated; exploratory screening only)',
         fontsize=9,
     )
     ax3.tick_params(labelsize=8)
-
-    fig.text(
-        0.5, -0.04,
-        'ML anomaly probability surface (geological feature engineering on NURE stream sediment; '
-        'IDW-interpolated; exploratory screening only). '
-        'P(anomaly) > 0.6 = high interest; 0.4–0.6 = moderate interest. '
-        'Use alongside Tasks 1, 3, 7 — not as a standalone filter.',
-        ha='center', fontsize=7.5, color='#444444', style='italic',
+    ax3.set_xlabel(
+        f'P(placer-like geochemistry) > 0.6 = high interest; 0.4–0.6 = moderate interest. '
+        'Use alongside Tasks 1, 3, 7.',
+        fontsize=7, color='#444444', style='italic',
     )
 
     watermark(fig, cfg)

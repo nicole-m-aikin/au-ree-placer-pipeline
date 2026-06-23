@@ -15,51 +15,65 @@ from matplotlib.patches import FancyBboxPatch
 import warnings
 warnings.filterwarnings('ignore')
 
+import os
+import pandas as pd
 from pipeline.utils import WONG, setup_mpl, watermark, save_fig, ensure_outputs, out
 
 
-_DEFAULT_ROWS_NE_WA = [
-    (
-        'ROW 1\nIs there\nmonazite here?',
-        WONG['blue'],
-        '• MCC metapelite catchments\n  12/12 sites drain Okanogan or\n  Kettle MCC terrain (Task 2)\n\n'
-        '• Th anomalies in stream sediment\n  61 Th-anomalous samples in NE WA\n  MIXED_UNCLEAR + THORITE_UTHO (Task 3)\n\n'
-        '• Aeromagnetic co-occurrence\n  2 sites: mag high + Th anomaly\n  Colville + Hunters Placer (Task 1)',
-        'No MONAZITE geochemical fingerprint\nconfirmed — Ce/La data only 35–49%\nnon-null in NURE dataset\n\n'
-        'Cannot confirm Th-Ce-P triplet\nfrom stream sediment alone\n(→ need auger samples + MLA)',
-        'PARTIAL\nevidence',
-        WONG['orange'],
-    ),
-    (
-        'ROW 2\nHow much is\nthere and where?',
-        WONG['blue'],
-        '• 12 priority placer sites ranked\n  Combined score 5.25–11.04\n  #1 Hunters, #2 Colville\n  #3 Conconully (Task integration)\n\n'
-        '• Lidar volume estimation\n  7.0 Mt total tailings across sites\n  1,445 t NdPr exploration target (Task 4)\n\n'
-        '• Grade proxy from NURE Th\n  Regional background fill applied\n  ±50% grade uncertainty',
-        'No in-situ grade data\nStream sediment proxy — ±50% uncertainty\n\n'
-        'Lidar diff includes non-tailings\ndisturbance (floodplain reworking,\ninfrastructure, road grading)',
-        'ESTIMATED\n±50%',
-        WONG['orange'],
-    ),
-    (
-        'ROW 3\nIs it worth\npursuing?',
-        WONG['blue'],
-        '• All 3 top sites viable at current prices\n  Break-even $74–101/kg vs.\n  current $109/kg NdPr (Task 5)\n\n'
-        '• Domestic processing pathway:\n  Energy Fuels White Mesa Mill\n  licensed for Th-bearing monazite\n\n'
-        '• Dual Au+REE signal at Hunters Placer\n  PORPHYRY_CU co-anomaly (Task 7 / Fig 8)',
-        'No formal resource estimate\nNo field confirmation of grade\n\n'
-        'Conconully break-even ($101/kg)\nis marginal — viable only if\nprice holds above 2024 trough\n($60/kg)',
-        'VIABLE at\ncurrent\nprices',
-        WONG['green'],
-    ),
-]
+def _build_default_rows(cfg):
+    """Build decision framework rows, reading NdPr total dynamically from task4 output."""
+    ndpr_total_str = '1,445 t NdPr'
+    try:
+        t4_path = out(cfg, 'tables', 'task4_volume_tonnage_summary.csv')
+        if os.path.exists(t4_path):
+            t4 = pd.read_csv(t4_path)
+            total_p50 = t4['ndpr_t_p50'].sum() if 'ndpr_t_p50' in t4.columns else t4['ndpr_tonnes'].sum()
+            ndpr_total_str = f'{total_p50:,.0f} t NdPr'
+    except Exception:
+        pass
+
+    return [
+        (
+            'ROW 1\nIs there\nmonazite here?',
+            WONG['blue'],
+            '• MCC metapelite catchments\n  12/12 sites drain Okanogan or\n  Kettle MCC terrain\n  (source lithology analysis)\n\n'
+            '• Th anomalies in stream sediment\n  61 Th-anomalous samples in NE WA\n  MIXED_UNCLEAR + THORITE_UTHO\n  (geochemical discrimination)\n\n'
+            '• Aeromagnetic co-occurrence\n  2 sites: mag high + Th anomaly\n  Colville + Hunters Placer\n  (co-placer indicator analysis)',
+            'No MONAZITE geochemical fingerprint\nconfirmed — Ce/La data only 35–49%\nnon-null in NURE dataset\n\n'
+            'Cannot confirm Th-Ce-P triplet\nfrom stream sediment alone\n(→ need auger samples + MLA)',
+            'PARTIAL\nevidence',
+            WONG['orange'],
+        ),
+        (
+            'ROW 2\nHow much is\nthere and where?',
+            WONG['blue'],
+            f'• 12 priority placer sites ranked\n  Combined score 5.25–11.04\n  #1 Hunters, #2 Colville\n  #3 Conconully (integrated ranking)\n\n'
+            f'• Lidar volume estimation\n  7.0 Mt total tailings across sites\n  {ndpr_total_str} exploration target\n  (volume estimation)\n\n'
+            '• Grade proxy from NURE Th\n  Regional background fill applied\n  ±50% grade uncertainty',
+            'No in-situ grade data\nStream sediment proxy — ±50% uncertainty\n\n'
+            'Lidar diff includes non-tailings\ndisturbance (floodplain reworking,\ninfrastructure, road grading)',
+            'ESTIMATED\n±50%',
+            WONG['orange'],
+        ),
+        (
+            'ROW 3\nIs it worth\npursuing?',
+            WONG['blue'],
+            '• All 3 top sites viable at current prices\n  Break-even $74–101/kg vs.\n  current $109/kg NdPr (break-even analysis)\n\n'
+            '• Domestic processing pathway:\n  Energy Fuels White Mesa Mill\n  licensed for Th-bearing monazite\n\n'
+            '• Dual Au+REE signal at Hunters Placer\n  PORPHYRY_CU co-anomaly\n  (Au/As pathfinder map)',
+            'No formal resource estimate\nNo field confirmation of grade\n\n'
+            'Conconully break-even ($101/kg)\nis marginal — viable only if\nprice holds above 2024 trough\n($60/kg)',
+            'VIABLE at\ncurrent\nprices',
+            WONG['green'],
+        ),
+    ]
 
 
 def run(cfg):
     setup_mpl()
     ensure_outputs(cfg['outputs_dir'])
 
-    rows = cfg.get('decision_framework_rows', _DEFAULT_ROWS_NE_WA)
+    rows = cfg.get('decision_framework_rows', _build_default_rows(cfg))
     next_step_text = cfg.get(
         'decision_framework_next_step',
         'NEXT STEP:  Auger sampling program — Colville Placer + Hunters Placer\n'
