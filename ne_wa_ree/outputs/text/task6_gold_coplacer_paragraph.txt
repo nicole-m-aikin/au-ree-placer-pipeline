@@ -1,0 +1,49 @@
+
+NOTE ON GOLD MINE TAILINGS AS A PRIORITY SUBSET FOR REE RECOVERY
+(for inclusion in Introduction or Discussion section, or as supplementary context)
+
+Historical placer gold mine tailings represent a particularly high-prior subset of
+the broader tailings inventory for monazite endowment, for reasons rooted in the
+physics of sediment transport. Gold (density 19.3 g/cm³) and monazite (density
+5.1 g/cm³), while differing substantially in density, both concentrate in the
+heavy mineral fraction of fluvial sediment through the same hydraulic mechanism:
+preferential settling in zones of reduced stream competence — point bars, bedrock
+irregularities, and riffles (Richards 1999; Boyle 1979). The result is that placer
+gold and placer monazite co-concentrate in the same hydraulic traps, and the
+tailings from historical gold placer operations therefore retain the heavy mineral
+fraction, including monazite, that was not the target of the original operation
+and was discarded with the light mineral gangue.
+
+This co-placer relationship means that any operation that successfully
+concentrated placer gold by density separation also, necessarily, concentrated
+monazite and other heavy minerals in the same fraction. The subsequent discarding
+of the heavy mineral tails as economically worthless — which was universally the
+case for REEs prior to approximately 2010 — left a pre-concentrated heavy mineral
+assemblage in the tailings pile that is amenable to REE recovery without the
+sorting step that would be required for primary processing of unworked alluvial
+material. For this reason, historical gold placer mine tailings should be assigned
+a higher prior probability of monazite endowment than tailings from operations
+targeting other commodities (base metals, industrial minerals) in the same
+geographic region, even in the absence of direct geochemical documentation. The
+northeastern Washington study area contains twelve documented historical placer
+gold operations (Section 3.1); all twelve are included in the priority tier
+assessment on this basis, rather than only those with documented NURE anomalies
+in their immediate vicinity.
+
+The same logic extends, with somewhat lower prior probability, to hard rock gold
+mine tailings in certain geological settings. Lode gold deposits hosted in
+metasedimentary terranes — orogenic gold systems of the type common in the
+Okanogan Highlands — are spatially associated with the same high-grade metamorphic
+rocks that produce accessory monazite as a metamorphic phase (Goldfarb et al.
+2001). Milling of these ores generates tailings containing both the metamorphic
+silicate gangue and its accessory phase assemblage, including monazite. The Republic
+Gold District (Section 5.4.3) represents this category; its classification as a
+priority REE target is supported by both the orogenic gold geological setting and
+the MCC metamorphic source lithology identified in the catchment analysis.
+
+References:
+  Boyle RW (1979): The geochemistry of gold and its deposits. GSC Bull 280.
+  Goldfarb RJ, Groves DI, Gardoll S (2001): Orogenic gold and geologic time.
+    Ore Geol Rev 18, 1–75.
+  Richards JP (1999): Placers. In: Eckstrand OR et al. (eds), Geology of Canadian
+    mineral deposit types. GSC Geology of Canada 8.

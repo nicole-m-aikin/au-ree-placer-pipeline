@@ -1,0 +1,86 @@
+
+5.4  Domestic Processing Pathway and Supply Chain Context
+
+The identification and characterization of potential monazite-bearing tailings in
+northeastern Washington is directly relevant to an emerging domestic rare earth
+element (REE) processing infrastructure that did not exist five years ago. For
+decades, the combination of low NdPr prices, regulatory constraints associated
+with the thorium content of monazite, and the dominance of Chinese processing
+capacity made domestic monazite recovery economically unviable. That situation
+has changed materially.
+
+Energy Fuels Inc. operates the White Mesa Mill in Blanding, Utah — as of 2026,
+the only facility in the United States licensed to convert monazite concentrate
+into separated rare earth oxides (Energy Fuels 2025a). The mill's Phase 1A REE
+circuit has demonstrated commercial-scale capacity to process up to 10,000 tonnes
+of monazite concentrate per year, producing up to 1,000 tonnes of NdPr oxide
+annually alongside uranium and thorium byproduct recovery (Energy Fuels 2025b;
+Crux Investor 2026). Current feedstock is supplied by The Chemours Company from
+heavy mineral sand operations in Florida and Georgia, providing approximately 500
+tonnes of monazite per year (Energy Fuels 2025a). A Phase 2 expansion, with a
+bankable feasibility study completed in January 2026 at an NPV of $1.9 billion
+(8% discount rate), would increase capacity to approximately 60,000 tonnes of
+monazite per year and produce over 6,000 tonnes of NdPr oxide alongside
+commercial-scale dysprosium and terbium output (Discovery Alert 2026).
+
+Two features of the White Mesa Mill are particularly relevant to the northeastern
+Washington tailings resource characterization developed here. First, the mill's
+NRC license explicitly covers the processing of thorium-bearing materials, a
+regulatory distinction that eliminates the principal barrier that historically
+prevented domestic monazite processing: the thorium liability that accumulates in
+the processing waste stream. Energy Fuels routes thorium byproducts through its
+existing uranium and alternate feed processing infrastructure, converting a
+regulatory obstacle into an operational co-product (Energy Fuels 2021). This
+resolves the processing pathway question that has been the primary economic
+constraint on domestic monazite recovery since the 1990s. Second, the mill has
+publicly indicated interest in expanding its domestic feedstock base. The current
+Chemours agreement supplies approximately 5% of Phase 1A capacity, leaving
+substantial throughput available for additional domestic sources (Energy Fuels 2025b).
+
+The market environment for NdPr has strengthened considerably since the trough
+of 2023-2024. As of mid-2026, NdPr oxide is priced at approximately $109/kg
+(Shanghai Metals Market, FOB benchmark), representing a more than 100% increase
+from early-2025 levels, driven by supply deficits from Chinese production quota
+constraints coinciding with sustained EV and wind turbine demand growth (Rare
+Earth Mining 2026; Critical Minerals News 2026). The U.S. Department of Defense
+has further underwritten domestic REE processing economics through a 10-year
+offtake agreement with MP Materials establishing a $110/kg NdPr oxide floor price
+— a policy signal that domestic supply chain development has government backing
+regardless of Chinese market volatility (Rare Earth Exchanges 2025).
+
+Against this backdrop, the northeastern Washington placer mine tailings resource
+characterized in this study represents a potentially viable domestic feedstock
+source. The sites prioritized here contain monazite in association with historical
+placer gold operations, in tailings piles that have not previously been evaluated
+for REE content. Processing the monazite component of these tailings would not
+require new mining permits, as the material has already been extracted and
+stockpiled. The thorium content, while a regulatory requirement, is manageable
+under the White Mesa Mill's existing NRC license framework. Logistics are
+straightforward: truck transport from northeastern Washington to Blanding, Utah
+(approximately 1,000 km) is consistent with the distances already managed in the
+Chemours supply chain from the U.S. Southeast.
+
+The characterization presented here does not constitute a feedstock supply
+commitment or a formal resource estimate. It is a spatial prioritization of
+tailings sites warranting further investigation to determine whether any
+individual pile contains sufficient monazite grade and tonnage to be economically
+viable as a White Mesa Mill feedstock source. The exploration targets identified
+in Section 5.3 suggest that at least three sites merit detailed in-situ sampling
+to collapse the uncertainty currently associated with the stream sediment grade
+proxy. The processing pathway to convert a confirmed in-situ grade estimate into
+a feedstock viability assessment is now available domestically in a way that it
+was not at the time the original mining operations deposited these tailings.
+
+References for this section:
+  Crux Investor (2026): Energy Fuels White Mesa Mill produces first US terbium oxide.
+    April 15, 2026. cruxinvestor.com
+  Critical Minerals News (2026): Rare earth price 2026. critical-minerals-news.com
+  Discovery Alert (2026): Energy Fuels White Mesa Mill Navajo Nation Agreement Analysed.
+    June 10, 2026. discoveryalert.com.au
+  Energy Fuels (2021): Form 8-K, Neo and Energy Fuels collaboration. SEC Archives.
+  Energy Fuels (2025a): Q3 2025 Results announcement. investors.energyfuels.com
+  Energy Fuels (2025b): U.S.-Based Energy Fuels poised to produce six REE oxides.
+    April 17, 2025. investors.energyfuels.com
+  Rare Earth Exchanges (2025): Calculating a cost curve for U.S. rare earth production.
+    August 13, 2025. rareearthexchanges.com
+  Rare Earth Mining (2026): Rare earth market pricing analysis. rare-earth-mining.com

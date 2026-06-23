@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+*.egg-info/
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Large raster data (download instructions in DATA_SOURCES.md)
+*.tif
+*.tiff
+*.img
+*.nc
+*.hdf
+
+# Lidar and DEM directories (too large for git; 7+ GB)
+ne_wa_ree/data/lidar/
+ne_wa_ree/data/dem/
+ne_wa_ree/data/aster_emit/
+
+# Historical topo PDFs (re-download from USGS TopoView)
+ne_wa_ree/data/lidar/*.pdf
+
+# WGS OFR 2026-02 supplement (public document; see DATA_SOURCES.md)
+data/wgs_ofr2026/
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment variables
+.env

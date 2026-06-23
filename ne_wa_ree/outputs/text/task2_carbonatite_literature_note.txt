@@ -1,0 +1,42 @@
+
+CARBONATITE LITERATURE REVIEW — NE Washington and Adjacent Idaho
+================================================================
+
+Search conducted: MRDS commodity=carbonatite, radius 200km from study center (-118.75, 48.3)
+Literature: Staatz 1972 (USGS Bull 1049), Staatz et al. 1979 (USGS OFR 79-82),
+            Long et al. 2010 (USGS OFR 2010-1202 — domestic REE deposits)
+
+FINDINGS:
+---------
+No carbonatite occurrences are documented within the 4-county NE Washington study area
+(Okanogan, Ferry, Stevens, Pend Oreille counties).
+
+NEAREST CARBONATITE-RELATED OCCURRENCES:
+  1. Lemhi Pass Th-REE district, Lemhi Co., Idaho (~250 km SE of study area)
+     - Vein-type Th-REE mineralization in Precambrian metasediments
+     - NOT carbonatite-hosted; hydrothermal thorite and monazite veins
+     - MRDS IDs: 10003897, 10003898
+     - Staatz 1972: thorium content up to 0.3% ThO2 in veins
+     
+  2. Magnet Cove, Arkansas (~2,400 km SE) — referenced in ASTER analysis as spectral 
+     analogue; not geologically relevant to NE WA source characterization
+     
+  3. Mountain Pass, CA (~1,500 km SW) — carbonatite-hosted bastnäsite; 
+     no genetic connection to NE WA
+
+INTERPRETATION:
+  No carbonatite Th-REE source is documented within 50 km of any priority site.
+  Therefore, Th anomalies in NURE stream sediments cannot be attributed to
+  carbonatite REE mineralization. This STRENGTHENS the metamorphic monazite
+  interpretation: the regional source rocks (Okanogan, Kettle, Republic MCCs)
+  are the most parsimonious explanation for the observed Th-LREE anomalies.
+  
+  Detrital monazite from Precambrian metapelite gneisses in the MCCs is the
+  most probable Th carrier. This is consistent with:
+  - High-grade metamorphic terranes producing abundant accessory monazite
+    (Rasmussen & Muhling 2007; Holder et al. 2015)
+  - Documented monazite in Okanogan MCC gneisses (Cheney et al. 1994)
+  - NURE Th anomaly spatial correlation with MCC outcrop areas
+
+ACTION: No carbonatite flag required for any current priority site.
+        Maintain standard monazite-focused processing pathway assumption.

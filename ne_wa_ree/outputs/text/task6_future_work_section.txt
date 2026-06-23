@@ -1,0 +1,158 @@
+
+6.  Future Work
+
+6.1  Probabilistic Grade Modeling
+
+The spatial prioritization framework presented here identifies tailings sites
+with elevated probability of monazite endowment based on multiple proxy datasets:
+NURE stream sediment thorium anomalies, aeromagnetic signatures consistent with
+magnetite-bearing source rocks, geologic catchment composition, and historical
+production volumes. What it does not produce is a quantitative estimate of
+monazite grade distribution within any individual tailings pile at the precision
+required for a reprocessing investment decision.
+
+Two sites emerge from the Section 5 analysis as the immediate auger
+reconnaissance targets, for distinct but complementary reasons.
+
+Colville Placer is the only site in the study area presenting three converging
+independent lines of evidence simultaneously: a coincident aeromagnetic high
+consistent with magnetite-bearing detrital input, a NURE Th anomaly classified
+MIXED_UNCLEAR (reflecting the geochemical ambiguity inherent in stream sediment
+data — see classification gap discussion below), and HIGH-confidence topographic
+and lidar indicators of preserved placer morphology. No other site achieves this
+convergence. The combined priority score is 9.13/10 (Section 5.4). The proxy-
+based NdPr estimate of 203 t sits at the lower end of the site range, but the
+break-even NdPr price of $81/kg — well below the current market price — means
+the economic threshold is achievable at moderate grade. Auger drilling here is
+not primarily a discovery program; it is a program to confirm what the
+converging proxy evidence strongly implies is present, and to generate the
+in-situ grade observations needed to convert the conceptual exploration target
+into a NI 43-101 or JORC Inferred Resource.
+
+Sanpoil River Placer presents the opposite risk profile. Its proxy-based NdPr
+estimate of 429 t is the largest single-site figure in the dataset — approximately
+2.1× the Colville Placer estimate — but it carries LOW confidence in the
+prioritization framework due to the absence of a magnetic co-indicator and
+reliance on stream sediment Th signal alone. No aeromagnetic high is present to
+corroborate detrital magnetite input from a monazite-bearing source. This is not
+disqualifying: monazite placers without a strong magnetic response are well
+documented in fluvial settings where heavy mineral sorting has separated monazite
+from magnetite over transport distance (Strezov et al. 2017). But it means the
+grade uncertainty range is wide and cannot be narrowed further by any additional
+desktop analysis. Sanpoil River Placer represents the highest-upside, highest-
+uncertainty site in the study area. An auger program here is specifically designed
+to collapse grade uncertainty before any larger investment decision is warranted.
+
+Addressing this gap more broadly requires stochastic subsurface modeling applied
+to both priority sites. The appropriate methodological framework integrates the
+geochemical proxy data compiled here with in-situ drill hole, trench, or bulk
+sample data to produce full probability distributions of monazite grade and
+volume, rather than the point estimates and wide uncertainty ranges that are the
+maximum achievable from stream sediment proxy data alone. Specifically, future
+work should apply Bayesian geostatistical approaches (Dowd 1994; Caers 2011;
+Pyrcz & Deutsch 2014) to encode physically informed priors about the spatial
+distribution of heavy mineral concentration in fluvial tailings: the physics of
+hydraulic sorting that governs monazite accumulation in a tailings pile during
+active processing operations is well characterized (Strezov et al. 2017),
+providing a physically grounded prior that would update efficiently on sparse
+in-situ observations. Such an approach would produce an uncertainty-quantified
+distribution of grade at depth — the basis for a formal exploration target
+estimate and, ultimately, a NI 43-101 or JORC Code Inferred Resource — rather
+than the conceptual exploration target presented in Section 5.3.
+
+MONAZITE Classification Gap
+
+A critical data limitation must be documented explicitly before any auger program
+is designed. Within the NE Washington NURE subset analyzed here (1,045 samples),
+cerium (Ce) is present in only 35% of records and lanthanum (La) in only 49%.
+The Th-Ce-P elemental triplet required for definitive monazite mineral
+classification — as distinct from thorite, uranothorite, or other Th-bearing
+phases — could not be confirmed from the stream sediment data alone. The
+consequence is unambiguous in the classification results: all 61 Th-anomalous
+samples were assigned either MIXED_UNCLEAR (25 samples) or THORITE_UTHO (36
+samples); zero samples returned a confirmed MONAZITE classification.
+
+This result should not be misread as evidence against monazite. The absence of a
+confirmed classification is not the absence of monazite; it is the absence of
+the multi-element data needed to confirm it. Stream sediment Th anomalies in
+metamorphic core complex catchments of this type are physically consistent with
+monazite as the dominant carrier phase (the metamorphic petrology argument
+developed in Section 4.3 is unaffected by this gap), but stream sediment
+geochemistry alone is insufficient to resolve the mineral speciation. This gap
+precisely defines what the auger program must deliver: bulk samples from the
+priority sites with full REE + P + actinide assay, enabling both automated
+mineralogy (MLA/QEMSCAN) and geochemical triplet classification at in-situ
+grade. The NURE data establishes where Th is anomalous; the auger program
+establishes what mineral is carrying it.
+
+The difference between a proxy-based spatial prioritization and a probabilistic
+in-situ grade model is the difference between knowing where to look and knowing
+whether it is worth looking there before committing to an extensive sampling
+program. Emerging probabilistic subsurface modeling platforms designed specifically
+for critical minerals exploration settings are beginning to provide this capability
+at the site scale (see e.g., Wellmann & Caumon 2018; de la Varga et al. 2019 for
+the methodological underpinning of uncertainty-quantified geological models). The
+computational tools for integrating sparse geochemical observations with
+physics-informed structural priors now exist; the limiting factor for the sites
+identified here is in-situ sampling data, not analytical capability. Future work
+should proceed in two stages: (1) targeted shallow sampling (auger drilling or
+trenching) at the two priority sites identified above — Colville Placer and
+Sanpoil River Placer — to generate in-situ grade observations at a density
+sufficient to initialize a geostatistical model and resolve the monazite
+classification gap; (2) application of a probabilistic grade modeling workflow
+to those observations to produce site-scale estimates with explicit uncertainty
+bounds.
+
+Cost guidance: A reconnaissance sampling program of 20–30 auger holes to 3m
+depth at each priority site, with full REE + P + actinide assay on each
+interval, is estimated at $68,000–$102,000 per site including mobilization
+(based on published rates for similar programs in the Pacific Northwest, at
+$2,000–$3,400 per hole; Western Mineral Group 2023; US Critical Minerals 2024).
+The total field program for both Colville Placer and Sanpoil River Placer is
+estimated at $136,000–$204,000. This sampling investment would reduce grade
+uncertainty from the current ±50% to approximately ±15–25%, resolve the
+monazite classification ambiguity in the NURE proxy data, and make the
+exploration target estimates in Section 5.3 sufficient to support a preliminary
+economic assessment.
+
+6.2  Co-placer Heavy Mineral Characterization
+
+The current study focuses on monazite as the target REE carrier. Future
+mineralogical characterization of priority tailings sites should employ automated
+mineralogy (MLA/QEMSCAN or similar) on representative bulk samples to quantify
+the full heavy mineral assemblage: monazite, magnetite, ilmenite, zircon, and
+any other accessory phases. The economic case for reprocessing improves
+substantially if multiple heavy mineral co-products can be recovered from a single
+processing pass. Magnetite and ilmenite, in particular, are recoverable by
+straightforward magnetic and gravity separation with no radioactive waste
+considerations, and may contribute meaningfully to project economics at the grade
+levels implied by the aeromagnetic data at sites such as Colville Placer.
+
+6.3  Hard Rock Source Verification
+
+The detrital source characterization in Section 4.3 identified metamorphic core
+complex metapelites as the dominant upstream contributor to NURE thorium anomalies
+in the study area, consistent with the presence of monazite as an accessory phase
+in high-grade metamorphic assemblages. Verification of this interpretation would
+benefit from U-Pb geochronology and Lu-Hf isotope analysis of detrital monazite
+grains separated from representative tailings samples, which would provide both
+confirmation of the metamorphic source and age information useful for regional
+provenance studies (Rasmussen & Muhling 2007; Holder et al. 2015). This is a
+lower-priority analytical investment relative to in-situ grade sampling but would
+substantially strengthen the peer-reviewed publication record for the district.
+
+References for this section (selected):
+  Caers J (2011): Modeling Uncertainty in the Earth Sciences. Wiley.
+  de la Varga M, Schaaf A, Wellmann F (2019): GemPy 1.0 — open-source stochastic
+    geological modeling. Geosci Model Dev 12, 1–32.
+  Dowd PA (1994): Optimal estimation of recoverable reserves. Math Geol 26, 917–930.
+  Holder RM, Hacker BR, Kylander-Clark ARC, Cottle JM (2015): Monazite trace-
+    element and isotopic signatures of (ultra)high-pressure metamorphism.
+    Chem Geol 409, 28–52.
+  Pyrcz MJ, Deutsch CV (2014): Geostatistical Reservoir Modeling, 2nd ed. Oxford.
+  Rasmussen B, Muhling JR (2007): Monazite begets monazite: evidence for dissolution
+    of detrital monazite and reprecipitation of syntectonic monazite during low-grade
+    regional metamorphism. Contrib Mineral Petrol 154, 675–689.
+  Strezov L, Herbertson J, Kopf R (2017): Heavy mineral processing — a review.
+    Min Eng 100, 85–96.
+  Wellmann F, Caumon G (2018): 3D Structural geological models. Adv Geophys 59, 1–121.

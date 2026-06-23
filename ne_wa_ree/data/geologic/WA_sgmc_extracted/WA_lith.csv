@@ -1,0 +1,808 @@
+unit_link,lith_rank,lith1,lith2,lith3,lith4,lith5,low_lith,lith_form,lith_com
+WAwater;0,Major,Water,,,,,Water, ,
+WAQa;0,Incidental,Unconsolidated,Peat,,,,Peat,Bed, 
+WAEOc;0,Incidental,Metamorphic,Argillite,,,,Argillite, ,
+WAEO2;0,Incidental,Sedimentary,Coal,,,,Coal,Bed, 
+WApJv;0,Incidental,Metamorphic,Slate,,,,Slate,, 
+WApTm;0,Minor,Metamorphic,Schist,,,,Schist,, 
+WAQg1;0,Incidental,Unconsolidated,Peat,,,,Peat,, 
+WAC;0,Incidental,Metamorphic,Schist,,,,Schist,Greenschist, 
+WAC;0,Incidental,Igneous,Volcanic,,,,Volcanic,"Volcaniclastic, volcanic breccia", 
+WAMIv;0,Major,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,Flow, 
+WAP;0,Incidental,Metamorphic,Slate,,,,Slate,, 
+WAPZl;0,Incidental,Sedimentary,Carbonate,Limestone,,,Limestone,Bed, 
+WAPZu;0,Major,Sedimentary,Clastic,Sandstone,Graywacke,,Graywacke,Bed, 
+WAQg2;0,Incidental,Unconsolidated,Peat,,,,Peat,, 
+WATi;0,Incidental,Igneous,Plutonic,Granitic,Tonalite,,Tonalite,Stock or pipe, 
+WATv;0,Minor,Igneous,Volcanic,Felsic-volcanic,Dacite,,Dacite,"Volcaniclastic, volcanic breccia", 
+WAC;0,Minor,Sedimentary,Carbonate,,,,Carbonate,Bed, 
+WAEOv;0,Incidental,Metamorphic,Argillite,,,,Argillite,, 
+WAMI;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WApCAc;0,Incidental,Metamorphic,Schist,,,,Schist,, 
+WATd;0,Minor,Metamorphic,Serpentinite,,,,Serpentinite,, 
+WATg;0,Incidental,Igneous,Plutonic,Dioritic,Quartz-diorite,,Quartz-diorite,Dike or sill, 
+WATs;0,Major,Sedimentary,Clastic,Sandstone,,,Sandstone,Bed,"Feldspatholithic to lithofeldspathic, locally micaceous or calcareous. "
+WACP;0,Incidental,Metamorphic,Marble,,,,Marble,, 
+WAEOv1r;0,Incidental,Sedimentary,Coal,,,,Coal,Bed,Rare occurrence in Naches Formation; may or may not occur in this unit. 
+WAP;0,Minor,Metamorphic,Greenstone,,,,Greenstone,, 
+WApJsc;0,Incidental,Metamorphic,Migmatite,,,,Migmatite,, 
+WAMZT;0,Minor,Metamorphic,Slate,,,,Slate,, 
+WApTbi;0,Incidental,Metamorphic,Greenstone,,,,Greenstone,, 
+WApTv;0,Incidental,Metamorphic,Argillite,,,,Argillite,, 
+WAEOv1r;0,Incidental,Metamorphic,Argillite,,,,Argillite,, 
+WAD;0,Major,Igneous,Volcanic,Felsic-volcanic,Dacite,,Dacite,Pyroclastic, 
+WAMIc;0,Major,Sedimentary,Clastic,Siltstone,,,Siltstone,Bed, 
+WAD;0,Minor,Sedimentary,Carbonate,Limestone,,,Limestone,Bed, 
+WAbi;0,Major,Igneous,Plutonic,Gabbroic,Gabbro,,Gabbro,,Includes uralitized gabbro (greenstone of amphibolite facies) and gabbronorite in northern Whatcom County. 
+WAbi;0,Incidental,Metamorphic,Serpentinite,,,,Serpentinite,, 
+WAbi;0,Major,Igneous,Plutonic,Dioritic,Diorite,,Diorite,,"Includes hornblende, quartz, and pyroxene diorite. "
+WAC;0,Major,Sedimentary,Clastic,Sandstone,Graywacke,,Graywacke,Bed, 
+WAC;0,Minor,Sedimentary,Clastic,Mudstone,Shale,,Shale,Bed, 
+WAC;0,Minor,Metamorphic,Argillite,,,,Argillite,Greenschist, 
+WAC;0,Incidental,Metamorphic,Slate,,,,Slate,Greenschist, 
+WAC;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WACAls;0,Major,Sedimentary,Carbonate,Limestone,,,Limestone,Bed, 
+WACAls;0,Major,Sedimentary,Carbonate,Dolostone,,,Dolostone,Bed, 
+WACAls;0,Incidental,Metamorphic,Phyllite,,,,Phyllite,, 
+WACAls;0,Minor,Metamorphic,Marble,,,,Marble,, 
+WACAls;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed,Base of Devonian Limestone as mapped by Park and Cannon (1943). 
+WACAls;0,Incidental,Sedimentary,Clastic,Sedimentary-breccia,,,Sedimentary-breccia,,Base of Devonian Limestone as mapped by Park and Cannon (1943). 
+WACAls;0,Incidental,Metamorphic,Argillite,,,,Argillite,, 
+WACAph;0,Major,Metamorphic,Phyllite,,,,Phyllite,, 
+WACAph;0,Major,Metamorphic,Quartzite,,,,Quartzite,, 
+WACAph;0,Incidental,Sedimentary,Carbonate,Limestone,,,Limestone,Bed, 
+WACAph;0,Incidental,Metamorphic,Schist,,,,Schist,, 
+WACAph;0,Incidental,Metamorphic,Marble,,,,Marble,,Recrystallized limestone at base of phyllite. 
+WACAph;0,Incidental,Metamorphic,Argillite,,,,Argillite,, 
+WACAph;0,Incidental,Sedimentary,Carbonate,Dolostone,,,Dolostone,Bed, 
+WACAq;0,Major,Metamorphic,Quartzite,,,,Quartzite,, 
+WACAq;0,Minor,Sedimentary,Clastic,Sandstone,,,Sandstone,Bed,Refered to as gritstone on original map; present within Gypsy Quartzite only. 
+WACAq;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WACAq;0,Incidental,Metamorphic,Phyllite,,,,Phyllite,, 
+WACAq;0,Incidental,Metamorphic,Schist,,,,Schist,, 
+WACAq;0,Incidental,Metamorphic,Slate,,,,Slate,, 
+WACAq;0,Incidental,Metamorphic,Argillite,,,,Argillite,, 
+WACP;0,Major,Sedimentary,Clastic,Sandstone,Graywacke,,Graywacke,Bed, 
+WACP;0,Minor,Sedimentary,Clastic,Siltstone,,,Siltstone,Bed, 
+WACP;0,Minor,Metamorphic,Greenstone,,,,Greenstone,, 
+WACP;0,Incidental,Metamorphic,Phyllite,,,,Phyllite,,Possibly minor in rank. 
+WACP;0,Minor,Sedimentary,Chemical,Chert,,,Chert,Bed, 
+WACP;0,Minor,Metamorphic,Argillite,,,,Argillite,, 
+WACP;0,Incidental,Sedimentary,Clastic,Sandstone,Arkose,,Arkose,Bed, 
+WACP;0,Minor,Sedimentary,Clastic,Mudstone,Shale,,Shale,Bed, 
+WACP;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,Flow, 
+WACP;0,Incidental,Sedimentary,Carbonate,Limestone,,,Limestone,Bed, 
+WACP;0,Minor,Metamorphic,Quartzite,,,,Quartzite,, 
+WACP;0,Incidental,Metamorphic,Slate,,,,Slate,, 
+WACP;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WACPs;0,Major,Sedimentary,Clastic,Sandstone,Graywacke,,Graywacke,Bed, 
+WACPs;0,Minor,Metamorphic,Argillite,,,,Argillite,, 
+WACPs;0,Incidental,Metamorphic,Slate,,,,Slate,, 
+WACPs;0,Incidental,Metamorphic,Marble,,,,Marble,, 
+WACPs;0,Minor,Sedimentary,Clastic,Sandstone,Arkose,,Arkose,Bed, 
+WACPs;0,Minor,Metamorphic,Quartzite,,,,Quartzite,, 
+WACPs;0,Incidental,Metamorphic,Phyllite,,,,Phyllite,, 
+WACPs;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WACPs;0,Incidental,Igneous,Volcanic,Mafic-volcanic,,,Mafic-volcanic,Flow,"Basaltic and andesitic and includes some pillow basalt (Misch, 1966). "
+WACPs;0,Minor,Sedimentary,Chemical,Chert,,,Chert,Bed, 
+WACPs;0,Minor,Sedimentary,Clastic,Siltstone,,,Siltstone,Bed,Includes some tuffaceous siltstone. 
+WACPs;0,Incidental,Sedimentary,Carbonate,Limestone,,,Limestone,Bed, 
+WACPs;0,Minor,Sedimentary,Clastic,Mudstone,Shale,,Shale,Bed, 
+WACPv;0,Major,Metamorphic,Greenstone,,,,Greenstone,Zeolitic (prehnite-pumpellyite),"Pillow basalt, breccia, tuff, and flow in Hozomeen Group; breccia and tuff in Chilliwack Group. Includes metabasalt in Asotin County. Partly metamorphosed to prehnite-pumpellyite facies in Hozomeen Group. "
+WACPv;0,Minor,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,"Volcaniclastic, volcanic breccia",Primarily outcrops in Okanogan County; some andesite in Chilliwack Formation. Also includes andesite flow and tuff in subordinate amounts. 
+WACPv;0,Incidental,Sedimentary,Chemical,Chert,,,Chert,Bed,Possibly minor in rank; occurs primarily in Hozomeen Group. 
+WACPv;0,Incidental,Metamorphic,Argillite,,,,Argillite,,Possibly minor in rank. May be partly metamorphosed to prehnite-pumpellite facies in Hozomeen Group but occurs associated with greenstone throughout unit. 
+WACPv;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,Flow, 
+WACPv;0,Incidental,Sedimentary,Carbonate,Limestone,,,Limestone,Bed,Possibly minor in rank (occurs in Hozomeen Group and outcrops in Asotin and Stevens Counties). 
+WACPv;0,Incidental,Sedimentary,Clastic,Sandstone,Graywacke,,Graywacke,Bed, 
+WACPv;0,Incidental,Metamorphic,Metavolcanic,,,,Metavolcanic,,Includes keratophyre in Asotin County. 
+WACPv;0,Incidental,Sedimentary,Clastic,Mudstone,Shale,Black-shale,Black-shale,Bed,Limited to Coon Hollow Formation. 
+WACPv;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed,Limited to Asotin County. 
+WACPv;0,Incidental,Igneous,Plutonic,,,,Plutonic,,"Includes granodiorite, quartz diorite, and gabbro in Asotin County; possibly gabbro and diorite in Chilliwack Group. "
+WAD;0,Major,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,Pyroclastic, 
+WAD;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,Flow, 
+WAD;0,Incidental,Igneous,Volcanic,Felsic-volcanic,Dacite,,Dacite,Flow, 
+WAEO1;0,Major,Sedimentary,Clastic,Sandstone,,,Sandstone,Bed,Mostly arkosic to feldspathic sandstone but also includes significant amounts of lithic basaltic and quartzose sandstone and smaller amounts of arenite and graywacke in the northern Olympic peninsula. 
+WAEO1;0,Minor,Sedimentary,Clastic,Siltstone,,,Siltstone,Tuffaceous, 
+WAEO1;0,Minor,Sedimentary,Clastic,Siltstone,,,Siltstone,Bed,"Includes carbonaceous, micaceous, quartzose, and basaltic siltstone. "
+WAEO1;0,Incidental,Sedimentary,Coal,Lignite,,,Lignite,Bed, 
+WAEO1;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WAEO1;0,Incidental,Sedimentary,Clastic,Mudstone,Shale,,Shale,Bed,"Some is carbonaceous (Snavely and others, 1958). "
+WAEO1;0,Incidental,Sedimentary,Clastic,Mixed-clastic,,,Mixed-clastic,Olistrostrome, 
+WAEO1;0,Incidental,Igneous,Volcanic,Mafic-volcanic,,,Mafic-volcanic,,"Interbedded lenses of pillow basalts in sedimentary rocks in northern Olympic peninsula (Babcock, 1994). Tukwila Formation includes andesitic flow, breccia, and tuff (Frizzell, 1979). "
+WAEO2;0,Major,Sedimentary,Clastic,Siltstone,,,Siltstone,Tuffaceous, 
+WAEO2;0,Major,Sedimentary,Clastic,Sandstone,,,Sandstone,Bed,"Mostly arkosic to feldspathic sandstone but also includes significant amounts of basaltic sandstone, arenite, and graywacke. "
+WAEO2;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WAEO2;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,Flow, 
+WAEO2;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,"Pyroclastic, tuff", 
+WAEO2;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,"Volcaniclastic, volcanic breccia", 
+WAEO2;0,Incidental,Sedimentary,Clastic,Mudstone,Claystone,,Claystone,Bed, 
+WAEO2;0,Incidental,Sedimentary,Clastic,Mudstone,Shale,,Shale,Bed, 
+WAEO2;0,Incidental,Sedimentary,Clastic,Mixed-clastic,,,Mixed-clastic,Olistrostrome,Cape Flattery breccia. 
+WAEOc;0,Major,Sedimentary,Clastic,Sandstone,Arkose,,Arkose,Bed, 
+WAEOc;0,Incidental,Sedimentary,Clastic,Mudstone,Shale,,Shale,Bed, 
+WAEOc;0,Minor,Sedimentary,Clastic,Siltstone,,,Siltstone,Bed ,
+WAEOc;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed ,
+WAEOc;0,Incidental,Sedimentary,Coal,Bituminous,,,Bituminous,Bed ,
+WAEOc;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite, ,
+WAEOc;0,Minor,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt, ,
+WAEOc;0,Minor,Igneous,Volcanic,Felsic-volcanic,Rhyolite,,Rhyolite, ,
+WAEOc;0,Incidental,Igneous,Volcanic,,,,Volcanic,"Pyroclastic, tuff ",
+WAEOOGv;0,Minor,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,"Volcaniclastic, volcanic breccia ",
+WAEOOGv;0,Minor,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,Flow ,
+WAEOOGv;0,Minor,Igneous,Volcanic,Felsic-volcanic,Dacite,,Dacite,Flow ,
+WAEOOGv;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,Flow ,
+WAEOOGv;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,"Pyroclastic, tuff ",
+WAEOOGv;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,"Pyroclastic, tuff ",
+WAEOOGv;0,Incidental,Sedimentary,Clastic,Sandstone,Arkose,,Arkose,Bed ,
+WAEOOGv;0,Incidental,Sedimentary,Clastic,Mudstone,Shale,,Shale,Bed ,
+WAEOOGv;0,Incidental,Igneous,Volcanic,Felsic-volcanic,Quartz-latite,,Quartz-latite,Flow, 
+WAEOOGv;0,Incidental,Igneous,Volcanic,Felsic-volcanic,Rhyolite,,Rhyolite,Flow, 
+WAEOv;0,Major,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,Flow, 
+WAEOv;0,Minor,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,"Volcaniclastic, volcanic breccia", 
+WAEOv;0,Minor,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,"Pyroclastic, tuff", 
+WAEOv;0,Minor,Igneous,Volcanic,Felsic-volcanic,Dacite,,Dacite,Flow, 
+WAEOv;0,Incidental,Igneous,Volcanic,Felsic-volcanic,Dacite,,Dacite,"Volcaniclastic, volcanic breccia",Possibly minor in rank. 
+WAMIc;0,Major,Sedimentary,Clastic,Sandstone,,,Sandstone,Bed, 
+WAEOv;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,Flow,Possibly breccia and tuff as well. Possibly minor in rank. 
+WAEOv;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WAEOv;0,Incidental,Sedimentary,Clastic,Sandstone,,,Sandstone,Bed,Feldspathic to volcaniclastic to tuffaceous. 
+WAEOv;0,Incidental,Sedimentary,Clastic,Siltstone,,,Siltstone,Bed, 
+WAEOv1;0,Major,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,Flow, 
+WAEOv1;0,Minor,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,"Volcaniclastic, volcanic breccia", 
+WAEOv1;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,"Pyroclastic, tuff", 
+WAEOv1;0,Minor,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,Flow, 
+WAEOv1;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed,Conglomerate of mudflow origin dominates. 
+WAEOv1;0,Incidental,Sedimentary,Clastic,Sandstone,,,Sandstone,Bed,Volcanic and feldspathic. 
+WAEOv1;0,Incidental,Sedimentary,Clastic,Siltstone,,,Siltstone,Bed, 
+WAEOv1a;0,Major,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,Flow, 
+WAEOv1a;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,Pyroclastic, 
+WAEOv1a;0,Minor,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,"Volcaniclastic, volcanic breccia", 
+WAEOv1a;0,Minor,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,Flow, 
+WAEOv1a;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,Pyroclastic, 
+WAEOv1a;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,"Volcaniclastic, volcanic breccia", 
+WAEOv1a;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WAEOv1a;0,Incidental,Sedimentary,Clastic,Sandstone,,,Sandstone,Tuffaceous, 
+WAEOv1a;0,Incidental,Sedimentary,Clastic,Mudstone,,,Mudstone,Tuffaceous, 
+WAEOv1a;0,Incidental,Sedimentary,Clastic,Siltstone,,,Siltstone,Tuffaceous, 
+WAEOv1a;0,Major,Igneous,Volcanic,Mafic-volcanic,Basaltic-andesite,,Basaltic-andesite,Flow, 
+WAEOv1b;0,Major,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,Flow, 
+WAEOv1b;0,Minor,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,"Volcaniclastic, volcanic breccia", 
+WAEOv1b;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,"Pyroclastic, tuff", 
+WAEOv1b;0,Major,Igneous,Volcanic,Mafic-volcanic,Basaltic-andesite,,Basaltic-andesite,Flow, 
+WAEOv1b;0,Incidental,Igneous,Volcanic,Felsic-volcanic,Dacite,,Dacite,Flow, 
+WAEOv1b;0,Incidental,Igneous,Volcanic,Felsic-volcanic,Rhyolite,,Rhyolite,Flow, 
+WAEOv1b;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WAEOv1b;0,Incidental,Sedimentary,Clastic,Sandstone,,,Sandstone,Bed, 
+WAEOv1b;0,Incidental,Sedimentary,Clastic,Siltstone,,,Siltstone,Bed, 
+WAEOv1b;0,Incidental,Sedimentary,Clastic,Mudstone,Shale,,Shale,Bed, 
+WAEOv1b;0,Incidental,Sedimentary,Clastic,,,,Clastic,Tuffaceous,"""Water-laid tuff"" of Robert 1958. "
+WAEOv1b;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,Flow, 
+WAEOv1r;0,Minor,Igneous,Volcanic,Felsic-volcanic,Rhyolite,,Rhyolite,"Pyroclastic, tuff", 
+WAEOv1r;0,Major,Igneous,Volcanic,Felsic-volcanic,Rhyolite,,Rhyolite,Flow, 
+WAEOv1r;0,Incidental,Igneous,Volcanic,Felsic-volcanic,Rhyolite,,Rhyolite,Dome,Possibly minor in rank. 
+WAEOv1r;0,Minor,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,Flow, 
+WAEOv1r;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,"Volcaniclastic, volcanic breccia",Possibly minor in rank. 
+WAEOv1r;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,Flow,Possibly minor in rank but subordinate to rhyolite and basalt. 
+WAEOv1r;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,"Volcaniclastic, volcanic breccia", 
+WAEOv1r;0,Incidental,Sedimentary,Clastic,Sandstone,,,Sandstone,Bed, 
+WAEOv1r;0,Incidental,Sedimentary,Clastic,Siltstone,,,Siltstone,Bed, 
+WAEOv1r;0,Incidental,Sedimentary,Clastic,Mudstone,Shale,,Shale,Bed, 
+WAEOv2;0,Major,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,Flow, 
+WAEOv2;0,Minor,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,"Volcaniclastic, volcanic breccia", 
+WAEOv2;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,"Pyroclastic, tuff", 
+WAEOv2;0,Incidental,Sedimentary,Clastic,Siltstone,,,Siltstone,Bed,Possibly includes some tuffaceous siltstone. 
+WAEOv2;0,Incidental,Sedimentary,Clastic,Sandstone,,,Sandstone,Bed,Possibly includes some tuffaceous sandstone. 
+WAJ;0,Major,Metamorphic,Metasedimentary,,,,Metasedimentary,,"Includes metamorphosed sandstone, siltstone, argillite, tuff, with lesser conglomerate, chert, and limestone and marble. "
+WAJ;0,"Indeterminate, major",Metamorphic,Metavolcanic,,,,Metavolcanic,,"Flow, tuff, and breccia ranges in composition from basaltic to rhyolitic with basalt and basaltic andesite being the most abundant. "
+WAJK;0,Minor,Sedimentary,Clastic,Sandstone,,,Sandstone,Bed, 
+WAJK;0,Incidental,Metamorphic,Argillite,,,,Argillite,, 
+WAJK;0,Incidental,Sedimentary,Clastic,Siltstone,,,Siltstone,Bed, 
+WAJK;0,Incidental,Metamorphic,Slate,,,,Slate,, 
+WAJK;0,Incidental,Metamorphic,Phyllite,,,,Phyllite,, 
+WAJK;0,Incidental,Metamorphic,Schist,,,,Schist,Greenschist, 
+WAJK;0,Incidental,Metamorphic,Greenstone,,,,Greenstone,,May be minor in rank. 
+WAJK;0,Minor,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,Flow, 
+WAJK;0,Minor,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,"Volcaniclastic, volcanic breccia", 
+WAJK;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,"Pyroclastic, tuff", 
+WAJK;0,Minor,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WAJK;0,Minor,Sedimentary,Clastic,Mudstone,Shale,Black-shale,Black-shale,Bed, 
+WAJK;0,Incidental,Sedimentary,Chemical,Chert,,,Chert,Bed, 
+WAJKs;0,Major,Metamorphic,Argillite,,,,Argillite,, 
+WAJKs;0,Major,Sedimentary,Clastic,Sandstone,Graywacke,,Graywacke,Bed, 
+WAJKs;0,Minor,Metamorphic,Greenstone,,,,Greenstone,, 
+WAJKs;0,Minor,Metamorphic,Slate,,,,Slate,, 
+WAJKs;0,Minor,Metamorphic,Phyllite,,,,Phyllite,, 
+WAJKs;0,Incidental,Sedimentary,Chemical,Chert,,,Chert,Bed, 
+WAJKs;0,Incidental,Sedimentary,Clastic,Siltstone,,,Siltstone,Bed, 
+WAJKs;0,Incidental,Sedimentary,Carbonate,Limestone,,,Limestone,Bed, 
+WAJKs;0,Incidental,Sedimentary,Clastic,Sandstone,Arkose,,Arkose,, 
+WAJKs;0,Incidental,Sedimentary,Clastic,Mudstone,,,Mudstone,Bed, 
+WAJKs;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WAJKs;0,Incidental,Igneous,Plutonic,Dioritic,Diorite,,Diorite,Diabase, 
+WAJKv;0,Minor,Metamorphic,Metavolcanic,,,,Metavolcanic,,"Includes greenstone tuff of Lopez structural complex and greenstone, metadiabase, metatuff, and serpentinite of Lummi formation; relative abundance unknown. "
+WAJKv;0,Incidental,Metamorphic,Metasedimentary,,,,Metasedimentary,,"Includes metachert, meta-argillite, and metasandstone of Lummi formation. "
+WAJKv;0,Minor,Igneous,Plutonic,,,,Plutonic,,"Includes gabbro and possibly diorite, trondhjemite, granite, and quartz diorite of Fidalgo complex. "
+WAJKv;0,Minor,Igneous,Volcanic,,,,Volcanic,,"Includes andesite flows, tuff, and breccia, basalt, and dacite of outcrop in King County and possibly dacite, andesite, and basalt of Fidalgo complex. Also includes Eagle Cliff basalt. "
+WAJKv;0,Incidental,Sedimentary,Clastic,,,,Clastic,Bed,Includes conglomerate and sandstone in King County and limestone in Lummi formation. 
+WAJv;0,Minor,Igneous,Volcanic,Felsic-volcanic,Dacite,,Dacite,Flow, 
+WAJv;0,Minor,Igneous,Volcanic,Felsic-volcanic,Dacite,,Dacite,"Volcaniclastic, volcanic breccia", 
+WAJv;0,Major,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,Flow, 
+WAJv;0,Minor,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,"Volcaniclastic, volcanic breccia", 
+WAJv;0,Incidental,Metamorphic,Argillite,,,,Argillite,, 
+WAJv;0,Incidental,Sedimentary,Clastic,Sandstone,Graywacke,,Graywacke,Bed, 
+WAJv;0,Incidental,Metamorphic,Slate,,,,Slate,, 
+WAK;0,Major,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WAK;0,Major,Sedimentary,Clastic,Sandstone,,,Sandstone,Bed, 
+WAK;0,Minor,Sedimentary,Clastic,Mudstone,Shale,,Shale,Bed, 
+WAK;0,Incidental,Sedimentary,Coal,,,,Coal,Bed, 
+WAKc;0,Major,Sedimentary,Clastic,Sandstone,,,Sandstone,Bed, 
+WAKc;0,Incidental,Sedimentary,Clastic,Siltstone,,,Siltstone,Bed,"Siltstone and shale in combination make up about 12%; 4.5% estimated from type section in Barksdale, 1975. "
+WAKc;0,Incidental,Sedimentary,Clastic,Mudstone,Shale,,Shale,Bed,"Siltstone and shale in combination make up about 12%; 7.5% estimated from type section in Barksdale, 1975. "
+WAKc;0,Minor,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,"Volcaniclastic, volcanic breccia", 
+WAKc;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed,"Primarily lenticular bedding (Barksdale, 1975). "
+WAKl;0,Major,Sedimentary,Clastic,Sandstone,Arkose,,Arkose,Bed, 
+WAKl;0,Major,Sedimentary,Clastic,Mudstone,Shale,Black-shale,Black-shale,Bed, 
+WAKl;0,Incidental,Metamorphic,Phyllite,,,,Phyllite,, 
+WAKl;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WAKu;0,Major,Sedimentary,Clastic,Sandstone,Arkose,,Arkose,Bed, 
+WAKu;0,Minor,Sedimentary,Clastic,Siltstone,,,Siltstone,Bed, 
+WAKu;0,Incidental,Sedimentary,Clastic,Mudstone,Shale,,Shale,Bed, 
+WAKu;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WAKu;0,Incidental,Sedimentary,Clastic,Sandstone,Graywacke,,Graywacke,Bed, 
+WAlTv;0,Major,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,Flow, 
+WAlTv;0,Minor,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,"Volcaniclastic, volcanic breccia","Possibly only incidental in rank (estimated rank based on rank of basalt, regardless of form, being major). "
+WAlTv;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,"Pyroclastic, tuff","Possibly minor in rank (estimated rank based on rank of basalt, regardless of form, being major). "
+WAlTv;0,Major,Igneous,Volcanic,Felsic-volcanic,Rhyolite,,Rhyolite,Flow, 
+WAlTv;0,Minor,Igneous,Volcanic,Felsic-volcanic,Rhyolite,,Rhyolite,"Pyroclastic, tuff","Possibly only incidental in rank (estimated rank based proportion of rhyolite, regardless of form, being major). "
+WAlTv;0,Minor,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,Flow, 
+WAlTv;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,"Volcaniclastic, volcanic breccia", 
+WAlTv;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,"Pyroclastic, tuff", 
+WAlTv;0,Minor,Igneous,Volcanic,Felsic-volcanic,Dacite,,Dacite,Flow, 
+WAlTv;0,Incidental,Igneous,Volcanic,Felsic-volcanic,Dacite,,Dacite,"Volcaniclastic, volcanic breccia", 
+WAlTv;0,Incidental,Igneous,Volcanic,Felsic-volcanic,Dacite,,Dacite,"Pyroclastic, tuff", 
+WAlTv;0,Incidental,Sedimentary,Clastic,Sandstone,,,Sandstone,Bed,Tuffaceous and feldspathic. 
+WAlTv;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed,Tuffaceous and feldspathic. 
+WAlTv;0,Incidental,Sedimentary,Clastic,Mudstone,Shale,,Shale,Bed, 
+WAlTv;0,Incidental,Metamorphic,Argillite,,,,Argillite,, 
+WAMI;0,Major,Sedimentary,Clastic,Sandstone,,,Sandstone,Bed,"Includes wacke and arenite sandstone and tuffaceous sandstone, relative proportions of each unknown. "
+WAMI;0,Major,Sedimentary,Clastic,Siltstone,,,Siltstone,Bed,"Includes carbonaceous, micaceous, and tuffaceous siltstone, relative proportions of each unknown.  "
+WAMI;0,Incidental,Sedimentary,Clastic,Mudstone,Shale,,Shale,Bed, 
+WAMIc;0,Minor,Sedimentary,Clastic,Mudstone,Claystone,,Claystone,Bed, 
+WAMIc;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WAMIc;0,Incidental,Sedimentary,Clastic,Mudstone,Shale,,Shale,Bed, 
+WAMIc;0,Incidental,Unconsolidated,Coarse-detrital,,,,Coarse-detrital,Fluvial, 
+WAMIc;0,Incidental,Sedimentary,Clastic,,,,Clastic,Tuffaceous,"Also referred to as ""water-laid tuff"". "
+WAMIPO;0,Major,Sedimentary,Clastic,Sandstone,,,Sandstone,Bed,Mostly lithofeldspathic and feldspatholithic but locally tuffaceous or feldspathic. 
+WAMIPO;0,Major,Sedimentary,Clastic,Siltstone,,,Siltstone,Bed, 
+WAMIPO;0,Minor,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WAMIPO;0,Incidental,Sedimentary,Clastic,Mudstone,,,Mudstone,Bed, 
+WAMIPOc;0,Major,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WAMIPOc;0,Major,Igneous,Volcanic,,,,Volcanic,"Pyroclastic, air fall",Pumicite of Beverly Member; may also be described as pumiceous sandstone or siltstone. 
+WAMIPOc;0,Minor,Unconsolidated,Coarse-detrital,Gravel,,,Gravel,Fluvial,Mostly basaltic. 
+WAMIPOc;0,Minor,Unconsolidated,Coarse-detrital,Sand,,,Sand,Fluvial,Mostly basaltic. Possibly consolidated to sandstone in some areas. 
+WAMIPOc;0,Minor,Unconsolidated,,,,,Unconsolidated,Mass wasting,Laharic deposits. 
+WAMIPOc;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,Flow, 
+WAMIPOv;0,Major,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,Flow, 
+WAMIPOv;0,Incidental,Igneous,Volcanic,Felsic-volcanic,Rhyolite,,Rhyolite,Flow,Includes rhyolitic tuff. 
+WAMIPOv;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,Flow, 
+WAMIPOv;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,, 
+WAP;0,Incidental,Igneous,Volcanic,,,,Volcanic,"Pyroclastic, tuff", 
+WAMIPOv;0,Incidental,Igneous,Volcanic,,,,Volcanic,"Pyroclastic, air fall",Pumicite of Ellensburg Formation; may also be described as pumiceous sandstone and siltstone. 
+WAMIv;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,"Volcaniclastic, volcanic breccia", 
+WAMIv;0,Incidental,Sedimentary,Clastic,Sandstone,,,Sandstone,Bed,Tuffaceous or volcanic. 
+WAMIv;0,Incidental,Sedimentary,Clastic,Siltstone,,,Siltstone,Bed,Tuffaceous or volcanic. 
+WAMIv;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,Dike or sill, 
+WAMIv;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,"Pyroclastic, tuff", 
+WAMIv;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,"Volcaniclastic, volcanic breccia", 
+WAMIv;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,Flow, 
+WAMIv;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,"Pyroclastic, tuff", 
+WAMIv;0,Incidental,Igneous,Volcanic,Felsic-volcanic,Dacite,,Dacite,"Volcaniclastic, volcanic breccia", 
+WAMIv;0,Incidental,Igneous,Volcanic,Felsic-volcanic,Dacite,,Dacite,"Pyroclastic, tuff", 
+WAMIv;0,Incidental,Igneous,Volcanic,Felsic-volcanic,Rhyolite,,Rhyolite,"Volcaniclastic, volcanic breccia", 
+WAMIv;0,Incidental,Igneous,Volcanic,Felsic-volcanic,Rhyolite,,Rhyolite,"Pyroclastic, tuff", 
+WAMIv;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed,Tuffaceous or volcanic. 
+WAMZag;0,Major,Igneous,Plutonic,Granitic,Granite,,Granite,Dike or sill, 
+WAMZag;0,Minor,Igneous,Plutonic,Granitic,Granite,,Granite,Stock or pipe, 
+WAMZas;0,Minor,Igneous,Plutonic,Syenitic,Syenite,,Syenite,, 
+WAMZas;0,Incidental,Igneous,Plutonic,Syenitic,Alkali-feldspar-syenite,,Alkali-feldspar-syenite,,Malignite is a nephaline syenite with equal amounts of pyroxene and alkali feldspar. 
+WAMZas;0,Major,Igneous,Plutonic,Granitic,Granodiorite,,Granodiorite,Pluton, 
+WAMZas;0,Minor,Igneous,Plutonic,Dioritic,Diorite,,Diorite,Pluton, 
+WAMZg;0,Major,Igneous,Plutonic,Granitic,Granite,,Granite,Batholith, 
+WAMZg;0,Minor,Igneous,Plutonic,Granitic,Granodiorite,,Granodiorite,Batholith,Possibly major in rank. 
+WAMZg;0,Minor,Igneous,Plutonic,Syenitic,Quartz-monzonite,,Quartz-monzonite,Pluton,"Kaniksu Batholith (Schroeder, 1952). "
+WAMZg;0,Minor,Igneous,Plutonic,Granitic,Tonalite,,Tonalite,Pluton,Includes tronhjemite. 
+WAMZg;0,Minor,Metamorphic,Gneiss,,,,Gneiss,,Mostly tonalitic and granodioritic orthogneiss. 
+WAMZg;0,Incidental,Igneous,Plutonic,Dioritic,Diorite,,Diorite,Pluton,Includes quartz diorite. 
+WAMZg;0,Incidental,Igneous,Plutonic,Gabbroic,Gabbro,,Gabbro,Pluton, 
+WAMZg;0,Incidental,Metamorphic,Schist,,,,Schist,, 
+WAMZg;0,Incidental,Metamorphic,Migmatite,,,,Migmatite,, 
+WAMZg;0,Incidental,Igneous,Plutonic,Syenitic,Syenite,,Syenite,Pluton, 
+WAMZT;0,Minor,Sedimentary,Clastic,Sandstone,Graywacke,,Graywacke,Bed, 
+WAMZT;0,Incidental,Metamorphic,Argillite,,,,Argillite,, 
+WAMZT;0,Minor,Sedimentary,Clastic,Sandstone,Arkose,,Arkose,Bed, 
+WAMZT;0,Minor,Sedimentary,Clastic,Siltstone,,,Siltstone,Bed, 
+WAMZT;0,Minor,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WAMZT;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,Flow, 
+WAMZT;0,Incidental,Igneous,Plutonic,Gabbroic,Gabbro,,Gabbro,Dike or sill, 
+WAMZT;0,Incidental,Sedimentary,Coal,,,,Coal,Bed, 
+WAMZT;0,Minor,Metamorphic,Phyllite,,,,Phyllite,, 
+WAMZTv;0,Major,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,Flow, 
+WAMZTv;0,Minor,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,"Volcaniclastic, volcanic breccia", 
+WAMZTv;0,Minor,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,"Pyroclastic, tuff", 
+WAMZTv;0,Minor,Sedimentary,Clastic,Sandstone,,,Sandstone,Bed, 
+WAMZTv;0,Incidental,Igneous,Plutonic,Gabbroic,Gabbro,,Gabbro,Dike or sill, 
+WAMZTv;0,Incidental,Igneous,Plutonic,Dioritic,Diorite,,Diorite,Dike or sill, 
+WAMZTv;0,Incidental,Metamorphic,Argillite,,,,Argillite,Zeolitic (prehnite-pumpellyite),"Protolith possibly limestone listed by Dragovich and others, 2002. "
+WAMZTv;0,Minor,Metamorphic,Greenstone,,,,Greenstone,Zeolitic (prehnite-pumpellyite), 
+WAMZv;0,Major,Igneous,Volcanic,Felsic-volcanic,Latite,,Latite,Flow, 
+WAMZv;0,Incidental,Igneous,Volcanic,Felsic-volcanic,Latite,,Latite,"Pyroclastic, tuff", 
+WAMZv;0,Minor,Igneous,Volcanic,Felsic-volcanic,Latite,,Latite,"Volcaniclastic, volcanic breccia", 
+WAMZv;0,Major,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,Flow, 
+WAMZv;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,"Pyroclastic, tuff", 
+WAMZv;0,Minor,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,"Volcaniclastic, volcanic breccia", 
+WAMZv;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,Flow, 
+WAMZv;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,"Pyroclastic, tuff", 
+WAMZv;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,"Volcaniclastic, volcanic breccia", 
+WAMZv;0,Incidental,Igneous,Volcanic,Felsic-volcanic,Rhyolite,,Rhyolite,, 
+WAMZv;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WAMZv;0,Incidental,Sedimentary,Clastic,Sandstone,,,Sandstone,Bed, 
+WAMZv;0,Incidental,Sedimentary,Clastic,Siltstone,,,Siltstone,Bed, 
+WAMZv;0,Incidental,Sedimentary,Clastic,Mudstone,Shale,,Shale,Bed, 
+WAO;0,Major,Metamorphic,Slate,,,,Slate,,Includes carbonaceous slate. 
+WAO;0,Major,Metamorphic,Argillite,,,,Argillite,,Includes calcareous and siliceous argillite. 
+WAO;0,Minor,Sedimentary,Clastic,Siltstone,,,Siltstone,Bed,"Also referred to as siltite (Joseph, 1990a, b). "
+WAO;0,Incidental,Metamorphic,Quartzite,,,,Quartzite,,"15 ft. black quartzite band in Ledbetter Slate, west-central Stevens County (Park and Cannon, 1943). Possibly minor in rank but less abundant than siltstone or phyllite. "
+WAO;0,Incidental,Sedimentary,Carbonate,Limestone,,,Limestone,Bed,"Uppermost beds of Ledbetter Slate are black limestone, west-central Stevens County (Park and Cannon, 1943). "
+WApCA;0,Incidental,Sedimentary,Carbonate,Limestone,,,Limestone,Bed, 
+WAO;0,Minor,Metamorphic,Phyllite,,,,Phyllite,,"Abundant in large outcrop west of the Columbia River but not present in Ledbetter Slate (Joseph, 1990a). "
+WAO;0,Incidental,Metamorphic,Greenstone,,,,Greenstone,,"Just west of Columbia River (Yates, 1964). "
+WAOG;0,Major,Sedimentary,Clastic,Sandstone,,,Sandstone,Tuffaceous, 
+WAOG;0,Major,Sedimentary,Clastic,Siltstone,,,Siltstone,Tuffaceous, 
+WAOG;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Lense, 
+WAOG;0,Incidental,Igneous,Volcanic,,,,Volcanic,"Pyroclastic, tuff", 
+WAOG;0,Incidental,Sedimentary,Clastic,Mudstone,,,Mudstone,Bed, 
+WApCAc;0,Incidental,Metamorphic,Quartzite,,,,Quartzite,, 
+WAOG;0,Minor,Sedimentary,Clastic,Sandstone,,,Sandstone,Bed,"Includes basaltic and glauconitic sandstone of Lincoln Formation (Wagner, 1967a, b, Snavely and others, 1958) as well as arenite and graywacke of Hoko Formation (Babcock and others, 1994). "
+WAOG;0,Incidental,Sedimentary,Clastic,Siltstone,,,Siltstone,Bed, 
+WAOG;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WAOGc;0,Major,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Tuffaceous, 
+WAOGc;0,Minor,Igneous,Volcanic,Mafic-volcanic,,,Mafic-volcanic,"Pyroclastic, tuff","Includes ""lake beds"" of Ferry County (Muessig, 1967). Referred to as ""volcanic tuff"" in literature; assumed to be mafic because of local andesite and basalt flows in both this unit and adjacent units. "
+WAOGc;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,Flow, 
+WAOGc;0,Minor,Sedimentary,Clastic,Sandstone,,,Sandstone,Tuffaceous, 
+WAOGc;0,Incidental,Sedimentary,Clastic,Siltstone,,,Siltstone,Tuffaceous,"Possibly of minor rank, but in less abundance than sandstone. "
+WAOGc;0,Incidental,Sedimentary,Coal,Lignite,,,Lignite,, 
+WAOGc;0,Incidental,Unconsolidated,Fine-detrital,Clay,,,Clay,, 
+WAOGc;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,, 
+WAOGc;0,Incidental,Igneous,Volcanic,Mafic-volcanic,,,Mafic-volcanic,"Volcaniclastic, volcanic breccia","Referred to as ""volcanic breccia"" in literature; assumed to be mafic because of local andesite and basalt flows in both this unit and adjacent units. "
+WAOGMI;0,Minor,Sedimentary,Clastic,Sandstone,,,Sandstone,Tuffaceous, 
+WAOGMI;0,Minor,Sedimentary,Clastic,Sandstone,,,Sandstone,Bed,"Includes arkosic to lithofeldspathic sandstone (Snavely and others, 1993). "
+WAOGMI;0,Minor,Sedimentary,Clastic,Siltstone,,,Siltstone,Tuffaceous, 
+WAOGMI;0,Incidental,Sedimentary,Clastic,Siltstone,,,Siltstone,Bed, 
+WAOGMI;0,Incidental,Igneous,Volcanic,,,,Volcanic,"Pyroclastic, tuff", 
+WAOGMI;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WAOGMI;0,Incidental,Sedimentary,Clastic,Mudstone,Shale,,Shale,Bed, 
+WAOGMI;0,Incidental,Sedimentary,Clastic,,,,Clastic,Olistrostrome, 
+WAOGMIv;0,Minor,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,Flow, 
+WAOGMIv;0,Minor,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,"Pyroclastic, tuff", 
+WAOGMIv;0,Minor,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,"Volcaniclastic, volcanic breccia", 
+WAOGMIv;0,Minor,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,Flow, 
+WAOGMIv;0,Minor,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,"Volcaniclastic, volcanic breccia", 
+WAOGMIv;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,"Pyroclastic, tuff", 
+WAOGMIv;0,Incidental,Igneous,Volcanic,Felsic-volcanic,Dacite,,Dacite,"Pyroclastic, tuff", 
+WAOGMIv;0,Incidental,Igneous,Volcanic,Felsic-volcanic,Rhyolite,,Rhyolite,"Pyroclastic, tuff", 
+WAOGMIv;0,Incidental,Sedimentary,Clastic,Sandstone,,,Sandstone,Bed, 
+WAOGMIv;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed,Volcaniclastic. 
+WAOGv;0,Major,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,Flow, 
+WAOGv;0,Minor,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,"Pyroclastic, tuff", 
+WAOGv;0,Minor,Igneous,Volcanic,Felsic-volcanic,Dacite,,Dacite,Flow, 
+WAOGv;0,Incidental,Igneous,Volcanic,Felsic-volcanic,Dacite,,Dacite,"Pyroclastic, tuff", 
+WAOGv;0,Incidental,Sedimentary,Clastic,Sandstone,,,Sandstone,Tuffaceous, 
+WAOGv;0,Minor,Igneous,Volcanic,Felsic-volcanic,Rhyolite,,Rhyolite,Flow, 
+WAOGv;0,Incidental,Igneous,Volcanic,Felsic-volcanic,Rhyolite,,Rhyolite,"Pyroclastic, tuff", 
+WAOGv;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WAOGv;0,Incidental,Sedimentary,Clastic,Mudstone,Shale,,Shale,Bed,Carbonaceous 
+WAOGv;0,Incidental,Sedimentary,Clastic,Sandstone,Arkose,,Arkose,Bed, 
+WAOGv;0,Minor,Igneous,Volcanic,,,,Volcanic,"Volcaniclastic, volcanic breccia", 
+WAP;0,Major,Metamorphic,Metasedimentary,,,,Metasedimentary,,"Includes metachert, meta-argillite, metaconglomerate, metawacke, and metasiltite. "
+WAP;0,Minor,Metamorphic,Quartzite,,,,Quartzite,, 
+WAP;0,Incidental,Sedimentary,Clastic,Siltstone,,,Siltstone,Bed, 
+WAP;0,Minor,Sedimentary,Chemical,Chert,,,Chert,Bed,Possibly only incidental in rank. 
+WAP;0,Incidental,Metamorphic,Metavolcanic,,,,Metavolcanic,, 
+WAP;0,Incidental,Metamorphic,Argillite,,,,Argillite,, 
+WAP;0,Incidental,Sedimentary,Carbonate,Limestone,,,Limestone,Bed, 
+WAP;0,Incidental,Sedimentary,Clastic,Sandstone,Graywacke,,Graywacke,Bed, 
+WAP;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WAP;0,Incidental,Igneous,Volcanic,,,,Volcanic,Flow, 
+WAP;0,Incidental,Metamorphic,Marble,,,,Marble,, 
+WAP;0,Incidental,Igneous,Plutonic,Dioritic,Diorite,,Diorite,,Mostly meta-diabase. 
+WApC;0,Major,Metamorphic,Argillite,,,,Argillite,, 
+WApC;0,Major,Sedimentary,Clastic,Siltstone,,,Siltstone,Bed,Often referred to as siltite. 
+WApCA;0,Minor,Metamorphic,Quartzite,,,,Quartzite,, 
+WApCA;0,Minor,Sedimentary,Carbonate,Dolostone,,,Dolostone,Bed, 
+WApCA;0,Minor,Metamorphic,Phyllite,,,,Phyllite,,Possibly only incidental in rank. 
+WApCA;0,Incidental,Metamorphic,Gneiss,,,,Gneiss,,"Located near Spokane on the Washington-Idaho border; considered a part of the Prichard Formation (Griggs, 1973). "
+WApCA;0,Incidental,Metamorphic,Schist,,,,Schist,, 
+WApCA;0,Incidental,Sedimentary,Clastic,Sandstone,,,Sandstone,Bed, 
+WApCAc;0,Major,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed,Includes meta-conglomerate. 
+WApCAc;0,Minor,Metamorphic,Phyllite,,,,Phyllite,,"Rank based on mapping by Joseph, 1990a, b. "
+WApCAc;0,Incidental,Sedimentary,Carbonate,Dolostone,,,Dolostone,Bed,"Possibly occurrance of limestone as well (Joseph, 1990a, b). "
+WApCAc;0,Incidental,Metamorphic,Greenstone,,,,Greenstone,Greenschist, 
+WApCAc;0,Incidental,Sedimentary,Clastic,Sandstone,,,Sandstone,Bed, 
+WApCAd;0,Major,Sedimentary,Carbonate,Dolostone,,,Dolostone,Bed,"Also considered a limestone which contains magnesium carbonate (Stevens, 1920). "
+WApCAd;0,Incidental,Metamorphic,Metasedimentary,,,,Metasedimentary,,"Includes any metadolomite, quartzite, meta-argillite, metachert, and metaconglomerate. "
+WApCAi;0,Major,Igneous,Plutonic,Dioritic,Diorite,,Diorite,Dike or sill,"Hornblende is dominant mineral, followed by plagioclase (andesine), with some alteration in both minerals, and quartz in small quantities (Schroeder, 1952). May also include some metadiorite (Stoffel and others, 1991). "
+WApCAph;0,Major,Metamorphic,Phyllite,,,,Phyllite,, 
+WApCAph;0,Minor,Metamorphic,Quartzite,,,,Quartzite,, 
+WApCAph;0,Minor,Metamorphic,Argillite,,,,Argillite,, 
+WApCAph;0,Minor,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WApCAph;0,Incidental,Sedimentary,Carbonate,Limestone,,,Limestone,Bed,May include dolostone. 
+WApCAph;0,Incidental,Sedimentary,Clastic,Sandstone,,,Sandstone,Bed, 
+WApCAph;0,Incidental,Metamorphic,Greenstone,,,,Greenstone,, 
+WApCAph;0,Incidental,Metamorphic,Marble,,,,Marble,, 
+WApCAph;0,Incidental,Sedimentary,Clastic,Siltstone,,,Siltstone,Bed, 
+WApCAv;0,Major,Metamorphic,Greenstone,,,,Greenstone,,"Includes flows, breccia, tuff, and volcaniclastic rock. Greenstone of Huckleberry Formation has major- and trace-element geochemistry consistant with that of a tholeiitic basalt extruded in a continental rift setting (Waggoner, 1990b). "
+WApCAv;0,Incidental,Metamorphic,Amphibolite,,,,Amphibolite,, 
+WApCAv;0,Incidental,Metamorphic,Schist,,,,Schist,Greenschist, 
+WApCAv;0,Incidental,Metamorphic,Gneiss,,,,Gneiss,, 
+WApCAv;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WApEO2;0,Major,Sedimentary,Clastic,Sandstone,,,Sandstone,Bed,Lithofeldspathic in Yakima County; volcaniclastic (basaltic) to micaceous in Olympic Peninsula. 
+WApEO2;0,Minor,Metamorphic,Argillite,,,,Argillite,, 
+WApEO2;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WApEO2;0,Incidental,Sedimentary,Clastic,Mudstone,,,Mudstone,Bed, 
+WApEO2;0,Incidental,Sedimentary,Carbonate,Limestone,,,Limestone,Bed, 
+WApEO2;0,Incidental,Sedimentary,Chemical,Chert,,,Chert,Bed, 
+WApEO2;0,Incidental,Metamorphic,Greenstone,,,,Greenstone,, 
+WApEO2;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,Flow, 
+WApJ;0,Major,Sedimentary,Chemical,Chert,,,Chert,Bed, 
+WApJ;0,Incidental,Metamorphic,Quartzite,,,,Quartzite,,Meta-chert. 
+WApJ;0,Minor,Metamorphic,Argillite,,,,Argillite,,Calcareous; grades into phyllitic slate in north King County; black in Skagit County. 
+WApJ;0,Minor,Metamorphic,Metasedimentary,,,,Metasedimentary,,"Includes metagraywacke, ""metagrit"", meta-conglomerate, and slate. "
+WApJ;0,Major,Metamorphic,Metavolcanic,,,,Metavolcanic,Greenschist,"Includes spilite, greenstone, meta-andesite and meta-basalt. "
+WApJ;0,Minor,Sedimentary,Clastic,Sandstone,Graywacke,,Graywacke,Bed, 
+WApJ;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WApJgn;0,Major,Metamorphic,Gneiss,,,,Gneiss,, 
+WApJgn;0,Incidental,Metamorphic,Schist,,,,Schist,, 
+WApJgn;0,Incidental,Metamorphic,Marble,,,,Marble,, 
+WApJgn;0,Incidental,Metamorphic,Amphibolite,,,,Amphibolite,, 
+WApJgn;0,Incidental,Metamorphic,Quartzite,,,,Quartzite,, 
+WApJgn;0,Incidental,Metamorphic,Migmatite,,,,Migmatite,, 
+WApJgn;0,Incidental,Metamorphic,Phyllite,,,,Phyllite,, 
+WApJgn;0,Incidental,Metamorphic,Schist,,,,Schist,Greenschist, 
+WApJgn;0,Incidental,Igneous,Plutonic,Granitic,,,Granitic,Dike or sill, 
+WApJgs;0,Major,Metamorphic,Schist,,,,Schist,Greenschist, 
+WApJgs;0,Incidental,Metamorphic,Schist,,,,Schist,Glaucophane-schist, 
+WApJph;0,Major,Metamorphic,Phyllite,,,,Phyllite,Glaucophane-schist,"Darrington Phyllite metamorphosed in blueschist facies (Misch, 1977, Brown, 1974).  "
+WApJph;0,Minor,Metamorphic,Schist,,,,Schist,"Amphibolite, epidote-amphibolite","Included in Easton Schist in Central Cascades (Foster, 1960). "
+WApJph;0,Incidental,Sedimentary,Clastic,Siltstone,,,Siltstone,Calcareous,Ellemeham Formation in Okanogan County. 
+WApJph;0,Minor,Metamorphic,Schist,,,,Schist,Greenschist, 
+WApJph;0,Incidental,Metamorphic,Schist,,,,Schist,Glaucophane-schist,"Included in Easton Schist in Central Cascades (Foster, 1960). "
+WApJph;0,Incidental,Metamorphic,Greenstone,,,,Greenstone,,"Greenstone comprises tuffs and flows (Rinehart and Fox, 1972). "
+WApJph;0,Incidental,Sedimentary,Clastic,Siltstone,,,Siltstone,Tuffaceous,Ellemeham Formation in Okanogan County. 
+WApJph;0,Incidental,Metamorphic,Argillite,,,,Argillite,,"Part of Peshastin formation of central Washington (Southwick, 1974). "
+WApJph;0,Incidental,Sedimentary,Chemical,Chert,,,Chert,Bed,Radiolarian 
+WApJph;0,Incidental,Metamorphic,Granulite,,,,Granulite,, 
+WApJph;0,Incidental,Igneous,Plutonic,Gabbroic,Gabbro,,Gabbro,,Metagabbro 
+WApJph;0,Incidental,Sedimentary,Clastic,Sandstone,Graywacke,,Graywacke,Bed,"Part of Peshastin formation of central Washington (Southwick, 1974). "
+WApJph;0,Incidental,Sedimentary,Carbonate,Limestone,,,Limestone,Lense, 
+WApT;0,Incidental,Sedimentary,Clastic,Mudstone,,,Mudstone,Bed, 
+WApJph;0,Incidental,Metamorphic,Quartzite,,,,Quartzite,,Locally in Okanogan County. 
+WApJph;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed,Includes metaconglomerate. 
+WApJph;0,Incidental,Metamorphic,Slate,,,,Slate,, 
+WApJph;0,Incidental,Metamorphic,Marble,,,,Marble,, 
+WApJs;0,Minor,Sedimentary,Clastic,Sandstone,Graywacke,,Graywacke,Bed, 
+WApJs;0,Minor,Metamorphic,Argillite,,,,Argillite,, 
+WApJs;0,Minor,Sedimentary,Chemical,Chert,,,Chert,Bed, 
+WApJs;0,Minor,Metamorphic,Phyllite,,,,Phyllite,, 
+WApJs;0,Minor,Metamorphic,Greenstone,,,,Greenstone,, 
+WApJs;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WApJs;0,Incidental,Metamorphic,Marble,,,,Marble,, 
+WApJsc;0,Major,Metamorphic,Schist,,,,Schist,,"Includes biotite schist, hornblende-mica schist, calc-silicate schist, greenschist, and mica-quartz schist. "
+WApJsc;0,Minor,Metamorphic,Gneiss,,,,Gneiss,,"Includes biotite and hornblende orthogneiss, and possibly augen gneiss or paragneiss. "
+WApJsc;0,Minor,Metamorphic,Amphibolite,,,,Amphibolite,, 
+WApJsc;0,Incidental,Metamorphic,Marble,,,,Marble,,"Possibly minor in rank, though unlikely. "
+WApJsc;0,Incidental,Metamorphic,Quartzite,,,,Quartzite,, 
+WApJsc;0,Incidental,Metamorphic,Phyllite,,,,Phyllite,, 
+WApJsc;0,Incidental,Metamorphic,Metasedimentary,,,,Metasedimentary,,Includes metaconglomerate and meta-greywacke. 
+WApJsc;0,Incidental,Igneous,Plutonic,Granitic,Tonalite,,Tonalite,, 
+WApJsc;0,Incidental,Igneous,Plutonic,Dioritic,Quartz-diorite,,Quartz-diorite,, 
+WApJsc;0,Incidental,Igneous,Plutonic,Gabbroic,Gabbro,,Gabbro,, 
+WApJv;0,Major,Metamorphic,Greenstone,,,,Greenstone,Greenschist, 
+WApTbi;0,Incidental,Igneous,Plutonic,Ultramafic,Peridotite,,Peridotite,, 
+WApJv;0,Minor,Metamorphic,Metavolcanic,,,,Metavolcanic,Greenschist,"Includes spilite, keratophyre, meta-basalt breccia and tuff, and metamorphosed andesite. "
+WApJv;0,Incidental,Metamorphic,Amphibolite,,,,Amphibolite,Greenschist, 
+WApJv;0,Incidental,Igneous,Plutonic,Dioritic,Diorite,,Diorite,Dike or sill, 
+WApJv;0,Incidental,Metamorphic,Argillite,,,,Argillite,, 
+WApJv;0,Incidental,Sedimentary,Clastic,Sandstone,Graywacke,,Graywacke,Bed, 
+WApMg;0,Major,Igneous,Plutonic,Dioritic,Quartz-diorite,,Quartz-diorite,Pluton,Includes meta-quartz diorite. 
+WApMg;0,Minor,Igneous,Plutonic,Granitic,Tonalite,,Tonalite,Pluton,Includes trondhjemite and meta-tonalite. Possibly major in rank. 
+WApMg;0,Minor,Igneous,Plutonic,Gabbroic,Gabbro,,Gabbro,Pluton, 
+WApMg;0,Incidental,Metamorphic,Gneiss,,,,Gneiss,Greenschist,Includes tonalite gneiss and flaser gneiss associated with the Marblemount quartz diorite and orthogneiss of Turtleback and Yellow Aster Complexes. Possibly minor in rank. 
+WApMg;0,Incidental,Igneous,Plutonic,Dioritic,Diorite,,Diorite,, 
+WApMg;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,Flow, 
+WApMg;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,Flow, 
+WApMg;0,Incidental,Igneous,Volcanic,Felsic-volcanic,Dacite,,Dacite,Flow, 
+WApMg;0,Incidental,Metamorphic,Argillite,,,,Argillite,,Associated with Fidalgo Complex. 
+WApMg;0,Incidental,Sedimentary,Chemical,Chert,,,Chert,,Associated with Fidalgo Complex. 
+WApMg;0,Incidental,Sedimentary,Clastic,,,,Clastic,Bed,"May include sandstone, siltstone, conglomerate, breccia, and tuff of Fidalgo Complex. "
+WApMg;0,Incidental,Metamorphic,Amphibolite,,,,Amphibolite,, 
+WApMg;0,Incidental,Igneous,Plutonic,Ultramafic,Pyroxenite,,Pyroxenite,, 
+WApMm;0,Major,Metamorphic,Gneiss,,,,Gneiss,,"Includes orthogneiss, migmatic gneiss, and tonalite gneiss. "
+WApMm;0,Major,Metamorphic,Amphibolite,,,,Amphibolite,, 
+WApMm;0,Incidental,Metamorphic,Metavolcanic,,,,Metavolcanic,,Includes meta-andesite and greenstone. 
+WApMm;0,Incidental,Igneous,Plutonic,Granitic,Tonalite,Trondhjemite,Trondhjemite,, 
+WApMm;0,Incidental,Igneous,Plutonic,Dioritic,Quartz-diorite,,Quartz-diorite,,Mostly meta-quartz diorite. 
+WApMm;0,Incidental,Metamorphic,Schist,,,,Schist,,Includes amphibole schist. 
+WApMm;0,Incidental,Igneous,Plutonic,Gabbroic,Gabbro,,Gabbro,,Includes metagabbro. 
+WApMm;0,Incidental,Igneous,Plutonic,Ultramafic,Pyroxenite,,Pyroxenite,, 
+WAPO;0,Major,Sedimentary,Clastic,Sandstone,,,Sandstone,Bed, 
+WAPO;0,Major,Sedimentary,Clastic,Siltstone,,,Siltstone,Bed, 
+WAPO;0,Minor,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WAPOc;0,Major,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WAPOc;0,Minor,Sedimentary,Clastic,Sandstone,Arkose,,Arkose,Bed, 
+WAPOc;0,Minor,Sedimentary,Clastic,Sandstone,,,Sandstone,Tuffaceous, 
+WAPOc;0,Incidental,Sedimentary,Clastic,Mudstone,Shale,,Shale,Bed, 
+WAPOc;0,Incidental,Sedimentary,Clastic,Mudstone,,,Mudstone,Bed, 
+WAPOc;0,Incidental,Unconsolidated,,,,,Unconsolidated,Alluvial, 
+WAPOc;0,Incidental,Unconsolidated,,,,,Unconsolidated,Mass wasting, 
+WAPOc;0,Minor,Sedimentary,Clastic,Sandstone,Graywacke,,Graywacke,Bed,"""Lithic sandstone?"" "
+WAPOQv;0,Major,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,Flow, 
+WAPOQv;0,Minor,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,Flow, 
+WAPOQv;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,"Volcaniclastic, volcanic breccia", 
+WApT;0,Minor,Sedimentary,Clastic,Sandstone,Graywacke,,Graywacke,Bed,Includes volcaniclastic sandstone of Constitution Formation. 
+WApT;0,Minor,Metamorphic,Argillite,,,,Argillite,, 
+WApT;0,Minor,Metamorphic,Greenstone,,,,Greenstone,, 
+WApT;0,Minor,Metamorphic,Phyllite,,,,Phyllite,, 
+WApT;0,Minor,Metamorphic,Metasedimentary,,,,Metasedimentary,,"Includes meta-argillite, metagraywacke, metaslate, and metachert. "
+WApT;0,Incidental,Metamorphic,Serpentinite,,,,Serpentinite,, 
+WApT;0,Incidental,Metamorphic,Schist,,,,Schist,,Includes greenschist. 
+WApT;0,Incidental,Sedimentary,Chemical,Chert,,,Chert,Bed, 
+WApT;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,Flow,Includes basaltic pillows in Constitution Formation. 
+WApT;0,Incidental,Igneous,Volcanic,Felsic-volcanic,Dacite,,Dacite,Flow,Includes dacitic pillows in Constitution Formation. 
+WApT;0,Incidental,Metamorphic,Marble,,,,Marble,,Belongs to Denny Formation. 
+WApT;0,Incidental,Metamorphic,Hornfels,,,,Hornfels,,Interbedded with marble of Denny Formation. 
+WApTb;0,Major,Metamorphic,Serpentinite,,,,Serpentinite,,Includes serpentinized peridotite and serpentinized pyroxinite. 
+WApTb;0,Minor,Igneous,Plutonic,Ultramafic,Peridotite,,Peridotite,,May include dunite (see WApTd for dunite of Fidalgo complex). 
+WApTb;0,Incidental,Igneous,Plutonic,Ultramafic,Pyroxenite,,Pyroxenite,, 
+WApTb;0,Incidental,Metamorphic,Hornfels,,,,Hornfels,, 
+WApTb;0,Incidental,Metamorphic,Schist,,,,Schist,, 
+WApTb;0,Incidental,Metamorphic,Amphibolite,,,,Amphibolite,, 
+WApTb;0,Incidental,Metamorphic,Granofels,,,,Granofels,, 
+WApTb;0,Incidental,Metamorphic,Greenstone,,,,Greenstone,, 
+WApTb;0,Incidental,Metamorphic,Phyllite,,,,Phyllite,, 
+WApTb;0,Incidental,Igneous,Plutonic,Dioritic,Diorite,,Diorite,, 
+WApTb;0,Incidental,Igneous,Plutonic,Gabbroic,Gabbro,,Gabbro,, 
+WApTbi;0,Major,Metamorphic,Amphibolite,,,,Amphibolite,, 
+WApTbi;0,Minor,Igneous,Plutonic,Gabbroic,Gabbro,,Gabbro,,Includes metagabbro. 
+WApTbi;0,Incidental,Igneous,Plutonic,Ultramafic,Hornblendite,,Hornblendite,, 
+WApTbi;0,Incidental,Igneous,Plutonic,Ultramafic,Pyroxenite,,Pyroxenite,, 
+WApTbi;0,Incidental,Metamorphic,Gneiss,,,,Gneiss,,Localized in Sheep Mountain area in north Okanogan County just west of Asnola gabbro. 
+WApTbi;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,Dike or sill, 
+WApTbi;0,Incidental,Igneous,Plutonic,Granitic,Granodiorite,,Granodiorite,Dike or sill, 
+WApTd;0,Major,Igneous,Plutonic,Ultramafic,Peridotite,Dunite,Dunite,, 
+WApTm;0,Major,Metamorphic,Metasedimentary,,,,Metasedimentary,,"Includes metaconglomerate, meta-argillite, metawacke, metalimestone, metadolostone, and metasiltite (metasiltstone). "
+WApTm;0,Minor,Metamorphic,Gneiss,,,,Gneiss,, 
+WApTm;0,Incidental,Metamorphic,Marble,,,,Marble,,Possibly minor in rank. 
+WApTm;0,Incidental,Metamorphic,Quartzite,,,,Quartzite,,Possibly minor in rank. 
+WApTm;0,Incidental,Metamorphic,Amphibolite,,,,Amphibolite,, 
+WApTm;0,Incidental,Metamorphic,Greenstone,,,,Greenstone,, 
+WApTm;0,Incidental,Metamorphic,Phyllite,,,,Phyllite,,Possibly minor in rank. 
+WApTm;0,Incidental,Metamorphic,Slate,,,,Slate,, 
+WApTm;0,Incidental,Sedimentary,Carbonate,Limestone,,,Limestone,Lense, 
+WApTm;0,Incidental,Igneous,Plutonic,Granitic,Tonalite,,Tonalite,Pluton, 
+WApTm;0,Incidental,Igneous,Plutonic,Gabbroic,Gabbro,,Gabbro,Pluton, 
+WApTm;0,Incidental,Metamorphic,Hornfels,,,,Hornfels,, 
+WApTv;0,Major,Metamorphic,Greenstone,,,,Greenstone,, 
+WApTv;0,Minor,Metamorphic,Schist,,,,Schist,,"Includes greenschist, muscovite schist, quartz schist, and hornblende schist; relative abundances unknown. "
+WApTv;0,Minor,Metamorphic,Metasedimentary,,,,Metasedimentary,,"Includes metaconglomerate, metasandstone, and any limestone or arkose mentioned in original description; relative abundances unknown. "
+WApTv;0,Minor,Igneous,Plutonic,Dioritic,Diorite,,Diorite,,Includes metadiorite and meta-quartz diorite. 
+WApTv;0,Incidental,Sedimentary,Chemical,Chert,,,Chert,Bed, 
+WApTv;0,Incidental,Metamorphic,Quartzite,,,,Quartzite,, 
+WApTv;0,Incidental,Metamorphic,Marble,,,,Marble,, 
+WApTv;0,Incidental,Metamorphic,Metavolcanic,,,,Metavolcanic,,"Includes metadacite, metamorphosed basalt and any andesite, but no greenstone. "
+WApTv;0,Incidental,Igneous,Plutonic,Gabbroic,Gabbro,,Gabbro,Flow,Includes metagabbro. 
+WApTv;0,Incidental,Metamorphic,Amphibolite,,,,Amphibolite,, 
+WApTv;0,Incidental,Igneous,Plutonic,Ultramafic,,,Ultramafic,, 
+WApTv;0,Incidental,Metamorphic,Serpentinite,,,,Serpentinite,, 
+WAPZl;0,Major,Metamorphic,Gneiss,,,,Gneiss,Amphibolite,Includes paragneiss and orthogneiss. 
+WAPZl;0,Minor,Metamorphic,Quartzite,,,,Quartzite,Amphibolite, 
+WAPZl;0,Minor,Metamorphic,Schist,,,,Schist,Amphibolite, 
+WAPZl;0,Incidental,Metamorphic,Marble,,,,Marble,Amphibolite,Possibly minor in rank. 
+WAPZl;0,Incidental,Metamorphic,Amphibolite,,,,Amphibolite,Amphibolite, 
+WAPZu;0,Major,Metamorphic,Quartzite,,,,Quartzite,, 
+WAPZu;0,Minor,Metamorphic,Gneiss,,,,Gneiss,,Granitic orthogneiss and mafic gneiss. 
+WAPZu;0,Minor,Metamorphic,Schist,,,,Schist,, 
+WAPZu;0,Minor,Sedimentary,Clastic,Sandstone,Arenite,,Arenite,Bed,Often undivided from graywacke in literature; rank is estimated from descriptions. 
+WAPZu;0,Incidental,Metamorphic,Argillite,,,,Argillite,, 
+WAPZu;0,Incidental,Metamorphic,Phyllite,,,,Phyllite,, 
+WAPZu;0,Incidental,Sedimentary,Carbonate,Limestone,,,Limestone,Bed, 
+WAPZu;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WAPZu;0,Incidental,Metamorphic,Metasedimentary,,,,Metasedimentary,,"Includes meta-argillite, metaconglomerate, metalimestone, metawacke, and slate. "
+WAPZu;0,Incidental,Sedimentary,Chemical,Chert,,,Chert,Bed, 
+WAPZu;0,Incidental,Metamorphic,Greenstone,,,,Greenstone,, 
+WAPZu;0,Incidental,Metamorphic,Serpentinite,,,,Serpentinite,,Locally replaced greenstone. 
+WAQa;0,Major,Unconsolidated,Fine-detrital,Silt,,,Silt,Alluvial, 
+WAQa;0,Major,Unconsolidated,Coarse-detrital,Sand,,,Sand,Alluvial, 
+WAQa;0,Minor,Unconsolidated,Coarse-detrital,Gravel,,,Gravel,Alluvial, 
+WAQa;0,Incidental,Unconsolidated,Fine-detrital,Clay,,,Clay,Alluvial, 
+WAQa;0,Incidental,Unconsolidated,Coarse-detrital,Gravel,,,Gravel,Glacial, 
+WAQc;0,Minor,Unconsolidated,Coarse-detrital,Gravel,,,Gravel,Alluvial, 
+WAQc;0,Minor,Unconsolidated,Coarse-detrital,Sand,,,Sand,Alluvial, 
+WAQc;0,Minor,Unconsolidated,Fine-detrital,Clay,,,Clay,Alluvial, 
+WAQc;0,Minor,Unconsolidated,Fine-detrital,Silt,,,Silt,Alluvial, 
+WAQc;0,Incidental,Unconsolidated,Coarse-detrital,Gravel,,,Gravel,"Glacial, till ",
+WAQc;0,Incidental,Unconsolidated,,,,,Unconsolidated,"Eolian, Loess ",
+WAQc;0,Minor,Unconsolidated,Coarse-detrital,Sand,,,Sand,"Glacial, outwash ",
+WAQc;0,Minor,Unconsolidated,Coarse-detrital,Gravel,,,Gravel,"Glacial, outwash ",
+WAQc;0,Incidental,Unconsolidated,Coarse-detrital,Sand,,,Sand,"Glacial, till ",
+WAQc;0,Incidental,Unconsolidated,Fine-detrital,Clay,,,Clay,"Glacial, outwash ",
+WAQc;0,Incidental,Unconsolidated,Fine-detrital,Silt,,,Silt,"Glacial, outwash ",
+WAQce;0,Major,Unconsolidated,Fine-detrital,Silt,,,Silt,"Eolian, Loess ",
+WAQce;0,Incidental,Unconsolidated,Coarse-detrital,Gravel,,,Gravel,Glacial ,
+WAQce;0,Incidental,Unconsolidated,Coarse-detrital,Boulders,,,Boulders,Glacial ,
+WAQce;0,Incidental,Unconsolidated,Coarse-detrital,Sand,,,Sand,Glacial ,
+WAQcl;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed ,
+WAQcl;0,Minor,Unconsolidated,Fine-detrital,Clay,,,Clay,Lacustrine ,
+WAQcl;0,Minor,Unconsolidated,Coarse-detrital,Sand,,,Sand,Lacustrine ,
+WAQcl;0,Minor,Unconsolidated,Fine-detrital,Silt,,,Silt,Lacustrine ,
+WAQcl;0,Incidental,Unconsolidated,Coarse-detrital,Gravel,,,Gravel,Lacustrine ,
+WAQcl;0,Incidental,Igneous,Volcanic,,,,Volcanic,Pyroclastic ,
+WAQe;0,Minor,Unconsolidated,Coarse-detrital,Sand,,,Sand,Eolian ,
+WAQe;0,Major,Unconsolidated,Coarse-detrital,Sand,,,Sand,Beach ,
+WAQe;0,Incidental,Unconsolidated,Fine-detrital,Silt,,,Silt,Estuarine ,
+WAQg;0,Major,Unconsolidated,Coarse-detrital,Sand,,,Sand,Glacial ,
+WAQg;0,Major,Unconsolidated,Coarse-detrital,Gravel,,,Gravel,Glacial ,
+WAQg;0,Minor,Unconsolidated,Coarse-detrital,Gravel,,,Gravel,"Glacial, till ",
+WAQg;0,Incidental,Unconsolidated,Coarse-detrital,Gravel,,,Gravel,"Glacial, outwash ",
+WAQg;0,Incidental,Unconsolidated,,,,,Unconsolidated,Alluvial ,
+WAQg1;0,Minor,Unconsolidated,Coarse-detrital,Gravel,,,Gravel,"Glacial, till ",
+WAQg1;0,Minor,Unconsolidated,Coarse-detrital,Sand,,,Sand,"Glacial, till ",
+WAQg1;0,Minor,Unconsolidated,Fine-detrital,Silt,,,Silt,"Glacial, till ",
+WAQg1;0,Minor,Unconsolidated,Fine-detrital,Clay,,,Clay,"Glacial, till ",
+WAQg1;0,Incidental,Unconsolidated,Coarse-detrital,Gravel,,,Gravel,"Glacial, outwash ",
+WAQg1;0,Incidental,Unconsolidated,Coarse-detrital,Sand,,,Sand,"Glacial, outwash ",
+WAQg1;0,Incidental,Unconsolidated,Fine-detrital,Clay,,,Clay,"Glacial, outwash ",
+WAQg1;0,Incidental,Unconsolidated,Fine-detrital,Silt,,,Silt,"Glacial, outwash", 
+WAQg1;0,Incidental,Unconsolidated,,,,,Unconsolidated,Alluvial, 
+WAQg1o;0,Minor,Unconsolidated,Coarse-detrital,Gravel,,,Gravel,"Glacial, outwash", 
+WAQg1o;0,Minor,Unconsolidated,Coarse-detrital,Sand,,,Sand,"Glacial, outwash", 
+WAQg1o;0,Incidental,Unconsolidated,Fine-detrital,Clay,,,Clay,"Glacial, outwash", 
+WAQg1o;0,Minor,Unconsolidated,Fine-detrital,Silt,,,Silt,"Glacial, outwash", 
+WAQg1o;0,Minor,Unconsolidated,Coarse-detrital,Gravel,,,Gravel,"Glacial, esker", 
+WAQg1o;0,Incidental,Unconsolidated,Coarse-detrital,Sand,,,Sand,"Glacial, esker", 
+WAQg1o;0,Incidental,Unconsolidated,,,,,Unconsolidated,Alluvial, 
+WAQg1t;0,Minor,Unconsolidated,Coarse-detrital,Gravel,,,Gravel,"Glacial, till","All lithology in this unit is ranked ""minor"" based on the assumption that moraine/till is a heterogenous mix of gravel, sand, clay, and silt unless otherwise specified. "
+WAQg1t;0,Minor,Unconsolidated,Coarse-detrital,Sand,,,Sand,"Glacial, till","All lithology in this unit is ranked ""minor"" based on the assumption that moraine/till is a heterogenous mix of gravel, sand, clay, and silt unless otherwise specified. "
+WAQg1t;0,Minor,Unconsolidated,Fine-detrital,Clay,,,Clay,"Glacial, till","All lithology in this unit is ranked ""minor"" based on the assumption that moraine/till is a heterogenous mix of gravel, sand, clay, and silt unless otherwise specified. "
+WAQg1t;0,Minor,Unconsolidated,Fine-detrital,Silt,,,Silt,"Glacial, till","All lithology in this unit is ranked ""minor"" based on the assumption that moraine/till is a heterogenous mix of gravel, sand, clay, and silt unless otherwise specified. "
+WAQg2;0,Minor,Unconsolidated,Coarse-detrital,Gravel,,,Gravel,Glacial, 
+WAQg2;0,Minor,Unconsolidated,Coarse-detrital,Sand,,,Sand,Glacial, 
+WAQg2;0,Minor,Unconsolidated,Fine-detrital,Clay,,,Clay,Glacial, 
+WAQg2;0,Minor,Unconsolidated,Fine-detrital,Silt,,,Silt,Glacial, 
+WAQg2;0,Incidental,Unconsolidated,Coarse-detrital,Gravel,,,Gravel,Fluvial, 
+WAQg2;0,Incidental,Unconsolidated,Coarse-detrital,Sand,,,Sand,Fluvial, 
+WAQg2;0,Incidental,Unconsolidated,Fine-detrital,Clay,,,Clay,Lacustrine, 
+WAQg2;0,Incidental,Unconsolidated,Fine-detrital,Silt,,,Silt,Lacustrine, 
+WAQg2;0,Incidental,Unconsolidated,Fine-detrital,Clay,,,Clay,Mass wasting,These are mudflows and lahars. 
+WAQgl;0,Major,Unconsolidated,Fine-detrital,Silt,,,Silt,"Glacial, esker", 
+WAQgl;0,Major,Unconsolidated,Coarse-detrital,Sand,,,Sand,"Glacial, esker", 
+WAQgl;0,Incidental,Unconsolidated,Coarse-detrital,Gravel,,,Gravel,"Glacial, esker", 
+WAQgl;0,Incidental,Unconsolidated,Fine-detrital,Clay,,,Clay,"Glacial, esker", 
+WAQgl;0,Minor,Unconsolidated,Coarse-detrital,Sand,,,Sand,Alluvial, 
+WAQgl;0,Incidental,Igneous,Volcanic,,,,Volcanic,Pyroclastic, 
+WAQs;0,Minor,Unconsolidated,Fine-detrital,Silt,,,Silt,Mass wasting, 
+WAQs;0,Minor,Unconsolidated,Fine-detrital,Clay,,,Clay,Mass wasting,Osceola mudflow is mostly clay 
+WAQs;0,Minor,Unconsolidated,Coarse-detrital,Sand,,,Sand,Mass wasting, 
+WAQs;0,Incidental,Unconsolidated,Coarse-detrital,Gravel,,,Gravel,Mass wasting, 
+WAQt;0,Major,Unconsolidated,Coarse-detrital,Gravel,,,Gravel,Glacial, 
+WAQt;0,Major,Unconsolidated,Coarse-detrital,Sand,,,Sand,Glacial, 
+WAQt;0,Minor,Unconsolidated,Fine-detrital,Clay,,,Clay,Glacial, 
+WAQt;0,Minor,Unconsolidated,Fine-detrital,Silt,,,Silt,Glacial, 
+WAQt;0,Minor,Unconsolidated,,,,,Unconsolidated,"Terrace, marine", 
+WAQv;0,Major,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,Flow, 
+WAQv;0,Minor,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,Flow, 
+WAQv;0,Incidental,Igneous,Volcanic,Felsic-volcanic,Dacite,,Dacite,Flow, 
+WAQv;0,Incidental,Igneous,Volcanic,Felsic-volcanic,Dacite,,Dacite,"Pyroclastic, ash-flow", 
+WAQv;0,Incidental,Igneous,Volcanic,Felsic-volcanic,Dacite,,Dacite,Volcaniclastic, 
+WAQv;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,Volcaniclastic, 
+WAQv;0,Incidental,Igneous,Volcanic,Felsic-volcanic,Rhyolite,,Rhyolite,Flow, 
+WASD;0,Major,Metamorphic,Metasedimentary,,,,Metasedimentary,,"Includes siltstone, argillite, limestone, and packstone--relative abundances unknown. "
+WASD;0,Major,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WASD;0,Minor,Metamorphic,Slate,,,,Slate,,Interbedded with conglomerate. 
+WATas;0,Major,Igneous,Plutonic,Syenitic,Syenite,,Syenite,Dike or sill, 
+WATc;0,Major,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WATc;0,Minor,Sedimentary,Clastic,Mudstone,Shale,,Shale,Bed, 
+WATc;0,Minor,Sedimentary,Clastic,Sandstone,,,Sandstone,Bed,Lithic to feldspathic; some arkose locally. 
+WATc;0,Incidental,Igneous,Volcanic,,,,Volcanic,"Volcaniclastic, volcanic breccia", 
+WATc;0,Minor,Igneous,Volcanic,,,,Volcanic,"Pyroclastic, tuff",Dacitic at Carter Mountain. 
+WATc;0,Incidental,Igneous,Volcanic,,,,Volcanic,Flow,Dacitic in Stevens County. 
+WATc;0,Incidental,Sedimentary,Clastic,Mudstone,Claystone,,Claystone,Bed, 
+WATc;0,Incidental,Sedimentary,Clastic,Siltstone,,,Siltstone,Bed, 
+WATd;0,Major,Igneous,Plutonic,Ultramafic,Peridotite,Dunite,Dunite,, 
+WATd;0,Incidental,Igneous,Plutonic,Ultramafic,Pyroxenite,,Pyroxenite,, 
+WATg;0,Major,Igneous,Plutonic,Granitic,Granodiorite,,Granodiorite,Pluton, 
+WATg;0,Major,Igneous,Plutonic,Granitic,Granite,,Granite,Batholith,"Oval Peak Batholith, Okanogan County. "
+WATg;0,Minor,Igneous,Plutonic,Dioritic,Quartz-diorite,,Quartz-diorite,Batholith, 
+WATg;0,Incidental,Igneous,Plutonic,Dioritic,Diorite,,Diorite,Stock or pipe, 
+WATg;0,Incidental,Igneous,Plutonic,Granitic,Granite,,Granite,Stock or pipe, 
+WATg;0,Minor,Igneous,Plutonic,Syenitic,Quartz-monzonite,,Quartz-monzonite,Pluton, 
+WATg;0,Incidental,Igneous,Plutonic,Granitic,Tonalite,,Tonalite,Pluton,Includes trondhjemite. 
+WATg;0,Incidental,Igneous,Hypabyssal,Felsic-hypabyssal,Hypabyssal-dacite,,Hypabyssal-dacite,Dike or sill,May include domes or stocks. 
+WATg;0,Incidental,Igneous,Hypabyssal,Mafic-hypabyssal,Hypabyssal-andesite,,Hypabyssal-andesite,Dike or sill,May include domes and stocks. 
+WATg;0,Incidental,Igneous,Hypabyssal,Felsic-hypabyssal,Hypabyssal-rhyolite,,Hypabyssal-rhyolite,Dike or sill,May include stocks or domes. 
+WATg;0,Incidental,Igneous,Plutonic,Gabbroic,Gabbro,,Gabbro,, 
+WATi;0,Minor,Igneous,Plutonic,Syenitic,Quartz-monzonite,,Quartz-monzonite,Pluton, 
+WATi;0,Minor,Igneous,Plutonic,Granitic,Granite,,Granite,Pluton,Also stocks 
+WATi;0,Minor,Igneous,Volcanic,Mafic-volcanic,Basalt,,Basalt,Dike or sill, 
+WATi;0,Incidental,Igneous,Hypabyssal,Mafic-hypabyssal,Hypabyssal-andesite,,Hypabyssal-andesite,Dike or sill,"Andesite porphyries which may represent hypabyssal phase of Fifes Peak volcanism (Warren, 1941). Also domes and stocks. "
+WATi;0,Incidental,Igneous,Plutonic,Dioritic,Quartz-diorite,,Quartz-diorite,Stock or pipe,Possibly minor in rank. 
+WATi;0,Incidental,Igneous,Plutonic,Gabbroic,Gabbro,,Gabbro,Dike or sill,Porphyry. 
+WATi;0,Incidental,Igneous,Hypabyssal,Felsic-hypabyssal,Hypabyssal-dacite,,Hypabyssal-dacite,Dike or sill,Also domes and stocks. May include dacitic vitrophyre and tuffs north of Mt. Rainier. 
+WATi;0,Incidental,Igneous,Hypabyssal,Felsic-hypabyssal,Hypabyssal-rhyolite,,Hypabyssal-rhyolite,Dike or sill,"Also domes, stocks, and pipes. "
+WATKbi;0,Minor,Metamorphic,Greenstone,,,,Greenstone,,Possibly major in rank. 
+WAuTv;0,Incidental,Sedimentary,Clastic,Siltstone,,,Siltstone,Bed ,
+WATKbi;0,Minor,Igneous,Plutonic,Dioritic,Diorite,,Diorite,,Primarily metadiorite. Possibly major in rank. 
+WATKbi;0,Minor,Igneous,Plutonic,Gabbroic,Gabbro,,Gabbro,,Includes metagabbro. 
+WATKbi;0,Incidental,Metamorphic,Argillite,,,,Argillite,, 
+WATKbi;0,Incidental,Sedimentary,Clastic,Sandstone,,,Sandstone,Bed, 
+WATKbi;0,Incidental,Igneous,Plutonic,Granitic,Tonalite,,Tonalite,, 
+WATKbi;0,Incidental,Metamorphic,Gneiss,,,,Gneiss,, 
+WATKbi;0,Incidental,Metamorphic,Amphibolite,,,,Amphibolite,, 
+WATKbi;0,Incidental,Igneous,Plutonic,Ultramafic,Hornblendite,,Hornblendite,, 
+WATKc;0,Major,Sedimentary,Clastic,Sandstone,Arkose,,Arkose,Bed,Also includes minor tuffaceous sandstone. 
+WATKc;0,Minor,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WATKc;0,Minor,Sedimentary,Clastic,Mudstone,Shale,,Shale,Bed, 
+WATKc;0,Incidental,Sedimentary,Coal,,,,Coal,Bed, 
+WATKc;0,Incidental,Sedimentary,Clastic,Siltstone,,,Siltstone,Bed, 
+WATKc;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Lense, 
+WATKc;0,Incidental,Igneous,Volcanic,,,,Volcanic,"Pyroclastic, tuff", 
+WATKg;0,Minor,Igneous,Plutonic,Dioritic,Quartz-monzodiorite,,Quartz-monzodiorite,Pluton, 
+WATKg;0,Minor,Igneous,Plutonic,Granitic,Granodiorite,,Granodiorite,Pluton, 
+WATKg;0,Minor,Igneous,Plutonic,Granitic,Tonalite,,Tonalite,Pluton, 
+WATKg;0,Minor,Igneous,Plutonic,Dioritic,Quartz-diorite,,Quartz-diorite,Pluton, 
+WATKg;0,Incidental,Igneous,Plutonic,Granitic,Tonalite,Trondhjemite,Trondhjemite,Pluton, 
+WATKg;0,Incidental,Igneous,Plutonic,Granitic,Granite,,Granite,Pluton, 
+WATKg;0,Incidental,Metamorphic,Gneiss,,,,Gneiss,,Orthogneiss. 
+WATKg;0,Incidental,Igneous,Plutonic,Gabbroic,Gabbro,,Gabbro,Pluton,Includes any monzogabbro. 
+WATKg;0,Incidental,Metamorphic,Schist,,,,Schist,, 
+WATKv;0,Major,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,"Volcaniclastic, volcanic breccia", 
+WATKv;0,Minor,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,Flow, 
+WATKv;0,Minor,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,"Pyroclastic, tuff", 
+WATKv;0,Incidental,Sedimentary,Clastic,Sandstone,,,Sandstone,Bed,"Sandstones are andesitic (Barksdale, 1975). "
+WATR;0,Major,Sedimentary,Carbonate,Limestone,,,Limestone,Bed, 
+WATR;0,Incidental,Metamorphic,Greenstone,,,,Greenstone,Greenschist,"Are tuffs, flows or intrusives depending on original rock (Parker and Calkins, 1964). "
+WATR;0,Incidental,Sedimentary,Carbonate,Limestone,,,Limestone,Lense, 
+WATR;0,Minor,Sedimentary,Carbonate,Dolostone,,,Dolostone,Bed, 
+WATR;0,Incidental,Metamorphic,Marble,,,,Marble,, 
+WATR;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WATR;0,Incidental,Metamorphic,Slate,,,,Slate,, 
+WATR;0,Incidental,Sedimentary,Clastic,Sandstone,,,Sandstone,Bed, 
+WATR;0,Incidental,Sedimentary,Clastic,Siltstone,,,Siltstone,Bed, 
+WATR;0,Incidental,Sedimentary,Chemical,Chert,,,Chert,Bed, 
+WATR;0,Incidental,Metamorphic,Argillite,,,,Argillite,, 
+WATR;0,Minor,Metamorphic,Metasedimentary,,,,Metasedimentary,,"Includes meta-argillite, metasandstone, metaconglomerate, metachert, and metamudstone, mostly on San Juan Islands (Dragovich and others, 2002). "
+WATRJ;0,Major,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed,Includes metaconglomerate. 
+WATRJ;0,Incidental,Sedimentary,Clastic,Sandstone,Arenite,,Arenite,Bed,Includes metasandstone. 
+WATRJ;0,Incidental,Sedimentary,Clastic,Sandstone,Graywacke,,Graywacke,Bed, 
+WATRJ;0,Incidental,Metamorphic,Argillite,,,,Argillite,,Includes meta-argillite. 
+WATs;0 ,Minor,Sedimentary,Clastic,Siltstone,,,Siltstone,Bed,May include some argillite. 
+WATs;0,Minor,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed, 
+WATs;0,Minor,Sedimentary,Clastic,,,,Clastic,Melange,"Includes sedimentary breccia, coaly laminae and carbonaceous debris. "
+WATv;0,Major,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,Flow, 
+WATv;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,Dike or sill, 
+WATv;0,Major,Igneous,Volcanic,Felsic-volcanic,Dacite,,Dacite,Flow, 
+WATv;0,Incidental,Igneous,Volcanic,Felsic-volcanic,Dacite,,Dacite,"Pyroclastic, tuff", 
+WATv;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,Pyroclastic, 
+WATv;0,Minor,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,"Volcaniclastic, volcanic breccia", 
+WATv;0,Incidental,Igneous,Volcanic,Felsic-volcanic,Rhyolite,,Rhyolite,"Pyroclastic, ash-flow", 
+WAuTv;0,Major,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,"Volcaniclastic, volcanic breccia", 
+WAuTv;0,Major,Igneous,Volcanic,Felsic-volcanic,Dacite,,Dacite,"Volcaniclastic, volcanic breccia", 
+WAuTv;0,Minor,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,Flow, 
+WAuTv;0,Minor,Igneous,Volcanic,Felsic-volcanic,Dacite,,Dacite,Flow, 
+WAuTv;0,Incidental,Igneous,Volcanic,Felsic-volcanic,Rhyolite,,Rhyolite,"Volcaniclastic, volcanic breccia", 
+WAuTv;0,Incidental,Igneous,Volcanic,Felsic-volcanic,Rhyolite,,Rhyolite,Flow ,
+WAuTv;0,Incidental,Igneous,Volcanic,Mafic-volcanic,Andesite,,Andesite,"Pyroclastic, tuff ",
+WAuTv;0,Incidental,Igneous,Volcanic,Felsic-volcanic,Dacite,,Dacite,"Pyroclastic, tuff ",
+WAuTv;0,Incidental,Igneous,Volcanic,Felsic-volcanic,Rhyolite,,Rhyolite,"Pyroclastic, tuff ",
+WAuTv;0,Incidental,Sedimentary,Clastic,Sandstone,,,Sandstone,Bed ,
+WAuTv;0,Incidental,Sedimentary,Clastic,Conglomerate,,,Conglomerate,Bed ,

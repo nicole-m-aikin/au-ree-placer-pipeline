@@ -1,0 +1,206 @@
+HISTORICAL PRODUCTION CONTEXT — NE Washington Placer Areas
+Au + REE Pipeline Project | Extracted from primary sources
+Generated: 2026-06-16
+============================================================
+
+SOURCE 1: USGS Bulletin 677
+"Geology and Mineral Deposits of the Colville Indian Reservation, Washington"
+J.T. Pardee, 1918 (197 pages, OCR'd PDF)
+PDF read in chunks: lines 1–9266 searched systematically.
+============================================================
+
+--- HUNTERS PLACER (Hunters, WA / Columbia River, Stevens County) ---
+
+STATUS: NOT FOUND in Bulletin 677.
+
+Bulletin 677 covers the Colville Indian Reservation (Okanogan and Ferry counties,
+with a portion of Stevens County). The Hunters area is located on the Columbia River
+at the eastern edge of Stevens County, OUTSIDE the Reservation boundaries described
+in this Bulletin. No entries for "Hunters," "Hunter Creek," or "Hunters Placer" appear
+anywhere in the 197-page text or index.
+
+The Bulletin's index (pages 181–186, PDF lines 8541–9266) was reviewed completely.
+No "H" index entries mention Hunters.
+
+IMPLICATION: Historical Hunters placer production data is NOT available in Bulletin 677.
+For Hunters placer data, alternative sources should be consulted:
+  - Washington Division of Mines and Geology Bulletin 42 (Huntting 1955, "Gold in Washington")
+  - MRDS database (USGS Mineral Resources Data System)
+  - Stevens County mining records
+
+--- SANPOIL RIVER PLACER (Sanpoil District, Ferry / Okanogan County) ---
+
+From Bulletin 677 index: "Placers of the Sanpoil district, panning tests of [page] 140"
+(PDF index line ~9044). "West Fork of Sanpoil River, placer claims on [page] 103" (line 9127).
+
+SANPOIL DISTRICT CONTEXT (pages 103–140):
+- The Sanpoil district is described as "almost unglaciated" (p.107, PDF lines 5056–5068),
+  which is unusual for the Colville Reservation. A "comparatively feeble branch lobe
+  pushed down the Sanpoil Valley at least as far as Iron Creek" — below Bridge Creek,
+  ice was only a few hundred feet thick and occupied only the narrow valley bottom.
+- The lack of glacial overriding means: (a) pre-glacial placer concentrations may be
+  partially preserved, and (b) there is less reworking by glaciofluvial processes compared
+  to the western districts.
+
+WEST FORK SANPOIL RIVER / GOLD CREEK PLACERS (Park City District, page 103):
+- Crounse mine on Strawberry Creek: "an output of $100 in placer gold is reported"
+  (PDF line 4113–4115). This is a minimal historical figure from pre-1912 working.
+- Gold Creek: placer claims noted at page 103 of the original bulletin. Gold Creek drains
+  northeastward to West Fork of Sanpoil River. The basin is described as ~100 square
+  miles of "mountainous area" (p.86–87).
+- Typical Park City district geology: Covada group argillite and quartzite (Carboniferous),
+  Colville granite (Cretaceous), overlain by andesitic lavas (Tertiary). Glacial drift
+  "at least 75 per cent of the basin of Gold Creek is overspread by a mantle of glacial
+  drift that is mainly thin and patchy but in places forms extensive deposits 100 feet
+  or more thick" (p.90, PDF line 4213–4215).
+
+PARK CITY DISTRICT PRODUCTION (page 88, PDF lines 4108–4118):
+- Mountain Boy mine: "four or five carloads that averaged $60 to the ton" (lode mine,
+  not placer). 4 carloads × 20 tons × $60/ton = ~$4,800.
+- Crounse mine placer (Strawberry Creek): $100 total placer gold production.
+- In 1912, minimal activity — annual assessment work only on ~20 claims.
+
+SANPOIL RIVER DRAINAGE GEOLOGY / SEDIMENT ROUTING:
+- Sanpoil River formerly flowed NORTHWARD (reversed drainage documented, p.45).
+  "A former northward flow beyond Devil's Elbow, about 18 miles north of Keller, is
+  fairly well shown." (PDF lines 2051–2053). Devil's Elbow is a diorite gorge.
+- After drainage reversal, the Sanpoil enlarged rapidly by headward erosion, capturing
+  north-flowing streams. This reversal history means placer gold distribution may not
+  follow modern drainage gradients simply.
+- Sanpoil River presently flows SOUTH to Columbia River at Keller.
+
+SANPOIL LODE SOURCE FOR PLACERS:
+- The Keller locality (Sanpoil district) has numerous quartz veins: galena, zinc blende,
+  chalcopyrite in Colville granite. Gold is present "in nearly all the lodes, but in
+  only a few is it sufficiently abundant to be worth taking into account" (p.108).
+- Best documented gold values: Iron Creek Mining & Milling Co., 2 carloads @ "100 oz
+  Ag and $2 or more in gold to the ton" (PDF line 5149–5150). This is very low Au.
+- The dominant metals in Sanpoil district are Ag, Pb, Zn — placer Au potential from
+  this source is LOW compared to the MCC terranes to the west and northwest.
+
+--- GENERAL PLACER PRODUCTION, COLVILLE RESERVATION (pages 53–54) ---
+
+From the production summary section (page 54, PDF lines 2500–2600 range):
+The Bulletin states total reservation production through 1912 was modest.
+Gold: Production figure referenced at index page 54; the text notes gold was a
+secondary product in most lode operations.
+
+COVADA DISTRICT PLACERS (near Columbia River, p.177–178, PDF lines 8359–8406):
+- Gravel bars along Columbia River between mouths of Wilmont and Barnaby creeks
+  (Covada district, northeast Stevens County, near Inchelium).
+- Gold described as "flour gold" — "finely divided or 'flour' gold."
+- Panning tests: "average of 100 particles of finely divided gold per pan, estimated
+  collectively to be worth between one-eighth and one-fourth cent" per pan.
+- Blue Bar Island (near mouth of Stray Dog Creek): flour gold "renewed by annual
+  freshets." Estimated yield: "a miner using a sluice or rocker, with blanket riffles,
+  might wash out 50 cents' worth of gold a day."
+- W. Johnson placer mine (NE¼ sec. 8, T.32N., R.37E., below mouth of Stranger Creek):
+    → Production: ~$100 from ~2,000 cubic yards
+    → Equivalent yield: ~5 cents per cubic yard
+    → A. J. Collier (USGS Bull. 315, 1907) reports: "pay streak tested by panning at
+       several places, estimated to contain from 40 cents per cubic yard at the richest
+       spot to 5½ cents at the poorest."
+    → Pay streak: 1–3 feet of medium to fine textured gravel, beneath 4–8 feet of sand.
+- Nespelem district placers: "possibility of" noted in index (p.72); no production data.
+
+============================================================
+
+SOURCE 2: Washington DNR Bulletin 64
+"Geology and Mineral Deposits of the Loomis Quadrangle, Okanogan County, Washington"
+C. Dean Rinehart and Kenneth F. Fox Jr., 1972 (135 pages, OCR'd PDF)
+PDF read: targeted sections on placer deposits (lines 7000–8100 searched).
+============================================================
+
+--- LOOMIS QUADRANGLE PLACER DEPOSITS ---
+
+PRIMARY PLACER SECTION (PDF lines 8015–8024, Bulletin 64 p.121):
+
+"PLACER DEPOSITS
+
+The gold-bearing gravels along the lower course of the Similkameen River were among the
+first deposits in the area to attract the attention of prospectors. The volume of auriferous
+gravel was not large, and the deposits were essentially worked out in the latter part of the
+nineteenth century, although desultory sluicing and 'sniping' continues to the present day.
+The presence of platinum was reported by Huntting (1956); the source of the platinum is
+possibly iron-bearing pyroxenite."
+
+INTERPRETATION:
+- Location: Lower Similkameen River (flows east into Okanogan River near Oroville, WA).
+  The Loomis Quadrangle covers T.38–40N., R.25–26E. (extreme northern Okanogan County,
+  Canadian border area).
+- Grade/Tonnage: NOT given quantitatively. "Volume of auriferous gravel was not large"
+  and "essentially worked out" by ~1900.
+- Platinum: Reported by Huntting (1956 — WA Div. Mines and Geology Bull. 37). Source
+  inferred as iron-bearing pyroxenite of the Similkameen composite pluton (alkalic/
+  ultramafic body). This is a significant REE-pathway indicator: pyroxenite/malignite
+  of the Similkameen is an alkalic intrusive with known ultramafic components.
+
+RICH BAR PLACER (PDF lines 7095–7139, Bulletin 64 Table 7):
+- Location: SW¼NW¼ sec.11, T.40N., R.26E.
+- Type: Old placer at site of Rich Bar Lode (worked "as far back as 1859")
+- Metals: Au
+- Note: "Ref. infers that Rich Bar Lode is at site of old Rich Bar Placer, worked as far
+  back as 1859." Production figures NOT given in Bulletin 64.
+- The associated Rich Bar Lode: Cu, Zn, Ag, Pb; 150-ft shaft with drifts.
+
+LOOMIS QUADRANGLE GEOLOGY RELEVANT TO PLACER SOURCES:
+- Three major plutons: Loomis pluton (calc-alkalic), Toats Coulee pluton (intermediate),
+  Similkameen composite pluton (alkalic, with pyroxenite/malignite/syenite gneiss).
+- The Similkameen composite pluton is the most relevant placer source — it contains:
+    * Pyroxenite with disseminated magnetite (Fe₂O₃ = 7.3–10.2%)
+    * Malignite and shonkinite (alkali-rich, potentially REE-bearing)
+    * Greisen, aplite, alaskite phases
+    * Shankers Bend diatreme: fenite + carbonatite dikes noted (PDF lines 4686–4691)
+      "Less abundant are carbonate masses... believed to be carbonatite dikes because of
+       their many physical similarities to the feldspathic dikes and their association
+       with the alkalic rocks of the diatreme."
+- The Shankers Bend diatreme DOES contain carbonatite dikes within the Loomis Quadrangle
+  (NE corner of quadrangle, near Oroville). This is the nearest confirmed carbonatite
+  to the NE WA study area (~50 km NW of the Okanogan MCC).
+
+VOLUMETRIC / GRADE DATA FOR LOOMIS PLACERS:
+- No cubic yard volumes or oz/yd³ grades are provided in Bulletin 64 for the
+  Similkameen placer or Rich Bar placer.
+- The text states only that the volume "was not large" and deposits were "worked out."
+- Platinum presence suggests PGE + Au assemblage from ultramafic source (pyroxenite).
+
+============================================================
+
+SUMMARY TABLE
+============================================================
+
+Area                    | Source      | Production Data           | Grade Data            | Notes
+------------------------|-------------|---------------------------|-----------------------|-----------------------------------------------
+Hunters Placer          | Bull. 677   | NOT IN DOCUMENT           | N/A                   | Outside Reservation boundary; need Bull. 42
+Sanpoil River (W. Fork) | Bull. 677   | $100 placer (Crounse, pre-1912) | Not given      | Park City district; flour gold; glacial drift thick
+Covada/Columbia R. bars | Bull. 677   | ~$100 / 2,000 yd³ (~5¢/yd) | 40¢–5.5¢/yd (Collier) | Flour gold; best 50¢/day/miner sluicing
+Sanpoil Dist. Placers   | Bull. 677   | Panning tests only        | Not given             | Almost unglaciated; page 140 (not fully extracted)
+Similkameen R. Placer   | Bull. 64    | "Not large"; worked out ~1900 | Not given        | Pt reported; pyroxenite source; 1859 or earlier
+Rich Bar Placer         | Bull. 64    | Not given                 | Not given             | Active since 1859; associated lode Cu-Zn-Ag-Pb
+
+============================================================
+
+NOTES ON DATA QUALITY
+============================================================
+
+1. Both PDFs are early-20th-century surveys (1918, 1972) with OCR. Line-by-line reads
+   were conducted to locate placer data. The systematic index search of Bulletin 677
+   confirms "Hunters" is definitively absent.
+
+2. Bulletin 677 placer production data is sparse — most districts record only panning
+   tests, not volumetric production. The Colville Reservation was primarily a lode
+   mining area; placers were considered marginal.
+
+3. For the Sanpoil River placer specifically, the full page 140 section was referenced
+   in the index but its content ("panning tests") suggests it is a qualitative description
+   without production tonnage figures. The West Fork Sanpoil placer claims (p.103) are
+   proximal to the Park City lode district.
+
+4. The most relevant placer data for this pipeline (Hunters, Sanpoil main stem) requires
+   supplemental sources beyond these two bulletins.
+
+RECOMMENDED ADDITIONAL SOURCES:
+  - Huntting (1955) "Gold in Washington," WA DNR Bull. 42 — most comprehensive WA placer compilation
+  - Collier (1907) USGS Bull. 315 "Gold-bearing river sands of NE Washington" — cited in Bull. 677
+  - MRDS (USGS) query for Hunters Placer (Stevens Co.) and Sanpoil River Placer (Ferry Co.)
+  - WA DNR WAMAS mineral occurrences database

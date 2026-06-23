@@ -1,0 +1,13 @@
+name,lon,lat,source_lith_score,source_lith_desc
+Brender Placer,-119.42,48.51,3.0,MCC_metapelite(100%)
+Conconully Placer,-119.75,48.55,3.0,MCC_metapelite(100%)
+Republic Gold District,-118.73,48.65,3.0,MCC_metapelite(100%)
+Oroville Placer,-119.43,48.94,3.0,MCC_metapelite(100%)
+Meyers Creek Placer,-119.1,48.32,3.0,MCC_metapelite(100%)
+Sanpoil River Placer,-118.85,48.2,3.0,MCC_metapelite(100%)
+Hunters Placer,-118.21,48.14,2.48,MCC_metapelite(53%) | felsic_intrusive(41%)
+Old Dominion Mine,-118.25,48.43,2.44,felsic_intrusive(56%) | MCC_metapelite(44%)
+Colville Placer,-117.9,48.55,2.05,felsic_intrusive(95%)
+Kettle Falls Placer,-118.06,48.6,2.0,felsic_intrusive(100%)
+Bossburg Placer,-117.8,48.72,2.0,felsic_intrusive(100%)
+Northport Placer,-117.78,48.92,2.0,felsic_intrusive(100%)

@@ -1,0 +1,4 @@
+site,tonnage_t,ndpr_ppm,ndpr_oxide_t,mnz_concentrate_t,cost_handling_$M,cost_concentr_$M,cost_logistics_$M,cost_processing_$M,total_cost_$M,rev_low_$M,rev_central_$M,rev_high_$M,npv_low_$M,npv_central_$M,npv_high_$M,breakeven_$/kg,confidence
+Sanpoil River Placer,607500,706.0,400.0,4289.0,3.0,6.1,0.6,20.0,29.8,24.0,43.6,56.0,-5.8,13.8,26.3,74.4,LOW
+Colville Placer,367500,552.0,189.0,2029.0,1.8,3.7,0.3,9.5,15.3,11.4,20.6,26.5,-3.9,5.3,11.2,80.7,HIGH
+Conconully Placer,510000,327.0,156.0,1668.0,2.5,5.1,0.3,7.8,15.7,9.3,17.0,21.8,-6.3,1.3,6.1,100.8,MEDIUM

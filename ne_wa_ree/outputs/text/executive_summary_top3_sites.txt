@@ -1,0 +1,193 @@
+
+EXECUTIVE SUMMARY — TOP 3 PRIORITY SITES
+NE Washington Placer Mine Tailings REE Assessment
+Intended for: field sampling decision-maker (non-specialist reader)
+================================================================
+
+BACKGROUND
+
+This project evaluated 12 historical placer mine tailings sites in northeastern
+Washington (Okanogan, Ferry, Stevens, and Pend Oreille counties) for potential
+rare earth element (REE) content, specifically the monazite-hosted neodymium and
+praseodymium (NdPr) used in electric vehicle motors and wind turbines. The
+evaluation combined USGS stream sediment thorium geochemistry (NURE database),
+aeromagnetic data, satellite remote sensing, geologic mapping, and historical
+production records. No field sampling has been conducted; all grade estimates are
+proxy-based and carry high uncertainty. The purpose of this summary is to guide
+a field sampling program that would confirm or refute the estimated endowment.
+
+NdPr MARKET CONTEXT
+
+NdPr oxide is currently priced at approximately $109/kg (Shanghai Metals Market,
+June 2026), up more than 100% from the 2024–2025 trough, driven by EV demand and
+Chinese export controls. The U.S. Department of Defense has underwritten a $110/kg
+NdPr floor price under a 10-year agreement with domestic producer MP Materials.
+White Mesa Mill (Energy Fuels, Utah) — the only licensed U.S. monazite processing
+facility — has capacity to accept additional domestic monazite feedstock. Break-even
+analysis for the top sites suggests economic viability at NdPr prices above $64–71/kg,
+well below current market pricing and the DOD floor.
+
+================================================================
+
+SITE #1: HUNTERS PLACER
+============================================================
+
+LOCATION
+  Coordinates:     48.1400°N, -118.2100°W
+  County:          Stevens
+  Access:          Good paved road access
+
+WHY IT RANKED HIGH
+  Combined score:  11.0/10
+  • Elevated Th in stream sediment; source classification mixed
+  • Magnetic high consistent with magnetite co-placer mineralization
+  • Upstream drainage dominated by MCC_metapelite — highest-scoring lithology for detrital metamorphic monazite
+  • HIGH confidence lidar and historical topo coverage available
+
+WHAT THE DATA SHOWS
+  Estimated tailings volume:  135,000 m³
+  Estimated tonnage:          202,500 t  (range: 94,500–324,000 t)
+  NdPr grade proxy:           ~409 ppm  (±50% uncertainty; based on NURE Th proxy)
+  Estimated NdPr metal:       83 t  (range: 19–199 t)
+  Lidar coverage:             2020 (0.5m res)
+  Historical topo:            1971 (20-ft contours)
+
+WHAT THESE NUMBERS MEAN
+  The NdPr grade and tonnage estimates are EXPLORATION TARGETS, not resource
+  estimates. They are based on stream sediment geochemistry upscaled to in-situ
+  by a dilution factor that has not been field-validated. The actual in-situ
+  grade could be half or double the proxy estimate. Do not use for investment
+  decisions. Use to decide whether field sampling is warranted.
+
+WHAT HAPPENS NEXT (recommended)
+  1. Shallow auger sampling program: 20–30 holes to 3m depth across tailings
+     footprint; full REE assay (ICP-MS) on 0.5m composites.
+  2. Automated mineralogy (MLA/QEMSCAN) on 3–5 representative bulk samples to
+     confirm monazite as Th carrier and quantify co-placer heavy mineral suite.
+  3. Probabilistic grade modeling on assay results to produce uncertainty-
+     quantified grade distribution (basis for formal resource classification).
+
+APPROXIMATE COST TO CONFIRM ENDOWMENT
+  Auger program (25 holes, 3m, assay): $45,000–$65,000
+  Automated mineralogy (5 samples):    $8,000–$12,000
+  Data compilation and modeling:        $15,000–$25,000
+  TOTAL (1 site):                       $68,000–$102,000
+
+This investment reduces grade uncertainty from ±50% to ±15–25% and determines
+whether the site is worth a full feasibility study.
+
+
+SITE #2: COLVILLE PLACER
+============================================================
+
+LOCATION
+  Coordinates:     48.5500°N, -117.9000°W
+  County:          Stevens
+  Access:          Good paved road access
+
+WHY IT RANKED HIGH
+  Combined score:  9.6/10
+  • Elevated Th in stream sediment; source classification mixed
+  • Magnetic high consistent with magnetite co-placer mineralization
+  • Upstream drainage dominated by felsic_intrusive — highest-scoring lithology for detrital metamorphic monazite
+  • HIGH confidence lidar and historical topo coverage available
+
+WHAT THE DATA SHOWS
+  Estimated tailings volume:  245,000 m³
+  Estimated tonnage:          367,500 t  (range: 196,000–560,000 t)
+  NdPr grade proxy:           ~552 ppm  (±50% uncertainty; based on NURE Th proxy)
+  Estimated NdPr metal:       203 t  (range: 54–464 t)
+  Lidar coverage:             2020 (0.5m res)
+  Historical topo:            1972 (20-ft contours)
+  Break-even NdPr price:      $81/kg
+  NPV at current prices:      $5M (undiscounted; ESTIMATE ONLY)
+
+WHAT THESE NUMBERS MEAN
+  The NdPr grade and tonnage estimates are EXPLORATION TARGETS, not resource
+  estimates. They are based on stream sediment geochemistry upscaled to in-situ
+  by a dilution factor that has not been field-validated. The actual in-situ
+  grade could be half or double the proxy estimate. Do not use for investment
+  decisions. Use to decide whether field sampling is warranted.
+
+WHAT HAPPENS NEXT (recommended)
+  1. Shallow auger sampling program: 20–30 holes to 3m depth across tailings
+     footprint; full REE assay (ICP-MS) on 0.5m composites.
+  2. Automated mineralogy (MLA/QEMSCAN) on 3–5 representative bulk samples to
+     confirm monazite as Th carrier and quantify co-placer heavy mineral suite.
+  3. Probabilistic grade modeling on assay results to produce uncertainty-
+     quantified grade distribution (basis for formal resource classification).
+
+APPROXIMATE COST TO CONFIRM ENDOWMENT
+  Auger program (25 holes, 3m, assay): $45,000–$65,000
+  Automated mineralogy (5 samples):    $8,000–$12,000
+  Data compilation and modeling:        $15,000–$25,000
+  TOTAL (1 site):                       $68,000–$102,000
+
+This investment reduces grade uncertainty from ±50% to ±15–25% and determines
+whether the site is worth a full feasibility study.
+
+
+SITE #3: CONCONULLY PLACER
+============================================================
+
+LOCATION
+  Coordinates:     48.5500°N, -119.7500°W
+  County:          Okanogan
+  Access:          Gravel road, seasonal access
+
+WHY IT RANKED HIGH
+  Combined score:  8.5/10
+  • Elevated Th in stream sediment; source classification mixed
+  • No magnetic high — magnetite co-product less likely at this site
+  • Upstream drainage dominated by MCC_metapelite — highest-scoring lithology for detrital metamorphic monazite
+  • MEDIUM confidence lidar and historical topo coverage available
+
+WHAT THE DATA SHOWS
+  Estimated tailings volume:  340,000 m³
+  Estimated tonnage:          510,000 t  (range: 297,500–748,000 t)
+  NdPr grade proxy:           ~327 ppm  (±50% uncertainty; based on NURE Th proxy)
+  Estimated NdPr metal:       167 t  (range: 49–367 t)
+  Lidar coverage:             2016 (1.0m res)
+  Historical topo:            1966 (40-ft contours)
+  Break-even NdPr price:      $101/kg
+  NPV at current prices:      $1M (undiscounted; ESTIMATE ONLY)
+
+WHAT THESE NUMBERS MEAN
+  The NdPr grade and tonnage estimates are EXPLORATION TARGETS, not resource
+  estimates. They are based on stream sediment geochemistry upscaled to in-situ
+  by a dilution factor that has not been field-validated. The actual in-situ
+  grade could be half or double the proxy estimate. Do not use for investment
+  decisions. Use to decide whether field sampling is warranted.
+
+WHAT HAPPENS NEXT (recommended)
+  1. Shallow auger sampling program: 20–30 holes to 3m depth across tailings
+     footprint; full REE assay (ICP-MS) on 0.5m composites.
+  2. Automated mineralogy (MLA/QEMSCAN) on 3–5 representative bulk samples to
+     confirm monazite as Th carrier and quantify co-placer heavy mineral suite.
+  3. Probabilistic grade modeling on assay results to produce uncertainty-
+     quantified grade distribution (basis for formal resource classification).
+
+APPROXIMATE COST TO CONFIRM ENDOWMENT
+  Auger program (25 holes, 3m, assay): $45,000–$65,000
+  Automated mineralogy (5 samples):    $8,000–$12,000
+  Data compilation and modeling:        $15,000–$25,000
+  TOTAL (1 site):                       $68,000–$102,000
+
+This investment reduces grade uncertainty from ±50% to ±15–25% and determines
+whether the site is worth a full feasibility study.
+
+
+================================================================
+IMPORTANT DISCLAIMERS
+
+This is an exploration target summary only. Grade and tonnage estimates are
+conceptual; they have not been verified by in-situ sampling. They should not
+be used as the basis for investment decisions, property transactions, or
+regulatory filings. The estimates do not comply with NI 43-101 or JORC Code
+resource classification requirements.
+
+All NdPr price references are current as of June 2026 and may change substantially.
+Past price performance is not indicative of future prices. Break-even analysis
+assumes simplified cost and recovery parameters; a formal economic assessment
+would require engineering studies and detailed cost modeling.
+================================================================
