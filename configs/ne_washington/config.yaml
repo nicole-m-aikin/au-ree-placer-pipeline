@@ -1,0 +1,440 @@
+# ============================================================
+# Au+REE Pipeline — NE Washington Study Area Configuration
+# ============================================================
+# All paths are relative to the repo root.
+# Run:  python pipeline/run_pipeline.py --config configs/ne_washington/config.yaml
+
+study_area:
+  name: "NE Washington"
+  short: "ne_wa"
+  bbox:
+    lon_min: -120.0
+    lon_max: -117.0
+    lat_min: 47.5
+    lat_max: 49.1
+  # Tighter bbox used for WGS site filtering
+  wgs_bbox:
+    lon_min: -120.0
+    lon_max: -117.5
+    lat_min: 47.5
+    lat_max: 49.1
+  crs: "EPSG:4326"
+
+outputs_dir: "ne_wa_ree/outputs"
+
+# ── Data file locations ───────────────────────────────────────────────────────
+data:
+  nure_csv: "data/nure/nure_ne_wa_sediment.csv"
+  mrds_geojson: "ne_wa_ree/data/mrds/mrds_ne_wa.geojson"
+  geology_geojson: null        # ne_wa_ree/data/geologic/wa_geology.geojson (optional)
+  aeromagnetic_tif: null       # ne_wa_ree/data/aeromagnetic/wa_mag_anomaly.tif (optional)
+  dem_tif: null                # ne_wa_ree/data/dem/ne_wa_dem_30m.tif (optional)
+  wgs_excel: null              # set or use WGS_OFR2026_PATH env var
+
+# ── MRDS commodity filter ─────────────────────────────────────────────────────
+mrds_commodities: ["placer gold", "gold", "REE", "monazite", "magnetite"]
+
+# ── Mine sites (from MRDS; 12 NE WA priority placer sites) ───────────────────
+# Each site carries all per-site parameters needed by tasks 1, 4, 5
+sites:
+  - name: "Brender Placer"
+    lon: -119.42
+    lat: 48.51
+    commodity: "placer_gold"
+    mrds_id: "M004321"
+    # Lidar coverage (lidar.wa.gov)
+    lidar_year: 2016
+    lidar_res_m: 1.0
+    lidar_quality: "MEDIUM"
+    # Historical topo (USGS TopoView)
+    topo_year: 1969
+    topo_contour_ft: 40
+    topo_available: true
+    # Tailings volume estimate (from MRDS production records)
+    area_ha: 3.2
+    depth_m: 3.5
+    depth_uncertainty_m: 1.5
+
+  - name: "Conconully Placer"
+    lon: -119.75
+    lat: 48.55
+    commodity: "placer_gold"
+    mrds_id: "M004322"
+    lidar_year: 2016
+    lidar_res_m: 1.0
+    lidar_quality: "MEDIUM"
+    topo_year: 1966
+    topo_contour_ft: 40
+    topo_available: true
+    area_ha: 8.5
+    depth_m: 4.0
+    depth_uncertainty_m: 1.5
+
+  - name: "Republic Gold District"
+    lon: -118.73
+    lat: 48.65
+    commodity: "gold_lode"
+    mrds_id: "M004323"
+    lidar_year: 2013
+    lidar_res_m: 2.0
+    lidar_quality: "LOW"
+    topo_year: 1958
+    topo_contour_ft: 40
+    topo_available: true
+    area_ha: 15.0
+    depth_m: 6.0
+    depth_uncertainty_m: 2.0
+
+  - name: "Oroville Placer"
+    lon: -119.43
+    lat: 48.94
+    commodity: "placer_gold"
+    mrds_id: "M004324"
+    lidar_year: 2021
+    lidar_res_m: 0.5
+    lidar_quality: "HIGH"
+    topo_year: 1971
+    topo_contour_ft: 20
+    topo_available: true
+    area_ha: 22.0
+    depth_m: 5.0
+    depth_uncertainty_m: 2.0
+
+  - name: "Kettle Falls Placer"
+    lon: -118.06
+    lat: 48.60
+    commodity: "placer_gold"
+    mrds_id: "M004325"
+    lidar_year: 2020
+    lidar_res_m: 0.5
+    lidar_quality: "HIGH"
+    topo_year: 1968
+    topo_contour_ft: 40
+    topo_available: true
+    area_ha: 5.5
+    depth_m: 3.0
+    depth_uncertainty_m: 1.5
+
+  - name: "Bossburg Placer"
+    lon: -117.80
+    lat: 48.72
+    commodity: "placer_gold"
+    mrds_id: "M004326"
+    lidar_year: 2019
+    lidar_res_m: 1.0
+    lidar_quality: "MEDIUM"
+    topo_year: 1969
+    topo_contour_ft: 40
+    topo_available: true
+    area_ha: 4.0
+    depth_m: 3.5
+    depth_uncertainty_m: 1.5
+
+  - name: "Old Dominion Mine"
+    lon: -118.25
+    lat: 48.43
+    commodity: "gold_lode"
+    mrds_id: "M004327"
+    lidar_year: 2013
+    lidar_res_m: 2.0
+    lidar_quality: "LOW"
+    topo_year: 1958
+    topo_contour_ft: 80
+    topo_available: true
+    area_ha: 12.0
+    depth_m: 8.0
+    depth_uncertainty_m: 3.0
+
+  - name: "Meyers Creek Placer"
+    lon: -119.10
+    lat: 48.32
+    commodity: "placer_gold"
+    mrds_id: "M004328"
+    lidar_year: 2016
+    lidar_res_m: 1.0
+    lidar_quality: "MEDIUM"
+    topo_year: 1966
+    topo_contour_ft: 40
+    topo_available: true
+    area_ha: 2.8
+    depth_m: 2.5
+    depth_uncertainty_m: 1.0
+
+  - name: "Sanpoil River Placer"
+    lon: -118.85
+    lat: 48.20
+    commodity: "placer_gold"
+    mrds_id: "M004329"
+    lidar_year: 2013
+    lidar_res_m: 2.0
+    lidar_quality: "LOW"
+    topo_year: 1964
+    topo_contour_ft: 40
+    topo_available: true
+    area_ha: 9.0
+    depth_m: 4.5
+    depth_uncertainty_m: 2.0
+
+  - name: "Colville Placer"
+    lon: -117.90
+    lat: 48.55
+    commodity: "placer_gold"
+    mrds_id: "M004330"
+    lidar_year: 2020
+    lidar_res_m: 0.5
+    lidar_quality: "HIGH"
+    topo_year: 1972
+    topo_contour_ft: 20
+    topo_available: true
+    area_ha: 7.0
+    depth_m: 3.5
+    depth_uncertainty_m: 1.5
+
+  - name: "Northport Placer"
+    lon: -117.78
+    lat: 48.92
+    commodity: "placer_gold"
+    mrds_id: "M004331"
+    lidar_year: 2019
+    lidar_res_m: 1.0
+    lidar_quality: "MEDIUM"
+    topo_year: 1968
+    topo_contour_ft: 40
+    topo_available: true
+    area_ha: 3.5
+    depth_m: 3.0
+    depth_uncertainty_m: 1.0
+
+  - name: "Hunters Placer"
+    lon: -118.21
+    lat: 48.14
+    commodity: "placer_gold"
+    mrds_id: "M004332"
+    lidar_year: 2020
+    lidar_res_m: 0.5
+    lidar_quality: "HIGH"
+    topo_year: 1971
+    topo_contour_ft: 20
+    topo_available: true
+    area_ha: 4.5
+    depth_m: 3.0
+    depth_uncertainty_m: 1.5
+
+# ── Synthetic aeromagnetic anomaly centers (task1) ────────────────────────────
+# Used when aeromagnetic_tif is null; based on Blakely et al. 1999 Pacific NW
+aeromagnetic_anomaly_centers:
+  - lon: -119.5
+    lat: 48.4
+    amplitude: 250
+    width: 0.3
+    name: "Okanogan_MCC"
+  - lon: -118.7
+    lat: 48.65
+    amplitude: 180
+    width: 0.25
+    name: "Republic_magmatic"
+  - lon: -118.0
+    lat: 48.5
+    amplitude: 320
+    width: 0.35
+    name: "Colville_Batholith_N"
+  - lon: -118.2
+    lat: 48.15
+    amplitude: 190
+    width: 0.28
+    name: "Kettle_MCC"
+  - lon: -117.5
+    lat: 47.8
+    amplitude: 140
+    width: 0.2
+    name: "Colville_Batholith_S"
+
+# Per-site label offsets for task1 right panel (reduce crowding)
+task1_label_offsets:
+  "Kettle Falls Placer":  [5, 8]
+  "Colville Placer":      [5, -9]
+  "Bossburg Placer":      [-60, 6]
+  "Northport Placer":     [5, 3]
+  "Hunters Placer":       [5, -10]
+
+# ── Geologic domain polygons (task2) ─────────────────────────────────────────
+# Based on: Cheney et al. 1994 (MCCs), Preto 1970 (Colville Batholith)
+# Replace with real WA DNR/USGS GeMS data when available
+geology_domains:
+  - name: "Okanogan_MCC"
+    lith_type: "MCC_metapelite"
+    score: 3
+    coords: [[-120.0, 48.0], [-119.0, 48.0], [-119.0, 49.1], [-120.0, 49.1]]
+  - name: "Republic_MCC"
+    lith_type: "MCC_metapelite"
+    score: 3
+    coords: [[-119.0, 48.3], [-118.4, 48.3], [-118.4, 49.0], [-119.0, 49.0]]
+  - name: "Kettle_MCC"
+    lith_type: "MCC_metapelite"
+    score: 3
+    coords: [[-118.6, 47.9], [-117.9, 47.9], [-117.9, 48.4], [-118.6, 48.4]]
+  - name: "Colville_Batholith"
+    lith_type: "felsic_intrusive"
+    score: 2
+    coords: [[-118.4, 48.0], [-117.5, 48.0], [-117.5, 49.0], [-118.4, 49.0]]
+  - name: "Hozomeen_Terrane"
+    lith_type: "mafic_ultramafic"
+    score: 0
+    coords: [[-120.0, 47.5], [-119.5, 47.5], [-119.5, 48.0], [-120.0, 48.0]]
+  - name: "Valley_Fill"
+    lith_type: "sedimentary_cover"
+    score: 1
+    coords: [[-119.5, 47.5], [-117.5, 47.5], [-117.5, 48.0], [-119.5, 48.0]]
+
+# Lithology type score mapping (for config-driven score lookups)
+geology_score_map:
+  MCC_metapelite: 3
+  felsic_intrusive: 2
+  sedimentary_cover: 1
+  mafic_ultramafic: 0
+
+# ── River lines (task2) ───────────────────────────────────────────────────────
+rivers:
+  - name: "Okanogan R."
+    coords: [[-119.57, 49.1], [-119.57, 48.7], [-119.55, 48.4], [-119.50, 48.2], [-119.43, 48.05]]
+    arrow_start: [-119.57, 48.7]
+    arrow_end: [-119.55, 48.4]
+    label_offset: [0.15, 0.0]
+  - name: "Sanpoil R."
+    coords: [[-118.85, 48.05], [-118.85, 48.35], [-118.82, 48.65], [-118.78, 48.73]]
+    arrow_start: [-118.85, 48.35]
+    arrow_end: [-118.82, 48.65]
+    label_offset: [0.05, 0.0]
+  - name: "Kettle R."
+    coords: [[-118.07, 48.95], [-118.07, 48.75], [-118.06, 48.60]]
+    arrow_start: [-118.07, 48.75]
+    arrow_end: [-118.06, 48.60]
+    label_offset: [0.06, 0.0]
+  - name: "Columbia R."
+    coords: [[-117.9, 49.0], [-117.87, 48.6], [-117.85, 48.2], [-118.0, 47.95],
+             [-118.4, 47.8], [-119.3, 47.7], [-120.0, 47.52]]
+    arrow_start: [-118.4, 47.8]
+    arrow_end: [-118.0, 47.95]
+    label_offset: [0.04, -0.12]
+
+# ── WGS OFR 2026-02 settings (tasks 2, 3, 4, 8) ──────────────────────────────
+wgs:
+  exclude_sites:
+    - "NW Olivine International"
+    - "New Light"
+  # Maps endowment sheet mine names → geochemistry sheet site names
+  endowment_to_site:
+    "Deer Trail":                         "Deer Trail"
+    "Windfall Mine":                      "Windfall Mine"
+    "Mullen Mine":                        "Mullen Mine"
+    "Gold Dike Mine":                     "Gold Dike"
+    "Mountain Beaver (Billy Goat Group)": "Mountain Beaver (Billy Goat group)"
+    "Silver Bell Mine":                   "Silver Bell"
+    "Turk Mine":                          "Turk Mine"
+    "First Thought Mill":                 "First Thought"
+    "Germania Mine & Mill":               "Germania"
+    "Queen Seal Mine":                    "Queen Seal"
+    "Big Iron Mine":                      "Big Iron"
+  # Short display names for site labels
+  site_abbrevs:
+    "Deer Trail":                           "Deer Trail"
+    "Windfall Mine":                        "Windfall"
+    "Mullen Mine":                          "Mullen"
+    "Gold Dike":                            "Gold Dike"
+    "Mountain Beaver (Billy Goat group)":   "Mtn Beaver"
+    "Silver Bell":                          "Silver Bell"
+    "Turk Mine":                            "Turk"
+    "First Thought":                        "First Thought"
+    "Germania":                             "Germania"
+    "Queen Seal":                           "Queen Seal"
+    "Big Iron":                             "Big Iron"
+  # Custom label offsets for task2 WGS overlay
+  label_offsets:
+    "Germania":      [-68, -11]
+    "Queen Seal":    [-66,   9]
+    "Deer Trail":    [  5,   9]
+    "Turk Mine":     [  5, -11]
+    "Mullen Mine":   [  5,   8]
+    "Windfall Mine": [  5, -12]
+    "Big Iron":      [  5,   5]
+    "First Thought": [-72,   5]
+    "Gold Dike":     [  5,   5]
+    "Silver Bell":   [-68,  -9]
+
+# ── Geochemistry parameters ───────────────────────────────────────────────────
+geochemistry:
+  regional_bg_th: 8.0               # ppm — NE WA NURE median background
+  # Monazite classification criteria (Mücke & Bhaskara Rao 1996; Rasmussen & Muhling 2009)
+  monazite_ce_min_ppm: 50
+  monazite_la_min_ppm: 20
+  monazite_p_min_ppm: 400
+  monazite_uth_max: 0.5
+  thorite_uth_min: 1.5
+  # Volume/grade conversion factors (task4)
+  bulk_density_t_m3: 1.5            # t/m³ — loose gravel tailings
+  th_in_monazite_frac: 0.044        # Cheney et al. 1994 — NE WA metamorphic monazite
+  lree_in_monazite: 0.28            # mass fraction total LREE (Gramaccioli 2002)
+  ndpr_in_monazite: 0.09            # mass fraction NdPr (Smith et al. 2015)
+  stream_to_insitu_factor: 5.0      # dilution factor (Bonham-Carter et al. 1988)
+
+# ── Economics (task5) ─────────────────────────────────────────────────────────
+economics:
+  processor_name: "Energy Fuels White Mesa Mill"
+  processor_location: "Blanding, UT"
+  ndpr_price_central: 109.0         # $/kg NdPr oxide (SMM benchmark, June 2026)
+  ndpr_price_low: 60.0              # $/kg (2024 trough)
+  ndpr_price_high: 140.0            # $/kg (Q1 2026 peak)
+  tailings_handling_cost: 5.0       # $/tonne tailings
+  concentration_cost: 10.0          # $/tonne tailings feed
+  logistics_conc_per_tonne: 150.0   # $/tonne concentrate to White Mesa
+  processing_cost_per_kg: 50.0      # $/kg NdPr oxide produced
+  ndpr_recovery: 0.80               # mass recovery fraction
+
+# ── Integration scoring weights (integration_task) ────────────────────────────
+scoring:
+  weights:
+    th_source: 1.0
+    mag_high: 1.0
+    source_lith: 1.0
+    confidence: 1.0
+    ndpr_tonnes: 2.0
+    au_pathfinder: 1.0
+  tier_thresholds: [8, 6, 4]   # [highest, high, moderate] thresholds for tier_color()
+
+# Background geologic domain patches for integration map (schematic)
+map_domain_patches:
+  - lon_range: [-120.0, -118.5]
+    lat_range: [48.0, 49.1]
+    color: "#fee0d2"
+    label: "MCC metapelite"
+  - lon_range: [-118.5, -117.5]
+    lat_range: [47.5, 49.1]
+    color: "#fde0dd"
+    label: "Colville Batholith"
+  - lon_range: [-120.0, -117.5]
+    lat_range: [47.5, 48.0]
+    color: "#deebf7"
+    label: "Valley fill"
+
+# County labels for integration map
+county_labels:
+  - lon: -119.3
+    lat: 48.7
+    label: "OKANOGAN CO"
+  - lon: -118.9
+    lat: 48.9
+    label: "FERRY CO"
+  - lon: -117.9
+    lat: 48.3
+    label: "STEVENS CO"
+  - lon: -117.4
+    lat: 48.65
+    label: "PEND O. CO"
+
+# Task7 map annotations (Au/As anomaly map)
+task7_annotations:
+  - text: "Au-only cluster\n(Pend Oreille Co.)\nnot in MRDS inventory\n→ future work"
+    xy: [-117.25, 48.8]
+    xytext: [-118.6, 48.85]
+    fontsize: 6.5
+    style: "italic"

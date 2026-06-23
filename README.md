@@ -1,94 +1,211 @@
-# Au + REE Pipeline — NE Washington Placer Assessment
+# Au + REE Placer Assessment Pipeline
 
-A multi-stage geoscience exploration pipeline evaluating placer Au and Rare Earth Element (REE/monazite) potential in NE Washington State using public geochemical, geophysical, and mine waste datasets.
+## Mineral Systems Framework
 
-## Overview
+This pipeline implements a **mineral systems analysis** of placer Au and REE potential,
+following the established **source → pathway → trap → preservation** framework
+(Wyborn et al. 1994; McCuaig & Hronsky 2014). Each task maps directly onto a component
+of this framework: **source** mineralogy (tasks 1, 3) is characterized via NURE
+geochemistry and U/Th discrimination; **pathway** (task 2) is evaluated through
+catchment lithology scoring against REE-prospective source domains; **trap** sites
+(tasks 4, 5) are assessed for volume, grade, and economic viability; and **preservation**
+(tasks 6, 8) addresses tailings disturbance and acid-generating risk. Task 9 integrates
+signals across all components into a spatially continuous ML probability surface using
+geological feature engineering on the NURE multi-element suite. This vocabulary — source,
+pathway, trap, preservation — is the standard language of the exploration industry and
+directly informs target prioritization in the integration task (task 10).
 
-The pipeline integrates NURE stream sediment geochemistry, aeromagnetic data, lidar-derived volume estimates, MRDS mine site records, and WGS mine waste geochemistry (Earth MRI) to rank 12 placer sites by REE/NdPr potential and Au co-product signal.
+---
 
-**Top result:** Hunters Placer (#1, Stevens/Okanogan Co.) and Colville Placer (#2) score highest on combined criteria. All three top sites break even below the current NdPr oxide spot price (~$109/kg as of mid-2026). Recommended next step: auger sampling at Colville + Hunters (20–30 holes/site, ~$136k–$204k).
+A config-driven, multi-stage geoscience exploration pipeline for evaluating placer Au and
+Rare Earth Element (REE/monazite) potential using public geochemical, geophysical, and mine
+waste datasets. Designed for any US placer REE district.
+
+## Study areas
+
+| Study area | Config | Status |
+|-----------|--------|--------|
+| NE Washington (Okanogan/Ferry/Stevens Co.) | `configs/ne_washington/config.yaml` | Complete — 10 figures |
+| Idaho Batholith (Orogrande/Dixie/Warren/Florence) | `configs/idaho_batholith/config.yaml` | Stub — needs data |
+| Montana Placer (Confederate Gulch/Alder Gulch/Libby Creek) | `configs/montana_placer/config.yaml` | Stub — needs data |
+
+## Quick start (NE Washington)
+
+```bash
+python3 -m venv venv && source venv/bin/activate
+pip install -r requirements.txt
+
+# Run full pipeline (all 10 tasks)
+python pipeline/run_pipeline.py --config configs/ne_washington/config.yaml
+
+# Run specific tasks
+python pipeline/run_pipeline.py --config configs/ne_washington/config.yaml --tasks 3 7 9
+
+# List available tasks
+python pipeline/run_pipeline.py --config configs/ne_washington/config.yaml --list
+```
 
 ## Figures produced
 
-| Figure | Script | Description |
-|--------|--------|-------------|
-| Fig 1 | `task1_coplacer_minerals.py` | Aeromagnetic × Th anomaly co-occurrence map |
-| Fig 2 | `task2_source_lithology.py` | Source lithology map + WGS mine waste sites |
-| Fig 3 | `task3_geochemical_discrimination.py` | Multi-element Th source discrimination |
-| Fig 4 | `task4_volume_estimation.py` | Lidar volume estimation + WGS tonnage table |
-| Fig 5 | `task5_energy_fuels_pathway.py` | Break-even / NPV / sensitivity analysis |
-| Fig 6 | `task6_figure6.py` | Decision framework |
-| Fig 7 | `integration_task.py` | Integrated multi-criterion priority map |
-| Fig 8 | `task7_au_as_anomaly.py` | Au/As pathfinder anomaly map |
-| Fig 9 | `task8_mine_waste_ree.py` | WGS mine waste REE + critical minerals (requires WGS file) |
+| Fig | Task module | Mineral systems component | Description |
+|-----|-------------|--------------------------|-------------|
+| 1 | `pipeline/task1_coplacer.py` | Source | Aeromagnetic × Th anomaly co-occurrence map |
+| 2 | `pipeline/task2_lithology.py` | Pathway | Source lithology map + WGS mine waste sites |
+| 3 | `pipeline/task3_geochemistry.py` | Source | Multi-element Th source discrimination |
+| 4 | `pipeline/task4_volume.py` | Trap | Lidar volume estimation + Monte Carlo P10/P50/P90 endowment |
+| 5 | `pipeline/task5_economics.py` | Trap | Break-even / NPV / sensitivity analysis |
+| 6 | `pipeline/task6_framework.py` | All | Decision framework |
+| 7 | `pipeline/integration.py` | All | Integrated multi-criterion priority map |
+| 8 | `pipeline/task7_pathfinder.py` | Trap | Au/As pathfinder anomaly map |
+| 9 | `pipeline/task8_mine_waste.py` | Preservation | WGS mine waste REE + critical minerals |
+| 10 | `pipeline/task9_ml_targeting.py` | All | ML anomaly probability surface (geological feature engineering) |
+
+All outputs land in `{outputs_dir}` defined in the config (default: `ne_wa_ree/outputs/` for NE WA).
+
+## ML Targeting Model (Task 9)
+
+`pipeline/task9_ml_targeting.py` trains a Random Forest binary classifier on NURE stream
+sediment geochemistry to produce `fig10_ml_anomaly_probability.png` — three panels:
+
+- **Panel A** — Gini feature importance (log₁₀-transformed Th, Ce, La, P, U, Au, As)
+- **Panel B** — ROC curve from 5-fold stratified CV (mean ± 1 SD band)
+- **Panel C** — Continuous IDW-interpolated probability surface over the study area
+
+**Geological feature engineering:** Log₁₀ transformation of the multi-element suite
+converts log-normal geochemical distributions to approximately normal and combines
+multiple pathfinder elements into a single probabilistic model — operationalizing the
+multi-element approach from tasks 1, 3, 7 as a spatially explicit probability surface.
+
+**Interpretation guidance:**
+- P(anomaly) > 0.6: high interest — prioritize for field follow-up
+- P(anomaly) 0.4–0.6: moderate interest — assess alongside Tasks 1, 3, 7
+- Use as a screening tool alongside, not instead of, the task 1/3/7 hard criteria
+
+## Scientific Methodology
+
+See [`METHODOLOGY.md`](METHODOLOGY.md) for full scientific justification of every
+non-obvious methodological choice, including:
+
+- Mineral systems framework (source/pathway/trap/preservation) — how each task maps onto it
+- Dataset QA/QC procedures (NURE half-MDL, WGS column validation, MRDS dedup)
+- Geochemical anomaly threshold rationale (log-normal; Ahrens 1954; Reimann & Filzmoser 2000)
+- Th source mineral discrimination (U/Th ratios; Mücke & Bhaskara Rao 1996)
+- Chondrite normalization (CI chondrite; Sun & McDonough 1989)
+- Monte Carlo volume/grade uncertainty model (P10/P50/P90; log-normal grade)
+- ABA risk tiers (MEND 2009 NP/AP thresholds)
+- NPV undiscounted rationale
+- Combined priority scoring weights
+- ML model and IDW interpolation approach and limitations
+- 3D modeling scope and what is explicitly out of scope
+
+## Directory structure
+
+```
+configs/
+  ne_washington/config.yaml   # NE WA study area (comprehensive)
+  idaho_batholith/config.yaml # Idaho Batholith stub
+  montana_placer/config.yaml  # Montana Placer stub
+pipeline/
+  utils.py                    # Shared utilities (WONG palette, load_nure, etc.)
+  task1_coplacer.py
+  task2_lithology.py
+  task3_geochemistry.py
+  task4_volume.py             # Monte Carlo P10/P50/P90 endowment
+  task5_economics.py
+  task6_framework.py
+  task7_pathfinder.py
+  task8_mine_waste.py
+  task9_ml_targeting.py       # Random Forest + IDW probability surface
+  integration.py              # Weight sensitivity + priority ranking
+  run_pipeline.py             # CLI entry point (10 tasks)
+tests/
+  test_utils.py               # pytest unit tests for core utils
+ne_wa_ree/
+  data/                       # NE WA input data (MRDS, aeromagnetic, NURE, lidar)
+  outputs/                    # Figures, tables, GeoJSONs
+data/
+  nure/                       # NURE stream sediment CSVs
+```
+
+## Config schema
+
+Each `config.yaml` defines the study area and overrides all hardcoded values:
+
+```yaml
+study_area:
+  name: "NE Washington"
+  bbox: {lon_min, lon_max, lat_min, lat_max}
+
+outputs_dir: "ne_wa_ree/outputs"   # backward-compat for NE WA
+
+data:
+  nure_csv: "data/nure/nure_ne_wa_sediment.csv"
+  wgs_excel: null    # or path; also resolved via WGS_OFR2026_PATH env var
+
+sites:               # list of mine sites with coordinates, lidar, topo, volume
+geology_domains:     # list of polygon domains with lithology scores
+rivers:              # polylines for map panels
+economics:           # ndpr_price_central, tailings_handling_cost, ...
+scoring:             # weights and tier thresholds for integration
+```
 
 ## Data requirements
 
-Large raster files (lidar, DEM, aeromagnetics) are **not included** in this repo due to size.  
-See [`ne_wa_ree/DATA_SOURCES.md`](ne_wa_ree/DATA_SOURCES.md) for download instructions for each dataset.
+Large raster files (lidar, DEM, aeromagnetics) are **not included** due to size. See [`ne_wa_ree/DATA_SOURCES.md`](ne_wa_ree/DATA_SOURCES.md) for download instructions.
 
 Key public sources:
 - **NURE stream sediment**: [USGS NGDB](https://mrdata.usgs.gov/ngdb/sediment/) — included in `data/nure/`
 - **MRDS mine sites**: [USGS MRDS](https://mrdata.usgs.gov/mrds/) — included in `ne_wa_ree/data/mrds/`
-- **Lidar DEMs**: [Washington Lidar Portal](https://lidar.wa.gov) — ~7 GB, download per site
-- **30m DEM**: [USGS National Map](https://apps.nationalmap.gov/downloader/) — ~80 MB
-- **WGS OFR 2026-02** (mine waste geochemistry): [WA DNR](https://www.dnr.wa.gov/publications/ger_ofr2026-02_mine_waste_characterization_part_1.zip) — place at `data/wgs_ofr2026/` or set `WGS_OFR2026_PATH` env var
+- **WGS OFR 2026-02** (mine waste): set `WGS_OFR2026_PATH` env var or `data.wgs_excel` in config
 
-## Setup
+### Preparing NURE data for a new study area
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
+# Set paths to your NGDB CSV export
+export NGDB_EXTRACT_DIR=/path/to/ngdbsed-csv/ngdbsed
+export NGDB_SHARED_REPO=/path/to/ngdb-processed
+
+# Override bounding box for a different state
+export NURE_LAT_MIN=44.0 NURE_LAT_MAX=46.0
+export NURE_LON_MIN=-116.0 NURE_LON_MAX=-114.0
+
+python prep_nure.py
 ```
 
-## Running the pipeline
+## Running a single task standalone
 
-Scripts must be run from the `ne_wa_ree/` directory in order (each task outputs files consumed by later tasks):
+Each task module can be run directly:
 
 ```bash
-cd ne_wa_ree
-
-# Prep data (run once from repo root)
-cd .. && python3 prep_nure.py && cd ne_wa_ree
-
-# Tasks 1–7 (independent of WGS file)
-python3 task1_coplacer_minerals.py
-python3 task2_source_lithology.py
-python3 task3_geochemical_discrimination.py
-python3 task4_volume_estimation.py
-python3 task5_energy_fuels_pathway.py
-python3 task6_figure6.py
-python3 task7_au_as_anomaly.py
-
-# Integration (depends on tasks 1–7)
-python3 integration_task.py
-
-# WGS mine waste integration (requires WGS_OFR2026_PATH or data/wgs_ofr2026/)
-python3 task8_mine_waste_ree.py
+python pipeline/task3_geochemistry.py configs/ne_washington/config.yaml
+python pipeline/task9_ml_targeting.py configs/ne_washington/config.yaml
 ```
 
-On macOS, if matplotlib config errors occur:
+## Running tests
+
 ```bash
-export MPLCONFIGDIR=/tmp/mplconfig
+pytest tests/ -v
 ```
 
-## Key scientific findings
+## Key NE WA findings
 
-- **61 Th-anomalous NURE samples** in the NE WA study area; classified as MIXED/UNCLEAR or THORITE/U-Th oxide — no confirmed monazite fingerprint from stream sediment alone (Th-Ce-P co-enrichment required; limited by sparse NURE REE data)
-- **WGS ICP-MS** (OFR 2026-02) provides first full REE suite for the region: First Thought Mine has highest TREE concentration (191 ppm) in tailings; Germania Mine has largest TREE endowment (~21,000 kg)
-- **6 of 10 WGS sites** have mean Au ≥ 0.1 ppm (tailings reprocessing threshold); Deer Trail leads at 2.9 ppm
-- **Environmental flag:** Big Iron and Silver Bell are acid-generating (NP/AP < 1); require acid management in any reprocessing scenario
-- **Shankers Bend diatreme** (Loomis Quadrangle, ~50 km NW) contains confirmed carbonatite dikes — carbonatite REE source exists in the broader region
+- **61 Th-anomalous NURE samples** in NE WA; classified MIXED/UNCLEAR or THORITE — no confirmed monazite fingerprint from stream sediment alone
+- **WGS ICP-MS** (OFR 2026-02): First Thought Mine has highest TREE concentration (191 ppm); Germania Mine has largest TREE endowment (~21,000 kg)
+- **6 of 10 WGS sites** have mean Au ≥ 0.1 ppm (tailings reprocessing threshold)
+- **Environmental flag**: Big Iron and Silver Bell are acid-generating (NP/AP < 1)
+- **Top result**: Hunters Placer (#1) + Colville Placer (#2) highest combined score; all top-3 sites break even below current NdPr spot (~$109/kg, mid-2026)
 
 ## Disclaimers
 
-All outputs are **exploration screening estimates only** and do not constitute a mineral resource estimate under NI 43-101 or any other reporting standard. Economic figures are illustrative and subject to substantial uncertainty. The pipeline uses publicly available data; ground truthing is required before any investment decision.
+All outputs are **exploration screening estimates only** and do not constitute a mineral resource estimate under NI 43-101 or any other reporting standard. Economic figures are illustrative and subject to substantial uncertainty. Ground truthing required before any investment decision.
 
 ## References
 
 - Sun & McDonough 1989 — CI chondrite normalisation values
 - Mücke & Bhaskara Rao 1996 — monazite discrimination criteria
+- Cheney et al. 1994 — Th content of metamorphic monazite
 - van Alderwerelt & Di Fiori 2026 — WGS OFR 2026-02 mine waste characterization
+- McCuaig & Hronsky 2014 — mineral systems framework
+- Wyborn et al. 1994 — source-pathway-trap-preservation model
 - USGS NURE HSDB — National Uranium Resource Evaluation geochemical database
 - Rudnick & Gao 2003 — upper continental crust composition

@@ -1,0 +1,114 @@
+# Idaho Batholith Placer REE Study Area — STUB CONFIG
+# TODO: Replace all placeholder values with verified data before running pipeline.
+# Districts: Orogrande, Dixie, Warren, Florence (Idaho County)
+
+study_area:
+  name: "Idaho Batholith"
+  short: "id_batholith"
+  bbox:
+    lon_min: -116.0
+    lon_max: -114.0
+    lat_min:  44.0
+    lat_max:  46.0
+  wgs_bbox:  # TODO: refine to actual WGS data coverage
+    lon_min: -116.0
+    lon_max: -114.0
+    lat_min:  44.0
+    lat_max:  46.0
+  crs: "EPSG:4326"
+
+outputs_dir: "outputs/id_batholith"
+
+data:
+  nure_csv:       "data/nure/nure_id_batholith_sediment.csv"   # TODO: generate via prep_nure.py
+  mrds_geojson:   "data/mrds/mrds_id_batholith.geojson"        # TODO: download from mrdata.usgs.gov
+  geology_geojson: null    # TODO: Idaho state geology shapefile
+  aeromagnetic_tif: null   # TODO: USGS aeromagnetic survey
+  dem_tif: null
+  wgs_excel: null          # No WGS OFR equivalent for Idaho
+
+sites:  # TODO: fill in real placer sites with coordinates and lidar data
+  - name: "Orogrande Placer"
+    lon: -115.55
+    lat:  45.90
+    commodity: "Au+REE"
+    mrds_id: null
+    area_ha: null
+    depth_m: null
+    depth_uncertainty_m: null
+  - name: "Dixie Placer"
+    lon: -115.47
+    lat:  45.54
+    commodity: "Au+REE"
+    mrds_id: null
+    area_ha: null
+    depth_m: null
+    depth_uncertainty_m: null
+  - name: "Warren Placer"
+    lon: -115.68
+    lat:  45.27
+    commodity: "Au+REE"
+    mrds_id: null
+    area_ha: null
+    depth_m: null
+    depth_uncertainty_m: null
+  - name: "Florence Placer"
+    lon: -116.04
+    lat:  45.50
+    commodity: "Au+REE"
+    mrds_id: null
+    area_ha: null
+    depth_m: null
+    depth_uncertainty_m: null
+
+aeromagnetic_anomaly_centers: []  # TODO: add from Idaho aeromagnetic surveys
+
+task1_highlight_site: "Orogrande Placer"
+
+geology_domains: []   # TODO: Idaho Batholith granite/gneiss + Clearwater metamorphics
+rivers: []            # TODO: South Fork Salmon, Main Salmon, Clearwater
+
+wgs:
+  exclude_sites: []
+  endowment_to_site: {}
+  site_abbrevs: {}
+  label_offsets: {}
+
+geochemistry:
+  regional_bg_th: 8.0          # TODO: verify Idaho Batholith background Th
+  monazite_ce_min_ppm:   50
+  monazite_la_min_ppm:   20
+  monazite_p_min_ppm:   400
+  monazite_uth_max:        0.5
+  thorite_uth_min:         1.5
+  bulk_density_t_m3:       1.5
+  th_in_monazite_frac:     0.044
+  lree_in_monazite:        0.28
+  ndpr_in_monazite:        0.09
+  stream_to_insitu_factor: 5.0
+
+economics:
+  processor_name:          "Energy Fuels White Mesa Mill"
+  processor_location:      "Blanding, UT"
+  ndpr_price_central:      109.0
+  ndpr_price_low:           60.0
+  ndpr_price_high:         140.0
+  tailings_handling_cost:    5.0
+  concentration_cost:       10.0
+  logistics_conc_per_tonne: 200.0   # TODO: longer haul from Idaho
+  processing_cost_per_kg:   50.0
+  ndpr_recovery:             0.80
+
+scoring:
+  weights:
+    th_source_monazite: 1.0
+    magnetic_high:      1.0
+    source_lith:        1.0
+    coverage:           1.0
+    ndpr_volume:        2.0
+    au_pathfinder:      1.0
+  tier_thresholds: [8, 6, 4]
+
+map_domain_patches: []
+county_labels: []
+task7_annotations: []

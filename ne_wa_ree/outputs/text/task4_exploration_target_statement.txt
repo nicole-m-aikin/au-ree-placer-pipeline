@@ -4,72 +4,19 @@ NE Washington Placer Mine Tailings REE Project
 (THIS IS NOT A MINERAL RESOURCE ESTIMATE)
 ================================================================
 
-Statement prepared under: JORC Code 2012 / NI 43-101 guidance for
-exploration targets (inferred potential, not classified resource)
-
 BASIS OF ESTIMATE:
-  - Volume: aerial extent from MRDS historical production records;
-    depth from available historical mine reports; verified against
-    lidar-historical topo differencing where lidar coverage available
-  - Grade proxy: NURE stream sediment Th values (mrdata.usgs.gov/ngdb),
-    upscaled to in-situ by empirical dilution factor of 5x (Bonham-Carter 1988)
-  - Th→monazite conversion: 4.4% Th in metamorphic monazite (Cheney et al. 1994)
-  - Monazite→NdPr: 9% NdPr by mass (Smith et al. 2015, monazite mineral chemistry)
-  - Inference chain: Th(stream) → Th(in-situ) → monazite grade → LREE grade → NdPr grade
-  - CAUTION: grade estimates carry ±50% uncertainty; stream sediment to in-situ
-    conversion is unvalidated without in-situ sampling
+  - Volume: aerial extent from MRDS historical production records
+  - Grade proxy: NURE stream sediment Th values upscaled by 5.0x dilution factor
+  - Th→monazite conversion: 4.4% Th in metamorphic monazite
+  - Monazite→NdPr: 9% NdPr by mass
+  - CAUTION: grade estimates carry ±50% uncertainty (log-normal, σ=0.4)
+  - Monte Carlo: 2 000 samples per site; depth ~ N(μ, σ), grade ~ LogNormal
 
-TOP 3 SITES — EXPLORATION TARGET SUMMARY:
-
-  Sanpoil River Placer
-    Location:          48.200°N, -118.850°E
-    Estimated tonnage: 315,000–936,000 t (central: 607,500 t)
-    Th proxy (stream): 69.0 ppm → in-situ proxy: 345 ppm
-    Monazite grade:    ~7841 ppm (~0.784% MNZ)
-    Total LREE grade:  ~2195 ppm
-    NdPr grade:        ~706 ppm
-    NdPr metal:        111–991 t (central: 428.7 t)
-    Lidar coverage:    2013 (2.0m res)
-    Historical topo:   1964 (40-ft contours)
-    Confidence:        LOW
-
-  Colville Placer
-    Location:          48.550°N, -117.900°E
-    Estimated tonnage: 196,000–560,000 t (central: 367,500 t)
-    Th proxy (stream): 54.0 ppm → in-situ proxy: 270 ppm
-    Monazite grade:    ~6136 ppm (~0.614% MNZ)
-    Total LREE grade:  ~1718 ppm
-    NdPr grade:        ~552 ppm
-    NdPr metal:        54–464 t (central: 203.0 t)
-    Lidar coverage:    2020 (0.5m res)
-    Historical topo:   1972 (20-ft contours)
-    Confidence:        HIGH
-
-  Conconully Placer
-    Location:          48.550°N, -119.750°E
-    Estimated tonnage: 297,500–748,000 t (central: 510,000 t)
-    Th proxy (stream): 32.0 ppm → in-situ proxy: 160 ppm
-    Monazite grade:    ~3636 ppm (~0.364% MNZ)
-    Total LREE grade:  ~1018 ppm
-    NdPr grade:        ~327 ppm
-    NdPr metal:        49–367 t (central: 166.9 t)
-    Lidar coverage:    2016 (1.0m res)
-    Historical topo:   1966 (40-ft contours)
-    Confidence:        MEDIUM
-
-COMBINED TOP-3 EXPLORATION TARGET:
-  NdPr metal: 214–1822 t (central estimate: 798.6 t)
-  
-  NOTE: This range is insufficient precision for economic assessment.
-  The uncertainty range must be collapsed by field sampling before 
-  investment decisions can be made. Recommended next step:
-  shallow auger/trenching program at top 2-3 sites to collect 
-  in-situ samples for direct REE assay (see executive summary).
+COMBINED TOP-3 EXPLORATION TARGET (Monte Carlo P10 / P50 / P90):
+  NdPr metal P10: 291 t
+  NdPr metal P50: 749.8 t  (headline estimate)
+  NdPr metal P90: 1534 t
 
 IMPORTANT DISCLAIMER:
-  This estimate is an exploration target only. The potential quantity
-  and grade of the target is conceptual in nature. There has been
-  insufficient exploration to define a Mineral Resource. It is uncertain
-  whether further exploration will result in the determination of a
-  Mineral Resource. Do not use this estimate for investment decisions
+  This is an exploration target only. Do not use for investment decisions
   without completion of a formal resource estimation study.

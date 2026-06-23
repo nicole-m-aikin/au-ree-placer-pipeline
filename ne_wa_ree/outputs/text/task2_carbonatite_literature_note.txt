@@ -17,20 +17,12 @@ NEAREST CARBONATITE-RELATED OCCURRENCES:
      - NOT carbonatite-hosted; hydrothermal thorite and monazite veins
      - MRDS IDs: 10003897, 10003898
      - Staatz 1972: thorium content up to 0.3% ThO2 in veins
-     
-  2. Magnet Cove, Arkansas (~2,400 km SE) — referenced in ASTER analysis as spectral 
-     analogue; not geologically relevant to NE WA source characterization
-     
-  3. Mountain Pass, CA (~1,500 km SW) — carbonatite-hosted bastnäsite; 
+
+  2. Mountain Pass, CA (~1,500 km SW) — carbonatite-hosted bastnäsite;
      no genetic connection to NE WA
 
 INTERPRETATION:
   No carbonatite Th-REE source is documented within 50 km of any priority site.
-  Therefore, Th anomalies in NURE stream sediments cannot be attributed to
-  carbonatite REE mineralization. This STRENGTHENS the metamorphic monazite
-  interpretation: the regional source rocks (Okanogan, Kettle, Republic MCCs)
-  are the most parsimonious explanation for the observed Th-LREE anomalies.
-  
   Detrital monazite from Precambrian metapelite gneisses in the MCCs is the
   most probable Th carrier. This is consistent with:
   - High-grade metamorphic terranes producing abundant accessory monazite

@@ -1,4 +1,4 @@
-th_source,n_samples,pct_of_anomalies,Th_median_ppm,Ce_median_ppm,La_median_ppm,U_Th_median,notes
-BACKGROUND,984,1613.1%,12.8,78.8,50.0,0.383,Below anomaly threshold
-THORITE_UTHO,36,59.0%,34.5,100.0,58.5,19.748,High U/Th; thorite or U-Th oxide host
-MIXED_UNCLEAR,25,41.0%,42.0,177.0,120.0,0.52,Mixed signal; requires SEM/EDS confirmation
+th_source,n_samples,pct_of_anomalies,Th_median_ppm,Ce_median_ppm,La_median_ppm,U_Th_median
+BACKGROUND,984,1613.1%,12.8,78.8,50.0,0.383
+THORITE_UTHO,36,59.0%,34.5,100.0,58.5,19.748
+MIXED_UNCLEAR,25,41.0%,42.0,177.0,120.0,0.52

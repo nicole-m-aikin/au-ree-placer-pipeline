@@ -1,23 +1,13 @@
 TASK 7 — Au/As/Pathfinder Anomaly Analysis Notes
 ============================================================
 
+UNITS WARNING:
+  WARNING: Median Au > 0.05 ppm — values may be in ppb mislabeled as ppm.
+
 CLASSIFICATION COUNTS:
-  BACKGROUND: 1007
-  BASE_METAL: 30
+  BACKGROUND: 1015
+  BASE_METAL: 25
   PORPHYRY_CU: 5
-  AU_ONLY: 3
 
 DUAL Th+Au ANOMALY SITES:
   - Hunters Placer
-
-INTERPRETATION:
-  The NE Washington NURE dataset yielded 0 epithermal-Au-signature samples (Au + As/Sb anomalous), 5 porphyry-Cu samples (Cu + Mo), and 3 Au-only anomalies. Of the 12 mine sites, 1 show spatial coincidence with BOTH a Th-rich source anomaly (Task 3) and an Au-pathfinder anomaly, representing the highest-priority exploration targets for Au–REE co-product systems. Dual-anomaly sites warrant follow-up sampling and petrographic characterisation. All results are based on NURE stream sediment data and should be confirmed with modern analytical methods before resource decisions are made.
-
-THRESHOLDS USED (mean + 2σ of log10 positive values):
-  Au: 0.3628
-  As: 35.53
-  Sb: 37.04
-  Cu: 219.3
-  Mo: 15.17
-  Pb: 451.2
-  Zn: 1766

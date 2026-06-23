@@ -1,0 +1,117 @@
+# Montana Placer REE Study Area — STUB CONFIG
+# TODO: Replace all placeholder values with verified data before running pipeline.
+# Districts: Confederate Gulch, Alder Gulch, Montana Bar, Libby Creek
+
+study_area:
+  name: "Montana Placer"
+  short: "mt_placer"
+  bbox:
+    lon_min: -114.0
+    lon_max: -111.0
+    lat_min:  45.0
+    lat_max:  47.0
+  wgs_bbox:  # TODO: refine to WGS data coverage
+    lon_min: -114.0
+    lon_max: -111.0
+    lat_min:  45.0
+    lat_max:  47.0
+  crs: "EPSG:4326"
+
+outputs_dir: "outputs/mt_placer"
+
+data:
+  nure_csv:       "data/nure/nure_mt_placer_sediment.csv"    # TODO: generate via prep_nure.py
+  mrds_geojson:   "data/mrds/mrds_mt_placer.geojson"         # TODO: download from mrdata.usgs.gov
+  geology_geojson: null    # TODO: Montana state geology shapefile
+  aeromagnetic_tif: null
+  dem_tif: null
+  wgs_excel: null          # No WGS OFR equivalent for Montana
+
+sites:  # TODO: fill in real placer sites with coordinates and lidar data
+  - name: "Confederate Gulch"
+    lon: -111.40
+    lat:  46.56
+    commodity: "Au+REE"
+    mrds_id: null
+    area_ha: null
+    depth_m: null
+    depth_uncertainty_m: null
+  - name: "Alder Gulch"
+    lon: -111.82
+    lat:  45.33
+    commodity: "Au+REE"
+    mrds_id: null
+    area_ha: null
+    depth_m: null
+    depth_uncertainty_m: null
+  - name: "Montana Bar"
+    lon: -112.09
+    lat:  46.59
+    commodity: "Au+REE"
+    mrds_id: null
+    area_ha: null
+    depth_m: null
+    depth_uncertainty_m: null
+  - name: "Libby Creek"
+    lon: -115.55
+    lat:  48.39
+    commodity: "Au+REE"
+    mrds_id: null
+    area_ha: null
+    depth_m: null
+    depth_uncertainty_m: null
+
+aeromagnetic_anomaly_centers: []
+
+task1_highlight_site: "Confederate Gulch"
+
+# Source lithologies: Boulder Batholith, Tobacco Root Mountains (Archean gneiss),
+# Belt Supergroup (Proterozoic metasedimentary), Beartooth uplift
+geology_domains: []   # TODO
+rivers: []            # TODO: Jefferson, Madison, Gallatin, Kootenai
+
+wgs:
+  exclude_sites: []
+  endowment_to_site: {}
+  site_abbrevs: {}
+  label_offsets: {}
+
+geochemistry:
+  regional_bg_th: 7.0          # TODO: verify Montana regional background Th
+  monazite_ce_min_ppm:   50
+  monazite_la_min_ppm:   20
+  monazite_p_min_ppm:   400
+  monazite_uth_max:        0.5
+  thorite_uth_min:         1.5
+  bulk_density_t_m3:       1.5
+  th_in_monazite_frac:     0.044
+  lree_in_monazite:        0.28
+  ndpr_in_monazite:        0.09
+  stream_to_insitu_factor: 5.0
+
+economics:
+  # TODO: consider Canadian options (Vital Metals, Neo Performance) for Libby area
+  processor_name:          "Energy Fuels White Mesa Mill"
+  processor_location:      "Blanding, UT"
+  ndpr_price_central:      109.0
+  ndpr_price_low:           60.0
+  ndpr_price_high:         140.0
+  tailings_handling_cost:    5.0
+  concentration_cost:       10.0
+  logistics_conc_per_tonne: 250.0   # TODO: longer haul from MT
+  processing_cost_per_kg:   50.0
+  ndpr_recovery:             0.80
+
+scoring:
+  weights:
+    th_source_monazite: 1.0
+    magnetic_high:      1.0
+    source_lith:        1.0
+    coverage:           1.0
+    ndpr_volume:        2.0
+    au_pathfinder:      1.0
+  tier_thresholds: [8, 6, 4]
+
+map_domain_patches: []
+county_labels: []
+task7_annotations: []
