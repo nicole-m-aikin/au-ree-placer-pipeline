@@ -14,6 +14,11 @@ import time
 import traceback
 from pathlib import Path
 
+# Ensure the repo root is on sys.path so `pipeline.*` imports resolve
+# regardless of whether the script is run as `python pipeline/run_pipeline.py`
+# or via `python -m pipeline.run_pipeline`.
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 import yaml
 
 
