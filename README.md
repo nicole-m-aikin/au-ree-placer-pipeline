@@ -102,7 +102,7 @@ All outputs land in `{outputs_dir}` defined in the config (default: `ne_wa_ree/o
 `pipeline/task9_ml_targeting.py` trains a Random Forest binary classifier on NURE stream
 sediment geochemistry to produce `fig10_ml_anomaly_probability.png` — three panels:
 
-- **Panel A** — Gini feature importance (log₁₀-transformed Th, Ce, La, P, U, Au, As)
+- **Panel A** — Gini feature importance (log₁₀-transformed Th, Ce, La, P, U, Au, As, Ti, Fe, Zr, Y)
 - **Panel B** — ROC curve from 5-fold stratified CV (mean ± 1 SD band)
 - **Panel C** — Continuous IDW-interpolated probability surface over the study area
 
