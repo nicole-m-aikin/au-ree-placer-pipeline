@@ -29,7 +29,7 @@ wrangling through spatial ML and economic screening — in a single reproducible
 - **Mineral systems analysis**: explicit source → pathway → trap → preservation framework (McCuaig & Hronsky 2014); each pipeline task is mapped to a framework component and justified in `METHODOLOGY.md`
 - **Geochemical QA/QC of legacy public datasets**: NURE half-MDL substitution, MRDS deduplication, WGS column validation; procedures documented and reproducible
 - **Monte Carlo uncertainty quantification**: P10/P50/P90 resource endowment using log-normal grade distributions; results reported with full uncertainty bands, not point estimates
-- **ML targeting with geochemically independent ground truth**: MRDS-proximity labels avoid the circular-labeling failure mode common in geochemical classifiers; 5-fold stratified cross-validation; Random Forest with geological feature engineering across the full placer heavy-mineral suite (Th, Ce, La, P, U, Au, As)
+- **ML targeting with geochemically independent ground truth**: MRDS-proximity labels avoid the circular-labeling failure mode common in geochemical classifiers; 5-fold stratified cross-validation; Random Forest with geological feature engineering across the full placer heavy-mineral suite (Th, Ce, La, P, U, Au, As, Ti, Fe, Zr, Y); CV ROC-AUC 0.891 ± 0.018
 - **Spatial geostatistical interpolation**: IDW probability surface for continuous spatial prediction; kriging variance surface identified as production upgrade path
 - **Economic screening**: break-even NdPr price analysis, undiscounted NPV rationale, tornado-style weight-sensitivity analysis on integrated priority scores
 - **Acid-base accounting (ABA) risk classification**: NP/AP ratio tiers per MEND 2009 thresholds; flags acid-generating sites for environmental due diligence
@@ -155,6 +155,7 @@ pipeline/
   run_pipeline.py             # CLI entry point (10 tasks)
 tests/
   test_utils.py               # pytest unit tests for core utils
+  test_integration_and_ml.py  # integration scoring, ML labels, clip_gdf_to_map
 ne_wa_ree/
   data/                       # NE WA input data (MRDS, aeromagnetic, NURE, lidar)
   outputs/                    # Figures, tables, GeoJSONs

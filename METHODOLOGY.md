@@ -227,7 +227,7 @@ class_weight='balanced').
 
 **Anomaly label — MRDS proximity (geochemistry-independent ground truth):**
 
-A sample is labelled positive if it lies within **0.03° (~3 km) of any MRDS placer
+A sample is labelled positive if it lies within **0.15° (~16 km) of any MRDS placer
 deposit site** in the study area. This is the critical design choice. Any label derived
 from the input geochemical features (e.g. Th > threshold, top-N% anomaly index) produces
 a circular classifier: the model learns to reconstruct its own input rather than discovering
@@ -239,10 +239,9 @@ learns which geochemical signatures in the NURE stream sediment data are charact
 of samples collected near known placer deposits. This is the exact question a production
 targeting model answers — train on confirmed deposit proximity, predict on unsampled terrain.
 
-The 0.03° radius (configurable via `ml.mrds_proximity_deg` in config) captures ~17% of
+The 0.15° radius (configurable via `ml.mrds_proximity_deg` in config) captures ~28% of
 samples as positive, providing reasonable class balance for 5-fold stratified CV. The
-radius was selected so that positive samples fall within the local drainage catchment of
-each placer site rather than the regional drainage basin.
+radius was selected to encompass the regional drainage catchment of each placer site.
 
 If the MRDS GeoJSON is not available, the task falls back to a top-10% multi-element
 anomaly index label (configurable via `ml.anomaly_top_pct`), with an explicit warning
@@ -268,7 +267,7 @@ suite of minerals that co-concentrate through hydraulic sorting in placer enviro
 Ti, Fe, Zr, and Y all concentrate by the same hydraulic sorting mechanism as monazite
 (specific gravity 4.6–5.2). Including the full oxide and silicate heavy mineral
 suite means the model learns the entire placer assemblage fingerprint, not only the
-REE-bearing fraction. The 4-element expansion improved CV ROC-AUC from 0.849 to 0.865.
+REE-bearing fraction. With the full 11-element feature set, CV ROC-AUC = 0.891 ± 0.018 (NE Washington).
 
 **Elevation filter (downstream/valley-floor constraint):**
 
@@ -283,9 +282,8 @@ samples on the same valley-floor terrace as the deposit. Samples with no DEM cov
 
 For NE Washington: the DEM is a Copernicus GLO-30 mosaic (8 × 1° tiles, downloaded from
 AWS Open Data via `download_dem.py`), covering lon −120→−116 / lat 47→49, 14400×7200 px
-at ~30m resolution, elevation range 171–2529m. The filter removed 14 samples (173 → 159
-positive; 173 were within proximity, 14 were on hillslopes >200m above their nearest
-MRDS site) with final CV ROC-AUC = 0.864 ± 0.028.
+at ~30m resolution, elevation range 171–2529m. After applying the elevation filter,
+290 of 1045 samples (27.8%) are labelled positive, with final CV ROC-AUC = 0.891 ± 0.018.
 
 **Validation:** 5-fold stratified cross-validation; metrics reported: ROC-AUC,
 precision, recall, F1 for the anomalous class. Note: standard k-fold CV does not
