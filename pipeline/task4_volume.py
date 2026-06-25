@@ -55,7 +55,7 @@ def run(cfg):
     _y_bg = geo.get('xenotime_y_min_ppm', 82.0)  # use threshold as proxy for background
     y_lookup = {}
     if 'y_value_ppm' in task1_df.columns and 'y_near' in task1_df.columns:
-        for _, r in task1_df.iterrows():
+        for _, r in task1_df.drop_duplicates('name', keep='last').iterrows():
             y_lookup[r['name']] = float(r['y_value_ppm']) if r.get('y_near') and pd.notna(r.get('y_value_ppm')) else 0.0
 
     # Build per-site dictionaries from config

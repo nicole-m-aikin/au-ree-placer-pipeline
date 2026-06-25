@@ -310,7 +310,7 @@ def topo_contours(ax, cfg, interval_m=300, lw=0.30, color='#555555', alpha=0.38,
                             resampling=_RS.bilinear).astype(float)
             nd = src.nodata
         if nd is not None:
-            data[data == nd] = _np.nan
+            data[data == nd] = np.nan
         data[data < -500] = np.nan
         if np.isnan(data).all():
             return

@@ -30,7 +30,7 @@ TASKS = {
     10: ('pipeline.integration',         'Integration & priority ranking'),
 }
 
-# Tasks that must complete before downstream tasks can run
+# Prerequisites for each task: DEPENDENCIES[n] = tasks that must complete before n
 DEPENDENCIES = {
     1:  [3],             # task1 reads task3 geojson output
     2:  [],

@@ -258,8 +258,8 @@ NdPr market context:
             ndpr_oxide_t*1000*NDPR_PRICE_CENTRAL/1e6 - total_cost_base*0.7,
         ],
         'Processing cost\n(±25%)': [
-            ndpr_oxide_t*1000*NDPR_PRICE_CENTRAL/1e6 - total_cost_base*0.75 + top_site['cost_processing_$M']*0.25,
-            ndpr_oxide_t*1000*NDPR_PRICE_CENTRAL/1e6 - total_cost_base*1.25 - top_site['cost_processing_$M']*0.25,
+            ndpr_oxide_t*1000*NDPR_PRICE_CENTRAL/1e6 - total_cost_base + top_site['cost_processing_$M']*0.25,
+            ndpr_oxide_t*1000*NDPR_PRICE_CENTRAL/1e6 - total_cost_base - top_site['cost_processing_$M']*0.25,
         ],
         f'NdPr recovery\n({NDPR_RECOVERY-0.1:.2f}–{NDPR_RECOVERY+0.1:.2f})': [
             ndpr_oxide_t*(NDPR_RECOVERY-0.1)/NDPR_RECOVERY*1000*NDPR_PRICE_CENTRAL/1e6 - total_cost_base,

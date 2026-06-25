@@ -162,7 +162,7 @@ def run(cfg):
     scatter_panel(ax1, 'Th', 'Ce', 'Th (ppm)', 'Ce (ppm)', show_legend=True)
     ax1.set_title('A.  Th vs Ce (monazite: positive correlation)', fontsize=9)
     ax1.axhline(ce_min, color=WONG['blue'], ls='--', lw=1.2, alpha=0.8)
-    ax1.text(ax1.get_xlim()[0] * 1.05 if ax1.get_xlim()[0] > 0 else 25,
+    ax1.text(ax1.get_xlim()[0],
              ce_min * 1.04, f'Ce > {ce_min} ppm\n(Mücke & Rao 1996)',
              fontsize=6, color=WONG['blue'], va='bottom')
     m_mask = anomaly_df['th_source'] == 'MONAZITE'
@@ -178,7 +178,7 @@ def run(cfg):
     scatter_panel(ax2, 'Th', 'La', 'Th (ppm)', 'La (ppm)', show_legend=True)
     ax2.set_title('B.  Th vs La', fontsize=9)
     ax2.axhline(la_min, color=WONG['blue'], ls='--', lw=1.2, alpha=0.8)
-    ax2.text(ax2.get_xlim()[0] * 1.05 if ax2.get_xlim()[0] > 0 else 25,
+    ax2.text(ax2.get_xlim()[0],
              la_min * 1.05, f'La > {la_min} ppm (crustal threshold)',
              fontsize=6, color=WONG['blue'], va='bottom')
 
@@ -186,7 +186,7 @@ def run(cfg):
     scatter_panel(ax3, 'Th', 'P', 'Th (ppm)', 'P (ppm)', show_legend=True)
     ax3.set_title('C.  Th vs P (monazite: phosphate co-enrichment)', fontsize=9)
     ax3.axhline(p_min, color=WONG['blue'], ls='--', lw=1.2, alpha=0.8)
-    ax3.text(ax3.get_xlim()[0] * 1.05 if ax3.get_xlim()[0] > 0 else 25,
+    ax3.text(ax3.get_xlim()[0],
              p_min * 1.05, f'P > {p_min} ppm (monazite proxy\nthreshold, this study)',
              fontsize=6, color=WONG['blue'], va='bottom')
 

@@ -287,20 +287,22 @@ def run(cfg):
         xi=(lon_g, lat_g),
         method='nearest',   # 'nearest' avoids NaN outside convex hull in padded margins
     )
-    # Also compute linear interpolation and blend: use linear inside data hull, nearest outside
+    # Apply sparse-data guard before blending so it takes precedence: cells >0.5°
+    # from any sample are unreliable regardless of whether linear interpolation
+    # would fill them inside the convex hull.
+    tree = cKDTree(np.column_stack([df['lon'], df['lat']]))
+    dist, _ = tree.query(np.column_stack([lon_g.ravel(), lat_g.ravel()]))
+    sparse_mask = dist.reshape(lon_g.shape) > 0.5
+    prob_grid[sparse_mask] = np.nan
+    # Blend: replace nearest with smoother linear estimate inside the data hull
     prob_grid_lin = griddata(
         points=np.column_stack([df['lon'], df['lat']]),
         values=df['p_anomalous'].values,
         xi=(lon_g, lat_g),
         method='linear',
     )
-    # Replace valid linear values with the smoother linear estimate
-    valid_lin = ~np.isnan(prob_grid_lin)
+    valid_lin = ~np.isnan(prob_grid_lin) & ~sparse_mask
     prob_grid[valid_lin] = prob_grid_lin[valid_lin]
-    # Mask cells > 0.5° from nearest sample (sparse data guard)
-    tree = cKDTree(np.column_stack([df['lon'], df['lat']]))
-    dist, _ = tree.query(np.column_stack([lon_g.ravel(), lat_g.ravel()]))
-    prob_grid[dist.reshape(lon_g.shape) > 0.5] = np.nan
 
     # ── Figure 10 ─────────────────────────────────────────────────────────────
     tpr_mean = np.mean(tpr_folds, axis=0)
