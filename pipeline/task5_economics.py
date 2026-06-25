@@ -28,6 +28,10 @@ def run(cfg):
     NDPR_PRICE_CENTRAL = ec.get('ndpr_price_central', 109.0)
     NDPR_PRICE_LOW     = ec.get('ndpr_price_low', 60.0)
     NDPR_PRICE_HIGH    = ec.get('ndpr_price_high', 140.0)
+    Y2O3_PRICE_CENTRAL = ec.get('y2o3_price_central', 3.50)
+    Y2O3_PRICE_LOW     = ec.get('y2o3_price_low', 2.50)
+    Y2O3_PRICE_HIGH    = ec.get('y2o3_price_high', 5.50)
+    Y2O3_RECOVERY      = ec.get('y2o3_recovery', 0.75)
     TAILINGS_HANDLING  = ec.get('tailings_handling_cost', 5.0)
     CONCENTR_COST      = ec.get('concentration_cost', 10.0)
     LOGISTICS_CONC     = ec.get('logistics_conc_per_tonne', 150.0)
@@ -55,18 +59,20 @@ NdPr market context:
         f.write(paper_section)
     print("Paper section written")
 
-    # ── Break-even analysis ───────────────────────────────────────────────────
+    # ── Break-even analysis — ALL sites ──────────────────────────────────────
+    # Run every site from task4 so the figure shows the full economic landscape.
+    # Ranking is by NPV at central NdPr price; sites are NOT filtered by NdPr endowment.
     t4 = pd.read_csv(out(cfg, 'tables', 'task4_volume_tonnage_summary.csv'))
-    t4 = t4.dropna(subset=['ndpr_tonnes']).sort_values('ndpr_tonnes', ascending=False)
-    top3 = t4.head(3)
-    top3_sites = [
+    t4 = t4.dropna(subset=['ndpr_tonnes'])
+    all_sites = [
         {'name': row['site_name'], 'tonnage_t': int(row['tonnage_t']),
          'ndpr_ppm': float(row['ndpr_ppm']), 'confidence': row['confidence']}
-        for _, row in top3.iterrows()
+        for _, row in t4.iterrows()
     ]
 
+    t4_idx = t4.set_index('site_name')
     results = []
-    for site in top3_sites:
+    for site in all_sites:
         name     = site['name']
         tonnage  = site['tonnage_t']
         ndpr_ppm = site['ndpr_ppm']
@@ -84,9 +90,17 @@ NdPr market context:
         cost_processing = ndpr_oxide_t * 1000 * PROCESSING_PER_KG
         total_cost     = cost_handling + cost_concentr + cost_logistics + cost_processing
 
-        rev_low     = ndpr_oxide_t * 1000 * NDPR_PRICE_LOW
-        rev_central = ndpr_oxide_t * 1000 * NDPR_PRICE_CENTRAL
-        rev_high    = ndpr_oxide_t * 1000 * NDPR_PRICE_HIGH
+        # Y₂O₃ co-product revenue (xenotime pathway; only for sites with y2o3_t_p50 > 0)
+        _t4_row = t4_idx.loc[name] if name in t4_idx.index else pd.Series()
+        _y2o3_t_p50 = float(_t4_row.get('y2o3_t_p50', 0.0)) if len(_t4_row) > 0 and pd.notna(_t4_row.get('y2o3_t_p50', 0.0)) else 0.0
+        y2o3_oxide_t = _y2o3_t_p50 * Y2O3_RECOVERY  # already in tonnes
+        y2o3_rev_central = y2o3_oxide_t * 1000 * Y2O3_PRICE_CENTRAL
+        y2o3_rev_low     = y2o3_oxide_t * 1000 * Y2O3_PRICE_LOW
+        y2o3_rev_high    = y2o3_oxide_t * 1000 * Y2O3_PRICE_HIGH
+
+        rev_low     = ndpr_oxide_t * 1000 * NDPR_PRICE_LOW     + y2o3_rev_low
+        rev_central = ndpr_oxide_t * 1000 * NDPR_PRICE_CENTRAL + y2o3_rev_central
+        rev_high    = ndpr_oxide_t * 1000 * NDPR_PRICE_HIGH    + y2o3_rev_high
 
         npv_low     = rev_low     - total_cost
         npv_central = rev_central - total_cost
@@ -100,6 +114,8 @@ NdPr market context:
             'ndpr_ppm':          ndpr_ppm,
             'ndpr_oxide_t':      round(ndpr_oxide_t, 0),
             'mnz_concentrate_t': round(mnz_conc_t, 0),
+            'y2o3_t_p50':        round(_y2o3_t_p50, 1),
+            'y2o3_co_rev_$M':    round(y2o3_rev_central/1e6, 2),
             'cost_handling_$M':  round(cost_handling/1e6, 1),
             'cost_concentr_$M':  round(cost_concentr/1e6, 1),
             'cost_logistics_$M': round(cost_logistics/1e6, 1),
@@ -116,80 +132,114 @@ NdPr market context:
         })
 
     results_df = pd.DataFrame(results)
+    # Sort all sites by NPV at central price — this is the economically meaningful ranking.
+    # NdPr endowment tonnage is NOT used as the sort key; sites with large volume but poor
+    # grade or low data confidence can still have low NPV.
+    results_df = results_df.sort_values('npv_central_$M', ascending=False).reset_index(drop=True)
     results_df.to_csv(out(cfg, 'tables', 'task5_breakeven_analysis.csv'), index=False)
-    print("\nBreak-even analysis:")
+    print("\nBreak-even analysis (all sites, ranked by NPV at central price):")
     print(results_df[['site','total_cost_$M','npv_central_$M','breakeven_$/kg']].to_string(index=False))
 
+    viable = results_df['breakeven_$/kg'] <= NDPR_PRICE_CENTRAL
+    print(f"\nViable at current ${NDPR_PRICE_CENTRAL:.0f}/kg: {viable.sum()} of {len(results_df)} sites")
+    for _, r in results_df[viable].iterrows():
+        print(f"  {r['site']}: ${r['breakeven_$/kg']:.0f}/kg → VIABLE")
+    for _, r in results_df[~viable].iterrows():
+        print(f"  {r['site']}: ${r['breakeven_$/kg']:.0f}/kg → NOT VIABLE at current price")
+
     # ── Figure 5 ──────────────────────────────────────────────────────────────
-    fig = plt.figure(figsize=(16, 9))
+    # Color palette: viable sites get distinct WONG colors; non-viable get gray shades.
+    _wong_colors = [WONG['blue'], WONG['orange'], WONG['green'], WONG['sky'],
+                    WONG['vermillion'], WONG['yellow'], WONG['pink']]
+    viable_sites    = results_df[viable].reset_index(drop=True)
+    nonviable_sites = results_df[~viable].reset_index(drop=True)
+    site_color_map = {}
+    for i, name in enumerate(viable_sites['site']):
+        site_color_map[name] = _wong_colors[i % len(_wong_colors)]
+    for i, name in enumerate(nonviable_sites['site']):
+        site_color_map[name] = f'#{180 - i*15:02x}{180 - i*15:02x}{180 - i*15:02x}'
+
+    fig = plt.figure(figsize=(16, 10))
     fig.suptitle(
         f'Figure 5 — Break-even Analysis: {cfg["study_area"]["name"]} Placer Monazite Tailings\n'
-        f'NdPr Price and Cost Sensitivity (Top 3 Economic Sites)',
+        f'All {len(results_df)} sites • ranked by NPV at current NdPr price (${NDPR_PRICE_CENTRAL:.0f}/kg)',
         fontsize=12, fontweight='bold',
     )
-    gs = gridspec.GridSpec(2, 2, figure=fig, hspace=0.4, wspace=0.35)
-    site_colors = [WONG['blue'], WONG['orange'], WONG['green']]
+    gs = gridspec.GridSpec(2, 2, figure=fig, hspace=0.42, wspace=0.35)
 
+    # ── Panel A: NPV vs price curves, ALL sites ───────────────────────────────
     ax1 = fig.add_subplot(gs[0, 0:2])
-    prices = np.linspace(30, 200, 100)
-    for idx, row in results_df.iterrows():
+    prices = np.linspace(30, 200, 150)
+    for _, row in results_df.iterrows():
         ndpr_oxide_t = row['ndpr_oxide_t']
         total_cost   = row['total_cost_$M'] * 1e6
-        npvs = [(ndpr_oxide_t * 1000 * p - total_cost)/1e6 for p in prices]
-        ax1.plot(prices, npvs, color=site_colors[idx], lw=2.5,
-                 label=f"{row['site']} (BE: ${row['breakeven_$/kg']:.0f}/kg)")
-        be = row['breakeven_$/kg']
-        be_color = WONG['green'] if be < 90 else (WONG['orange'] if be < NDPR_PRICE_CENTRAL else WONG['vermillion'])
-        ax1.axvline(be, color=be_color, ls=':', lw=1.2, alpha=0.8)
-
-    ax1.axvline(NDPR_PRICE_LOW, color='gray', ls='--', lw=2, alpha=0.85,
+        is_viable    = row['breakeven_$/kg'] <= NDPR_PRICE_CENTRAL
+        npvs = [(ndpr_oxide_t * 1000 * p - total_cost) / 1e6 for p in prices]
+        _y_flag = ' ★Y' if row.get('y2o3_t_p50', 0) > 0 else ''
+        color = site_color_map[row['site']]
+        lw    = 2.5 if is_viable else 1.2
+        ls    = '-'  if is_viable else '--'
+        alpha = 1.0  if is_viable else 0.55
+        ax1.plot(prices, npvs, color=color, lw=lw, ls=ls, alpha=alpha,
+                 label=f"{row['site']}{_y_flag} (BE: ${row['breakeven_$/kg']:.0f}/kg)")
+    ax1.axvline(NDPR_PRICE_LOW,     color='#555555', ls='--', lw=1.8, alpha=0.8,
                 label=f'2024 trough (${NDPR_PRICE_LOW:.0f}/kg)')
-    ax1.axvline(NDPR_PRICE_CENTRAL, color=WONG['blue'], ls='-', lw=2.5,
+    ax1.axvline(NDPR_PRICE_CENTRAL, color='black',   ls='-',  lw=2.5,
                 label=f'Current spot (${NDPR_PRICE_CENTRAL:.0f}/kg)')
-    ax1.axvline(NDPR_PRICE_HIGH, color='gray', ls='-.', lw=2, alpha=0.85,
+    ax1.axvline(NDPR_PRICE_HIGH,    color='#555555', ls='-.',  lw=1.8, alpha=0.8,
                 label=f'Q1 2026 peak (${NDPR_PRICE_HIGH:.0f}/kg)')
-    ax1.axhline(0, color='black', lw=0.8)
-    ax1.fill_between(prices, 0, 1e10, where=(prices >= NDPR_PRICE_LOW), alpha=0.05, color=WONG['green'])
+    ax1.axhline(0, color='black', lw=1.0)
+    _npv_min = min((row['ndpr_oxide_t'] * 1000 * 30 - row['total_cost_$M'] * 1e6) / 1e6
+                   for _, row in results_df.iterrows()) * 1.05
+    ax1.fill_between(prices, _npv_min, 0,
+                     where=np.ones(len(prices), dtype=bool), alpha=0.04, color='red')
     ax1.set_xlabel('NdPr oxide price ($/kg)', fontsize=11)
     ax1.set_ylabel('Undiscounted NPV ($M)', fontsize=11)
     ax1.tick_params(labelsize=9)
-    ax1.set_title('A.  Undiscounted NPV vs. NdPr oxide price\n'
-                  '(current cost assumptions; EXPLORATION ESTIMATE ONLY)', fontsize=9)
-    ax1.legend(fontsize=8, loc='upper left')
-    ax1.grid(True, alpha=0.3)
+    ax1.set_title('A.  NPV vs. NdPr price — all sites\n'
+                  '(solid = viable at $109/kg; dashed = not viable; ★Y = Y₂O₃ co-product site)', fontsize=9)
+    ax1.legend(fontsize=7.5, loc='upper left', ncol=2)
+    ax1.grid(True, alpha=0.25)
     ax1.set_xlim(30, 200)
-    ax1.set_ylim(bottom=0, top=results_df['rev_high_$M'].max() * 1.1)
 
+    # ── Panel B: horizontal NPV bar at central price (ranked) ─────────────────
     ax2 = fig.add_subplot(gs[1, 0])
-    cost_components = ['cost_handling_$M','cost_concentr_$M','cost_logistics_$M','cost_processing_$M']
-    cost_labels = ['Tailings handling', 'Concentration', f'Logistics to {PROC_NAME}', f'{PROC_NAME} processing']
-    cost_colors = [WONG['blue'], WONG['sky'], WONG['yellow'], WONG['vermillion']]
-    bottoms = np.zeros(len(results_df))
-    x = np.arange(len(results_df))
-    for comp, label, col in zip(cost_components, cost_labels, cost_colors):
-        vals = results_df[comp].values
-        ax2.bar(x, vals, bottom=bottoms, color=col, label=label, edgecolor='white', lw=0.5)
-        bottoms += vals
-    for idx, row in results_df.iterrows():
-        ax2.bar(idx, row['rev_central_$M'], bottom=0, fill=False,
-                edgecolor='black', lw=2.5, linestyle='-',
-                label='Revenue (central)' if idx == 0 else '')
-    ax2.set_xticks(x)
-    ax2.set_xticklabels([r['site'].split()[0] + '\n' + r['site'].split()[1]
-                         if len(r['site'].split()) > 1 else r['site']
-                         for _, r in results_df.iterrows()], fontsize=8)
-    ax2.set_ylabel('$M (undiscounted)', fontsize=11)
-    ax2.tick_params(labelsize=9)
-    ax2.set_title(f'B.  Cost breakdown vs. revenue\n(dashed = central revenue at ${NDPR_PRICE_CENTRAL:.0f}/kg)', fontsize=9)
-    ax2.legend(fontsize=7, loc='upper right')
-    ax2.grid(True, alpha=0.3, axis='y')
+    bar_df = results_df.sort_values('npv_central_$M', ascending=True)  # ascending for horizontal bar (bottom = best)
+    y_pos  = np.arange(len(bar_df))
+    bar_colors = [site_color_map[s] for s in bar_df['site']]
+    ax2.barh(y_pos, bar_df['npv_central_$M'], color=bar_colors,
+             edgecolor='white', lw=0.4, alpha=0.85)
+    ax2.axvline(0, color='black', lw=1.0)
+    # Annotate breakeven on each bar
+    for i, (_, row) in enumerate(bar_df.iterrows()):
+        be = row['breakeven_$/kg']
+        npv = row['npv_central_$M']
+        _y_flag = ' ★Y' if row.get('y2o3_t_p50', 0) > 0 else ''
+        ax2.text(max(npv, 0) + 0.3, i,
+                 f"BE: ${be:.0f}/kg{_y_flag}", va='center', fontsize=7.5)
+    ax2.set_yticks(y_pos)
+    ax2.set_yticklabels(bar_df['site'].str.replace(' Placer','').str.replace(' Mine',''),
+                        fontsize=8)
+    ax2.set_xlabel('NPV at current NdPr price $109/kg ($M, undiscounted)', fontsize=10)
+    ax2.set_title('B.  All sites ranked by NPV\n'
+                  f'(at ${NDPR_PRICE_CENTRAL:.0f}/kg; BE = break-even price; ★Y = Y₂O₃ co-product)', fontsize=9)
+    ax2.grid(True, alpha=0.25, axis='x')
 
     ax3 = fig.add_subplot(gs[1, 1])
-    # Use Sanpoil River Placer as tornado base case (#1 economic site by NdPr endowment)
-    if 'Sanpoil River Placer' in results_df['site'].values:
-        top_site = results_df[results_df['site'] == 'Sanpoil River Placer'].iloc[0]
-    else:
-        top_site = results_df.iloc[0]
+    # Tornado: use the #1 priority target (Hunters Placer) if viable, else top-NPV viable site.
+    # Hunters is #1 by multi-criterion combined score (Fig 7); Sanpoil is only #4 despite
+    # having the most NdPr tonnes, because it has LOW data confidence and no Au signal.
+    _priority_order = ['Hunters Placer', 'Colville Placer', 'Conconully Placer',
+                       'Sanpoil River Placer']
+    top_site = None
+    for pname in _priority_order:
+        _match = results_df[(results_df['site'] == pname) &
+                            (results_df['breakeven_$/kg'] <= NDPR_PRICE_CENTRAL)]
+        if not _match.empty:
+            top_site = _match.iloc[0]
+            break
+    if top_site is None:
+        top_site = results_df[viable].iloc[0] if viable.any() else results_df.iloc[0]
     base_npv     = top_site['npv_central_$M']
     ndpr_oxide_t = top_site['ndpr_oxide_t']
     total_cost_base = top_site['total_cost_$M']
@@ -231,14 +281,14 @@ NdPr market context:
 
     ax3.set_yticks(range(len(order)))
     ax3.set_yticklabels([labels[i] for i in order], fontsize=8)
-    ax3.axvline(base_npv, color='black', lw=1.5, label=f'Base NPV = ${base_npv:.0f}M')
+    ax3.axvline(base_npv, color=WONG['blue'], lw=2.5, label=f'Base NPV = ${base_npv:.1f}M')
     ax3.set_xlabel('Undiscounted NPV ($M)', fontsize=11)
     ax3.tick_params(labelsize=9)
-    ax3.set_title(f'C.  Tornado: NPV sensitivity\n{top_site["site"]} (top site by NdPr metal)', fontsize=9)
+    ax3.set_title(f'C.  Tornado: NPV sensitivity\n{top_site["site"]} (#1 priority target by combined score)', fontsize=9)
     tornado_legend = [
         Patch(facecolor=WONG['green'], alpha=0.7, label='Upside (positive impact)'),
         Patch(facecolor=WONG['vermillion'], alpha=0.7, label='Downside (negative impact)'),
-        plt.Line2D([0],[0], color='black', lw=1.5, label=f'Base NPV = ${base_npv:.0f}M'),
+        plt.Line2D([0],[0], color=WONG['blue'], lw=2.5, label=f'Base NPV = ${base_npv:.1f}M'),
     ]
     ax3.legend(handles=tornado_legend, fontsize=7.5, loc='lower right')
     ax3.grid(True, alpha=0.3, axis='x')
@@ -246,10 +296,7 @@ NdPr market context:
     watermark(fig, cfg)
     save_fig(fig, out(cfg, 'figures', 'fig5_breakeven_sensitivity.png'))
 
-    print(f"\nBreak-even prices for top 3 sites:")
-    for _, row in results_df.iterrows():
-        status = "VIABLE" if row['breakeven_$/kg'] < NDPR_PRICE_CENTRAL else "MARGINAL"
-        print(f"  {row['site']}: ${row['breakeven_$/kg']:.0f}/kg → {status} at current prices")
+    print(f"\nTornado focus: {top_site['site']} (#1 priority target by multi-criterion combined score)")
 
 
 if __name__ == '__main__':

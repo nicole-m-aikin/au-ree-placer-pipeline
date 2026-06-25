@@ -94,7 +94,7 @@ def run(cfg):
 
     anomaly_df = df[df['th_anomaly']].copy()
 
-    def scatter_panel(ax, x_col, y_col, xlabel, ylabel):
+    def scatter_panel(ax, x_col, y_col, xlabel, ylabel, show_legend=False):
         x_vals = anomaly_df[x_col].dropna()
         y_vals = anomaly_df[y_col].dropna()
         if not ((x_vals > 0).any() and (y_vals > 0).any()):
@@ -114,6 +114,9 @@ def run(cfg):
         ax.set_xscale('log'); ax.set_yscale('log')
         ax.grid(True, alpha=0.3, which='both')
         ax.tick_params(labelsize=9)
+        if show_legend:
+            ax.legend(fontsize=7, loc='upper left', markerscale=1.3,
+                      framealpha=0.88, handlelength=1.2)
 
     CHONDRITE = {k: v for k, v in CHONDRITE_SUN89.items() if k in ('La', 'Ce', 'Nd')}
 
@@ -156,7 +159,7 @@ def run(cfg):
     gs = gridspec.GridSpec(3, 3, figure=fig, hspace=0.45, wspace=0.35)
 
     ax1 = fig.add_subplot(gs[0, 0])
-    scatter_panel(ax1, 'Th', 'Ce', 'Th (ppm)', 'Ce (ppm)')
+    scatter_panel(ax1, 'Th', 'Ce', 'Th (ppm)', 'Ce (ppm)', show_legend=True)
     ax1.set_title('A.  Th vs Ce (monazite: positive correlation)', fontsize=9)
     ax1.axhline(ce_min, color=WONG['blue'], ls='--', lw=1.2, alpha=0.8)
     ax1.text(ax1.get_xlim()[0] * 1.05 if ax1.get_xlim()[0] > 0 else 25,
@@ -172,7 +175,7 @@ def run(cfg):
                  label=f'Monazite trend (r={r:.2f})')
 
     ax2 = fig.add_subplot(gs[0, 1])
-    scatter_panel(ax2, 'Th', 'La', 'Th (ppm)', 'La (ppm)')
+    scatter_panel(ax2, 'Th', 'La', 'Th (ppm)', 'La (ppm)', show_legend=True)
     ax2.set_title('B.  Th vs La', fontsize=9)
     ax2.axhline(la_min, color=WONG['blue'], ls='--', lw=1.2, alpha=0.8)
     ax2.text(ax2.get_xlim()[0] * 1.05 if ax2.get_xlim()[0] > 0 else 25,
@@ -180,7 +183,7 @@ def run(cfg):
              fontsize=6, color=WONG['blue'], va='bottom')
 
     ax3 = fig.add_subplot(gs[0, 2])
-    scatter_panel(ax3, 'Th', 'P', 'Th (ppm)', 'P (ppm)')
+    scatter_panel(ax3, 'Th', 'P', 'Th (ppm)', 'P (ppm)', show_legend=True)
     ax3.set_title('C.  Th vs P (monazite: phosphate co-enrichment)', fontsize=9)
     ax3.axhline(p_min, color=WONG['blue'], ls='--', lw=1.2, alpha=0.8)
     ax3.text(ax3.get_xlim()[0] * 1.05 if ax3.get_xlim()[0] > 0 else 25,
@@ -198,6 +201,25 @@ def run(cfg):
     ax4.set_title('D.  Th vs U (thorite: high U/Th)', fontsize=9)
     ax4.legend(fontsize=7, loc='upper left')
 
+    # Zone count annotations — show N per U/Th bin for samples with valid U data
+    _anom_u = anomaly_df[(anomaly_df['Th'] > 0) & (anomaly_df['U'] > 0)].copy()
+    _anom_u['_uth'] = _anom_u['U'] / _anom_u['Th'].clip(lower=0.01)
+    _n_mnz  = (_anom_u['_uth'] <  uth_max).sum()   # < 0.5 monazite-like
+    _n_mid  = ((_anom_u['_uth'] >= uth_max) & (_anom_u['_uth'] < uth_min)).sum()  # 0.5–1.5
+    _n_thor = (_anom_u['_uth'] >= uth_min).sum()   # > 1.5 thorite
+    _n_miss = len(anomaly_df) - len(_anom_u)        # no U data
+    _note = (f'Of {len(anomaly_df)} anomalous samples:\n'
+             f'  n={_n_thor} U/Th > {uth_min} (thorite zone)\n'
+             f'  n={_n_mid}  U/Th {uth_max}–{uth_min} (mixed)\n'
+             f'  n={_n_mnz}  U/Th < {uth_max} (monazite-like)\n'
+             f'  n={_n_miss} U missing → not plotted here\n'
+             f'  (missing-U samples shown in A–C as\n'
+             f'   Mixed/unclear; source unresolved)')
+    ax4.text(0.97, 0.03, _note, transform=ax4.transAxes,
+             ha='right', va='bottom', fontsize=6.2, color='#444444',
+             bbox=dict(boxstyle='round,pad=0.35', facecolor='#fffbe6',
+                       edgecolor='#ccccaa', alpha=0.90))
+
     ax5 = fig.add_subplot(gs[1, 1])
     im = ax5.imshow(corr_matrix.values, cmap='PuOr', vmin=-1, vmax=1, aspect='auto')
     ax5.set_xticks(range(len(elements))); ax5.set_yticks(range(len(elements)))
@@ -210,7 +232,7 @@ def run(cfg):
             r_val = corr_matrix.values[i, j]
             if abs(r_val) > 0.5 and i != j:
                 ax5.text(j, i, f'{r_val:.2f}', ha='center', va='center',
-                         fontsize=6, color='white' if abs(r_val) > 0.75 else 'black')
+                         fontsize=6, color='white' if abs(r_val) > 0.60 else 'black')
     p_idx = elements.index('P') if 'P' in elements else None
     if p_idx is not None:
         ax5.add_patch(plt.Rectangle((-0.5, p_idx - 0.5), len(elements), 1,
@@ -242,46 +264,99 @@ def run(cfg):
         ax5.text(o1 + 0.1, (o0 + o1) / 2, 'Oxide\nblock', fontsize=6,
                  color=WONG['orange'], va='center', style='italic')
 
-    ax6 = fig.add_subplot(gs[1, 2])
-    src_sizes   = {'BACKGROUND': 8,  'THORITE_UTHO': 35, 'MIXED_UNCLEAR': 35, 'ZIRCON': 35, 'MONAZITE': 35}
-    src_markers = {'BACKGROUND': 'o', 'THORITE_UTHO': '^', 'MIXED_UNCLEAR': 'o', 'ZIRCON': 's', 'MONAZITE': 'D'}
-    src_alphas  = {'BACKGROUND': 0.4, 'THORITE_UTHO': 0.9, 'MIXED_UNCLEAR': 0.9, 'ZIRCON': 0.9, 'MONAZITE': 0.9}
-    for src, color in source_colors.items():
-        mask = df['th_source'] == src
-        if mask.sum() == 0: continue
-        ax6.scatter(df.loc[mask, 'lon'], df.loc[mask, 'lat'],
-                    c=color, s=src_sizes.get(src, 18), marker=src_markers.get(src, 'o'),
-                    alpha=src_alphas.get(src, 0.7), label=source_labels[src],
-                    edgecolors='black' if src != 'BACKGROUND' else 'none', linewidths=0.3)
-    xmin_f, xmax_f, ymin_f, ymax_f = map_extent(cfg)
-    ax6.set_xlim(xmin_f, xmax_f)
-    ax6.set_ylim(ymin_f, ymax_f)
-    north_arrow(ax6, size=9)
-    scale_bar(ax6, cfg, length_km=50)
-    ax6.set_xlabel('Longitude', fontsize=11); ax6.set_ylabel('Latitude', fontsize=11)
-    ax6.set_title('F.  Spatial distribution of Th source types', fontsize=9)
-    ax6.tick_params(labelsize=9)
-    ax6.grid(True, alpha=0.2)
-    for lon_line in np.arange(
-            round(cfg['study_area']['bbox']['lon_min'] + 0.5),
-            cfg['study_area']['bbox']['lon_max'], 1.0):
-        ax6.axvline(lon_line, color='gray', lw=0.5, ls='--', alpha=0.4)
+    # Panel F (spatial distribution of Th source types) removed — the spatial
+    # story is told more completely by Fig 10C (ML probability map with NURE
+    # sample locations + geographic context). Panel G moved up to the freed slot.
 
-    ax7 = fig.add_subplot(gs[2, 0])
+    ax7 = fig.add_subplot(gs[1, 2])
+    # Reference mineral zone shadings (Mücke & Rao 1996; Förster 2006; Kempe et al. 2010)
+    _zone_alpha = 0.10
+    ax7.axvspan(-3,              np.log10(uth_max), alpha=_zone_alpha, color=WONG['green'],
+                label='Monazite field (U/Th < 0.5)')
+    ax7.axvspan(np.log10(uth_max), np.log10(uth_min), alpha=_zone_alpha, color=WONG['yellow'],
+                label='Thorite field (0.5–1.5)')
+    ax7.axvspan(np.log10(uth_min), 1.7,  alpha=_zone_alpha, color=WONG['orange'],
+                label='Thorite-coffinite series (1.5–50)')
+    ax7.axvspan(1.7,             3.0,    alpha=_zone_alpha, color=WONG['vermillion'],
+                label='Uraninite zone (U/Th > 50)')
     for src, color in source_colors.items():
         mask = (df['th_source'] == src) & df['th_anomaly']
         if mask.sum() < 3: continue
         vals = np.log10(df.loc[mask, 'U_Th_ratio'].clip(lower=0.001))
-        ax7.hist(vals, bins=20, color=color, alpha=0.6, label=source_labels[src], density=True)
-    ax7.axvline(np.log10(uth_max), color='red', ls='--', lw=1.5, label=f'U/Th={uth_max} threshold')
-    ax7.set_xlabel('log₁₀(U/Th)', fontsize=11); ax7.set_ylabel('Density', fontsize=11)
-    ax7.set_title('G.  U/Th ratio by Th source type\n(anomalous samples only)', fontsize=9)
-    ax7.legend(fontsize=8)
+        ax7.hist(vals, bins=20, color=color, alpha=0.6, label=source_labels[src], density=False)
+    ax7.axvline(np.log10(uth_max), color='red', ls='--', lw=1.5, label=f'U/Th={uth_max} (mnz/thorite)')
+    ax7.set_xlabel('log₁₀(U/Th)', fontsize=11); ax7.set_ylabel('Count', fontsize=11)
+    ax7.set_title('F.  U/Th ratio by Th source type\n(anomalous samples only; mineral zones shaded)',
+                  fontsize=9)
+    ax7.legend(fontsize=6.5, ncol=1)
     ax7.tick_params(labelsize=9)
+    # Annotate the dominant peak
+    _peak_log = np.log10(df.loc[(df['th_source'] == 'THORITE_UTHO') & df['th_anomaly'],
+                                'U_Th_ratio'].clip(lower=0.001)).median()
+    ax7.annotate(f'Main peak\n(thorite-coffinite\nseries; median\nU/Th≈{10**_peak_log:.0f})',
+                 xy=(_peak_log, ax7.get_ylim()[1] * 0.5 if ax7.get_ylim()[1] > 0 else 2),
+                 xytext=(_peak_log - 1.1, ax7.get_ylim()[1] * 0.6 if ax7.get_ylim()[1] > 0 else 2.5),
+                 fontsize=6.5, color=WONG['vermillion'],
+                 arrowprops=dict(arrowstyle='->', color=WONG['vermillion'], lw=1.0),
+                 bbox=dict(boxstyle='round,pad=0.2', facecolor='white', alpha=0.8))
 
-    ax8 = fig.add_subplot(gs[2, 1])
-    scatter_panel(ax8, 'Th', 'LREE_sum', 'Th (ppm)', 'Ce+La+Nd (ppm)')
-    ax8.set_title('H.  Th vs ΣLREE\n(monazite: parallel enrichment)', fontsize=9)
+    ax8 = fig.add_subplot(gs[2, 0])
+    scatter_panel(ax8, 'Th', 'LREE_sum', 'Th (ppm)', 'Ce+La+Nd (ppm)', show_legend=True)
+    ax8.set_title('G.  Th vs ΣLREE\n(monazite → both Th & LREE co-enriched)', fontsize=9)
+    # Compute and annotate Pearson r on log-transformed anomalous pairs
+    _lree_valid = anomaly_df[['Th', 'LREE_sum']].dropna()
+    _lree_valid = _lree_valid[(_lree_valid['Th'] > 0) & (_lree_valid['LREE_sum'] > 0)]
+    if len(_lree_valid) > 5:
+        from scipy import stats as _stats
+        _r, _p = _stats.pearsonr(np.log10(_lree_valid['Th']), np.log10(_lree_valid['LREE_sum']))
+        _sig = '(p<0.05)' if _p < 0.05 else '(n.s.)'
+        ax8.text(0.97, 0.05, f'r = {_r:.2f} {_sig}\n(log-log; n={len(_lree_valid)})',
+                 transform=ax8.transAxes, ha='right', va='bottom', fontsize=8,
+                 bbox=dict(boxstyle='round,pad=0.3', facecolor='white', alpha=0.85))
+
+    # ── Panel H: Y vs Th  (xenotime as independent HREE signal) ──────────────
+    ax_yth = fig.add_subplot(gs[2, 1])
+    _y_thresh = geo.get('xenotime_y_min_ppm',
+                        pd.to_numeric(df['Y'], errors='coerce').mean() +
+                        2 * pd.to_numeric(df['Y'], errors='coerce').std())
+    _yth_df = df[pd.to_numeric(df['Y'], errors='coerce').notna() &
+                 pd.to_numeric(df['Th'], errors='coerce').notna()].copy()
+    _yth_df['Y_n']  = pd.to_numeric(_yth_df['Y'],  errors='coerce')
+    _yth_df['Th_n'] = pd.to_numeric(_yth_df['Th'], errors='coerce')
+    _yth_df = _yth_df[(_yth_df['Y_n'] > 0) & (_yth_df['Th_n'] > 0)]
+    # All NURE samples as grey background
+    ax_yth.scatter(_yth_df['Th_n'], _yth_df['Y_n'], c='#cccccc', s=8, alpha=0.4,
+                   zorder=1, label='Background NURE')
+    # Anomalous Th samples coloured by source
+    for src, color in source_colors.items():
+        _mask = (_yth_df['th_source'] == src) if 'th_source' in _yth_df.columns else \
+                (pd.Series(False, index=_yth_df.index))
+        _sub = _yth_df[_mask]
+        if _sub.empty: continue
+        ax_yth.scatter(_sub['Th_n'], _sub['Y_n'], c=color, s=25, alpha=0.8,
+                       zorder=3, label=source_labels.get(src, src))
+    # Y anomaly threshold line
+    ax_yth.axhline(_y_thresh, color=WONG['green'], ls='--', lw=1.5,
+                   label=f'Y anomaly threshold\n({_y_thresh:.0f} ppm, mean+2SD)')
+    # Th anomaly threshold line
+    ax_yth.axvline(th_threshold, color=WONG['vermillion'], ls=':', lw=1.3,
+                   label=f'Th threshold ({th_threshold:.0f} ppm)')
+    # Shade dual-anomaly quadrant
+    ax_yth.axvspan(th_threshold, _yth_df['Th_n'].max() * 1.2,
+                   ymin=0, alpha=0.06, color=WONG['green'], zorder=0)
+    # Count dual-anomaly samples
+    _dual = _yth_df[(_yth_df['Y_n'] > _y_thresh) & (_yth_df['Th_n'] > th_threshold)]
+    _y_only = _yth_df[(_yth_df['Y_n'] > _y_thresh) & (_yth_df['Th_n'] <= th_threshold)]
+    ax_yth.text(0.97, 0.97,
+                f'Dual Th+Y anomaly: n={len(_dual)}\nY-only (HREE, no Th): n={len(_y_only)}',
+                transform=ax_yth.transAxes, ha='right', va='top', fontsize=7.5,
+                bbox=dict(boxstyle='round,pad=0.3', facecolor='#eaffea', alpha=0.9))
+    ax_yth.set_xscale('log'); ax_yth.set_yscale('log')
+    ax_yth.set_xlabel('Th (ppm)', fontsize=10)
+    ax_yth.set_ylabel('Y (ppm)', fontsize=10)
+    ax_yth.set_title('H.  Y vs Th\n(xenotime HREE signal — independent of Th source)', fontsize=9)
+    ax_yth.legend(fontsize=6.5, loc='lower right', framealpha=0.85)
+    ax_yth.tick_params(labelsize=8)
 
     ax9 = fig.add_subplot(gs[2, 2])
     spider_els = ['La', 'Ce', 'Nd']
@@ -307,7 +382,12 @@ def run(cfg):
                              label=source_labels[src] if first else '_nolegend_')
                     first = False
 
-        if wgs_geochem_df is not None and len(wgs_geochem_df) > 0:
+        _t8_path = out(cfg, 'tables', 'task8_mine_waste_summary.csv')
+        try:
+            _t8_has_data = os.path.exists(_t8_path) and pd.read_csv(_t8_path).shape[0] > 0
+        except Exception:
+            _t8_has_data = False
+        if wgs_geochem_df is not None and len(wgs_geochem_df) > 0 and _t8_has_data:
             dep_col = next((c for c in ['Deposit Type(s)', 'Deposit Types', 'Deposit_Type']
                             if c in wgs_geochem_df.columns), None)
 
@@ -352,11 +432,23 @@ def run(cfg):
                       '(top 15 NURE anomalies + WGS mine waste overlay)', fontsize=9)
         ax9.grid(True, alpha=0.3, which='both')
         ax9.tick_params(labelsize=9)
-        ax9.legend(fontsize=6.0, loc='lower left', framealpha=0.85)
-        ax9.text(0.97, 0.97,
-                 '† WGS bold lines = ICP-MS mine waste (OFR 2026-02)\n'
-                 '  NURE thin lines = stream sediment (La/Ce/Nd only)\n'
-                 '  Full REE patterns in Fig 9',
+        ax9.legend(fontsize=6.0, loc='upper left', bbox_to_anchor=(0.0, -0.10),
+                   bbox_transform=ax9.transAxes, framealpha=0.88, ncol=1,
+                   borderpad=0.4, handlelength=1.5)
+        _t8_path = out(cfg, 'tables', 'task8_mine_waste_summary.csv')
+        try:
+            _t8_has_data_annot = os.path.exists(_t8_path) and pd.read_csv(_t8_path).shape[0] > 0
+        except Exception:
+            _t8_has_data_annot = False
+        if _t8_has_data_annot:
+            _annot_text = ('† WGS bold lines = ICP-MS mine waste (OFR 2026-02)\n'
+                           '  NURE thin lines = stream sediment (La/Ce/Nd only)\n'
+                           '  Full REE patterns in Fig 9')
+        else:
+            _annot_text = ('WGS data not available\n'
+                           '  NURE thin lines = stream sediment (La/Ce/Nd only)\n'
+                           '  Set WGS_OFR2026_PATH to enable WGS overlay')
+        ax9.text(0.97, 0.97, _annot_text,
                  transform=ax9.transAxes, ha='right', va='top', fontsize=6.5,
                  color='#555555', style='italic',
                  bbox=dict(boxstyle='round,pad=0.3', facecolor='#fffbe6',
@@ -366,10 +458,7 @@ def run(cfg):
                  ha='center', va='center', transform=ax9.transAxes, fontsize=9, color='gray')
         ax9.set_title('I.  LREE pattern (insufficient data)', fontsize=9)
 
-    handles = [plt.scatter([], [], c=c, s=40, label=l)
-               for c, l in zip(source_colors.values(), source_labels.values())]
-    fig.legend(handles=handles, loc='lower center', ncol=3, fontsize=8,
-               bbox_to_anchor=(0.5, 0.01), framealpha=0.9)
+    fig.subplots_adjust(bottom=0.10)
 
     watermark(fig, cfg)
     save_fig(fig, out(cfg, 'figures', 'fig3_geochemical_discrimination.png'))

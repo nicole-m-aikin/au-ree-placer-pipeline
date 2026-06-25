@@ -225,15 +225,72 @@ class_weight='balanced').
 - Provides Gini feature importance without requiring additional hyperparameter tuning
 - class_weight='balanced' corrects for the ~15–20% anomalous sample fraction
 
-**Geological feature engineering:** Log₁₀ transformation of the multi-element suite
-(Th, Ce, La, P, U, Au, As) converts the log-normal geochemical distributions to
-approximately normal, which is the standard preprocessing step in geochemical
-exploration data science (Stanley & Sinclair 1989). The combination of multiple
-pathfinder elements in a single model operationalizes the multi-element approach
-already used in tasks 1, 3, and 7 as a probabilistic model.
+**Anomaly label — MRDS proximity (geochemistry-independent ground truth):**
+
+A sample is labelled positive if it lies within **0.03° (~3 km) of any MRDS placer
+deposit site** in the study area. This is the critical design choice. Any label derived
+from the input geochemical features (e.g. Th > threshold, top-N% anomaly index) produces
+a circular classifier: the model learns to reconstruct its own input rather than discovering
+geologically generalizable patterns, and achieves AUC approaching 1.0 regardless of model
+complexity or cross-validation scheme.
+
+Using MRDS proximity as the label makes the classification problem genuine: the model
+learns which geochemical signatures in the NURE stream sediment data are characteristic
+of samples collected near known placer deposits. This is the exact question a production
+targeting model answers — train on confirmed deposit proximity, predict on unsampled terrain.
+
+The 0.03° radius (configurable via `ml.mrds_proximity_deg` in config) captures ~17% of
+samples as positive, providing reasonable class balance for 5-fold stratified CV. The
+radius was selected so that positive samples fall within the local drainage catchment of
+each placer site rather than the regional drainage basin.
+
+If the MRDS GeoJSON is not available, the task falls back to a top-10% multi-element
+anomaly index label (configurable via `ml.anomaly_top_pct`), with an explicit warning
+in the output. The fallback AUC will be higher and should not be reported as evidence
+of genuine predictive power.
+
+**Geological feature engineering — full placer heavy mineral suite:**
+
+Log₁₀ transformation of 11 elements converts log-normal geochemical distributions
+to approximately normal (Stanley & Sinclair 1989). The feature set covers the complete
+suite of minerals that co-concentrate through hydraulic sorting in placer environments:
+
+| Element | Mineral(s) | Role |
+|---------|-----------|------|
+| Th, Ce, La, P | Monazite — (LREE)PO₄ | Primary REE target |
+| U | Uraninite / thorite | REE/actinide indicator |
+| Au, As | Native gold + arsenopyrite halo | Au pathfinder pair |
+| Ti | Rutile + ilmenite — TiO₂, FeTiO₃ | Oxide heavy mineral |
+| Fe | Magnetite — Fe₃O₄ | Oxide heavy mineral (co-placer with monazite) |
+| Zr | Zircon — ZrSiO₄ | Silicate heavy mineral, very resistant to weathering |
+| Y | Xenotime — YPO₄ | Phosphate heavy mineral, common monazite associate |
+
+Ti, Fe, Zr, and Y all concentrate by the same hydraulic sorting mechanism as monazite
+(specific gravity 4.6–5.2). Including the full oxide and silicate heavy mineral
+suite means the model learns the entire placer assemblage fingerprint, not only the
+REE-bearing fraction. The 4-element expansion improved CV ROC-AUC from 0.849 to 0.865.
+
+**Elevation filter (downstream/valley-floor constraint):**
+
+Placer deposits form on valley floors where hydraulic energy decreases. A NURE stream
+sediment sample taken on a hillside within 3 km of a placer mine may be in the
+source-rock terrain (bedrock geochemistry) rather than the placer zone. When a DEM
+covering the study area is available (`data.dem_tif` in config), the label applies an
+additional constraint: the NURE sample and its nearest MRDS site must be within
+`ml.mrds_elev_diff_m` metres of each other (default 200 m), restricting positives to
+samples on the same valley-floor terrace as the deposit. Samples with no DEM coverage
+(NaN elevation) pass this filter by default.
+
+For NE Washington: the DEM is a Copernicus GLO-30 mosaic (8 × 1° tiles, downloaded from
+AWS Open Data via `download_dem.py`), covering lon −120→−116 / lat 47→49, 14400×7200 px
+at ~30m resolution, elevation range 171–2529m. The filter removed 14 samples (173 → 159
+positive; 173 were within proximity, 14 were on hillslopes >200m above their nearest
+MRDS site) with final CV ROC-AUC = 0.864 ± 0.028.
 
 **Validation:** 5-fold stratified cross-validation; metrics reported: ROC-AUC,
-precision, recall, F1 for the anomalous class.
+precision, recall, F1 for the anomalous class. Note: standard k-fold CV does not
+account for spatial autocorrelation; block spatial CV (e.g., via spatially separated
+folds) is the recommended upgrade for a production workflow.
 
 **IDW interpolation:** `scipy.interpolate.griddata` with method='linear' interpolates
 point predictions to a 200×200 grid over the study area bbox. Cells > 0.5° from the

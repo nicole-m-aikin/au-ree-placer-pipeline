@@ -17,9 +17,15 @@ from shapely.geometry import Point
 import warnings
 warnings.filterwarnings('ignore')
 
+import matplotlib.patheffects as pe
+
 from pipeline.utils import (WONG, setup_mpl, load_nure, anomaly_threshold,
                              watermark, save_fig, ensure_outputs, out,
-                             map_extent, hillshade, north_arrow, scale_bar)
+                             map_extent, hillshade, north_arrow, scale_bar,
+                             canada_border, locator_inset,
+                             topo_contours, rivers_with_arrows,
+                             MAP_W, MAP_H, _FIG_LM, _FIG_RM, _FIG_TM, _FIG_BM,
+                             _FIG_HGAP, _ax_rect)
 
 
 def run(cfg):
@@ -42,7 +48,7 @@ def run(cfg):
     print("STEP 2: Below-detection handling")
     print("="*60)
 
-    ELEMENTS = ['Au', 'As', 'Sb', 'Cu', 'Mo', 'Pb', 'Zn']
+    ELEMENTS = ['Au', 'As', 'Sb', 'Cu', 'Mo', 'Pb', 'Zn', 'Th', 'La', 'P']
     present  = [e for e in ELEMENTS if e in df.columns]
     print(f"  Elements found: {present}")
 
@@ -79,7 +85,7 @@ def run(cfg):
     print("STEP 4: Log-threshold anomaly cutoffs")
     print("="*60)
 
-    threshold_els = ['Au', 'As', 'Sb', 'Cu', 'Mo']
+    threshold_els = ['Au', 'As', 'Sb', 'Cu', 'Mo', 'Th', 'La']
     thresholds = {}
     for col in threshold_els:
         if col not in df.columns:
@@ -111,16 +117,26 @@ def run(cfg):
     mo_anom = is_anomalous('Mo', thresholds.get('Mo'))
     pb_anom = is_anomalous('Pb', thresholds.get('Pb'))
     zn_anom = is_anomalous('Zn', thresholds.get('Zn'))
+    th_anom = is_anomalous('Th', thresholds.get('Th'))
+    la_anom = is_anomalous('La', thresholds.get('La'))
+
+    # REE/monazite: joint Th+La anomaly; optional P gate from config
+    ree_monazite = th_anom & la_anom
+    monazite_p_min = cfg.get('geochemistry', {}).get('monazite_p_min_ppm')
+    if monazite_p_min and 'P' in df.columns:
+        p_series = pd.to_numeric(df['P'], errors='coerce')
+        ree_monazite = ree_monazite & (p_series > monazite_p_min)
 
     epithermal = au_anom & (as_anom | sb_anom)
     porphyry   = cu_anom & mo_anom
     au_only    = au_anom & ~epithermal & ~porphyry
     base_metal = (pb_anom | zn_anom) & ~au_anom
     df['au_class'] = 'BACKGROUND'
-    df.loc[base_metal, 'au_class']  = 'BASE_METAL'
-    df.loc[au_only, 'au_class']     = 'AU_ONLY'
-    df.loc[porphyry, 'au_class']    = 'PORPHYRY_CU'
-    df.loc[epithermal, 'au_class']  = 'EPITHERMAL_AU'
+    df.loc[base_metal, 'au_class']   = 'BASE_METAL'
+    df.loc[au_only, 'au_class']      = 'AU_ONLY'
+    df.loc[ree_monazite, 'au_class'] = 'REE_MONAZITE'   # overrides AU_ONLY
+    df.loc[porphyry, 'au_class']     = 'PORPHYRY_CU'
+    df.loc[epithermal, 'au_class']   = 'EPITHERMAL_AU'
     counts = df['au_class'].value_counts()
     print(f"  Classification: {counts.to_dict()}")
 
@@ -128,7 +144,7 @@ def run(cfg):
     print("STEP 6: Nearest Au-anomaly sample per mine site")
     print("="*60)
 
-    au_anom_df  = df[df['au_class'].isin(['EPITHERMAL_AU', 'PORPHYRY_CU', 'AU_ONLY'])].copy()
+    au_anom_df  = df[df['au_class'].isin(['EPITHERMAL_AU', 'PORPHYRY_CU', 'AU_ONLY', 'REE_MONAZITE'])].copy()
     au_anom_gdf = gpd.GeoDataFrame(
         au_anom_df,
         geometry=[Point(xy) for xy in zip(au_anom_df['lon'], au_anom_df['lat'])],
@@ -184,9 +200,18 @@ def run(cfg):
     print("STEP 8: Generating Figure 8")
     print("="*60)
 
-    fig, ax = plt.subplots(figsize=(11, 9))
+    _TERN_W = 3.6
+    figW = _FIG_LM + MAP_W + _FIG_HGAP + _TERN_W + _FIG_RM
+    figH = _FIG_TM + MAP_H + _FIG_BM
+    fig = plt.figure(figsize=(figW, figH))
+    ax  = fig.add_axes(_ax_rect(_FIG_LM, _FIG_BM, MAP_W, MAP_H, figW, figH))
     xmin_7, xmax_7, ymin_7, ymax_7 = map_extent(cfg)
-    hillshade(cfg, ax, alpha=0.20)
+    ax.set_xlim(xmin_7, xmax_7)
+    ax.set_ylim(ymin_7, ymax_7)
+    ax.set_aspect('auto')
+    hillshade(cfg, ax, alpha=0.22)
+    topo_contours(ax, cfg)
+    rivers_with_arrows(ax, cfg)
 
     bg = df[df['au_class'] == 'BACKGROUND']
     ax.scatter(bg['lon'], bg['lat'], s=5, alpha=0.3, color='#CCCCCC', zorder=1, label='_nolegend_')
@@ -220,6 +245,14 @@ def run(cfg):
     if not bm.empty:
         ax.scatter(bm['lon'], bm['lat'], s=20, marker='^', color=WONG['pink'],
                    edgecolors='white', linewidths=0.4, zorder=3, label='_nolegend_')
+
+    rm = df[df['au_class'] == 'REE_MONAZITE'].copy()
+    if not rm.empty:
+        th_thr = thresholds.get('Th') or 1.0
+        rm['Th_num'] = pd.to_numeric(rm['Th'], errors='coerce').fillna(th_thr)
+        sizes_rm = np.clip(60 * rm['Th_num'] / th_thr, 30, 500)
+        ax.scatter(rm['lon'], rm['lat'], s=sizes_rm, marker='^', color=WONG['vermillion'],
+                   edgecolors='black', linewidths=0.5, zorder=6, label='_nolegend_')
 
     LABEL_OFFSETS = {ann.get('site'): tuple(ann.get('label_offset', (4, 4)))
                      for ann in cfg.get('task7_site_label_offsets', [])}
@@ -258,6 +291,9 @@ def run(cfg):
     if not ao.empty:
         site_legend.append(Line2D([0],[0], marker='o', color='w', markerfacecolor=WONG['sky'],
                                    markersize=7, label='Au only'))
+    if not rm.empty:
+        site_legend.append(Line2D([0],[0], marker='^', color='w', markerfacecolor=WONG['orange'],
+                                   markeredgecolor='black', markersize=9, label='REE/monazite (Th+La)'))
     if not pc.empty:
         site_legend.append(Line2D([0],[0], marker='s', color='w', markerfacecolor=WONG['blue'],
                                    markersize=7, label='Porphyry Cu'))
@@ -276,35 +312,181 @@ def run(cfg):
                markeredgecolor='black', markersize=12,
                label=f'★ Dual Th+Au anomaly ({", ".join(dual_sites) or "none"})'),
     ]
-    ax.legend(handles=site_legend, loc='lower left', fontsize=7, framealpha=0.85,
-              title='Classification', title_fontsize=8)
+    ax.legend(handles=site_legend, loc='upper left', fontsize=7, framealpha=0.88,
+              title='Classification', title_fontsize=8,
+              bbox_to_anchor=(0.01, 0.99))
 
     ax.set_title(
-        f'Au/As Pathfinder Geochemistry — {cfg["study_area"]["name"]}\n'
-        'Mineral Systems: TRAP characterisation (Au/As halos)',
-        fontsize=13, fontweight='bold', pad=10,
+        f'A.  Au/As/REE Pathfinder Geochemistry — {cfg["study_area"]["name"]}\n'
+        'Mineral Systems: TRAP characterisation (Au/As/REE halos)',
+        fontsize=10, fontweight='bold', pad=8,
     )
-    ax.set_xlim(xmin_7, xmax_7)
-    ax.set_ylim(ymin_7, ymax_7)
+    canada_border(ax, cfg)
     north_arrow(ax)
     scale_bar(ax, cfg)
+    locator_inset(fig, ax, cfg)
     ax.set_xlabel('Longitude', fontsize=10)
     ax.set_ylabel('Latitude', fontsize=10)
     ax.grid(alpha=0.3, linestyle='--', linewidth=0.5)
 
+    # ── Panel D: deposit-type ternary discrimination ──────────────────────────
+    ax_tern = fig.add_axes(_ax_rect(_FIG_LM + MAP_W + _FIG_HGAP, _FIG_BM,
+                                    _TERN_W, MAP_H, figW, figH))
+
+    # NaN-safe log10: replace 0/NaN with column median before logging
+    def _nan_safe_log10(df_, col):
+        v = pd.to_numeric(df_[col], errors='coerce') if col in df_.columns else pd.Series(np.nan, index=df_.index)
+        v = v.where(v > 0, np.nan)
+        med = v.median()
+        v = v.fillna(med if pd.notna(med) else 1.0)
+        return np.log10(v.clip(lower=1e-9))
+
+    _log_th = _nan_safe_log10(df, 'Th')
+    _log_ce = _nan_safe_log10(df, 'Ce')
+    _log_la = _nan_safe_log10(df, 'La')
+    _log_au = _nan_safe_log10(df, 'Au')
+    _log_as = _nan_safe_log10(df, 'As')
+    _log_cu = _nan_safe_log10(df, 'Cu')
+    _log_mo = _nan_safe_log10(df, 'Mo')
+
+    ree_comp  = _log_th + _log_ce + _log_la
+    au_comp   = _log_au + _log_as
+    porp_comp = _log_cu + _log_mo
+
+    def _minmax(s):
+        mn, mx = s.min(), s.max()
+        return (s - mn) / (mx - mn + 1e-9)
+
+    a = _minmax(ree_comp)    # REE vertex
+    b = _minmax(au_comp)     # Placer-Au vertex
+    c = _minmax(porp_comp)   # Porphyry vertex
+    tot = a + b + c + 1e-9
+
+    # Standard ternary → Cartesian (Au=left, REE=right, Porphyry=top apex)
+    tern_x = 0.5 * (2 * b + c) / tot
+    tern_y = (np.sqrt(3) / 2) * c / tot
+
+    class_color_map = {
+        'BACKGROUND':   '#CCCCCC',
+        'REE_MONAZITE': WONG['vermillion'],
+        'AU_ONLY':      WONG['sky'],
+        'PORPHYRY_CU':  WONG['blue'],
+        'EPITHERMAL_AU': WONG['orange'],
+        'BASE_METAL':   WONG['pink'],
+    }
+    class_marker_map = {
+        'BACKGROUND':   'o',
+        'REE_MONAZITE': '^',
+        'AU_ONLY':      'o',
+        'PORPHYRY_CU':  's',
+        'EPITHERMAL_AU': 'o',
+        'BASE_METAL':   '^',
+    }
+
+    # Draw ternary triangle outline
+    tri_x = [0, 1, 0.5, 0]
+    tri_y = [0, 0, np.sqrt(3)/2, 0]
+    ax_tern.plot(tri_x, tri_y, 'k-', lw=1.5, zorder=0)
+
+    # Grid lines at 25%, 50%, 75%
+    for frac in [0.25, 0.5, 0.75]:
+        ax_tern.plot([frac*(0.5), frac*0 + (1-frac)*0.5],
+                     [frac*(np.sqrt(3)/2), frac*0], color='gray', lw=0.4, alpha=0.4, ls='--')
+        ax_tern.plot([1-frac, (1-frac)*0.5],
+                     [0, (1-frac)*np.sqrt(3)/2], color='gray', lw=0.4, alpha=0.4, ls='--')
+        ax_tern.plot([frac*0.5, 1-frac*(0.5)],
+                     [frac*np.sqrt(3)/2, frac*np.sqrt(3)/2], color='gray', lw=0.4, alpha=0.4, ls='--')
+
+    for cls in ['BACKGROUND', 'BASE_METAL', 'AU_ONLY', 'REE_MONAZITE', 'PORPHYRY_CU', 'EPITHERMAL_AU']:
+        mask = df['au_class'] == cls
+        if not mask.any():
+            continue
+        alpha = 0.25 if cls == 'BACKGROUND' else 0.75
+        size  = 8   if cls == 'BACKGROUND' else 30
+        ax_tern.scatter(tern_x[mask], tern_y[mask],
+                        c=class_color_map[cls], marker=class_marker_map[cls],
+                        s=size, alpha=alpha, edgecolors='none', zorder=3 if cls == 'BACKGROUND' else 5)
+
+    # Annotate Pend Oreille porphyry cluster (high porphyry corner)
+    po_mask = (df['au_class'] == 'PORPHYRY_CU') & (c / tot > 0.45)
+    if po_mask.any():
+        po_x = tern_x[po_mask].mean()
+        po_y = tern_y[po_mask].mean()
+        ax_tern.annotate('Pend Oreille\nCu-Mo cluster',
+                         xy=(po_x, po_y), xytext=(po_x - 0.18, po_y + 0.05),
+                         fontsize=6.5, color=WONG['blue'], style='italic',
+                         arrowprops=dict(arrowstyle='->', color=WONG['blue'], lw=0.8),
+                         bbox=dict(boxstyle='round,pad=0.2', fc='white', alpha=0.75, lw=0),
+                         zorder=8,
+                         path_effects=[pe.withStroke(linewidth=2, foreground='white')])
+
+    # Vertex labels (bottom-left=REE, bottom-right=Placer-Au, top=Porphyry)
+    ax_tern.text(-0.03, -0.04, 'REE/Monazite\n(Th+Ce+La)', ha='right', va='top',
+                 fontsize=8, fontweight='bold')
+    ax_tern.text(1.03,  -0.04, 'Placer-Au\n(Au+As)', ha='left', va='top',
+                 fontsize=8, fontweight='bold')
+    ax_tern.text(0.5,  np.sqrt(3)/2 + 0.04, 'Porphyry\n(Cu+Mo)', ha='center', va='bottom',
+                 fontsize=8, fontweight='bold')
+
+    # Legend for ternary
+    tern_legend = []
+    for cls, lbl in [('BACKGROUND','Background'), ('REE_MONAZITE','REE/monazite'),
+                     ('AU_ONLY','Au only'), ('PORPHYRY_CU','Porphyry Cu'),
+                     ('EPITHERMAL_AU','Epithermal Au'), ('BASE_METAL','Base metal')]:
+        if (df['au_class'] == cls).any():
+            tern_legend.append(Line2D([0],[0], marker=class_marker_map[cls], color='w',
+                                      markerfacecolor=class_color_map[cls],
+                                      markersize=7, label=lbl))
+    ax_tern.legend(handles=tern_legend, fontsize=7, loc='upper right',
+                   framealpha=0.88, title='Classification', title_fontsize=7)
+
+    ax_tern.set_xlim(-0.08, 1.08)
+    ax_tern.set_ylim(-0.10, np.sqrt(3)/2 + 0.12)
+    ax_tern.set_aspect('equal')
+    ax_tern.axis('off')
+    ax_tern.set_title('D.  Deposit-type ternary discrimination\n'
+                      '(normalized composite scores; proves deposit-type separation)',
+                      fontsize=9, fontweight='bold', pad=8)
+    ax_tern.text(0.5, -0.08,
+                 'Each vertex = min-max normalized log-composite score.\n'
+                 'REE/monazite: log(Th)+log(Ce)+log(La)  ·  '
+                 'Placer Au: log(Au)+log(As)  ·  Porphyry: log(Cu)+log(Mo)',
+                 ha='center', va='top', fontsize=6, color='gray', style='italic',
+                 transform=ax_tern.transAxes)
+
+    fig.suptitle(
+        f'Figure 8 — Au/As/REE Pathfinder Geochemistry — {cfg["study_area"]["name"]}\n'
+        'Mineral Systems: TRAP + REE characterisation (Au/As/REE halos)',
+        fontsize=12, fontweight='bold',
+    )
+
     watermark(fig, cfg)
-    plt.tight_layout(rect=[0, 0.03, 1, 1])
     save_fig(fig, out(cfg, 'figures', 'fig8_au_as_anomaly_map.png'))
 
     print("\n" + "="*60)
     print("STEP 9: Saving outputs")
     print("="*60)
 
+    # Add REE/monazite nearest-sample info per site
+    ree_anom_df = df[df['au_class'] == 'REE_MONAZITE'].copy()
+    ree_near_flags = []
+    for _, site in mine_gdf.iterrows():
+        if ree_anom_df.empty:
+            ree_near_flags.append(False)
+            continue
+        site_lon, site_lat = site.geometry.x, site.geometry.y
+        dists = np.sqrt((ree_anom_df['lon'] - site_lon)**2 + (ree_anom_df['lat'] - site_lat)**2)
+        ree_near_flags.append(bool((dists <= MAX_DIST).any()))
+    summary_df['has_ree_monazite_anomaly'] = ree_near_flags
+
     summary_df.to_csv(out(cfg, 'tables', 'task7_au_as_summary.csv'), index=False)
     print(f"  Saved: {out(cfg, 'tables', 'task7_au_as_summary.csv')}")
 
+    ree_count = int((df['au_class'] == 'REE_MONAZITE').sum())
+    print(f"  REE/monazite samples: {ree_count}")
+
     lines = [
-        "TASK 7 — Au/As/Pathfinder Anomaly Analysis Notes",
+        "TASK 7 — Au/As/REE/Pathfinder Anomaly Analysis Notes",
         "=" * 60, "",
     ]
     if au_units_warning:
@@ -312,7 +494,8 @@ def run(cfg):
     lines.append("CLASSIFICATION COUNTS:")
     for cls, cnt in counts.items():
         lines.append(f"  {cls}: {cnt}")
-    lines += ["", "DUAL Th+Au ANOMALY SITES:"]
+    lines += ["", f"REE/monazite samples: {ree_count}",
+              "", "DUAL Th+Au ANOMALY SITES:"]
     lines += [f"  - {s}" for s in dual_sites] if dual_sites else ["  None identified."]
     notes_path = out(cfg, 'text', 'task7_au_anomaly_notes.txt')
     with open(notes_path, 'w') as f:

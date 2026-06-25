@@ -1,5 +1,7 @@
 # Au + REE Placer Assessment Pipeline
 
+A reproducible, config-driven geoscience pipeline for screening placer Au and REE/monazite potential from public geochemical, geophysical, and mine-waste datasets — designed to demonstrate end-to-end applied geoscience from dataset QA/QC through ML targeting and economic screening.
+
 ## Mineral Systems Framework
 
 This pipeline implements a **mineral systems analysis** of placer Au and REE potential,
@@ -17,9 +19,40 @@ directly informs target prioritization in the integration task (task 10).
 
 ---
 
-A config-driven, multi-stage geoscience exploration pipeline for evaluating placer Au and
-Rare Earth Element (REE/monazite) potential using public geochemical, geophysical, and mine
-waste datasets. Designed for any US placer REE district.
+## Skills Demonstrated
+
+This pipeline was built to show the full applied geoscience stack — from raw public dataset
+wrangling through spatial ML and economic screening — in a single reproducible codebase.
+
+- **Mineral systems analysis**: explicit source → pathway → trap → preservation framework (McCuaig & Hronsky 2014); each pipeline task is mapped to a framework component and justified in `METHODOLOGY.md`
+- **Geochemical QA/QC of legacy public datasets**: NURE half-MDL substitution, MRDS deduplication, WGS column validation; procedures documented and reproducible
+- **Monte Carlo uncertainty quantification**: P10/P50/P90 resource endowment using log-normal grade distributions; results reported with full uncertainty bands, not point estimates
+- **ML targeting with geochemically independent ground truth**: MRDS-proximity labels avoid the circular-labeling failure mode common in geochemical classifiers; 5-fold stratified cross-validation; Random Forest with geological feature engineering across the full placer heavy-mineral suite (Th, Ce, La, P, U, Au, As)
+- **Spatial geostatistical interpolation**: IDW probability surface for continuous spatial prediction; kriging variance surface identified as production upgrade path
+- **Economic screening**: break-even NdPr price analysis, undiscounted NPV rationale, tornado-style weight-sensitivity analysis on integrated priority scores
+- **Acid-base accounting (ABA) risk classification**: NP/AP ratio tiers per MEND 2009 thresholds; flags acid-generating sites for environmental due diligence
+- **Config-driven, multi-study-area architecture**: NE Washington complete (10 figures, all outputs); Idaho Batholith and Montana Placer stubs ready to activate on data ingestion
+
+## Output Figures
+
+<table>
+<tr>
+<td><img src="ne_wa_ree/outputs/figures/fig7_integrated_priority_map.png" width="420"/><br/><sub>Fig 7 — Multi-criterion integrated priority map (6 weighted criteria, weight-sensitivity tested)</sub></td>
+<td><img src="ne_wa_ree/outputs/figures/fig10_ml_anomaly_probability.png" width="420"/><br/><sub>Fig 10 — ML anomaly probability surface (RF + IDW)</sub></td>
+</tr>
+<tr>
+<td><img src="ne_wa_ree/outputs/figures/fig3_geochemical_discrimination.png" width="420"/><br/><sub>Fig 3 — Multi-element Th source discrimination and chondrite-normalized REE patterns</sub></td>
+<td><img src="ne_wa_ree/outputs/figures/fig5_breakeven_sensitivity.png" width="420"/><br/><sub>Fig 5 — Break-even NdPr price, Monte Carlo NPV distribution, and sensitivity tornado</sub></td>
+</tr>
+</table>
+
+## Key NE WA findings
+
+- **61 Th-anomalous NURE samples** in NE WA; classified MIXED/UNCLEAR or THORITE — no confirmed monazite fingerprint from stream sediment alone
+- **WGS ICP-MS** (OFR 2026-02): First Thought Mine has highest TREE concentration (191 ppm); Germania Mine has largest TREE endowment (~21,000 kg)
+- **6 of 10 WGS sites** have mean Au ≥ 0.1 ppm (tailings reprocessing threshold)
+- **Environmental flag**: Big Iron and Silver Bell are acid-generating (NP/AP < 1)
+- **Top result**: Hunters Placer (#1) + Colville Placer (#2) highest combined score; all top-3 sites break even below current NdPr spot (~$109/kg, mid-2026)
 
 ## Study areas
 
@@ -186,14 +219,6 @@ python pipeline/task9_ml_targeting.py configs/ne_washington/config.yaml
 ```bash
 pytest tests/ -v
 ```
-
-## Key NE WA findings
-
-- **61 Th-anomalous NURE samples** in NE WA; classified MIXED/UNCLEAR or THORITE — no confirmed monazite fingerprint from stream sediment alone
-- **WGS ICP-MS** (OFR 2026-02): First Thought Mine has highest TREE concentration (191 ppm); Germania Mine has largest TREE endowment (~21,000 kg)
-- **6 of 10 WGS sites** have mean Au ≥ 0.1 ppm (tailings reprocessing threshold)
-- **Environmental flag**: Big Iron and Silver Bell are acid-generating (NP/AP < 1)
-- **Top result**: Hunters Placer (#1) + Colville Placer (#2) highest combined score; all top-3 sites break even below current NdPr spot (~$109/kg, mid-2026)
 
 ## Disclaimers
 

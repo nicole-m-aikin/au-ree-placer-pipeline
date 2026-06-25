@@ -18,6 +18,7 @@ env/
 # Large raster data (download instructions in DATA_SOURCES.md)
 *.tif
 *.tiff
+*.aux.xml
 *.img
 *.nc
 *.hdf
@@ -44,3 +45,9 @@ data/wgs_ofr2026/
 
 # Environment variables
 .env
+
+# Internal AI tooling prompts — not relevant to project consumers
+CLAUDE.md
+FIGURE_UPDATE_PROMPT.md
+NEXT_SESSION_PROMPT.md
+REFACTOR_PROMPT.md

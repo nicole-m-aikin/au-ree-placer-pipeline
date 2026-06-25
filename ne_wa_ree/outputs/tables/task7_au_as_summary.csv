@@ -1,13 +1,13 @@
-site_name,nearest_au_ppm,nearest_as_ppm,au_class,distance_deg,has_th_anomaly,dual_anomaly_flag
-Brender Placer,,,NONE,,False,False
-Conconully Placer,,,NONE,,True,False
-Republic Gold District,,,NONE,,False,False
-Oroville Placer,,,NONE,,False,False
-Kettle Falls Placer,,,NONE,,False,False
-Bossburg Placer,,,NONE,,True,False
-Old Dominion Mine,,,NONE,,False,False
-Meyers Creek Placer,,,NONE,,False,False
-Sanpoil River Placer,,,NONE,,True,False
-Colville Placer,,,NONE,,True,False
-Northport Placer,,,NONE,,True,False
-Hunters Placer,,46.8,PORPHYRY_CU,0.2339,True,True
+site_name,nearest_au_ppm,nearest_as_ppm,au_class,distance_deg,has_th_anomaly,dual_anomaly_flag,has_ree_monazite_anomaly
+Brender Placer,,,NONE,,False,False,False
+Conconully Placer,,,NONE,,True,False,False
+Republic Gold District,,,NONE,,False,False,False
+Oroville Placer,,,NONE,,False,False,False
+Kettle Falls Placer,,,NONE,,False,False,False
+Bossburg Placer,,,NONE,,True,False,False
+Old Dominion Mine,,,NONE,,False,False,False
+Meyers Creek Placer,,,NONE,,False,False,False
+Sanpoil River Placer,4.0,1.9,REE_MONAZITE,0.1046,True,True,True
+Colville Placer,,,NONE,,True,False,False
+Northport Placer,,,NONE,,True,False,False
+Hunters Placer,,46.8,PORPHYRY_CU,0.2339,True,True,False

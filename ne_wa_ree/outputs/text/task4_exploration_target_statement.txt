@@ -13,9 +13,9 @@ BASIS OF ESTIMATE:
   - Monte Carlo: 2 000 samples per site; depth ~ N(μ, σ), grade ~ LogNormal
 
 COMBINED TOP-3 EXPLORATION TARGET (Monte Carlo P10 / P50 / P90):
-  NdPr metal P10: 291 t
-  NdPr metal P50: 749.8 t  (headline estimate)
-  NdPr metal P90: 1534 t
+  NdPr metal P10: 290 t
+  NdPr metal P50: 753.0 t  (headline estimate)
+  NdPr metal P90: 1522 t
 
 IMPORTANT DISCLAIMER:
   This is an exploration target only. Do not use for investment decisions

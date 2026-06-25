@@ -14,12 +14,17 @@ Project subsets (NE WA bounding box):
 import pandas as pd
 import os
 
-# ── Paths ─────────────────────────────────────────────────────────────────────
-EXTRACT_DIR  = "/Users/nicoleaikin/projects/ngdbsed-csv/ngdbsed"
-SHARED_REPO  = "/Users/nicoleaikin/data-repos/ngdb-processed"
+# ── Paths (override with env vars; no hardcoded user paths) ───────────────────
+EXTRACT_DIR  = os.environ.get('NGDB_EXTRACT_DIR',  'ngdbsed')
+SHARED_REPO  = os.environ.get('NGDB_SHARED_REPO',  'ngdb-processed')
 PROJECT_NURE = "data/nure"
 
-NE_WA_BBOX = dict(lat_min=47.5, lat_max=49.1, lon_min=-120.0, lon_max=-117.0)
+# Override state and bounding box via env vars for other study areas
+_lat_min = float(os.environ.get('NURE_LAT_MIN', 47.5))
+_lat_max = float(os.environ.get('NURE_LAT_MAX', 49.1))
+_lon_min = float(os.environ.get('NURE_LON_MIN', -120.0))
+_lon_max = float(os.environ.get('NURE_LON_MAX', -117.0))
+NE_WA_BBOX = dict(lat_min=_lat_min, lat_max=_lat_max, lon_min=_lon_min, lon_max=_lon_max)
 
 # ── Load metadata ─────────────────────────────────────────────────────────────
 print("Loading main.csv ...")

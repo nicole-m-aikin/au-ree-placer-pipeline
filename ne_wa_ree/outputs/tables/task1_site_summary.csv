@@ -1,13 +1,13 @@
-name,commodity,lon,lat,mag_anomaly_nT,mag_high,th_value_ppm,th_source,multicommodity_target,priority_score
-Colville Placer,placer_gold,-117.9,48.55,309.6998210394577,True,54.0,MIXED_UNCLEAR,True,2
-Hunters Placer,placer_gold,-118.21,48.14,265.6059155145164,True,40.0,MIXED_UNCLEAR,True,2
-Brender Placer,placer_gold,-119.42,48.51,224.2551750209858,True,,,False,1
-Conconully Placer,placer_gold,-119.75,48.55,92.30498710558373,False,32.0,MIXED_UNCLEAR,False,1
-Kettle Falls Placer,placer_gold,-118.06,48.6,274.2744111055349,True,,,False,1
-Bossburg Placer,placer_gold,-117.8,48.72,171.66470368492216,False,42.0,MIXED_UNCLEAR,False,1
-Old Dominion Mine,gold_lode,-118.25,48.43,291.5625601532468,True,,,False,1
-Sanpoil River Placer,placer_gold,-118.85,48.2,2.770812369663925,False,69.0,MIXED_UNCLEAR,False,1
-Northport Placer,placer_gold,-117.78,48.92,90.92730319406711,False,42.0,MIXED_UNCLEAR,False,1
-Republic Gold District,gold_lode,-118.73,48.65,154.8955904190688,False,,,False,0
-Oroville Placer,placer_gold,-119.43,48.94,10.032783505480028,False,,,False,0
-Meyers Creek Placer,placer_gold,-119.1,48.32,19.115538810027502,False,,,False,0
+name,commodity,lon,lat,mag_anomaly_nT,mag_high,th_value_ppm,th_source,multicommodity_target,priority_score,y_near,y_value_ppm
+Colville Placer,placer_gold,-117.9,48.55,293.3156306828235,True,54.0,MIXED_UNCLEAR,True,2,False,
+Hunters Placer,placer_gold,-118.21,48.14,257.07441968898786,True,40.0,MIXED_UNCLEAR,True,2,True,92.5
+Brender Placer,placer_gold,-119.42,48.51,229.24105051066246,True,,,False,1,False,
+Conconully Placer,placer_gold,-119.75,48.55,105.94106145583943,False,32.0,MIXED_UNCLEAR,False,1,False,
+Kettle Falls Placer,placer_gold,-118.06,48.6,319.1765205139294,True,,,False,1,True,99.5
+Bossburg Placer,placer_gold,-117.8,48.72,154.6970431823809,False,42.0,MIXED_UNCLEAR,False,1,False,
+Old Dominion Mine,gold_lode,-118.25,48.43,275.0819369783208,True,,,False,1,True,99.5
+Sanpoil River Placer,placer_gold,-118.85,48.2,16.5045012287142,False,69.0,MIXED_UNCLEAR,False,1,False,
+Northport Placer,placer_gold,-117.78,48.92,41.92147783134295,False,42.0,MIXED_UNCLEAR,False,1,False,
+Republic Gold District,gold_lode,-118.73,48.65,171.34641571269947,False,,,False,0,False,
+Oroville Placer,placer_gold,-119.43,48.94,-3.008888276283442,False,,,False,0,False,
+Meyers Creek Placer,placer_gold,-119.1,48.32,45.41899928096869,False,,,False,0,False,

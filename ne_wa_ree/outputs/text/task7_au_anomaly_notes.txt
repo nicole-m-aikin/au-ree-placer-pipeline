@@ -1,13 +1,17 @@
-TASK 7 — Au/As/Pathfinder Anomaly Analysis Notes
+TASK 7 — Au/As/REE/Pathfinder Anomaly Analysis Notes
 ============================================================
 
 UNITS WARNING:
   WARNING: Median Au > 0.05 ppm — values may be in ppb mislabeled as ppm.
 
 CLASSIFICATION COUNTS:
-  BACKGROUND: 1015
+  BACKGROUND: 1012
   BASE_METAL: 25
   PORPHYRY_CU: 5
+  REE_MONAZITE: 3
+
+REE/monazite samples: 3
 
 DUAL Th+Au ANOMALY SITES:
+  - Sanpoil River Placer
   - Hunters Placer

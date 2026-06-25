@@ -23,7 +23,9 @@ warnings.filterwarnings('ignore')
 
 import matplotlib.patheffects as pe
 from pipeline.utils import (WONG, setup_mpl, wgs_path, watermark, save_fig, ensure_outputs, out,
-                             map_extent, hillshade, north_arrow, scale_bar)
+                             map_extent, hillshade, north_arrow, scale_bar, clip_gdf_to_map,
+                             canada_border, locator_inset, rivers_with_arrows,
+                             MAP_W, MAP_H, _FIG_LM, _FIG_RM, _FIG_TM, _FIG_BM, _FIG_HGAP, _ax_rect)
 
 
 def run(cfg):
@@ -144,16 +146,27 @@ ACTION: No carbonatite flag required for any current priority site.
         if sc >= 0.5: return WONG['yellow']
         return '#CCCCCC'
 
-    fig, axes = plt.subplots(1, 2, figsize=(16, 7))
+    # Layout: [map_A | bar_chart_B] — map sized to exact standard MAP_W × MAP_H.
+    # _LEG_H: extra vertical space below map panel that houses the geology legend.
+    _BAR_W = 5.4
+    _LEG_H = 0.85
+    figW = _FIG_LM + MAP_W + _FIG_HGAP + _BAR_W + _FIG_RM
+    figH = _FIG_TM + MAP_H + _FIG_BM + _LEG_H
+
+    fig = plt.figure(figsize=(figW, figH))
     fig.suptitle(
         f'Figure 2 — Hard Rock Source Characterization and Catchment Sediment Routing\n'
         f'Mineral Systems: Source characterisation + Pathway routing — {cfg["study_area"]["name"]}',
         fontsize=12, fontweight='bold',
     )
 
-    ax = axes[0]
+    # Axes lifted by _LEG_H so the legend strip sits between axis bottom and figure bottom.
+    ax  = fig.add_axes(_ax_rect(_FIG_LM,                       _FIG_BM + _LEG_H, MAP_W,  MAP_H, figW, figH))
+    ax2 = fig.add_axes(_ax_rect(_FIG_LM + MAP_W + _FIG_HGAP,  _FIG_BM + _LEG_H, _BAR_W, MAP_H, figW, figH))
     xmin, xmax, ymin, ymax = map_extent(cfg)
-
+    ax.set_xlim(xmin, xmax)
+    ax.set_ylim(ymin, ymax)
+    ax.set_aspect('auto')
     hillshade(cfg, ax, alpha=0.25, zorder=0)
 
     # SGMC geology shapefile as map base layer
@@ -175,11 +188,31 @@ ACTION: No carbonatite flag required for any current priority site.
     sgmc_path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
                              'ne_wa_ree', 'data', 'geologic',
                              'WA_sgmc_extracted', 'WA_geol_poly.shp')
+    _clip_geom = _box(xmin, ymin, xmax, ymax)
+
+    # Base layer: config domain fills clipped to map_extent.
+    # Rendered FIRST at lower zorder so SGMC overlays on top. This ensures the
+    # full study-area bbox has colored coverage where SGMC data is absent (e.g.
+    # lat > 49.0 and lon > -117.03 where the WA SGMC extract ends).
+    def _fill_geom(geom, color, alpha_val, zo):
+        if geom.is_empty:
+            return
+        parts = list(geom.geoms) if geom.geom_type.startswith('Multi') else [geom]
+        for part in parts:
+            if hasattr(part, 'exterior'):
+                xs, ys = part.exterior.xy
+                ax.fill(xs, ys, color=color, alpha=alpha_val, zorder=zo)
+
+    for _, row in geo_gdf.iterrows():
+        _fill_geom(row.geometry.intersection(_clip_geom),
+                   lith_colors.get(row['lith_type'], '#CCCCCC'), 0.40, 0.5)
+
     if os.path.exists(sgmc_path):
         try:
             sgmc = gpd.read_file(sgmc_path)
-            clip_box = _box(xmin - 0.05, ymin - 0.05, xmax + 0.05, ymax + 0.05)
-            sgmc = sgmc[sgmc.intersects(clip_box)].copy()
+            # Geometrically clip polygons to map extent — prevents geopandas autoscale overflow
+            sgmc = sgmc[sgmc.intersects(_clip_geom)].copy()
+            sgmc['geometry'] = sgmc['geometry'].intersection(_clip_geom)
             sgmc['lith_type'] = sgmc['GENERALIZE'].map(SGMC_LITH_MAP).fillna('sedimentary_cover')
             for lt, color in lith_colors.items():
                 subset = sgmc[sgmc['lith_type'] == lt]
@@ -190,16 +223,16 @@ ACTION: No carbonatite flag required for any current priority site.
             import warnings as _w
             _w.warn(f"SGMC shapefile error ({_sgmc_err}); falling back to domain rectangles.")
             for _, row in geo_gdf.iterrows():
-                color = lith_colors[row['lith_type']]
-                xs, ys = row.geometry.exterior.xy
-                ax.fill(xs, ys, color=color, alpha=0.5, zorder=1)
-                ax.plot(xs, ys, color='gray', lw=0.5, zorder=2)
+                _fill_geom(row.geometry.intersection(_clip_geom),
+                           lith_colors[row['lith_type']], 0.5, 1)
     else:
         for _, row in geo_gdf.iterrows():
-            color = lith_colors[row['lith_type']]
-            xs, ys = row.geometry.exterior.xy
-            ax.fill(xs, ys, color=color, alpha=0.5, zorder=1)
-            ax.plot(xs, ys, color='gray', lw=0.5, zorder=2)
+            _fill_geom(row.geometry.intersection(_clip_geom),
+                       lith_colors[row['lith_type']], 0.5, 1)
+
+    # Forcibly reassert limits — geopandas .plot() calls ax.autoscale() internally
+    ax.set_xlim(xmin, xmax)
+    ax.set_ylim(ymin, ymax)
 
     # Domain outlines (scoring zones — dashed, not filled)
     for d in cfg['geology_domains']:
@@ -222,27 +255,26 @@ ACTION: No carbonatite flag required for any current priority site.
         ax.scatter(row.lon, row.lat, c=score_to_color(row['source_lith_score']),
                    s=100, edgecolors='black', linewidths=0.5, zorder=5, marker='D')
         ax.annotate(row['name'].split()[0], (row.lon, row.lat),
-                    xytext=(4, 4), textcoords='offset points', fontsize=7)
+                    xytext=(4, 4), textcoords='offset points', fontsize=7,
+                    color='black', clip_on=True,
+                    path_effects=[pe.withStroke(linewidth=2, foreground='white')])
 
     # ── Rivers ────────────────────────────────────────────────────────────────
-    river_style = dict(color=WONG['sky'], lw=2.5, alpha=0.95, zorder=5)
-    arrow_props = dict(arrowstyle='->', color='#2196F3', lw=1.5)
-    label_kw    = dict(fontsize=7.5, color='#0055A4', style='italic', fontweight='bold',
-                       bbox=dict(boxstyle='round,pad=0.15', facecolor='white', alpha=0.6, lw=0))
+    # Use the shared rivers_with_arrows() utility so arrow directions are drawn
+    # from the same code path as Figs 7, 9, 10 — coord order = upstream→downstream.
+    rivers_with_arrows(ax, cfg, color=WONG['sky'], lw=2.5, alpha=0.95, zorder=5)
 
+    # River name labels (only on Fig 2 — other figures omit labels for clarity).
+    label_kw = dict(fontsize=7.5, color='#0055A4', style='italic', fontweight='bold',
+                    bbox=dict(boxstyle='round,pad=0.15', facecolor='white', alpha=0.6, lw=0))
     for river in cfg.get('rivers', []):
         coords = river['coords']
-        xs_r, ys_r = zip(*coords)
-        ax.plot(xs_r, ys_r, **river_style)
-        as_, ae_ = river['arrow_start'], river['arrow_end']
-        ax.annotate('', xy=ae_, xytext=as_,
-                    arrowprops=dict(arrowstyle='->', color='#2196F3', lw=2.0,
-                        path_effects=[pe.withStroke(linewidth=4, foreground='white')]),
-                    zorder=6)
         lo, ly = river.get('label_offset', [0.05, 0.0])
-        mid_x = (as_[0] + ae_[0]) / 2 + lo
-        mid_y = (as_[1] + ae_[1]) / 2 + ly
-        ax.text(mid_x, mid_y, river['name'], **label_kw)
+        mid_idx = len(coords) // 2
+        p0, p1 = coords[mid_idx - 1], coords[mid_idx]
+        mid_x = (p0[0] + p1[0]) / 2 + lo
+        mid_y = (p0[1] + p1[1]) / 2 + ly
+        ax.text(mid_x, mid_y, river['name'], **label_kw, zorder=7)
 
     # ── WGS mine waste overlay ────────────────────────────────────────────────
     _xl = wgs_path(cfg)
@@ -296,7 +328,8 @@ ACTION: No carbonatite flag required for any current priority site.
                 wgs_labels_leg.append(lbl)
 
         if wgs_handles:
-            legend2 = ax.legend(wgs_handles, wgs_labels_leg, loc='lower right', fontsize=7,
+            # Lower-left corner is data-sparse (valley fill, no labeled mine sites).
+            legend2 = ax.legend(wgs_handles, wgs_labels_leg, loc='lower left', fontsize=7,
                                 title='WGS OFR 2026-02\nMine Waste Sites',
                                 title_fontsize=7, framealpha=0.9)
             ax.add_artist(legend2)
@@ -307,10 +340,10 @@ ACTION: No carbonatite flag required for any current priority site.
     except Exception as _e:
         import warnings as w; w.warn(f"WGS layer error ({_e}); WGS layer skipped.", UserWarning)
 
+    canada_border(ax, cfg)
     north_arrow(ax)
-    scale_bar(ax, cfg, length_km=50)
-    ax.set_xlim(xmin, xmax)
-    ax.set_ylim(ymin, ymax)
+    scale_bar(ax, cfg, length_km=50, x=0.65, y=0.05)
+    locator_inset(fig, ax, cfg)
     ax.set_xlabel('Longitude', fontsize=11); ax.set_ylabel('Latitude', fontsize=11)
     ax.tick_params(labelsize=9)
     ax.set_title('A.  Geologic domains and mine sites\n'
@@ -319,9 +352,12 @@ ACTION: No carbonatite flag required for any current priority site.
     ax.grid(True, alpha=0.2)
     lith_patches = [mpatches.Patch(facecolor=c, alpha=0.6, edgecolor='gray', label=lith_labels[lt])
                     for lt, c in lith_colors.items()]
-    ax.legend(handles=lith_patches, loc='lower left', fontsize=7, framealpha=0.9)
+    # Place geology legend below the map axes in the dedicated _LEG_H strip (2-col layout).
+    ax.legend(handles=lith_patches, loc='upper left',
+              bbox_to_anchor=(0.0, -_LEG_H / MAP_H),
+              ncol=2, fontsize=7, framealpha=0.92, borderpad=0.5,
+              bbox_transform=ax.transAxes)
 
-    ax2 = axes[1]
     sorted_sites = sites_gdf.sort_values('source_lith_score', ascending=True)
     colors_bar = [score_to_color(s) for s in sorted_sites['source_lith_score']]
     bars = ax2.barh(range(len(sorted_sites)), sorted_sites['source_lith_score'],
@@ -329,7 +365,7 @@ ACTION: No carbonatite flag required for any current priority site.
     ax2.set_yticks(range(len(sorted_sites)))
     ax2.set_yticklabels(sorted_sites['name'], fontsize=8)
     ax2.set_xlabel('Source lithology score (0=mafic → 3=MCC metapelite)', fontsize=11)
-    ax2.tick_params(labelsize=9)
+    ax2.tick_params(labelsize=9, pad=4)
     ax2.set_title('B.  Source lithology score by site\n(area-weighted catchment composition)', fontsize=9)
     ax2.axvline(2.0, color=WONG['vermillion'], ls='--', lw=1, label='Score ≥ 2 (high priority)')
     ax2.set_xlim(0, 3.5)
@@ -337,9 +373,8 @@ ACTION: No carbonatite flag required for any current priority site.
     ax2.grid(True, alpha=0.3, axis='x')
     for bar, sc in zip(bars, sorted_sites['source_lith_score']):
         ax2.text(bar.get_width() + 0.05, bar.get_y() + bar.get_height()/2,
-                 f'{sc:.1f}', va='center', fontsize=8)
+                 f'{sc:.2f}', va='center', fontsize=8)
 
-    plt.tight_layout()
     watermark(fig, cfg)
     save_fig(fig, out(cfg, 'figures', 'fig2_source_lithology_map.png'))
 

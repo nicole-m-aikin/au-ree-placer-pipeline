@@ -35,6 +35,7 @@ def run(cfg):
     TH_IN_MONAZITE_FRAC = geo.get('th_in_monazite_frac', 0.044)
     LREE_IN_MONAZITE    = geo.get('lree_in_monazite', 0.28)
     NDPR_IN_MONAZITE    = geo.get('ndpr_in_monazite', 0.09)
+    Y_IN_XENOTIME       = geo.get('y_in_xenotime', 0.38)    # Y mass fraction in YPO4
     STREAM_FACTOR       = geo.get('stream_to_insitu_factor', 5.0)
     REGIONAL_BG_TH      = geo.get('regional_bg_th', 8.0)
 
@@ -49,6 +50,13 @@ def run(cfg):
         val = th_lookup[site]
         if val is None or (isinstance(val, float) and pd.isna(val)):
             th_lookup[site] = REGIONAL_BG_TH
+
+    # Y lookup for xenotime/HREE pathway (y_value_ppm from nearest NURE Y anomaly)
+    _y_bg = geo.get('xenotime_y_min_ppm', 82.0)  # use threshold as proxy for background
+    y_lookup = {}
+    if 'y_value_ppm' in task1_df.columns and 'y_near' in task1_df.columns:
+        for _, r in task1_df.iterrows():
+            y_lookup[r['name']] = float(r['y_value_ppm']) if r.get('y_near') and pd.notna(r.get('y_value_ppm')) else 0.0
 
     # Build per-site dictionaries from config
     site_cfg = {s['name']: s for s in cfg['sites']}
@@ -79,6 +87,12 @@ def run(cfg):
         lree_ppm = mnz_ppm * LREE_IN_MONAZITE
         ndpr_ppm = mnz_ppm * NDPR_IN_MONAZITE
 
+        # Xenotime/HREE pathway: Y stream sediment → in-situ → xenotime → Y₂O₃
+        y_stream  = y_lookup.get(name, 0.0)
+        y_insitu  = y_stream * STREAM_FACTOR if y_stream > 0 else 0.0
+        xeno_ppm  = (y_insitu / Y_IN_XENOTIME) if y_insitu > 0 else 0.0
+        y_ppm     = xeno_ppm * Y_IN_XENOTIME
+
         # Monte Carlo: 2000-sample endowment chain per site
         N_MC = 2000
         depth_samp   = np.clip(np.random.normal(depth_m, depth_unc, N_MC), 0, None)
@@ -93,6 +107,16 @@ def run(cfg):
         ton_p50    = float(np.percentile(tonnage_samp, 50))
         ton_p90    = float(np.percentile(tonnage_samp, 90))
         ndpr_t     = ndpr_t_p50  # P50 is the headline estimate
+
+        # Y₂O₃ endowment (xenotime co-product) — only for sites with Y anomaly
+        if y_ppm > 0:
+            y_grade_samp   = np.random.lognormal(np.log(max(y_ppm, 1e-6)), 0.5, N_MC)
+            y_endow_samp   = tonnage_samp * y_grade_samp / 1e6
+            y2o3_t_p50     = float(np.percentile(y_endow_samp, 50))
+            y2o3_t_p10     = float(np.percentile(y_endow_samp, 10))
+            y2o3_t_p90     = float(np.percentile(y_endow_samp, 90))
+        else:
+            y2o3_t_p50 = y2o3_t_p10 = y2o3_t_p90 = 0.0
 
         if lidar_quality == 'HIGH' and topo_available and (topo_contour_ft or 99) <= 20:
             conf = 'HIGH'
@@ -122,6 +146,11 @@ def run(cfg):
             'ndpr_t_p10':      round(ndpr_t_p10, 1),
             'ndpr_t_p50':      round(ndpr_t_p50, 1),
             'ndpr_t_p90':      round(ndpr_t_p90, 1),
+            'y_stream_ppm':    round(y_stream, 1),
+            'xenotime_ppm':    round(xeno_ppm, 0),
+            'y2o3_t_p50':      round(y2o3_t_p50, 1),
+            'y2o3_t_p10':      round(y2o3_t_p10, 1),
+            'y2o3_t_p90':      round(y2o3_t_p90, 1),
             'lidar_year':      lidar_year,
             'lidar_res_m':     lidar_res_m,
             'topo_year':       topo_year,
@@ -169,7 +198,9 @@ def run(cfg):
     X, Y = np.meshgrid(x, y)
     pre_mining = 290 + 0.02*X - 0.01*Y + 2*np.sin(X/80)*np.cos(Y/90)
     R2 = (X-250)**2 + (Y-250)**2
-    current_surface = (pre_mining + 8*np.exp(-R2/30000) - 2*np.exp(-R2/70000)
+    _peak = float(example_site['depth_m'])
+    current_surface = (pre_mining + _peak * np.exp(-R2/30000)
+                       - (_peak * 0.25) * np.exp(-R2/70000)
                        + np.random.normal(0, 0.3, X.shape))
     diff = current_surface - pre_mining
     row_idx = 25
@@ -182,8 +213,8 @@ def run(cfg):
     ax1.set_xlabel('Easting (m)', fontsize=11); ax1.set_ylabel('Northing (m)', fontsize=11)
     ax1.tick_params(labelsize=9)
     ax1.set_aspect('equal')
-    cs1 = ax1.contour(X, Y, pre_mining, levels=8, colors='white', linewidths=0.5, alpha=0.7)
-    ax1.clabel(cs1, inline=True, fontsize=6, fmt='%.0f m', colors='white')
+    cs1 = ax1.contour(X, Y, pre_mining, levels=8, colors='gray', linewidths=0.5, alpha=0.7)
+    ax1.clabel(cs1, inline=True, fontsize=6, fmt='%.0f m', colors='gray')
 
     ax2 = fig.add_subplot(gs[0, 1])
     im2 = ax2.pcolormesh(X, Y, current_surface, cmap='cividis', shading='auto')
@@ -193,16 +224,16 @@ def run(cfg):
     ax2.set_xlabel('Easting (m)', fontsize=11)
     ax2.tick_params(labelsize=9)
     ax2.set_aspect('equal')
-    cs2 = ax2.contour(X, Y, current_surface, levels=8, colors='white', linewidths=0.5, alpha=0.7)
-    ax2.clabel(cs2, inline=True, fontsize=6, fmt='%.0f m', colors='white')
+    cs2 = ax2.contour(X, Y, current_surface, levels=8, colors='gray', linewidths=0.5, alpha=0.7)
+    ax2.clabel(cs2, inline=True, fontsize=6, fmt='%.0f m', colors='gray')
 
     y_cross = y[row_idx]
     for ax_panel in [ax1, ax2]:
         ax_panel.axhline(y_cross, color='black', lw=1.0, ls='--', zorder=6)
-        ax_panel.text(x[0] - 15, y_cross, "A", fontsize=8, fontweight='bold',
-                      ha='right', va='center', color='black', clip_on=False)
-        ax_panel.text(x[-1] + 15, y_cross, "A'", fontsize=8, fontweight='bold',
-                      ha='left', va='center', color='black', clip_on=False)
+        ax_panel.text(x[0] + 5, y_cross + 3, "A", fontsize=8, fontweight='bold',
+                      ha='left', va='bottom', color='black', clip_on=True)
+        ax_panel.text(x[-1] - 5, y_cross + 3, "A'", fontsize=8, fontweight='bold',
+                      ha='right', va='bottom', color='black', clip_on=True)
 
     ax3 = fig.add_subplot(gs[0, 2])
     norm = TwoSlopeNorm(vmin=-3, vcenter=0, vmax=10)
@@ -234,7 +265,7 @@ def run(cfg):
     ax4.tick_params(labelsize=9)
     ax4.set_title('D.  E–W cross-section through tailings center', fontsize=9)
     ax4.legend(fontsize=8, loc='upper left'); ax4.grid(True, alpha=0.3)
-    ax4.annotate(f'Max depth: {diff[row_idx].max():.1f} m',
+    ax4.annotate(f'Max depth: {float(example_site["depth_m"]):.1f} m',
                  xy=(x[diff[row_idx].argmax()], current_surface[row_idx][diff[row_idx].argmax()]),
                  xytext=(320, 297), arrowprops=dict(arrowstyle='->', color='black'), fontsize=8)
 
@@ -245,16 +276,17 @@ def run(cfg):
     xerr_hi = (plot_df['ndpr_t_p90'] - plot_df['ndpr_t_p50']).values
     ax5.errorbar(plot_df['ndpr_t_p50'].values, y_pos,
                  xerr=[xerr_lo, xerr_hi],
-                 fmt='o', color=WONG['orange'], ecolor=WONG['blue'],
+                 fmt='o', color=WONG['green'], ecolor=WONG['vermillion'],
                  capsize=5, capthick=1.5, elinewidth=1.5, markersize=0)
     ax5.scatter(plot_df['ndpr_t_p50'].values, y_pos,
-                color=WONG['orange'], edgecolors='black', linewidths=0.6,
+                color=WONG['green'], edgecolors='black', linewidths=0.6,
                 s=60, zorder=5)
     ax5.set_yticks(y_pos)
     ax5.set_yticklabels([' '.join(n.split()[:2]) for n in plot_df['site_name']], fontsize=7)
     ax5.set_xlabel('NdPr metal (tonnes) — P50 ± P10/P90 Monte Carlo', fontsize=9)
     ax5.set_title('E.  NdPr endowment P10 – P50 – P90\n(Monte Carlo, 2 000 samples/site)', fontsize=9)
     ax5.grid(True, alpha=0.3, axis='x')
+    ax5.set_xlim(left=0, right=plot_df['ndpr_t_p90'].max() * 1.15)
     ax5.tick_params(labelsize=7)
 
     # ── Panel F: WGS endowment table (only when WGS data is available) ──────

@@ -30,10 +30,24 @@ data:
   geology_geojson: null        # ne_wa_ree/data/geologic/wa_geology.geojson (optional)
   aeromagnetic_tif: null       # ne_wa_ree/data/aeromagnetic/wa_mag_anomaly.tif (optional)
   dem_tif: "ne_wa_ree/data/dem/ne_wa_dem_30m.tif"  # Copernicus GLO-30, 8 tiles mosaicked, covers lon -120→-116 / lat 47→49
-  wgs_excel: null              # set or use WGS_OFR2026_PATH env var
+  wgs_excel: data/wgs_ofr2026/ger_ofr2026-02_data_supplement.xlsx
 
 # ── MRDS commodity filter ─────────────────────────────────────────────────────
 mrds_commodities: ["placer gold", "gold", "REE", "monazite", "magnetite"]
+
+# ── ML targeting (Task 9) ─────────────────────────────────────────────────────
+# mrds_proximity_deg: catchment-scale radius (~15 km = one drainage basin).
+#   0.03° (old default) was point-proximity only; 45% recall loss vs. 0.15°.
+# mrds_commodity_filter: train on MRDS sites for one deposit type at a time.
+#   'placer_gold' — Gold target_commodity only (1623 NE WA sites)
+#   'ree'         — Rare Earth Elements target_commodity (7 sites; sparse)
+#   'cu_mo'       — sites with CU or MO in code_list (~300+ sites)
+#   'all'         — no filter, blended model (legacy behaviour)
+ml:
+  mrds_proximity_deg: 0.15
+  mrds_commodity_filter: "placer_gold"
+  mrds_elev_diff_m: 200
+  anomaly_top_pct: 0.10
 
 # ── Mine sites (from MRDS; 12 NE WA priority placer sites) ───────────────────
 # Each site carries all per-site parameters needed by tasks 1, 4, 5
@@ -302,9 +316,9 @@ rivers:
     arrow_end: [-119.55, 48.4]
     label_offset: [0.15, 0.0]
   - name: "Sanpoil R."
-    coords: [[-118.85, 48.05], [-118.85, 48.35], [-118.82, 48.65], [-118.78, 48.73]]
-    arrow_start: [-118.85, 48.35]
-    arrow_end: [-118.82, 48.65]
+    coords: [[-118.78, 48.73], [-118.82, 48.65], [-118.85, 48.35], [-118.85, 48.05]]
+    arrow_start: [-118.82, 48.65]
+    arrow_end: [-118.85, 48.35]
     label_offset: [0.05, 0.0]
   - name: "Kettle R."
     coords: [[-118.07, 48.95], [-118.07, 48.75], [-118.06, 48.60]]
@@ -314,8 +328,8 @@ rivers:
   - name: "Columbia R."
     coords: [[-117.9, 49.0], [-117.87, 48.6], [-117.85, 48.2], [-118.0, 47.95],
              [-118.4, 47.8], [-119.3, 47.7], [-120.0, 47.52]]
-    arrow_start: [-118.4, 47.8]
-    arrow_end: [-118.0, 47.95]
+    arrow_start: [-118.0, 47.95]
+    arrow_end: [-118.4, 47.8]
     label_offset: [0.04, -0.12]
 
 # ── WGS OFR 2026-02 settings (tasks 2, 3, 4, 8) ──────────────────────────────
@@ -366,16 +380,21 @@ wgs:
 geochemistry:
   regional_bg_th: 8.0               # ppm — NE WA NURE median background
   # Monazite classification criteria (Mücke & Bhaskara Rao 1996; Rasmussen & Muhling 2009)
-  monazite_ce_min_ppm: 50
-  monazite_la_min_ppm: 20
-  monazite_p_min_ppm: 400
-  monazite_uth_max: 0.5
-  thorite_uth_min: 1.5
+  # Ce/La thresholds set to 75th-percentile of this NURE dataset (NE WA has elevated REE
+  # background from Colville Batholith; using crustal averages would flag half all samples).
+  monazite_ce_min_ppm: 95   # 75th pctile NE WA NURE (was 50 — below dataset median of 82)
+  monazite_la_min_ppm: 70   # 75th pctile NE WA NURE (was 20 — below dataset median of 50)
+  monazite_p_min_ppm: 500   # Plant et al. 1999 phosphate-enriched threshold (was 400 — within background)
+  monazite_uth_max: 0.5     # Heaman & Parrish 1991; Förster 2006 — unchanged, literature-standard
+  thorite_uth_min: 1.5      # Mücke & Rao 1996 — unchanged; gap 0.5-1.5 = xenotime/mixed zone
+  # Xenotime (YPO4) classification — HREE proxy, independent of LREE/monazite signal
+  xenotime_y_min_ppm: 82    # mean+2SD of NE WA NURE Y distribution (computed in task1)
   # Volume/grade conversion factors (task4)
   bulk_density_t_m3: 1.5            # t/m³ — loose gravel tailings
   th_in_monazite_frac: 0.044        # Cheney et al. 1994 — NE WA metamorphic monazite
   lree_in_monazite: 0.28            # mass fraction total LREE (Gramaccioli 2002)
   ndpr_in_monazite: 0.09            # mass fraction NdPr (Smith et al. 2015)
+  y_in_xenotime: 0.38               # mass fraction Y in YPO4 (stoichiometric, Förster 2006)
   stream_to_insitu_factor: 5.0      # dilution factor (Bonham-Carter et al. 1988)
 
 # ── Economics (task5) ─────────────────────────────────────────────────────────
@@ -385,11 +404,15 @@ economics:
   ndpr_price_central: 109.0         # $/kg NdPr oxide (SMM benchmark, June 2026)
   ndpr_price_low: 60.0              # $/kg (2024 trough)
   ndpr_price_high: 140.0            # $/kg (Q1 2026 peak)
+  y2o3_price_central: 3.50          # $/kg Y₂O₃ (Asian Metal benchmark, June 2026)
+  y2o3_price_low: 2.50              # $/kg (2024 trough)
+  y2o3_price_high: 5.50             # $/kg (2022 peak)
   tailings_handling_cost: 5.0       # $/tonne tailings
   concentration_cost: 10.0          # $/tonne tailings feed
   logistics_conc_per_tonne: 150.0   # $/tonne concentrate to White Mesa
   processing_cost_per_kg: 50.0      # $/kg NdPr oxide produced
   ndpr_recovery: 0.80               # mass recovery fraction
+  y2o3_recovery: 0.75               # xenotime recovery (slightly lower — coarser grain than monazite)
 
 # ── Integration scoring weights (integration_task) ────────────────────────────
 scoring:
@@ -400,6 +423,8 @@ scoring:
     confidence: 1.0
     ndpr_tonnes: 2.0
     au_pathfinder: 1.0
+    y_xenotime: 0.5          # HREE co-product indicator — Y₂O₃ ~$3.50/kg vs NdPr $109/kg
+    ml_probability: 1.0      # RF P(anomalous) of nearest NURE sample within 0.15°
   tier_thresholds: [8, 6, 4]   # [highest, high, moderate] thresholds for tier_color()
 
 # Background geologic domain patches for integration map (schematic)

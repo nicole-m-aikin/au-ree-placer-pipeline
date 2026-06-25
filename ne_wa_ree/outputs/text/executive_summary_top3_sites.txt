@@ -15,13 +15,15 @@ Processor: Energy Fuels White Mesa Mill (Blanding, UT)
 SITE #1: HUNTERS PLACER
 ============================================================
   Coordinates:    48.1400°N, -118.2100°W
-  Combined score: 11.0
+  Combined score: 12.4
   Th source:      MIXED_UNCLEAR
   Mag high:       YES
   Source lith:    MCC_metapelite(53%) | felsic_intrusive(41%)
   Est. tonnage:   202,500 t
   NdPr grade:     ~409 ppm (±50%)
-  NdPr metal:     76 t
+  NdPr metal:     78 t
+  Break-even:     $91/kg NdPr
+  NPV (central):  $2M (undiscounted; ESTIMATE ONLY)
 
   NOTE: Exploration target only; not a resource estimate. No field
   sampling conducted. Verify by auger program before any investment.
@@ -29,31 +31,31 @@ SITE #1: HUNTERS PLACER
 SITE #2: COLVILLE PLACER
 ============================================================
   Coordinates:    48.5500°N, -117.9000°W
-  Combined score: 9.6
+  Combined score: 10.5
   Th source:      MIXED_UNCLEAR
   Mag high:       YES
   Source lith:    felsic_intrusive(95%)
   Est. tonnage:   367,500 t
   NdPr grade:     ~552 ppm (±50%)
-  NdPr metal:     191 t
+  NdPr metal:     194 t
   Break-even:     $81/kg NdPr
   NPV (central):  $5M (undiscounted; ESTIMATE ONLY)
 
   NOTE: Exploration target only; not a resource estimate. No field
   sampling conducted. Verify by auger program before any investment.
 
-SITE #3: CONCONULLY PLACER
+SITE #3: SANPOIL RIVER PLACER
 ============================================================
-  Coordinates:    48.5500°N, -119.7500°W
-  Combined score: 8.4
+  Coordinates:    48.2000°N, -118.8500°W
+  Combined score: 10.4
   Th source:      MIXED_UNCLEAR
   Mag high:       NO
   Source lith:    MCC_metapelite(100%)
-  Est. tonnage:   510,000 t
-  NdPr grade:     ~327 ppm (±50%)
-  NdPr metal:     158 t
-  Break-even:     $101/kg NdPr
-  NPV (central):  $1M (undiscounted; ESTIMATE ONLY)
+  Est. tonnage:   607,500 t
+  NdPr grade:     ~706 ppm (±50%)
+  NdPr metal:     401 t
+  Break-even:     $74/kg NdPr
+  NPV (central):  $14M (undiscounted; ESTIMATE ONLY)
 
   NOTE: Exploration target only; not a resource estimate. No field
   sampling conducted. Verify by auger program before any investment.

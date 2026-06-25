@@ -1,1 +1,15 @@
-WGS data not available — set WGS_OFR2026_PATH
+======================================================================
+TASK 8 — WGS Mine Waste Geochemistry Summary (OFR 2026-02)
+NE Washington Study Area
+======================================================================
+
+Study area samples: 78, sites: 10
+REE columns: ['La', 'Ce', 'Pr', 'Nd', 'Sm', 'Eu', 'Gd', 'Tb', 'Dy', 'Ho', 'Er', 'Tm', 'Yb', 'Lu', 'Y']
+
+Highest TREE endowment: Germania
+Highest mean Au: Deer Trail
+PAG acid-generating sites: ['Big Iron', 'Silver Bell', 'Turk Mine']
+
+Endowment figures are screening estimates only; not economic resources.
+Data source: WGS OFR 2026-02 (van Alderwerelt & Di Fiori, 2026).
+======================================================================

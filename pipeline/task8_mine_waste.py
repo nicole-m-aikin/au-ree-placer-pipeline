@@ -18,7 +18,12 @@ import warnings
 warnings.filterwarnings('ignore')
 
 from pipeline.utils import (WONG, CHONDRITE_SUN89, setup_mpl, wgs_path,
-                             watermark, save_fig, ensure_outputs, out)
+                             watermark, save_fig, ensure_outputs, out,
+                             map_extent, hillshade, north_arrow, scale_bar,
+                             canada_border, locator_inset,
+                             topo_contours, rivers_with_arrows,
+                             MAP_W, MAP_H, _FIG_LM, _FIG_RM, _FIG_TM, _FIG_BM,
+                             _FIG_HGAP, _FIG_VGAP, _ax_rect)
 
 REE_ORDER = ['La','Ce','Pr','Nd','Sm','Eu','Gd','Tb','Dy','Ho','Er','Tm','Yb','Lu','Y']
 
@@ -53,26 +58,39 @@ def _classify_deposit(dt_str):
 
 
 def _placeholder_fig(cfg):
-    """Write a placeholder fig9 and empty CSVs when WGS Excel is unavailable."""
+    """Write a styled placeholder fig9 and empty CSVs when WGS Excel is unavailable."""
     import matplotlib
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
     import pandas as pd
+    from matplotlib.patches import FancyBboxPatch
     fig, ax = plt.subplots(figsize=(10, 6))
+    ax.set_facecolor('#f5f5f5')
+    fig.patch.set_facecolor('#f5f5f5')
     ax.axis('off')
-    ax.text(0.5, 0.55,
-            'Figure 9 — WGS Mine Waste REE Analysis\nData not available',
-            ha='center', va='center', fontsize=14, transform=ax.transAxes)
+    ax.add_patch(FancyBboxPatch((0.1, 0.2), 0.8, 0.6,
+                                boxstyle='round,pad=0.02',
+                                facecolor='white', edgecolor='#cccccc',
+                                linewidth=1.5, transform=ax.transAxes, zorder=2))
+    ax.text(0.5, 0.67, 'Figure 9 — WGS Mine Waste REE Analysis',
+            ha='center', va='center', fontsize=13, fontweight='bold',
+            transform=ax.transAxes, zorder=3)
+    ax.text(0.5, 0.55, 'Data not loaded',
+            ha='center', va='center', fontsize=11, color='#888888',
+            transform=ax.transAxes, zorder=3)
     ax.text(0.5, 0.40,
-            'Set WGS_OFR2026_PATH env var or data.wgs_excel in config\n'
-            'to load OFR 2026-02 mine waste characterization data.',
-            ha='center', va='center', fontsize=9, color='gray',
-            style='italic', transform=ax.transAxes)
+            'To enable this figure, provide the WGS OFR 2026-02 Excel supplement:\n'
+            '  Option 1:  set environment variable  WGS_OFR2026_PATH=/path/to/file.xlsx\n'
+            '  Option 2:  set  data.wgs_excel  in the study-area config.yaml',
+            ha='center', va='center', fontsize=9, color='#555555',
+            linespacing=1.8, transform=ax.transAxes, zorder=3,
+            bbox=dict(boxstyle='round,pad=0.4', facecolor='#f0f0f0',
+                      edgecolor='none', alpha=0.8))
     watermark(fig, cfg)
     save_fig(fig, out(cfg, 'figures', 'fig9_mine_waste_ree.png'))
     pd.DataFrame().to_csv(out(cfg, 'tables', 'task8_mine_waste_summary.csv'), index=False)
     with open(out(cfg, 'text', 'task8_mine_waste_summary.txt'), 'w') as _f:
-        _f.write('WGS data not available — set WGS_OFR2026_PATH\n')
+        _f.write('WGS data not available — set WGS_OFR2026_PATH or data.wgs_excel\n')
 
 
 def run(cfg):
@@ -143,7 +161,15 @@ def run(cfg):
         ~df_end_sa['Mine Name'].str.contains('Olivine|New Light', case=False, na=False)
     ].reset_index(drop=True)
 
-    end_kg_cols = ['Endowment TREE (kg)','Endowment Te (kg)','Endowment W (kg)','Endowment Bi (kg)']
+    # Core endowment columns — always present; extended critical mineral set
+    END_BASE_COLS = ['Endowment TREE (kg)', 'Endowment Te (kg)',
+                     'Endowment W (kg)', 'Endowment Bi (kg)']
+    END_CRIT_COLS = ['Endowment Co (kg)', 'Endowment Li (kg)',
+                     'Endowment Ga (kg)', 'Endowment Ge (kg)',
+                     'Endowment V (kg)',  'Endowment Ni (kg)']
+    end_kg_cols = END_BASE_COLS + END_CRIT_COLS
+    # Only keep columns that actually exist in the sheet
+    end_kg_cols = [c for c in end_kg_cols if c in df_end_raw.columns]
     for col in end_kg_cols:
         df_end_sa[col] = pd.to_numeric(df_end_sa[col], errors='coerce')
 
@@ -170,19 +196,36 @@ def run(cfg):
     norm_df['Site_Name']    = df_sa['Site_Name'].values
 
     # ── STEP 5: Build figure ──────────────────────────────────────────────────
-    fig, axes = plt.subplots(3, 2, figsize=(18, 14))
+    # Layout: 3 rows × 2 cols; right column = MAP_W wide; bottom row = MAP_H tall.
+    # This guarantees Panel F is the same physical dimensions as every other map
+    # panel in the pipeline (MAP_W × MAP_H = 5.5 × 4.2 inches).
+    _LEFT_W = 6.5    # data-panel column width
+    _TOP_H  = 3.0    # rows A/B and C/D height
+    _V9_GAP = 0.85   # vertical gap between rows (larger than _FIG_VGAP=0.55 for 3-row layout)
+    _col_l  = _FIG_LM
+    _col_r  = _FIG_LM + _LEFT_W + _FIG_HGAP
+    _row1_b = _FIG_BM                                               # bottom row (E, F)
+    _row2_b = _FIG_BM + MAP_H  + _V9_GAP                           # middle row (C, D)
+    _row3_b = _FIG_BM + MAP_H  + _V9_GAP + _TOP_H + _V9_GAP       # top row (A, B)
+    figW    = _FIG_LM + _LEFT_W + _FIG_HGAP + MAP_W + _FIG_RM
+    figH    = _FIG_TM + _TOP_H  + _V9_GAP  + _TOP_H + _V9_GAP + MAP_H + _FIG_BM
+
+    fig = plt.figure(figsize=(figW, figH))
     fig.suptitle(
         f"Figure 9 — WGS Mine Waste Geochemistry: Critical Minerals & Environmental Context\n"
         f"{cfg['study_area']['name']} Study Area  "
         f"(Earth MRI OFR 2026-02, van Alderwerelt & Di Fiori 2026)",
-        fontsize=13, fontweight='bold', y=0.992,
+        fontsize=13, fontweight='bold',
     )
     fig.text(0.5, 0.5, 'EXPLORATION TARGET ONLY', ha='center', va='center',
              fontsize=40, color='gray', alpha=0.08, rotation=30, transform=fig.transFigure)
 
-    ax_ree, ax_end = axes[0]
-    ax_th,  ax_aba = axes[1]
-    ax_au,  ax_map = axes[2]
+    ax_ree = fig.add_axes(_ax_rect(_col_l, _row3_b, _LEFT_W, _TOP_H, figW, figH))
+    ax_end = fig.add_axes(_ax_rect(_col_r, _row3_b, MAP_W,   _TOP_H, figW, figH))
+    ax_th  = fig.add_axes(_ax_rect(_col_l, _row2_b, _LEFT_W, _TOP_H, figW, figH))
+    ax_aba = fig.add_axes(_ax_rect(_col_r, _row2_b, MAP_W,   _TOP_H, figW, figH))
+    ax_au  = fig.add_axes(_ax_rect(_col_l, _row1_b, _LEFT_W, MAP_H,  figW, figH))
+    ax_map = fig.add_axes(_ax_rect(_col_r, _row1_b, MAP_W,   MAP_H,  figW, figH))
     x_ree = np.arange(len(ree_cols))
 
     # Panel A: REE spider
@@ -218,27 +261,52 @@ def run(cfg):
         ax_ree.annotate(f"† {'/'.join(nearly_dl)} often near-DL in mine waste",
                         xy=(0.02, 0.03), xycoords='axes fraction', fontsize=7, color='gray', style='italic')
 
-    # Panel B: Endowment stacked bar
+    # Panel B: Expanded critical mineral endowment stacked bar
+    # Show TREE + top critical minerals; group by tier for interpretability.
+    # Battery/critical: Co, Li, V; Semiconductor/tech: Ga, Ge; then Te, Bi, W baseline.
+    _b_display = [
+        ('Endowment TREE (kg)', 'TREE',  WONG['blue']),
+        ('Endowment Co (kg)',   'Co',    WONG['orange']),
+        ('Endowment Li (kg)',   'Li',    WONG['green']),
+        ('Endowment V (kg)',    'V',     WONG['sky']),
+        ('Endowment Ga (kg)',   'Ga',    WONG['vermillion']),
+        ('Endowment Ge (kg)',   'Ge',    WONG['pink']),
+        ('Endowment Ni (kg)',   'Ni',    '#8B7355'),
+        ('Endowment Te (kg)',   'Te',    WONG['yellow']),
+        ('Endowment W (kg)',    'W',     '#888888'),
+        ('Endowment Bi (kg)',   'Bi',    '#AAAAAA'),
+    ]
+    # Only plot columns that exist in the data
+    _b_display = [(c, l, col) for c, l, col in _b_display if c in end_agg.columns]
+
     y_pos = np.arange(len(end_agg))
     bh = 0.55
-    t_kg  = end_agg['Endowment TREE (kg)'].fillna(0).values + 1
-    te_kg = end_agg['Endowment Te (kg)'].fillna(0).values   + 1
-    w_kg  = end_agg['Endowment W (kg)'].fillna(0).values    + 1
-    bi_kg = end_agg['Endowment Bi (kg)'].fillna(0).values   + 1
-    ax_end.barh(y_pos, t_kg,  height=bh, color=WONG['blue'],       label='TREE', alpha=0.85)
-    ax_end.barh(y_pos, te_kg, height=bh, color=WONG['orange'],     label='Te',   alpha=0.85, left=t_kg)
-    ax_end.barh(y_pos, w_kg,  height=bh, color=WONG['green'],      label='W',    alpha=0.85, left=t_kg+te_kg)
-    ax_end.barh(y_pos, bi_kg, height=bh, color=WONG['vermillion'], label='Bi',   alpha=0.85, left=t_kg+te_kg+w_kg)
+    bottoms_b = np.ones(len(end_agg))   # start at 1 for log-safe plotting
+    for _col, _lbl, _color in _b_display:
+        _vals = end_agg[_col].fillna(0).values + 1e-3
+        ax_end.barh(y_pos, _vals, height=bh, left=bottoms_b,
+                    color=_color, label=_lbl, alpha=0.85)
+        bottoms_b = bottoms_b + _vals
+
     ax_end.set_xscale('log')
-    for x_ref, lbl in [(2,'1 kg'),(11,'10 kg'),(101,'100 kg'),(1001,'1 t')]:
+    for x_ref, lbl in [(2,'1 kg'),(11,'10 kg'),(101,'100 kg'),(1001,'1 t'),(10001,'10 t')]:
         ax_end.axvline(x_ref, color='gray', linestyle='--', lw=0.8, alpha=0.55)
-        ax_end.text(x_ref*1.05, len(end_agg)-0.1, lbl, fontsize=6.5, color='gray', va='top')
+        ax_end.text(x_ref*1.05, len(end_agg)-0.1, lbl, fontsize=6, color='gray', va='top')
     ax_end.set_yticks(y_pos)
     ax_end.set_yticklabels(end_agg['mine_short'].values, fontsize=8)
-    ax_end.set_xlabel('Endowment (kg + 1, log scale)', fontsize=9)
-    ax_end.set_title("B.  Critical Mineral Endowment in Mine Waste\n(WGS field-mapped volumes × ICP-MS concentrations)", fontsize=10)
-    ax_end.legend(fontsize=8, loc='upper center', bbox_to_anchor=(0.5,-0.13), ncol=4, framealpha=0.9)
+    ax_end.set_xlabel('Endowment (kg, log scale)', fontsize=9)
+    ax_end.set_title("B.  Critical Mineral Endowment in Mine Waste\n"
+                     "(WGS field-mapped volumes × ICP-MS concentrations)", fontsize=10)
+    _ncol_b = min(len(_b_display), 5)
+    ax_end.legend(fontsize=7.5, loc='upper center', bbox_to_anchor=(0.5, -0.10),
+                  ncol=_ncol_b, framealpha=0.9)
     ax_end.grid(True, axis='x', alpha=0.25, linestyle='--')
+    ax_end.annotate(
+        "Co/Li/V = battery critical minerals  ·  Ga/Ge = semiconductor/defense critical minerals\n"
+        "WGS did not calculate Sc endowment (all samples <5–31 ppm; crustal background, no REE correlation)",
+        xy=(0.01, -0.28), xycoords='axes fraction',
+        fontsize=6.5, color='gray', style='italic', va='top'
+    )
 
     # Panel C: Th by site
     th_grp = (df_sa.groupby('site_abbrev')['Th'].agg(['mean','std','count']).reset_index()
@@ -332,9 +400,14 @@ def run(cfg):
     site_pts['TREE_kg'] = site_pts['Site_Name'].map(tree_by_site).fillna(0)
     site_pts['mk_size'] = np.log1p(site_pts['TREE_kg']) * 22 + 30
 
-    for river in cfg.get('rivers', []):
-        xs_r, ys_r = zip(*river['coords'])
-        ax_map.plot(xs_r, ys_r, color='#5B8DB8', lw=1.4, alpha=0.6, zorder=2, label=river['name'])
+    # Set consistent map extent and add hillshade background.
+    xmin_f, xmax_f, ymin_f, ymax_f = map_extent(cfg)
+    ax_map.set_xlim(xmin_f, xmax_f)
+    ax_map.set_ylim(ymin_f, ymax_f)
+    ax_map.set_aspect('auto')
+    hillshade(cfg, ax_map, alpha=0.30, zorder=0)
+    topo_contours(ax_map, cfg)
+    rivers_with_arrows(ax_map, cfg)
 
     for cl in cfg.get('county_labels', []):
         ax_map.text(cl['lon'], cl['lat'], cl['label'], fontsize=6, color='#555555',
@@ -349,10 +422,13 @@ def run(cfg):
                         xytext=(dx, dy), textcoords='offset points',
                         fontsize=6.5, color='black', zorder=7)
 
-    ax_map.add_patch(Rectangle((LON_MIN, LAT_MIN), LON_MAX-LON_MIN, LAT_MAX-LAT_MIN,
+    # Clamp Rectangle corners to map_extent so edges stay flush with the hillshade.
+    _rect_x0 = max(LON_MIN, xmin_f)
+    _rect_y0 = max(LAT_MIN, ymin_f)
+    _rect_x1 = min(LON_MAX, xmax_f)
+    _rect_y1 = min(LAT_MAX, ymax_f)
+    ax_map.add_patch(Rectangle((_rect_x0, _rect_y0), _rect_x1 - _rect_x0, _rect_y1 - _rect_y0,
                                 linewidth=1.5, edgecolor='black', facecolor='none', zorder=3))
-    ax_map.set_xlim(LON_MIN-0.15, LON_MAX+0.15)
-    ax_map.set_ylim(LAT_MIN-0.15, LAT_MAX+0.20)
     ax_map.set_xlabel('Longitude', fontsize=9)
     ax_map.set_ylabel('Latitude',  fontsize=9)
     ax_map.set_title("F.  WGS Mine Waste Sites in Study Area\n(sized by TREE endowment; colored by deposit type)", fontsize=10)
@@ -361,14 +437,17 @@ def run(cfg):
                 [Line2D([0],[0], color='#5B8DB8', lw=1.5, label='Rivers')])
     ax_map.legend(handles=legend_f, fontsize=6.5, loc='lower left',
                   title='Deposit type', title_fontsize=7, framealpha=0.85)
+    canada_border(ax_map, cfg)
+    north_arrow(ax_map, x=0.96, y=0.96, size=9)
+    scale_bar(ax_map, cfg, length_km=50, x=0.65, y=0.05)
 
-    fig.text(0.5, 0.006,
+    fig.text(0.5, _FIG_BM * 0.35 / figH,
              "Data: WGS OFR 2026-02 (van Alderwerelt & Di Fiori, 2026). "
              "ICP-MS/ICP-OES analysis by USGS. Endowment = screening estimate only; not an economic resource. "
              "For exploration screening purposes only.",
              ha='center', fontsize=7, color='gray', style='italic')
 
-    plt.tight_layout(rect=[0, 0.025, 1, 0.985])
+    locator_inset(fig, ax_map, cfg)
     save_fig(fig, out(cfg, 'figures', 'fig9_mine_waste_ree.png'))
 
     # ── STEP 6: Summary CSV ───────────────────────────────────────────────────
@@ -378,6 +457,13 @@ def run(cfg):
         if npap < 4: return 'Uncertain'
         return 'NonPAG'
 
+    # Build per-site endowment lookup for critical minerals
+    _end_site_lookup = {}
+    for _, erow in end_agg.iterrows():
+        sn = erow.get('site_name')
+        if sn:
+            _end_site_lookup[sn] = erow
+
     rows = []
     for site in sorted(df_sa['Site_Name'].unique()):
         mask = df_sa['Site_Name'] == site
@@ -385,6 +471,10 @@ def run(cfg):
         dep  = sub['deposit_type'].mode().iloc[0] if len(sub) else 'other'
         ph_vals   = pd.to_numeric(sub.get('Paste_pH', pd.Series(dtype=float)), errors='coerce')
         npap_vals = pd.to_numeric(sub.get('NP/AP',    pd.Series(dtype=float)), errors='coerce')
+        _erow = _end_site_lookup.get(site, pd.Series(dtype=float))
+        def _end_val(col):
+            v = _erow.get(col, np.nan) if len(_erow) else np.nan
+            return round(float(v), 2) if pd.notna(v) else np.nan
         rec = {
             'site_name': site, 'deposit_type': dep, 'n_samples': mask.sum(),
             'TREE_mean_ppm': round(pd.to_numeric(sub.get('TREE*', pd.Series(dtype=float)), errors='coerce').replace(0, np.nan).mean(), 4) if 'TREE*' in sub else np.nan,
@@ -393,6 +483,12 @@ def run(cfg):
             'Paste_pH_mean': round(ph_vals.mean(), 3) if ph_vals.notna().any() else np.nan,
             'NP_AP_mean':    round(npap_vals.mean(), 3) if npap_vals.notna().any() else np.nan,
             'TREE_endowment_kg': round(float(tree_by_site.get(site, np.nan)), 2) if not pd.isna(tree_by_site.get(site, np.nan)) else np.nan,
+            'Co_endowment_kg':   _end_val('Endowment Co (kg)'),
+            'Li_endowment_kg':   _end_val('Endowment Li (kg)'),
+            'Ga_endowment_kg':   _end_val('Endowment Ga (kg)'),
+            'Ge_endowment_kg':   _end_val('Endowment Ge (kg)'),
+            'V_endowment_kg':    _end_val('Endowment V (kg)'),
+            'Ni_endowment_kg':   _end_val('Endowment Ni (kg)'),
             'risk_tier': risk_tier(npap_vals.median()),
         }
         rows.append(rec)

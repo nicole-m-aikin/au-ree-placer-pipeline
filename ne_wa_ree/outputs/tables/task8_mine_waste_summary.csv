@@ -1,1 +1,11 @@
-
+site_name,deposit_type,n_samples,TREE_mean_ppm,Au_mean_ppm,Th_mean_ppm,Paste_pH_mean,NP_AP_mean,TREE_endowment_kg,Co_endowment_kg,Li_endowment_kg,Ga_endowment_kg,Ge_endowment_kg,V_endowment_kg,Ni_endowment_kg,risk_tier
+Big Iron,other,6,23.5083,0.3245,1.7,5.11,0.325,1595.44,1687.31,0.0,281.22,140.61,1628.72,1206.89,PAG
+Deer Trail,epithermal,13,98.5585,2.9237,6.25,8.015,53.586,3895.68,492.17,1888.41,479.71,234.16,4612.22,1098.68,NonPAG
+First Thought,epithermal,9,191.5033,1.3889,11.4778,6.304,2.841,12830.01,673.52,5919.54,1002.51,17.81,6427.89,3167.84,Uncertain
+Germania,skarn_replacement,6,81.4733,0.0468,11.3,7.1,5.38,20977.05,749.93,14292.72,4959.28,717.43,5850.84,0.0,NonPAG
+Gold Dike,intrusion_related,5,103.388,2.553,1.42,8.31,8.536,8056.14,2504.42,737.07,1290.67,119.13,32060.43,3639.77,NonPAG
+Mullen Mine,epithermal,6,149.83,0.2537,9.46,6.948,7.62,209.52,4.91,15.79,11.58,2.11,30.54,0.0,NonPAG
+Queen Seal,epithermal,9,50.6411,0.0237,2.6556,8.951,498.267,2328.38,550.19,2036.08,339.68,127.23,2503.41,1161.33,NonPAG
+Silver Bell,epithermal,12,106.97,0.3735,7.275,5.613,1.027,5609.76,159.08,1011.15,605.78,24.09,1457.94,0.0,PAG
+Turk Mine,other,11,73.187,0.0361,2.9,7.225,0.915,2154.62,1160.87,766.83,193.61,134.0,831.3,3418.02,PAG
+Windfall Mine,epithermal,1,139.02,0.004,9.4,8.82,3.14,639.6,23.0,0.0,87.42,9.2,170.23,0.0,Uncertain

@@ -14,7 +14,6 @@ Outputs:
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import matplotlib.gridspec as gridspec
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -27,7 +26,11 @@ from sklearn.metrics import roc_curve, auc, precision_recall_fscore_support
 
 from pipeline.utils import (WONG, setup_mpl, load_nure, anomaly_threshold,
                              watermark, save_fig, ensure_outputs, out, bbox,
-                             map_extent, north_arrow, scale_bar)
+                             map_extent, north_arrow, scale_bar,
+                             canada_border, locator_inset,
+                             topo_contours, rivers_with_arrows,
+                             MAP_W, MAP_H, _FIG_LM, _FIG_RM, _FIG_TM, _FIG_BM,
+                             _FIG_HGAP, _FIG_CW, _FIG_CG, _ax_rect)
 
 # Geological feature engineering: full placer heavy mineral suite.
 # REE/actinide minerals: Th, Ce, La, P (monazite — (LREE)PO4), U (uraninite/thorite)
@@ -38,6 +41,17 @@ from pipeline.utils import (WONG, setup_mpl, load_nure, anomaly_threshold,
 # hydraulic sorting mechanisms; their inclusion captures the full heavy-mineral
 # assemblage rather than only the REE-bearing fraction.
 FEATURES = ['Th', 'Ce', 'La', 'P', 'U', 'Au', 'As', 'Ti', 'Fe', 'Zr', 'Y']
+
+# Per-commodity feature sets for split-model training.
+# Separating by commodity prevents feature cross-contamination: e.g. U dominates
+# a blended model because Colville U anomalies spatially overlap REE MRDS sites,
+# inflating U importance relative to Au/As for a gold-placer model.
+FEATURES_BY_COMMODITY = {
+    'placer_gold': ['Th', 'Ce', 'La', 'P', 'U', 'Au', 'As', 'Ti', 'Fe', 'Zr', 'Y'],
+    'ree':         ['Th', 'Ce', 'La', 'P', 'U', 'Ti', 'Zr', 'Y'],
+    'cu_mo':       ['Cu', 'Mo', 'Pb', 'Zn', 'Ag', 'Au', 'As'],
+    'all':         ['Th', 'Ce', 'La', 'P', 'U', 'Au', 'As', 'Ti', 'Fe', 'Zr', 'Y'],
+}
 
 
 def _log_impute(df, cols):
@@ -66,11 +80,6 @@ def run(cfg):
         (df['lat'] >= lat_min) & (df['lat'] <= lat_max)
     ].copy().reset_index(drop=True)
 
-    avail_feats = [f for f in FEATURES if f in df.columns]
-    log_X = _log_impute(df, avail_feats)   # DataFrame, log10-transformed + imputed
-    X = log_X.values
-    elements_used = avail_feats
-
     # Label: MRDS proximity — geochemistry-independent ground truth.
     #
     # Any label derived from the input features (e.g. Th > threshold, or top-N% of
@@ -81,16 +90,51 @@ def run(cfg):
     # placer site? This is the exact question a real targeting model answers — train
     # on confirmed deposit proximity, predict on unsampled terrain.
     #
-    # label = 1 if NURE sample lies within `mrds_radius_deg` of any MRDS placer site.
-    # Radius default: 0.15 degrees (~15 km), roughly two average NURE sample spacings.
-    mrds_radius  = cfg.get('ml', {}).get('mrds_proximity_deg', 0.03)
-    max_elev_diff = cfg.get('ml', {}).get('mrds_elev_diff_m', 200)
-    top_pct       = cfg.get('ml', {}).get('anomaly_top_pct', 0.10)  # fallback only
+    # label = 1 if NURE sample lies within `mrds_radius_deg` of any MRDS site for
+    # the target commodity. Radius default: 0.15 degrees (~15 km), roughly one
+    # drainage-basin width and two average NURE sample spacings — geologically
+    # meaningful at the catchment scale rather than point-proximity.
+    mrds_radius       = cfg.get('ml', {}).get('mrds_proximity_deg', 0.15)
+    max_elev_diff     = cfg.get('ml', {}).get('mrds_elev_diff_m', 200)
+    top_pct           = cfg.get('ml', {}).get('anomaly_top_pct', 0.10)  # fallback only
+    commodity_filter  = cfg.get('ml', {}).get('mrds_commodity_filter', 'all')
+
+    # Select per-commodity feature set when splitting models; fall back to full set.
+    feature_set = FEATURES_BY_COMMODITY.get(commodity_filter, FEATURES)
+    avail_feats = [f for f in feature_set if f in df.columns]
+    log_X = _log_impute(df, avail_feats)
+    X = log_X.values
+    elements_used = avail_feats
 
     mrds_label_used = False
     try:
         import geopandas as gpd
         mrds_gdf = gpd.read_file(cfg['data']['mrds_geojson'])
+
+        # Filter MRDS to the target commodity before labeling so the model learns
+        # the geochemical signature of that specific deposit type.
+        if commodity_filter == 'placer_gold':
+            mrds_gdf = mrds_gdf[
+                mrds_gdf['target_commodity'].str.contains('Gold', na=False) &
+                ~mrds_gdf['target_commodity'].str.contains('Rare Earth', na=False)
+            ]
+        elif commodity_filter == 'ree':
+            mrds_gdf = mrds_gdf[
+                mrds_gdf['target_commodity'].str.contains('Rare Earth', na=False)
+            ]
+        elif commodity_filter == 'cu_mo':
+            mrds_gdf = mrds_gdf[
+                mrds_gdf['code_list'].str.contains(r'\bCU\b|\bMO\b', na=False, regex=True)
+            ]
+        # 'all' → no filter
+
+        if len(mrds_gdf) < 3:
+            raise ValueError(
+                f"Only {len(mrds_gdf)} MRDS sites for commodity_filter='{commodity_filter}'; "
+                "too few for KD-tree labeling — falling back to anomaly index."
+            )
+
+        print(f"  MRDS label: {len(mrds_gdf)} sites after commodity_filter='{commodity_filter}'")
         mrds_coords  = np.column_stack([mrds_gdf.geometry.x.values,
                                         mrds_gdf.geometry.y.values])
         nure_coords  = np.column_stack([df['lon'].values, df['lat'].values])
@@ -131,11 +175,12 @@ def run(cfg):
                 on_valley_floor = (elev_diff <= max_elev_diff) | np.isnan(elev_diff)
                 y = (in_radius & on_valley_floor).astype(int)
                 elev_filter_applied = True
-                label_desc = (f"MRDS proximity ≤{mrds_radius}° + "
+                label_desc = (f"MRDS proximity ≤{mrds_radius}° [{commodity_filter}] + "
                               f"elevation within {max_elev_diff} m")
         if not elev_filter_applied:
             y = in_radius.astype(int)
-            label_desc = f"MRDS proximity ≤{mrds_radius}° (no DEM elevation filter)"
+            label_desc = (f"MRDS proximity ≤{mrds_radius}° [{commodity_filter}] "
+                          f"(no DEM elevation filter)")
 
         mrds_label_used = True
     except Exception as _e:
@@ -193,6 +238,42 @@ def run(cfg):
                  .sort_values('importance', ascending=False).reset_index(drop=True)
     feat_imp.to_csv(out(cfg, 'tables', 'task9_ml_feature_importance.csv'), index=False)
 
+    # Write per-sample probability for integration scoring (Change 4a)
+    df[['lat', 'lon', 'p_anomalous']].to_csv(
+        out(cfg, 'tables', 'task9_ml_nure_probability.csv'), index=False)
+
+    # ── Cu-Mo discriminator model (secondary; no CV, importance only) ────────
+    feat_imp_cumo = None
+    _cumo_feats   = FEATURES_BY_COMMODITY['cu_mo']
+    _cumo_avail   = [f for f in _cumo_feats if f in df.columns]
+    try:
+        import geopandas as _gpd_cm
+        _mrds_cm = _gpd_cm.read_file(cfg['data']['mrds_geojson'])
+        _mrds_cm = _mrds_cm[
+            _mrds_cm['code_list'].str.contains(r'\bCU\b|\bMO\b', na=False, regex=True)
+        ]
+        if len(_mrds_cm) >= 3:
+            _mrds_coords_cm = np.column_stack([_mrds_cm.geometry.x.values,
+                                               _mrds_cm.geometry.y.values])
+            _nure_coords_cm = np.column_stack([df['lon'].values, df['lat'].values])
+            from scipy.spatial import cKDTree as _cKD2
+            _tree_cm = _cKD2(_mrds_coords_cm)
+            _dist_cm, _ = _tree_cm.query(_nure_coords_cm)
+            _y_cm = (_dist_cm <= mrds_radius).astype(int)
+            _X_cm = _log_impute(df, _cumo_avail).values
+            _rf_cm = RandomForestClassifier(n_estimators=200, random_state=42, class_weight='balanced')
+            _rf_cm.fit(_X_cm, _y_cm)
+            feat_imp_cumo = (pd.DataFrame({'feature': _cumo_avail,
+                                           'importance': _rf_cm.feature_importances_})
+                             .sort_values('importance', ascending=False)
+                             .reset_index(drop=True))
+            print(f"  Cu-Mo discriminator model: {len(_mrds_cm)} MRDS sites, "
+                  f"{int(_y_cm.sum())} positive labels.")
+        else:
+            print(f"  Cu-Mo discriminator: only {len(_mrds_cm)} sites; skipped.")
+    except Exception as _e_cm:
+        print(f"  Cu-Mo discriminator model skipped: {_e_cm}")
+
     # ── IDW-interpolated probability surface ──────────────────────────────────
     # Use map_extent bounds so the colormap fills the same padded area as all other map panels
     _xmin_g, _xmax_g, _ymin_g, _ymax_g = map_extent(cfg)
@@ -225,52 +306,94 @@ def run(cfg):
     tpr_mean = np.mean(tpr_folds, axis=0)
     tpr_std  = np.std(tpr_folds, axis=0)
 
-    fig = plt.figure(figsize=(18, 6))
+    # Layout: [A1_feat_imp | A2_cumo_imp | ROC_B | map_C | cbar]
+    # A1 and A2 share the space previously held by a single feat_imp panel.
+    _FEAT_W = 2.4   # width for each feature importance panel (A1, A2)
+    _ROC_W  = 2.8   # width for ROC panel (B)
+
+    figW = (_FIG_LM + _FEAT_W + _FIG_HGAP + _FEAT_W + _FIG_HGAP +
+            _ROC_W + _FIG_HGAP + MAP_W + _FIG_CG + _FIG_CW + _FIG_RM)
+    figH = _FIG_TM + MAP_H + _FIG_BM
+
+    fig = plt.figure(figsize=(figW, figH))
     fig.suptitle(
         'Figure 10 — ML Targeting Probability: Geological Feature Engineering on NURE Stream Sediment\n'
         f'Random Forest · 5-fold CV · ROC-AUC {mean_auc:.3f} ± {std_auc:.3f} · '
         f'label: {label_desc}',
         fontsize=10, fontweight='bold',
     )
-    gs = gridspec.GridSpec(1, 3, figure=fig, wspace=0.38)
 
-    # Panel A — feature importance bar chart (Gini impurity, sorted descending)
-    ax1 = fig.add_subplot(gs[0, 0])
+    _col1 = _FIG_LM
+    _col2 = _col1 + _FEAT_W + _FIG_HGAP
+    _col3 = _col2 + _FEAT_W + _FIG_HGAP   # ROC (B)
+    _col4 = _col3 + _ROC_W  + _FIG_HGAP   # map (C)
+    _col5 = _col4 + MAP_W   + _FIG_CG     # colorbar
+
+    # Panel A1 — primary model feature importance
+    ax1 = fig.add_axes(_ax_rect(_col1, _FIG_BM, _FEAT_W, MAP_H, figW, figH))
     bar_colors = [WONG['blue'], WONG['orange'], WONG['green'], WONG['vermillion'],
                   WONG['sky'], WONG['pink'], WONG['yellow']][:len(feat_imp)]
     bars = ax1.barh(feat_imp['feature'], feat_imp['importance'],
                     color=bar_colors, edgecolor='black', linewidth=0.5)
     ax1.invert_yaxis()
-    ax1.set_xlabel('Gini feature importance', fontsize=10)
-    ax1.set_title('A.  Feature importance\n(Gini impurity, final model)', fontsize=9)
-    ax1.tick_params(labelsize=9)
+    ax1.set_xlabel('Gini feature importance', fontsize=9)
+    ax1.set_title(f'A1.  {commodity_filter.replace("_"," ").title()} model\n'
+                  '(Gini impurity, final model)', fontsize=9)
+    ax1.tick_params(labelsize=8)
     ax1.grid(True, axis='x', alpha=0.3)
-    ax1.set_xlim(0, feat_imp['importance'].max() * 1.3)
+    ax1.set_xlim(0, feat_imp['importance'].max() * 1.35)
     for bar, val in zip(bars, feat_imp['importance']):
         ax1.text(val + 0.002, bar.get_y() + bar.get_height() / 2,
-                 f'{val:.3f}', va='center', fontsize=8)
+                 f'{val:.3f}', va='center', fontsize=7)
 
     # Callout on U bar explaining why it leads
     try:
         u_imp = feat_imp.loc[feat_imp['feature'] == 'U', 'importance'].values
         u_pos = feat_imp.index[feat_imp['feature'] == 'U'].values
         if len(u_imp) > 0:
-            ax1.text(u_imp[0] + 0.005, u_pos[0],
-                     'U/Th discriminates thorite\nvs. monazite catchments\n(cf. Task 3)',
-                     fontsize=6.5, va='center', color=WONG['vermillion'], style='italic')
+            _xlim_right = ax1.get_xlim()[1]
+            _text_x = min(u_imp[0] + 0.04, _xlim_right - 0.01)
+            ax1.annotate('U/Th discriminates thorite\nvs. monazite catchments\n(cf. Task 3)',
+                         xy=(u_imp[0], u_pos[0]),
+                         xytext=(_text_x, u_pos[0]),
+                         fontsize=6, va='center', color=WONG['vermillion'], style='italic',
+                         arrowprops=dict(arrowstyle='->', color=WONG['vermillion'], lw=0.8))
     except Exception:
         pass
 
+    # Panel A2 — Cu-Mo discriminator feature importance
+    ax_a2 = fig.add_axes(_ax_rect(_col2, _FIG_BM, _FEAT_W, MAP_H, figW, figH))
+    if feat_imp_cumo is not None and not feat_imp_cumo.empty:
+        bar_colors_cm = [WONG['vermillion'], WONG['blue'], WONG['orange'], WONG['green'],
+                         WONG['sky'], WONG['pink'], WONG['yellow']][:len(feat_imp_cumo)]
+        bars_cm = ax_a2.barh(feat_imp_cumo['feature'], feat_imp_cumo['importance'],
+                              color=bar_colors_cm, edgecolor='black', linewidth=0.5)
+        ax_a2.invert_yaxis()
+        for bar, val in zip(bars_cm, feat_imp_cumo['importance']):
+            ax_a2.text(val + 0.002, bar.get_y() + bar.get_height() / 2,
+                       f'{val:.3f}', va='center', fontsize=7)
+        ax_a2.set_xlim(0, feat_imp_cumo['importance'].max() * 1.35)
+        ax_a2.grid(True, axis='x', alpha=0.3)
+        ax_a2.tick_params(labelsize=8)
+    else:
+        ax_a2.text(0.5, 0.5, 'Cu-Mo model\nnot available\n(insufficient MRDS sites)',
+                   ha='center', va='center', transform=ax_a2.transAxes,
+                   fontsize=9, color='gray', style='italic')
+        ax_a2.set_xlim(0, 1); ax_a2.set_ylim(0, 1)
+    ax_a2.set_xlabel('Gini feature importance', fontsize=9)
+    ax_a2.set_title('A2.  Cu-Mo porphyry discriminator\n'
+                    '(features: Cu, Mo, Pb, Zn, Ag, Au, As)', fontsize=9)
+
     # Panel B — ROC curve from CV folds (mean ± 1SD shaded band)
-    ax2 = fig.add_subplot(gs[0, 1])
+    ax2 = fig.add_axes(_ax_rect(_col3, _FIG_BM, _ROC_W, MAP_H, figW, figH))
     for tpr_fold in tpr_folds:
         ax2.plot(fpr_grid, tpr_fold, color='lightgray', lw=0.8, alpha=0.6, zorder=1)
     ax2.fill_between(fpr_grid,
                      np.clip(tpr_mean - tpr_std, 0, 1),
                      np.clip(tpr_mean + tpr_std, 0, 1),
                      color=WONG['sky'], alpha=0.40, label='± 1 SD', zorder=2)
-    ax2.plot(fpr_grid, tpr_mean, color=WONG['blue'], lw=2.2,
-             label=f'Mean ROC (AUC = {mean_auc:.3f})', zorder=3)
+    ax2.plot(fpr_grid, tpr_mean, color=WONG['blue'], lw=3.0,
+             label=f'Mean ROC (AUC = {mean_auc:.3f})', zorder=4)
     ax2.plot([0, 1], [0, 1], color='gray', ls='--', lw=1, label='Random classifier', zorder=2)
     ax2.set_xlabel('False positive rate', fontsize=10)
     ax2.set_ylabel('True positive rate', fontsize=10)
@@ -281,22 +404,29 @@ def run(cfg):
     ax2.tick_params(labelsize=9)
 
     # Panel C — spatial IDW-interpolated probability surface
-    ax3 = fig.add_subplot(gs[0, 2])
+    ax3  = fig.add_axes(_ax_rect(_col4, _FIG_BM, MAP_W,   MAP_H, figW, figH))
+    cax3 = fig.add_axes(_ax_rect(_col5, _FIG_BM, _FIG_CW, MAP_H, figW, figH))
+    xmin_m, xmax_m, ymin_m, ymax_m = map_extent(cfg)
+    ax3.set_xlim(xmin_m, xmax_m)
+    ax3.set_ylim(ymin_m, ymax_m)
+    ax3.set_aspect('auto')
     pm = ax3.pcolormesh(lon_g, lat_g, prob_grid,
                         cmap='viridis', vmin=0, vmax=1, shading='auto')
-    cbar = plt.colorbar(pm, ax=ax3, shrink=0.85)
+    cbar = fig.colorbar(pm, cax=cax3)
     cbar.set_label('P(anomalous)', fontsize=9)
     cbar.ax.axhline(0.6, color='white', lw=1.5, ls='--')
     cbar.ax.axhline(0.4, color='white', lw=1.0, ls=':')
+    topo_contours(ax3, cfg, alpha=0.25, color='white')
+    rivers_with_arrows(ax3, cfg, color='#7ecef4', lw=1.2, alpha=0.85)
 
     # MRDS placer site overlay
     try:
         import geopandas as gpd
         mrds_gdf = gpd.read_file(cfg['data']['mrds_geojson'])
         ax3.scatter(mrds_gdf.geometry.x, mrds_gdf.geometry.y,
-                    marker='D', facecolors='yellow', edgecolors='black',
-                    s=60, lw=0.8, zorder=6, label='MRDS placer sites')
-        ax3.legend(fontsize=8, loc='lower left')
+                    marker='D', facecolors='white', edgecolors='black',
+                    s=60, lw=1.2, zorder=6, label='MRDS placer sites')
+        ax3.legend(fontsize=8, loc='lower left', bbox_to_anchor=(0.01, 0.01))
     except Exception as _e:
         print(f"  MRDS overlay skipped: {_e}")
 
@@ -307,11 +437,10 @@ def run(cfg):
              style='italic', color='white',
              bbox=dict(boxstyle='round,pad=0.3', fc='black', alpha=0.55, ec='none'))
 
-    xmin_m, xmax_m, ymin_m, ymax_m = map_extent(cfg)
-    ax3.set_xlim(xmin_m, xmax_m)
-    ax3.set_ylim(ymin_m, ymax_m)
+    canada_border(ax3, cfg)
     north_arrow(ax3, x=0.96, y=0.96, size=9)
-    scale_bar(ax3, cfg, length_km=50, x=0.04, y=0.04)
+    scale_bar(ax3, cfg, length_km=50, x=0.04, y=0.12)
+    locator_inset(fig, ax3, cfg)
 
     ax3.set_xlabel('Longitude', fontsize=10)
     ax3.set_ylabel('Latitude', fontsize=10)
@@ -321,11 +450,11 @@ def run(cfg):
         fontsize=9,
     )
     ax3.tick_params(labelsize=8)
-    ax3.set_xlabel(
-        f'P(placer-like geochemistry) > 0.6 = high interest; 0.4–0.6 = moderate interest. '
-        'Use alongside Tasks 1, 3, 7.',
-        fontsize=7, color='#444444', style='italic',
-    )
+    ax3.text(0.5, -0.07,
+             'P(placer-like geochemistry) > 0.6 = high interest; 0.4–0.6 = moderate interest. '
+             'Use alongside Tasks 1, 3, 7.',
+             transform=ax3.transAxes, ha='center', va='top',
+             fontsize=7, color='#444444', style='italic')
 
     watermark(fig, cfg)
     save_fig(fig, out(cfg, 'figures', 'fig10_ml_anomaly_probability.png'))
