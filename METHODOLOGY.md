@@ -34,8 +34,7 @@ Each pipeline task evaluates one or more components of this framework:
 
 ## Dataset QA/QC Procedures
 
-Every data quality step applied in the pipeline (Terra AI requirement: "QA/QC historical and
-modern exploration datasets"):
+Every data quality step applied in the pipeline :
 
 **NURE stream sediment (primary dataset — task1, task3, task7, task9)**
 
