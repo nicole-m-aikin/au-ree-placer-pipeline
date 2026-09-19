@@ -34,6 +34,9 @@ ne_wa_ree/data/lidar/*.pdf
 # WGS OFR 2026-02 supplement (public document; see DATA_SOURCES.md)
 data/wgs_ofr2026/
 
+# National NAMRAD zip cache used only to clip study-area GeoTIFFs
+data/radiometric/raw/
+
 # Editor / IDE
 .vscode/
 .idea/
@@ -51,3 +54,7 @@ CLAUDE.md
 FIGURE_UPDATE_PROMPT.md
 NEXT_SESSION_PROMPT.md
 REFACTOR_PROMPT.md
+CATCHMENT_LABELING_PROMPT.md
+
+# Personal notes
+INTERVIEW_PREP.md

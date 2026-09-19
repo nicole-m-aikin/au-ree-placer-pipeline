@@ -1,13 +1,13 @@
 site_name,nominal_rank,min_rank,max_rank,rank_range,stable_top3
-Hunters Placer,1,1,1,0,True
-Colville Placer,2,2,3,1,True
-Sanpoil River Placer,3,2,3,1,True
-Conconully Placer,4,4,4,0,False
-Oroville Placer,5,5,7,2,False
-Northport Placer,6,5,7,2,False
-Old Dominion Mine,7,5,9,4,False
-Bossburg Placer,8,7,9,2,False
-Brender Placer,9,7,9,2,False
-Kettle Falls Placer,10,10,10,0,False
-Republic Gold District,11,11,12,1,False
-Meyers Creek Placer,12,11,12,1,False
+Hunters Placer,1,1,2,1,True
+Bossburg Placer,2,1,5,4,False
+Oroville Placer,3,2,4,2,False
+Colville Placer,4,2,5,3,False
+Old Dominion Mine,5,3,6,3,False
+Conconully Placer,6,5,8,3,False
+Brender Placer,7,5,10,5,False
+Sanpoil River Placer,8,6,9,3,False
+Kettle Falls Placer,9,6,10,4,False
+Republic Gold District,10,9,12,3,False
+Northport Placer,11,10,12,2,False
+Meyers Creek Placer,12,10,12,2,False

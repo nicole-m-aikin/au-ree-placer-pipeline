@@ -13,5 +13,4 @@ CLASSIFICATION COUNTS:
 REE/monazite samples: 3
 
 DUAL Th+Au ANOMALY SITES:
-  - Sanpoil River Placer
-  - Hunters Placer
+  None identified.

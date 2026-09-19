@@ -1,13 +1,13 @@
 site_name,nearest_au_ppm,nearest_as_ppm,au_class,distance_deg,has_th_anomaly,dual_anomaly_flag,has_ree_monazite_anomaly
 Brender Placer,,,NONE,,False,False,False
-Conconully Placer,,,NONE,,True,False,False
+Conconully Placer,,,NONE,,False,False,False
 Republic Gold District,,,NONE,,False,False,False
 Oroville Placer,,,NONE,,False,False,False
 Kettle Falls Placer,,,NONE,,False,False,False
 Bossburg Placer,,,NONE,,True,False,False
 Old Dominion Mine,,,NONE,,False,False,False
 Meyers Creek Placer,,,NONE,,False,False,False
-Sanpoil River Placer,4.0,1.9,REE_MONAZITE,0.1046,True,True,True
-Colville Placer,,,NONE,,True,False,False
-Northport Placer,,,NONE,,True,False,False
-Hunters Placer,,46.8,PORPHYRY_CU,0.2339,True,True,False
+Sanpoil River Placer,,,NONE,,False,False,False
+Colville Placer,,,NONE,,False,False,False
+Northport Placer,,,NONE,,False,False,False
+Hunters Placer,,,NONE,,False,False,False

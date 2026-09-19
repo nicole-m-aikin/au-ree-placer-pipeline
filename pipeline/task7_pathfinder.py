@@ -150,7 +150,8 @@ def run(cfg):
         geometry=[Point(xy) for xy in zip(au_anom_df['lon'], au_anom_df['lat'])],
         crs='EPSG:4326',
     )
-    MAX_DIST = 0.25
+    from pipeline.task1_coplacer import site_join_radius_deg
+    MAX_DIST = site_join_radius_deg(cfg)
 
     site_records = []
     for _, site in mine_gdf.iterrows():

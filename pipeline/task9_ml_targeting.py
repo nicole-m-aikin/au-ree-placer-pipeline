@@ -5,12 +5,16 @@ Geological feature engineering: log10-transformed multi-element stream sediment
 geochemistry fed to a Random Forest classifier, then spatially continuous probability
 surface via IDW geostatistical interpolation.
 
+Published labels are MRDS proximity (see configs/*/config.yaml label_method).
+Catchment-of-ranked-sites labeling is implemented but not the result of record.
+
 Outputs:
   {outputs_dir}/figures/fig10_ml_anomaly_probability.png
   {outputs_dir}/tables/task9_ml_feature_importance.csv
   {outputs_dir}/tables/task9_ml_cv_scores.csv
 """
 
+import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -40,6 +44,8 @@ from pipeline.utils import (WONG, setup_mpl, load_nure, anomaly_threshold,
 # Ti, Fe, Zr, Y co-concentrate with monazite in placer systems through identical
 # hydraulic sorting mechanisms; their inclusion captures the full heavy-mineral
 # assemblage rather than only the REE-bearing fraction.
+# Aerial rad_K / rad_eTh / rad_eU are intentionally excluded: 1–10 km grids
+# leak spatial autocorrelation into CV. Map layer first (Task 1 Fig 1b).
 FEATURES = ['Th', 'Ce', 'La', 'P', 'U', 'Au', 'As', 'Ti', 'Fe', 'Zr', 'Y']
 
 # Per-commodity feature sets for split-model training.
@@ -52,6 +58,143 @@ FEATURES_BY_COMMODITY = {
     'cu_mo':       ['Cu', 'Mo', 'Pb', 'Zn', 'Ag', 'Au', 'As'],
     'all':         ['Th', 'Ce', 'La', 'P', 'U', 'Au', 'As', 'Ti', 'Fe', 'Zr', 'Y'],
 }
+
+
+def _pour_gdf_from_sites(cfg):
+    """Build pour-point GeoDataFrame from the study-area site list in config."""
+    import geopandas as gpd
+    sites = cfg.get('sites') or []
+    if not sites:
+        raise ValueError("label_method='catchment' requires cfg['sites'] pour points")
+    return gpd.GeoDataFrame(
+        {'name': [s.get('name') for s in sites]},
+        geometry=gpd.points_from_xy(
+            [s['lon'] for s in sites],
+            [s['lat'] for s in sites],
+        ),
+        crs=cfg.get('study_area', {}).get('crs', 'EPSG:4326'),
+    )
+
+
+def _polygonize_catchment(grid, catch):
+    """Convert a catchment raster to a polygon, windowed to the True cells only.
+
+    Full-grid polygonize on a ~100 M-cell DEM is the dominant cost of the old
+    loop. Windowing keeps the same geometry and drops that cost by 10–100×.
+    """
+    from rasterio.features import shapes as rio_shapes
+    from rasterio.transform import Affine
+    from shapely.geometry import shape
+    from shapely.ops import unary_union
+
+    arr = np.asarray(catch)
+    if arr.dtype != np.uint8:
+        arr = (arr > 0).astype(np.uint8)
+    ys, xs = np.nonzero(arr)
+    if ys.size == 0:
+        return None
+    r0, r1 = int(ys.min()), int(ys.max()) + 1
+    c0, c1 = int(xs.min()), int(xs.max()) + 1
+    window = arr[r0:r1, c0:c1]
+    aff = Affine(*tuple(grid.affine)[:6])
+    window_aff = aff * Affine.translation(c0, r0)
+    polys = [
+        shape(geom)
+        for geom, val in rio_shapes(
+            window, mask=window.astype(bool), transform=window_aff
+        )
+        if val == 1
+    ]
+    if not polys:
+        return None
+    return unary_union(polys)
+
+
+def delineate_catchments(mrds_gdf, dem_path, snap_max_m=5000, snap_percentile=99.5):
+    """
+    Return a GeoDataFrame of upstream drainage catchment polygons for each
+    unique snapped pour point in mrds_gdf. Uses pysheds 0.5 API with D8 flow
+    direction.
+
+    Intended input is the study-area site list (typically ~12 pour points),
+    not the full MRDS gold inventory. Sites where snapping moves the pour
+    point > snap_max_m metres or where delineation fails are skipped.
+    Output CRS matches mrds_gdf.crs (expected EPSG:4326).
+
+    snap_percentile defaults to 99.5 (not 90). On this 30 m DEM the 90th
+    percentile of D8 accumulation is only ~41 cells — a hillslope rivulet —
+    which produced empty NURE labels. 99.5 is ~19k cells (~17 km²).
+    """
+    import geopandas as gpd
+    from pysheds.grid import Grid
+
+    grid = Grid.from_raster(dem_path)
+    dem = grid.read_raster(dem_path)
+
+    pit_filled = grid.fill_pits(dem)
+    flooded    = grid.fill_depressions(pit_filled)
+    inflated   = grid.resolve_flats(flooded)
+    fdir       = grid.flowdir(inflated)
+    acc        = grid.accumulation(fdir)
+
+    snap_threshold = int(np.percentile(acc.flatten(), snap_percentile))
+    snap_mask = acc > snap_threshold
+    print(f"  Snap mask: accumulation > p{snap_percentile} ({snap_threshold} cells)")
+
+    # metres per degree latitude (approximate, good enough for snapping check)
+    M_PER_DEG = 111_000.0
+
+    snapped = []
+    seen = set()
+    for _, site in mrds_gdf.iterrows():
+        lon, lat = site.geometry.x, site.geometry.y
+        try:
+            x_snap, y_snap = grid.snap_to_mask(snap_mask, (lon, lat))
+        except Exception as e:
+            warnings.warn(f"  catchment snap failed for site at ({lon:.3f},{lat:.3f}): {e}")
+            continue
+
+        dx_m = abs(x_snap - lon) * M_PER_DEG * np.cos(np.radians(lat))
+        dy_m = abs(y_snap - lat) * M_PER_DEG
+        if np.hypot(dx_m, dy_m) > snap_max_m:
+            warnings.warn(
+                f"  catchment snap for ({lon:.3f},{lat:.3f}) moved "
+                f"{np.hypot(dx_m, dy_m):.0f} m > {snap_max_m} m limit; skipping"
+            )
+            continue
+
+        key = (round(float(x_snap), 5), round(float(y_snap), 5))
+        if key in seen:
+            continue
+        seen.add(key)
+        snapped.append((float(x_snap), float(y_snap), lon, lat))
+
+    print(f"  Delineating {len(snapped)} unique pour points "
+          f"(from {len(mrds_gdf)} input sites)")
+
+    rows = []
+    for i, (x_snap, y_snap, lon, lat) in enumerate(snapped, 1):
+        print(f"  catchment {i}/{len(snapped)} at ({lon:.3f},{lat:.3f})")
+        try:
+            catch = grid.catchment(x=x_snap, y=y_snap, fdir=fdir, xytype='coordinate')
+            geom = _polygonize_catchment(grid, catch)
+        except Exception as e:
+            warnings.warn(f"  catchment delineation failed for ({lon:.3f},{lat:.3f}): {e}")
+            continue
+
+        if geom is None or geom.is_empty:
+            warnings.warn(f"  empty catchment polygon for ({lon:.3f},{lat:.3f}); skipping")
+            continue
+
+        rows.append({'geometry': geom})
+
+    if not rows:
+        return gpd.GeoDataFrame(geometry=[], crs=mrds_gdf.crs)
+
+    result = gpd.GeoDataFrame(rows, crs=mrds_gdf.crs)
+    if result.crs != mrds_gdf.crs:
+        result = result.to_crs(mrds_gdf.crs)
+    return result
 
 
 def _log_impute(df, cols):
@@ -94,6 +237,7 @@ def run(cfg):
     # the target commodity. Radius default: 0.15 degrees (~15 km), roughly one
     # drainage-basin width and two average NURE sample spacings — geologically
     # meaningful at the catchment scale rather than point-proximity.
+    label_method      = cfg.get('ml', {}).get('label_method', 'proximity')
     mrds_radius       = cfg.get('ml', {}).get('mrds_proximity_deg', 0.15)
     max_elev_diff     = cfg.get('ml', {}).get('mrds_elev_diff_m', 200)
     top_pct           = cfg.get('ml', {}).get('anomaly_top_pct', 0.10)  # fallback only
@@ -131,33 +275,60 @@ def run(cfg):
         if len(mrds_gdf) < 3:
             raise ValueError(
                 f"Only {len(mrds_gdf)} MRDS sites for commodity_filter='{commodity_filter}'; "
-                "too few for KD-tree labeling — falling back to anomaly index."
+                "too few for labeling — falling back to anomaly index."
             )
 
         print(f"  MRDS label: {len(mrds_gdf)} sites after commodity_filter='{commodity_filter}'")
-        mrds_coords  = np.column_stack([mrds_gdf.geometry.x.values,
-                                        mrds_gdf.geometry.y.values])
-        nure_coords  = np.column_stack([df['lon'].values, df['lat'].values])
 
-        from scipy.spatial import cKDTree as _cKDTree
-        mrds_tree = _cKDTree(mrds_coords)
-        dist_to_mrds, nearest_mrds_idx = mrds_tree.query(nure_coords)
-        in_radius = dist_to_mrds <= mrds_radius
-
-        # Elevation filter: stream sediment placers are hydraulically sorted on
-        # valley floors. A NURE sample taken on a steep hillside within 3 km of a
-        # placer mine is in the source-rock terrain, not the deposit zone — its
-        # geochemistry reflects bedrock weathering, not placer concentration.
-        # Require the NURE sample and its nearest MRDS site to be within
-        # `max_elev_diff` metres of each other (both on the valley floor).
-        elev_filter_applied = False
+        # Resolve DEM path once — used by both catchment and proximity (elevation) branches.
         dem_path = cfg.get('data', {}).get('dem_tif')
-        if dem_path:
-            import os as _os
-            if not _os.path.isabs(dem_path):
-                dem_path = _os.path.join(_os.path.dirname(_os.path.dirname(__file__)),
-                                         dem_path)
-            if _os.path.exists(dem_path):
+        if dem_path and not os.path.isabs(dem_path):
+            dem_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), dem_path)
+
+        if label_method == 'catchment' and dem_path and os.path.exists(dem_path):
+            # Pour points are the ranked study-area sites (~12), not the full
+            # MRDS gold inventory (~1,600 overlapping records).
+            pour_gdf = _pour_gdf_from_sites(cfg)
+            print(f"  Catchment pour points: {len(pour_gdf)} config sites "
+                  f"(not {len(mrds_gdf)} MRDS records)")
+            snap_max = cfg.get('ml', {}).get('catchment_snap_max_m', 5000)
+            snap_pct = cfg.get('ml', {}).get('catchment_snap_percentile', 99.5)
+            catchment_gdf = delineate_catchments(
+                pour_gdf, dem_path, snap_max_m=snap_max, snap_percentile=snap_pct
+            )
+            if len(catchment_gdf) == 0:
+                raise ValueError("No catchments delineated — falling back to proximity")
+            nure_points = gpd.GeoDataFrame(
+                geometry=gpd.points_from_xy(df['lon'], df['lat']),
+                crs='EPSG:4326',
+            )
+            joined = gpd.sjoin(nure_points, catchment_gdf[['geometry']],
+                               how='left', predicate='within')
+            # Overlapping catchments duplicate rows; collapse back to one label
+            # per NURE sample or X and y lengths diverge.
+            is_pos = joined['index_right'].notna().groupby(joined.index).any()
+            y = is_pos.reindex(nure_points.index, fill_value=False).astype(int).values
+            label_desc = (f"catchment-based [{commodity_filter}], "
+                          f"{len(catchment_gdf)} catchments")
+            mrds_label_used = True
+        else:
+            mrds_coords  = np.column_stack([mrds_gdf.geometry.x.values,
+                                            mrds_gdf.geometry.y.values])
+            nure_coords  = np.column_stack([df['lon'].values, df['lat'].values])
+
+            from scipy.spatial import cKDTree as _cKDTree
+            mrds_tree = _cKDTree(mrds_coords)
+            dist_to_mrds, nearest_mrds_idx = mrds_tree.query(nure_coords)
+            in_radius = dist_to_mrds <= mrds_radius
+
+            # Elevation filter: stream sediment placers are hydraulically sorted on
+            # valley floors. A NURE sample taken on a steep hillside within 3 km of a
+            # placer mine is in the source-rock terrain, not the deposit zone — its
+            # geochemistry reflects bedrock weathering, not placer concentration.
+            # Require the NURE sample and its nearest MRDS site to be within
+            # `max_elev_diff` metres of each other (both on the valley floor).
+            elev_filter_applied = False
+            if dem_path and os.path.exists(dem_path):
                 import rasterio as _rio
                 with _rio.open(dem_path) as src:
                     nodata = src.nodata
@@ -177,12 +348,12 @@ def run(cfg):
                 elev_filter_applied = True
                 label_desc = (f"MRDS proximity ≤{mrds_radius}° [{commodity_filter}] + "
                               f"elevation within {max_elev_diff} m")
-        if not elev_filter_applied:
-            y = in_radius.astype(int)
-            label_desc = (f"MRDS proximity ≤{mrds_radius}° [{commodity_filter}] "
-                          f"(no DEM elevation filter)")
+            if not elev_filter_applied:
+                y = in_radius.astype(int)
+                label_desc = (f"MRDS proximity ≤{mrds_radius}° [{commodity_filter}] "
+                              f"(no DEM elevation filter)")
 
-        mrds_label_used = True
+            mrds_label_used = True
     except Exception as _e:
         print(f"  MRDS label unavailable ({_e}); falling back to top-{top_pct*100:.0f}% index")
         z = (log_X - log_X.mean()) / log_X.std().replace(0, 1)
@@ -193,6 +364,12 @@ def run(cfg):
     n_anom = int(y.sum())
     print(f"Task 9: {len(y)} NURE samples; {n_anom} positive ({100*n_anom/len(y):.1f}%); "
           f"label: {label_desc}; features: {avail_feats}")
+    if n_anom == 0 or n_anom == len(y):
+        raise ValueError(
+            f"ML labels are a single class ({n_anom}/{len(y)} positive) under "
+            f"{label_desc}. Check pour-point snap settings or fall back to "
+            f"label_method: proximity."
+        )
 
     # ── 5-fold stratified cross-validation ───────────────────────────────────
     skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
@@ -463,9 +640,160 @@ def run(cfg):
     print("Task 9 complete — fig10 saved.")
 
 
+def unique_placer_pour_points(mrds_gdf, holdout_xy=None, cell_deg=0.02, holdout_deg=0.03):
+    """Deduplicate placer-named MRDS points and drop those near ranked targets.
+
+    holdout_xy: (N, 2) lon/lat of sites to exclude from training pour points.
+    cell_deg: grid size for uniqueness (~0.02° ≈ 2 km).
+    holdout_deg: exclusion radius around each ranked site (~0.03° ≈ 3 km).
+    """
+    import geopandas as gpd
+
+    blob = (
+        mrds_gdf.get('commodity', pd.Series('', index=mrds_gdf.index)).fillna('').astype(str)
+        + ' '
+        + mrds_gdf.get('site_name', pd.Series('', index=mrds_gdf.index)).fillna('').astype(str)
+        + ' '
+        + mrds_gdf.get('code_list', pd.Series('', index=mrds_gdf.index)).fillna('').astype(str)
+    ).str.lower()
+    placer = mrds_gdf.loc[blob.str.contains('placer')].copy()
+    if placer.empty:
+        return gpd.GeoDataFrame(geometry=[], crs=mrds_gdf.crs)
+
+    if holdout_xy is not None and len(holdout_xy):
+        hx = np.asarray(holdout_xy)[:, 0]
+        hy = np.asarray(holdout_xy)[:, 1]
+        keep = []
+        for geom in placer.geometry:
+            keep.append(np.hypot(geom.x - hx, geom.y - hy).min() > holdout_deg)
+        placer = placer.loc[np.asarray(keep)]
+
+    placer = placer.copy()
+    placer['_cell'] = list(zip(
+        np.round(placer.geometry.x / cell_deg).astype(int),
+        np.round(placer.geometry.y / cell_deg).astype(int),
+    ))
+    placer = placer.drop_duplicates('_cell').drop(columns='_cell')
+    return placer.reset_index(drop=True)
+
+
+def run_same_basin_qa(cfg):
+    """Method test: D8 catchments of deduped placer pour points, 12 sites held out.
+
+    Does not overwrite the published Task 9 figure or CV tables.
+    Writes task9_same_basin_qa.csv and prints concordance with proximity labels.
+    """
+    import geopandas as gpd
+    from sklearn.ensemble import RandomForestClassifier
+    from sklearn.model_selection import StratifiedKFold
+    from sklearn.metrics import roc_auc_score, precision_recall_fscore_support
+
+    ensure_outputs(cfg['outputs_dir'])
+    df = load_nure(cfg)
+    lon_min, lon_max, lat_min, lat_max = bbox(cfg)
+    df = df.dropna(subset=['lat', 'lon'])
+    df = df[
+        (df['lon'] >= lon_min) & (df['lon'] <= lon_max) &
+        (df['lat'] >= lat_min) & (df['lat'] <= lat_max)
+    ].copy().reset_index(drop=True)
+
+    mrds = gpd.read_file(cfg['data']['mrds_geojson'])
+    holdout = np.array([[s['lon'], s['lat']] for s in cfg.get('sites', [])])
+    pour = unique_placer_pour_points(mrds, holdout_xy=holdout)
+    print(f"  Same-basin pour points: {len(pour)} unique placer locations "
+          f"(12 ranked sites held out)")
+    if len(pour) < 5:
+        raise ValueError("Too few unique placer pour points after hold-out")
+
+    dem_path = cfg.get('data', {}).get('dem_tif')
+    if dem_path and not os.path.isabs(dem_path):
+        dem_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), dem_path)
+    snap_max = cfg.get('ml', {}).get('catchment_snap_max_m', 5000)
+    snap_pct = cfg.get('ml', {}).get('catchment_snap_percentile', 99.5)
+    catch_gdf = delineate_catchments(pour, dem_path, snap_max_m=snap_max, snap_percentile=snap_pct)
+
+    nure_pts = gpd.GeoDataFrame(
+        geometry=gpd.points_from_xy(df['lon'], df['lat']),
+        crs='EPSG:4326',
+    )
+    joined = gpd.sjoin(nure_pts, catch_gdf[['geometry']], how='left', predicate='within')
+    in_catch = joined['index_right'].notna().groupby(joined.index).any()
+    in_catch = in_catch.reindex(nure_pts.index, fill_value=False)
+
+    # Trap / near-downstream allowance: 0.02° (~2 km) of a training pour point.
+    from scipy.spatial import cKDTree
+    tree = cKDTree(np.column_stack([pour.geometry.x.values, pour.geometry.y.values]))
+    dist, _ = tree.query(np.column_stack([df['lon'].values, df['lat'].values]))
+    near_trap = dist <= 0.02
+    y = (in_catch.values | near_trap).astype(int)
+
+    # Proximity baseline on the same NURE rows (published definition, for overlap only).
+    gold = mrds[
+        mrds['target_commodity'].fillna('').str.contains('Gold')
+        & ~mrds['target_commodity'].fillna('').str.contains('Rare Earth')
+    ]
+    ptree = cKDTree(np.column_stack([gold.geometry.x.values, gold.geometry.y.values]))
+    pdist, _ = ptree.query(np.column_stack([df['lon'].values, df['lat'].values]))
+    y_prox = (pdist <= cfg.get('ml', {}).get('mrds_proximity_deg', 0.15)).astype(int)
+    both = int(((y == 1) & (y_prox == 1)).sum())
+
+    avail = [f for f in FEATURES if f in df.columns]
+    X = _log_impute(df, avail).values
+    n_pos = int(y.sum())
+    print(f"  Same-basin labels: {n_pos}/{len(y)} positive ({100*n_pos/len(y):.1f}%); "
+          f"overlap with proximity positives: {both}")
+    if n_pos < 10 or n_pos == len(y):
+        raise ValueError(f"Same-basin labels unusable ({n_pos}/{len(y)})")
+
+    skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+    aucs, precs, recs = [], [], []
+    for tr, te in skf.split(X, y):
+        rf = RandomForestClassifier(n_estimators=200, random_state=42, class_weight='balanced')
+        rf.fit(X[tr], y[tr])
+        proba = rf.predict_proba(X[te])[:, 1]
+        pred = (proba >= 0.5).astype(int)
+        aucs.append(roc_auc_score(y[te], proba))
+        p, r, _, _ = precision_recall_fscore_support(y[te], pred, labels=[1], zero_division=0)
+        precs.append(float(p[0]))
+        recs.append(float(r[0]))
+
+    rf_all = RandomForestClassifier(n_estimators=200, random_state=42, class_weight='balanced')
+    rf_all.fit(X, y)
+    imp = sorted(zip(avail, rf_all.feature_importances_), key=lambda t: -t[1])
+
+    qa = pd.DataFrame([{
+        'n_pour_points': len(pour),
+        'n_catchments': len(catch_gdf),
+        'n_nure': len(y),
+        'n_positive': n_pos,
+        'positive_rate': round(n_pos / len(y), 4),
+        'overlap_with_proximity': both,
+        'cv_roc_auc_mean': round(float(np.mean(aucs)), 4),
+        'cv_roc_auc_sd': round(float(np.std(aucs, ddof=1)), 4),
+        'cv_precision_mean': round(float(np.mean(precs)), 4),
+        'cv_recall_mean': round(float(np.mean(recs)), 4),
+        'top_feature': imp[0][0],
+        'top_feature_importance': round(float(imp[0][1]), 4),
+        'holdout': '12 ranked config sites within 0.03 deg',
+        'pour_point_rule': 'placer-named MRDS, 0.02 deg unique cells',
+        'trap_buffer_deg': 0.02,
+    }])
+    path = out(cfg, 'tables', 'task9_same_basin_qa.csv')
+    qa.to_csv(path, index=False)
+    print(f"  Wrote {path}")
+    print(qa.T.to_string(header=False))
+    return qa
+
+
 if __name__ == '__main__':
     import yaml, sys
-    cfg_path = sys.argv[1] if len(sys.argv) > 1 else 'configs/ne_washington/config.yaml'
+    args = sys.argv[1:]
+    same_basin = '--same-basin' in args
+    args = [a for a in args if a != '--same-basin']
+    cfg_path = args[0] if args else 'configs/ne_washington/config.yaml'
     with open(cfg_path) as f:
         cfg = yaml.safe_load(f)
-    run(cfg)
+    if same_basin:
+        run_same_basin_qa(cfg)
+    else:
+        run(cfg)

@@ -29,6 +29,14 @@ data:
   mrds_geojson: "ne_wa_ree/data/mrds/mrds_ne_wa.geojson"
   geology_geojson: null        # ne_wa_ree/data/geologic/wa_geology.geojson (optional)
   aeromagnetic_tif: null       # ne_wa_ree/data/aeromagnetic/wa_mag_anomaly.tif (optional)
+  # NURE / USGS aerial gamma-ray (optional). Same family as stream-sediment NURE
+  # but a different survey: aircraft-measured K %, eTh ppm, eU ppm.
+  # Quantitative grids: NAMrad_{K,Th,U}.zip on https://mrdata.usgs.gov/radiometric/
+  # (NArad_*_geog83.tif are RGB previews). Fetch + clip:
+  #   python -m pipeline.fetch_radiometric --config configs/ne_washington/config.yaml
+  radiometric_k_tif: "ne_wa_ree/data/radiometric/ne_wa_K.tif"
+  radiometric_eth_tif: "ne_wa_ree/data/radiometric/ne_wa_eTh.tif"
+  radiometric_eu_tif: "ne_wa_ree/data/radiometric/ne_wa_eU.tif"
   dem_tif: "ne_wa_ree/data/dem/ne_wa_dem_30m.tif"  # Copernicus GLO-30, 8 tiles mosaicked, covers lon -120→-116 / lat 47→49
   wgs_excel: data/wgs_ofr2026/ger_ofr2026-02_data_supplement.xlsx
 
@@ -36,17 +44,25 @@ data:
 mrds_commodities: ["placer gold", "gold", "REE", "monazite", "magnetite"]
 
 # ── ML targeting (Task 9) ─────────────────────────────────────────────────────
-# mrds_proximity_deg: catchment-scale radius (~15 km = one drainage basin).
-#   0.03° (old default) was point-proximity only; 45% recall loss vs. 0.15°.
-# mrds_commodity_filter: train on MRDS sites for one deposit type at a time.
+# Published result of record: label_method: proximity
+#   0.15° (~15 km) around MRDS sites after commodity_filter, plus the 200 m
+#   elevation filter when a DEM is present. This is the screening question:
+#   "does this chemistry look like ground near known gold deposits?"
+# catchment is implemented but not the published model. It uses cfg.sites
+# (~12 pour points), not the full MRDS gold inventory. Do not pass ~1,600
+# MRDS records into delineate_catchments.
+# mrds_commodity_filter applies to proximity labeling and feature-set selection:
 #   'placer_gold' — Gold target_commodity only (1623 NE WA sites)
 #   'ree'         — Rare Earth Elements target_commodity (7 sites; sparse)
 #   'cu_mo'       — sites with CU or MO in code_list (~300+ sites)
 #   'all'         — no filter, blended model (legacy behaviour)
 ml:
+  label_method: "proximity"    # published default; "catchment" is experimental
   mrds_proximity_deg: 0.15
   mrds_commodity_filter: "placer_gold"
   mrds_elev_diff_m: 200
+  catchment_snap_percentile: 99.5   # only used when label_method=catchment
+  catchment_snap_max_m: 5000
   anomaly_top_pct: 0.10
 
 # ── Mine sites (from MRDS; 12 NE WA priority placer sites) ───────────────────
@@ -379,6 +395,10 @@ wgs:
 # ── Geochemistry parameters ───────────────────────────────────────────────────
 geochemistry:
   regional_bg_th: 8.0               # ppm — NE WA NURE median background
+  # Site–NURE join for Task 1 badges, Task 4 grade, and Task 7 dual flags.
+  # 0.10° ≈ 11 km ≈ one NURE spacing. The old 0.25° + max-Th window assigned
+  # Hunters a monazite grab 26 km SSE (C165101). Nearest sample, not peak.
+  site_join_radius_deg: 0.10
   # Monazite classification criteria (Mücke & Bhaskara Rao 1996; Rasmussen & Muhling 2009)
   # Ce/La thresholds set to 75th-percentile of this NURE dataset (NE WA has elevated REE
   # background from Colville Batholith; using crustal averages would flag half all samples).
@@ -389,6 +409,9 @@ geochemistry:
   thorite_uth_min: 1.5      # Mücke & Rao 1996 — unchanged; gap 0.5-1.5 = xenotime/mixed zone
   # Xenotime (YPO4) classification — HREE proxy, independent of LREE/monazite signal
   xenotime_y_min_ppm: 82    # mean+2SD of NE WA NURE Y distribution (computed in task1)
+  # Accessory-mineral discriminators (panels J and K)
+  fergusonite_nb_min_ppm: 40  # Nb threshold for fergusonite/columbite-group flag (stream sediment)
+  apatite_sr_min_ppm: 300     # Sr threshold above which apatite is a significant P-carrier
   # Volume/grade conversion factors (task4)
   bulk_density_t_m3: 1.5            # t/m³ — loose gravel tailings
   th_in_monazite_frac: 0.044        # Cheney et al. 1994 — NE WA metamorphic monazite

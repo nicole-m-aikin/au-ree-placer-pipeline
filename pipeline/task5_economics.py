@@ -226,11 +226,10 @@ NdPr market context:
     ax2.grid(True, alpha=0.25, axis='x')
 
     ax3 = fig.add_subplot(gs[1, 1])
-    # Tornado: use the #1 priority target (Hunters Placer) if viable, else top-NPV viable site.
-    # Hunters is #1 by multi-criterion combined score (Fig 7); Sanpoil is only #4 despite
-    # having the most NdPr tonnes, because it has LOW data confidence and no Au signal.
-    _priority_order = ['Hunters Placer', 'Colville Placer', 'Conconully Placer',
-                       'Sanpoil River Placer']
+    # Tornado: first site in this list that clears the spot-price screen.
+    # After the 0.10° join only Bossburg is below ~$109/kg. Hunters is #1
+    # by combined score but $130/kg; Oroville is volume at background.
+    _priority_order = ['Bossburg Placer', 'Hunters Placer', 'Oroville Placer']
     top_site = None
     for pname in _priority_order:
         _match = results_df[(results_df['site'] == pname) &

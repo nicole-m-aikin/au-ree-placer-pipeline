@@ -1,0 +1,13 @@
+metric,proximity_result_of_record,catchment_qa_diagnostic,unit,interpretation
+n_nure,1045,1045,count,Same NURE study-area extract
+n_positive,290,54,count,Catchment-of-12 must be a strict minority of proximity
+positive_rate,0.278,0.052,fraction,QA fail if catchment rate approaches proximity rate
+cv_roc_auc_mean,0.891,0.959,unitless,Catchment AUC is not comparable; expect it higher and less stable
+cv_roc_auc_sd,0.018,0.037,unitless,Catchment fold variance should be larger (n_pos ~11/fold)
+cv_precision_mean,0.711,0.823,unitless,Catchment precision can look high by saying no almost everywhere
+cv_recall_mean,0.686,0.520,unitless,Catchment misses about half of its own 54 positives
+n_pos_per_fold,58,11,count,QA fail if catchment fold positives drop below 5
+top_feature,U,P,element,Proximity recovers U/Th discrimination; catchment collapses to phosphate + As
+top_feature_importance,0.233,0.253,gini,See task9_ml_feature_importance.csv for the published (proximity) ranking
+pour_point_definition,1623 MRDS gold sites within 0.15 deg + 200 m elev,12 ranked config sites D8 catchments p99.5 snap,,Do not train the published RF on the 12-site labels
+run_seconds,4.4,178,s,Catchment cost is DEM fill + 12 polygonize passes; not a default pipeline step

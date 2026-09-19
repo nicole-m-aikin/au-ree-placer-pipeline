@@ -20,7 +20,7 @@ The pipeline implements a mineral systems analysis following the established
 
 Each pipeline task evaluates one or more components of this framework:
 
-- **Task 1** — source mineralogy (monazite vs. thorite vs. background via U/Th discrimination)
+- **Task 1** — source mineralogy (monazite vs. thorite vs. background via U/Th discrimination). Site–NURE join is `geochemistry.site_join_radius_deg` (default 0.10°, nearest sample). The old 0.25° max-Th window assigned far chemistry to the ranked piles and is retired.
 - **Task 2** — catchment geology / pathway (source lithology score per drainage basin)
 - **Task 3** — geochemical discrimination (multi-element fingerprinting of REE source)
 - **Task 4** — trap volume and economic grade proxy (lidar vs. topo; Monte Carlo endowment)
@@ -201,14 +201,17 @@ be factored into any project economics.
 | Data coverage | 0–2 | 1.0 | Penalizes low-quality lidar/topo data |
 | NdPr endowment (P50) | 0–2 | **2.0** | Primary economic driver — double-weighted |
 | Au/As pathfinder | 0–2 | 1.0 | Placer concentration vector |
+| Y / xenotime (HREE) | 0–1 | 0.5 | Down-weighted; Y₂O₃ ~$3.50/kg vs NdPr ~$109/kg |
+| ML probability | 0–1 | 1.0 | Nearest NURE P(anomalous) within 0.15° |
 
 **NdPr endowment is double-weighted** because it is the primary economic driver;
 all other criteria are screening filters that confirm or reduce confidence in the
 endowment estimate.
 
 **Weight sensitivity:** One-at-a-time ±50% perturbation of each weight is performed
-in `integration.py` to verify that the top-3 ranking is stable. Results written to
-`integration_weight_sensitivity.csv`.
+in `integration.py`. After the 0.10° nearest-sample join, Hunters stays #1–#2;
+Bossburg and Oroville can leave the top 3. Do not say the top 3 are stable.
+Results written to `integration_weight_sensitivity.csv`.
 
 ---
 
@@ -222,7 +225,7 @@ class_weight='balanced').
   geological reasons, not algorithmic ones)
 - Captures non-linear multi-element interactions that linear discriminant analysis misses
 - Provides Gini feature importance without requiring additional hyperparameter tuning
-- class_weight='balanced' corrects for the ~15–20% anomalous sample fraction
+- class_weight='balanced' corrects for the minority-class imbalance in the labelled set (see the positive fraction reported under the labelling section below)
 
 **Anomaly label — MRDS proximity (geochemistry-independent ground truth):**
 
@@ -299,6 +302,100 @@ The recommended upgrade for a production workflow is ordinary kriging of the pre
 probabilities (e.g., via `pykrige`), which would add a kriging variance surface and
 provide spatially explicit confidence bounds. The current IDW surface is appropriate
 for exploratory screening.
+
+**Catchment labeling — QA diagnostic, not the published model:**
+
+`label_method: catchment` delineates D8 upstream polygons from the study-area
+site list (`cfg.sites`, typically 12 pour points) and labels a NURE sample
+positive if it falls inside any of those polygons. Snap uses a precomputed
+accumulation mask (default p99.5) and windowed polygonize. This is *not* the
+figure of record, for two reasons:
+
+1. **Sample size.** Twelve drainages labelled 54 of 1,045 NURE samples (5.2%).
+   Five-fold CV then has ~11 positives per fold. The resulting ROC-AUC (0.959)
+   is not comparable to the proximity result and is easy to over-read.
+2. **Tautology.** The pour points are the same 12 sites the rest of the pipeline
+   already ranks. The model is asked to recognise drainages we already picked,
+   not to generalise to unlisted ground.
+
+Those numbers **are** retained as a QA ledger in
+`ne_wa_ree/outputs/tables/task9_label_qa.csv` and locked by
+`tests/test_integration_and_ml.py::TestLabelQaLedger`. Use them as a
+sanity check, not a resume metric:
+
+- Catchment positives must stay a minority of proximity positives (54 vs 290).
+  If they converge, the 12-site snap has ballooned into regional drainages.
+- Catchment AUC should be *higher* and *noisier* than proximity. If it falls
+  below 0.891, the diagnostic inverted.
+- Published top feature is U; catchment top feature is P. A swap on the
+  proximity side is a data or code regression.
+
+A scientifically useful catchment *training* experiment would use a broader
+set of independent placer occurrences as pour points — not the ranked target
+list. Do not pass the full ~1,600-record MRDS gold inventory into
+`delineate_catchments`; that is a multi-hour full-grid polygonize.
+
+**Same-basin labeling — method test, still not the published model:**
+
+`python -m pipeline.task9_ml_targeting --same-basin` uses independent
+placer-named MRDS records as pour points, holds out the 12 ranked config
+sites (±0.03°), unique-cells at 0.02°, D8 catchments plus a 0.02° trap
+buffer, and does **not** overwrite Fig 10 or the published CV tables.
+
+On the NE Washington extract that produced 82 unique pour points, 78
+delineated catchments, and 254 of 1,045 NURE positives (24.3%). 250 of
+those 254 also meet the published proximity definition, so same-basin is
+essentially a hydrologic tightening of the circle, not a new labeled
+population. Five-fold CV ROC-AUC is 0.947 ± 0.014 with Fe as the top
+Gini feature. That AUC is not a resume number: the class is cleaner
+than proximity and still spatially autocorrelated. Do not quote 0.947
+or 0.959 as model performance. Result of record remains proximity
+(0.891 ± 0.018, ~290 positives, U first). Ledger:
+`ne_wa_ree/outputs/tables/task9_same_basin_qa.csv`.
+
+The published Task 9 numbers, Fig 10, and resume claims use
+`label_method: proximity`.
+
+**Aerial gamma-ray (NURE K / eTh / eU) — how it enters the pipeline:**
+
+NURE was two surveys. Stream sediment (already in Task 3/9) is laboratory
+chemistry of grab samples. Aerial radiometrics is aircraft gamma-ray
+spectrometry of the top ~30 cm: potassium (%K), equivalent thorium (eTh),
+equivalent uranium (eU). Grids: Duval compilation at
+https://mrdata.usgs.gov/radiometric/ (see `DATA_SOURCES.md`).
+
+Fetch and clip with `python -m pipeline.fetch_radiometric` (Duval 2005
+Esri FLT concentration grids, reprojected from DNAG TM to EPSG:4326).
+The NArad_*_geog83.tif files on mrdata are RGB previews, not sampled.
+Config `data.radiometric_*_tif` already points at the clipped NE WA GeoTIFFs.
+`utils.load_radiometric_at_points` samples them. Uses, in order:
+
+1. **Task 1 overlay (implemented).** `fig1b_airborne_eth_vs_nure_th.png`
+   sits beside the synthetic magnetic grid — it does not replace it.
+   Panel A is airborne eTh + NURE stream-sediment Th anomalies; panel B
+   is the point-level concordance scatter. Agreement is a ground-truth
+   check on both datasets; disagreement flags drainage transport, cover,
+   or survey gaps. Site-table columns `rad_*` / `rad_th_agree` and
+   `task1_radiometric_concordance.csv` are written only when the eTh
+   TIFF exists. Airborne highs use linear mean+2SD of the windowed grid
+   (same convention as the magnetic placeholder, not the log-space
+   geochemical threshold). On the NE WA clip: Spearman ρ(stream Th,
+   airborne eTh) ≈ 0.05; 76 stream-only vs 1 both_high (C165101, not a
+   ranked pile). After the 0.10° nearest-sample join, Hunters is
+   `neither` (local C164654, 20 ppm BACKGROUND). The plane is a check
+   on the join, not a scoring layer.
+2. **Ratio maps (not yet).** eU/eTh is the continuous version of the
+   Task 3 U/Th monazite-vs-thorite screen. K/eTh separates felsic
+   (high K) from Th-rich metapelite / monazite catchments (low K/eTh).
+3. **Task 9 features, later — not now.** Adding rad_eTh, rad_K, rad_eU
+   to the RF is possible but is *not* the next step: the grids are
+   smooth at 1–10 km, so they leak spatial autocorrelation into CV.
+   Use them as a map layer and a site-table column before they become
+   model features.
+
+Do not invent a synthetic K/Th grid the way Task 1 currently synthesizes
+magnetics. If the TIFFs are absent, radiometric columns stay empty and
+Fig 1b is skipped.
 
 ---
 

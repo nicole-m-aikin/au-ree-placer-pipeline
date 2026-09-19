@@ -45,7 +45,10 @@ def run(cfg):
     nure_df   = pd.read_csv(cfg['data']['nure_csv'])
     task1_df  = pd.read_csv(out(cfg, 'tables', 'task1_site_summary.csv'))
 
-    th_lookup = task1_df.set_index('name')['th_value_ppm'].to_dict()
+    # Grade uses local stream Th (nearest NURE grab), not the far max-Th anomaly
+    # Task 1 used to assign. Fall back to the anomaly value, then regional background.
+    grade_col = 'th_local_ppm' if 'th_local_ppm' in task1_df.columns else 'th_value_ppm'
+    th_lookup = task1_df.drop_duplicates('name', keep='last').set_index('name')[grade_col].to_dict()
     for site in list(th_lookup.keys()):
         val = th_lookup[site]
         if val is None or (isinstance(val, float) and pd.isna(val)):
@@ -356,10 +359,13 @@ def run(cfg):
     save_fig(fig, out(cfg, 'figures', 'fig4_volume_estimation.png'))
 
     # ── Exploration target statement ──────────────────────────────────────────
-    top3 = results_df.head(3)
-    total_lo = top3['ndpr_t_p10'].sum()
-    total_hi = top3['ndpr_t_p90'].sum()
-    total_c  = top3['ndpr_tonnes'].sum()
+    # All 12 sites — do not headline the three largest-P50 metal rows
+    # (Old Dominion / Oroville / Republic). Those are volume at background
+    # grade, not the integration ranking (Hunters / Bossburg / Oroville).
+    total_lo = results_df['ndpr_t_p10'].sum()
+    total_hi = results_df['ndpr_t_p90'].sum()
+    total_c  = results_df['ndpr_tonnes'].sum()
+    n_sites  = len(results_df)
 
     expl_target = f"""
 EXPLORATION TARGET STATEMENT
@@ -369,16 +375,21 @@ EXPLORATION TARGET STATEMENT
 
 BASIS OF ESTIMATE:
   - Volume: aerial extent from MRDS historical production records
-  - Grade proxy: NURE stream sediment Th values upscaled by {STREAM_FACTOR}x dilution factor
+  - Grade proxy: nearest NURE stream-sediment Th within 0.10°
+    (retired: 0.25° max-Th window that assigned far chemistry)
+  - Th upscaled by {STREAM_FACTOR}x dilution factor
   - Th→monazite conversion: {TH_IN_MONAZITE_FRAC*100:.1f}% Th in metamorphic monazite
   - Monazite→NdPr: {NDPR_IN_MONAZITE*100:.0f}% NdPr by mass
   - CAUTION: grade estimates carry ±50% uncertainty (log-normal, σ=0.4)
   - Monte Carlo: 2 000 samples per site; depth ~ N(μ, σ), grade ~ LogNormal
 
-COMBINED TOP-3 EXPLORATION TARGET (Monte Carlo P10 / P50 / P90):
+COMBINED {n_sites}-SITE EXPLORATION TARGET (Monte Carlo P10 / P50 / P90):
   NdPr metal P10: {total_lo:.0f} t
-  NdPr metal P50: {total_c:.1f} t  (headline estimate)
+  NdPr metal P50: {total_c:.0f} t  (headline; was 1,375 t under the old join)
   NdPr metal P90: {total_hi:.0f} t
+
+Integration ranking is Hunters / Bossburg / Oroville. Do not treat the
+three largest metal-P50 rows as the field-program priority.
 
 IMPORTANT DISCLAIMER:
   This is an exploration target only. Do not use for investment decisions

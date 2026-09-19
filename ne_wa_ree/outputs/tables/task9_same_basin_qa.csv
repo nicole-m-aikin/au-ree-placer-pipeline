@@ -1,0 +1,2 @@
+n_pour_points,n_catchments,n_nure,n_positive,positive_rate,overlap_with_proximity,cv_roc_auc_mean,cv_roc_auc_sd,cv_precision_mean,cv_recall_mean,top_feature,top_feature_importance,holdout,pour_point_rule,trap_buffer_deg
+82,78,1045,254,0.2431,250,0.9472,0.0142,0.7615,0.7165,Fe,0.1661,12 ranked config sites within 0.03 deg,"placer-named MRDS, 0.02 deg unique cells",0.02

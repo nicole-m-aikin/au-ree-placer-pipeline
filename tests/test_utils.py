@@ -10,7 +10,12 @@ import pytest
 
 # Allow import without installing the package
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
-from pipeline.utils import anomaly_threshold, chondrite_normalize, load_nure, CHONDRITE_SUN89
+from pipeline.utils import (
+    anomaly_threshold, chondrite_normalize, load_nure, CHONDRITE_SUN89,
+    sample_raster_at_xy, load_radiometric_at_points, load_raster_window,
+    classify_rad_concordance, linear_mean_2sd, radiometric_tif_path,
+    RAD_AGREE_BOTH, RAD_AGREE_STREAM, RAD_AGREE_AIR, RAD_AGREE_NONE,
+)
 
 
 # ── anomaly_threshold ─────────────────────────────────────────────────────────
@@ -165,3 +170,128 @@ class TestLoadNure:
             assert df['lat'].iloc[0] == pytest.approx(-5.0, rel=1e-6)
         finally:
             os.unlink(fname)
+
+
+def _write_tiny_tif(path, origin_x, origin_y, px, values, nodata=None):
+    """Write a north-up single-band float32 GeoTIFF. origin is the NW corner."""
+    import rasterio
+    from rasterio.transform import from_origin
+
+    arr = np.asarray(values, dtype=np.float32)
+    profile = {
+        'driver': 'GTiff',
+        'height': arr.shape[0],
+        'width': arr.shape[1],
+        'count': 1,
+        'dtype': 'float32',
+        'crs': 'EPSG:4326',
+        'transform': from_origin(origin_x, origin_y, px, px),
+    }
+    if nodata is not None:
+        profile['nodata'] = nodata
+    with rasterio.open(path, 'w', **profile) as dst:
+        dst.write(arr, 1)
+
+
+class TestRadiometricSampling:
+    def test_missing_raster_returns_nan(self):
+        vals = sample_raster_at_xy('/no/such/file.tif', [-118.2], [48.1])
+        assert len(vals) == 1
+        assert np.isnan(vals[0])
+
+    def test_empty_config_returns_nan_columns(self):
+        df = load_radiometric_at_points({'data': {}}, [-118.2, -117.9], [48.1, 48.5])
+        assert list(df.columns) == ['rad_K', 'rad_eTh', 'rad_eU', 'rad_eU_eTh', 'rad_K_eTh']
+        assert df.isna().all().all()
+
+    def test_samples_known_pixel(self, tmp_path):
+        # 2×2 grid, 1° pixels, origin NW (-120, 49). Pixel centers:
+        # (-119.5, 48.5)=10, (-118.5, 48.5)=20
+        # (-119.5, 47.5)=30, (-118.5, 47.5)=40
+        tif = tmp_path / 'eth.tif'
+        _write_tiny_tif(tif, -120.0, 49.0, 1.0, [[10, 20], [30, 40]])
+        vals = sample_raster_at_xy(str(tif), [-119.5, -118.5], [48.5, 47.5])
+        assert vals[0] == pytest.approx(10.0)
+        assert vals[1] == pytest.approx(40.0)
+
+    def test_nodata_becomes_nan(self, tmp_path):
+        tif = tmp_path / 'eth.tif'
+        _write_tiny_tif(tif, -120.0, 49.0, 1.0, [[-9999, 12]], nodata=-9999)
+        vals = sample_raster_at_xy(str(tif), [-119.5, -118.5], [48.5, 48.5])
+        assert np.isnan(vals[0])
+        assert vals[1] == pytest.approx(12.0)
+
+    def test_ratio_columns_when_tiffs_present(self, tmp_path):
+        k = tmp_path / 'k.tif'
+        th = tmp_path / 'th.tif'
+        u = tmp_path / 'u.tif'
+        _write_tiny_tif(k, -120.0, 49.0, 1.0, [[2.0, 2.0], [2.0, 2.0]])
+        _write_tiny_tif(th, -120.0, 49.0, 1.0, [[10.0, 10.0], [10.0, 10.0]])
+        _write_tiny_tif(u, -120.0, 49.0, 1.0, [[4.0, 4.0], [4.0, 4.0]])
+        cfg = {'data': {
+            'radiometric_k_tif': str(k),
+            'radiometric_eth_tif': str(th),
+            'radiometric_eu_tif': str(u),
+        }}
+        df = load_radiometric_at_points(cfg, [-119.5], [48.5])
+        assert df['rad_K'].iloc[0] == pytest.approx(2.0)
+        assert df['rad_eTh'].iloc[0] == pytest.approx(10.0)
+        assert df['rad_eU'].iloc[0] == pytest.approx(4.0)
+        assert df['rad_eU_eTh'].iloc[0] == pytest.approx(0.4)
+        assert df['rad_K_eTh'].iloc[0] == pytest.approx(0.2)
+
+    def test_missing_path_key_is_none(self):
+        assert radiometric_tif_path({'data': {}}, 'eth') is None
+        assert radiometric_tif_path({'data': {'radiometric_eth_tif': '/no/file.tif'}}, 'eth') is None
+
+
+class TestRasterWindow:
+    def test_missing_returns_none(self):
+        data, extent = load_raster_window('/no/such.tif', (-120, -117, 47.5, 49.1))
+        assert data is None and extent is None
+
+    def test_window_stays_inside_requested_bounds(self, tmp_path):
+        tif = tmp_path / 'eth.tif'
+        # 10×10, 0.2° pixels covering -120→-118, 47.2→49.2
+        grid = np.arange(100, dtype=float).reshape(10, 10)
+        _write_tiny_tif(tif, -120.0, 49.2, 0.2, grid)
+        data, extent = load_raster_window(str(tif), (-119.6, -118.6, 47.8, 48.8))
+        assert data is not None
+        assert extent[0] >= -119.6 - 0.2  # at most one pixel slack
+        assert extent[1] <= -118.6 + 0.2
+        assert extent[2] >= 47.8 - 0.2
+        assert extent[3] <= 48.8 + 0.2
+        assert data.size < 100  # actually clipped
+
+
+class TestLinearMean2sd:
+    def test_none_if_too_few(self):
+        assert linear_mean_2sd([1.0, 2.0, np.nan]) is None
+
+    def test_matches_formula(self):
+        v = np.array([10.0, 12.0, 11.0, 9.0, 13.0, 10.5])
+        assert linear_mean_2sd(v) == pytest.approx(v.mean() + 2 * v.std())
+
+    def test_drops_nonpositive(self):
+        v = np.array([10.0, 12.0, 0.0, -5.0, 11.0, 9.0, 13.0])
+        pos = np.array([10.0, 12.0, 11.0, 9.0, 13.0])
+        assert linear_mean_2sd(v) == pytest.approx(pos.mean() + 2 * pos.std())
+
+
+class TestRadConcordance:
+    def test_four_classes(self):
+        stream = [True, True, False, False]
+        air = [True, False, True, False]
+        out = classify_rad_concordance(stream, air)
+        assert list(out) == [RAD_AGREE_BOTH, RAD_AGREE_STREAM, RAD_AGREE_AIR, RAD_AGREE_NONE]
+
+    def test_missing_airborne_is_na(self):
+        stream = [True, False]
+        air = [np.nan, np.nan]
+        out = classify_rad_concordance(stream, air)
+        assert out.isna().all()
+
+    def test_does_not_invent_stream_only_when_unsampled(self):
+        # A stream-Th site with no airborne sample must not be called stream_only
+        out = classify_rad_concordance([True], [np.nan])
+        assert pd.isna(out.iloc[0])

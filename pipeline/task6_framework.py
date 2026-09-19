@@ -22,7 +22,7 @@ from pipeline.utils import WONG, setup_mpl, watermark, save_fig, ensure_outputs,
 
 def _build_default_rows(cfg):
     """Build decision framework rows, reading NdPr total dynamically from task4 output."""
-    ndpr_total_str = '1,445 t NdPr'
+    ndpr_total_str = '712 t NdPr'
     try:
         t4_path = out(cfg, 'tables', 'task4_volume_tonnage_summary.csv')
         if os.path.exists(t4_path):
@@ -37,8 +37,8 @@ def _build_default_rows(cfg):
             'ROW 1\nIs there\nmonazite here?',
             WONG['blue'],
             '• MCC metapelite catchments\n  12/12 sites drain Okanogan or\n  Kettle MCC terrain\n  (source lithology analysis)\n\n'
-            '• Th anomalies in stream sediment\n  61 Th-anomalous samples in NE WA\n  MIXED_UNCLEAR + THORITE_UTHO\n  (geochemical discrimination)\n\n'
-            '• Aeromagnetic co-occurrence\n  2 sites: mag high + Th anomaly\n  Colville + Hunters Placer\n  (co-placer indicator analysis)',
+            '• Th anomalies in stream sediment\n  77 Th-anomalous samples in NE WA\n  4 confirmed monazite; most thorite\n  or mixed (geochemical discrimination)\n\n'
+            '• Local site–NURE join (0.10° nearest)\n  Only Bossburg still has local Th\n  Hunters mag high, local BACKGROUND\n  (no mag+Th co-placer after join)',
             'No MONAZITE geochemical fingerprint\nconfirmed — Ce/La data only 35–49%\nnon-null in NURE dataset\n\n'
             'Cannot confirm Th-Ce-P triplet\nfrom stream sediment alone\n(→ need auger samples + MLA)',
             'PARTIAL\nevidence',
@@ -47,7 +47,7 @@ def _build_default_rows(cfg):
         (
             'ROW 2\nHow much is\nthere and where?',
             WONG['blue'],
-            f'• 12 priority placer sites ranked\n  Combined score 5.25–11.04\n  #1 Hunters, #2 Colville\n  #3 Conconully (integrated ranking)\n\n'
+            f'• 12 priority placer sites ranked\n  Combined score ~5–8.5\n  #1 Hunters, #2 Bossburg\n  #3 Oroville (integrated ranking)\n\n'
             f'• Lidar volume estimation\n  7.0 Mt total tailings across sites\n  {ndpr_total_str} exploration target\n  (volume estimation)\n\n'
             '• Grade proxy from NURE Th\n  Regional background fill applied\n  ±50% grade uncertainty',
             'No in-situ grade data\nStream sediment proxy — ±50% uncertainty\n\n'
@@ -58,13 +58,13 @@ def _build_default_rows(cfg):
         (
             'ROW 3\nIs it worth\npursuing?',
             WONG['blue'],
-            '• All 3 top sites viable at current prices\n  Break-even $74–101/kg vs.\n  current $109/kg NdPr (break-even analysis)\n\n'
+            '• Only Bossburg is below ~$109/kg\n  ($99/kg). Hunters $130/kg;\n  Oroville $248/kg (volume, background)\n\n'
             '• Domestic processing pathway:\n  Energy Fuels White Mesa Mill\n  licensed for Th-bearing monazite\n\n'
-            '• Dual Au+REE signal at Hunters Placer\n  PORPHYRY_CU co-anomaly\n  (Au/As pathfinder map)',
+            '• No dual Th+Au site after local join\n  Hunters is a gold placer + mag high,\n  not a local monazite source',
             'No formal resource estimate\nNo field confirmation of grade\n\n'
-            'Conconully break-even ($101/kg)\nis marginal — viable only if\nprice holds above 2024 trough\n($60/kg)',
-            'VIABLE at\ncurrent\nprices',
-            WONG['green'],
+            'Hunters is #1 without monazite\ncredit. Combined NdPr P50 is\n712 t (not 1,375 t)',
+            '1 of 12\nbelow spot',
+            WONG['orange'],
         ),
     ]
 
@@ -76,7 +76,7 @@ def run(cfg):
     rows = cfg.get('decision_framework_rows', _build_default_rows(cfg))
     next_step_text = cfg.get(
         'decision_framework_next_step',
-        'NEXT STEP:  Auger sampling program — Colville Placer + Hunters Placer\n'
+        'NEXT STEP:  Auger sampling program — Hunters Placer + Bossburg Placer\n'
         'Cost: $136,000 – $204,000  (20–30 holes per site at $2,000–3,400/hole)\n'
         'Outcome: grade uncertainty ±50% → ±15–25%  |  '
         'Enables NI 43-101 Inferred Resource estimate  |  Confirms monazite vs. thorite host',

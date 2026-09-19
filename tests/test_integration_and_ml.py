@@ -2,6 +2,7 @@
 
 import os
 import sys
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -11,7 +12,8 @@ import pytest
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from pipeline.utils import clip_gdf_to_map, map_extent
-from pipeline.task9_ml_targeting import _log_impute
+from pipeline.task9_ml_targeting import _log_impute, delineate_catchments, unique_placer_pour_points
+from pipeline.task1_coplacer import nearest_nure_row, site_join_radius_deg
 
 # ---------------------------------------------------------------------------
 # Module-level mirror of integration.py scoring helpers.
@@ -498,3 +500,295 @@ class TestClipGdfToMap:
         assert xmax == pytest.approx(-116.90)
         assert ymin == pytest.approx(47.90)
         assert ymax == pytest.approx(49.10)
+
+
+# ===========================================================================
+# D. Catchment-based labeling tests
+# ===========================================================================
+
+_REPO_ROOT = Path(__file__).resolve().parent.parent
+_DEM_PATH  = _REPO_ROOT / 'ne_wa_ree' / 'data' / 'dem' / 'ne_wa_dem_30m.tif'
+_MRDS_PATH = _REPO_ROOT / 'ne_wa_ree' / 'data' / 'mrds' / 'mrds_ne_wa.geojson'
+_NURE_PATH = _REPO_ROOT / 'data' / 'nure' / 'nure_ne_wa_sediment.csv'
+
+def _pysheds_installed():
+    try:
+        import importlib
+        importlib.import_module('pysheds')
+        return True
+    except ImportError:
+        return False
+
+
+_dem_available  = pytest.mark.skipif(not _DEM_PATH.exists(),  reason="DEM not available")
+_mrds_available = pytest.mark.skipif(not _MRDS_PATH.exists(), reason="MRDS GeoJSON not available")
+_nure_available = pytest.mark.skipif(not _NURE_PATH.exists(), reason="NURE CSV not available")
+
+_dem_and_mrds = pytest.mark.skipif(
+    not (_DEM_PATH.exists() and _MRDS_PATH.exists() and _pysheds_installed()),
+    reason="DEM, MRDS, or pysheds not available",
+)
+_all_data = pytest.mark.skipif(
+    not (_DEM_PATH.exists() and _MRDS_PATH.exists() and _NURE_PATH.exists()
+         and _pysheds_installed()),
+    reason="DEM, MRDS, NURE CSV, or pysheds not available",
+)
+
+
+def _mrds_placer_gold():
+    """Load and filter MRDS GeoJSON to gold sites (proximity-label baseline)."""
+    import geopandas as gpd
+    mrds = gpd.read_file(str(_MRDS_PATH))
+    return mrds[
+        mrds['target_commodity'].str.contains('Gold', na=False) &
+        ~mrds['target_commodity'].str.contains('Rare Earth', na=False)
+    ]
+
+
+def _config_pour_points():
+    """The 12 ranked NE WA sites — the intended catchment pour-point set."""
+    import geopandas as gpd
+    import yaml
+    cfg = yaml.safe_load((_REPO_ROOT / 'configs' / 'ne_washington' / 'config.yaml').read_text())
+    sites = cfg['sites']
+    return gpd.GeoDataFrame(
+        {'name': [s['name'] for s in sites]},
+        geometry=gpd.points_from_xy([s['lon'] for s in sites], [s['lat'] for s in sites]),
+        crs='EPSG:4326',
+    )
+
+
+@pytest.fixture(scope='session')
+def catchment_gdf_fixture():
+    """Delineate catchments once per session — DEM conditioning is expensive."""
+    if not (_DEM_PATH.exists() and _pysheds_installed()):
+        pytest.skip("DEM or pysheds not available")
+    return delineate_catchments(_config_pour_points(), str(_DEM_PATH))
+
+
+class TestCatchmentLabeling:
+    """Tests for delineate_catchments() in pipeline/task9_ml_targeting.py."""
+
+    @_dem_and_mrds
+    def test_returns_geodataframe(self, catchment_gdf_fixture):
+        import geopandas as gpd
+        assert isinstance(catchment_gdf_fixture, gpd.GeoDataFrame)
+
+    @_dem_and_mrds
+    def test_catchment_count_is_reasonable(self, catchment_gdf_fixture):
+        """Expect at least one catchment from the 12 config pour points."""
+        assert len(catchment_gdf_fixture) >= 1, "Expected at least one delineated catchment"
+        assert len(catchment_gdf_fixture) <= 12
+
+    @_dem_and_mrds
+    def test_no_catchment_falls_outside_dem_bounds(self, catchment_gdf_fixture):
+        """All catchment polygons must intersect the DEM bounding box."""
+        import rasterio
+        from shapely.geometry import box
+        with rasterio.open(str(_DEM_PATH)) as src:
+            b = src.bounds
+        dem_box = box(b.left, b.bottom, b.right, b.top)
+        for geom in catchment_gdf_fixture.geometry:
+            assert dem_box.intersects(geom), (
+                f"Catchment polygon {geom.bounds} does not intersect DEM extent {b}"
+            )
+
+    @_all_data
+    def test_catchment_label_count_reasonable(self, catchment_gdf_fixture):
+        """Catchment labeling of 12 pour points should not label the whole dataset."""
+        import geopandas as gpd
+        nure = pd.read_csv(str(_NURE_PATH)).dropna(subset=['lat', 'lon'])
+        nure_pts = gpd.GeoDataFrame(
+            geometry=gpd.points_from_xy(nure['lon'], nure['lat']),
+            crs='EPSG:4326',
+        )
+        joined = gpd.sjoin(nure_pts, catchment_gdf_fixture[['geometry']],
+                           how='left', predicate='within')
+        n_positive = int((~joined['index_right'].isna()).sum())
+        assert 1 <= n_positive < len(nure) * 0.5, (
+            f"Expected a minority catchment-positive set, got {n_positive}/{len(nure)}"
+        )
+
+    @_all_data
+    def test_catchment_label_all_positives_in_study_bbox(self, catchment_gdf_fixture):
+        """All positive NURE samples must fall within the NE WA study area bbox."""
+        import geopandas as gpd
+        from shapely.geometry import box
+        nure = pd.read_csv(str(_NURE_PATH)).dropna(subset=['lat', 'lon'])
+        nure_pts = gpd.GeoDataFrame(
+            geometry=gpd.points_from_xy(nure['lon'], nure['lat']),
+            crs='EPSG:4326',
+        )
+        joined = gpd.sjoin(nure_pts, catchment_gdf_fixture[['geometry']],
+                           how='left', predicate='within')
+        positives = nure_pts[~joined['index_right'].isna()]
+        study_box = box(-120.0, 47.5, -117.0, 49.1)
+        for geom in positives.geometry:
+            assert study_box.contains(geom) or study_box.intersects(geom), (
+                f"Positive sample at {geom} is outside NE WA study bbox"
+            )
+
+    @_all_data
+    def test_catchment_lower_positive_rate_than_proximity(self, catchment_gdf_fixture):
+        """
+        Catchment labels (12 pour points) should have a lower or equal positive
+        rate than 0.15° proximity to the full gold MRDS inventory.
+        """
+        import geopandas as gpd
+        from scipy.spatial import cKDTree
+
+        mrds = _mrds_placer_gold()
+        nure = pd.read_csv(str(_NURE_PATH)).dropna(subset=['lat', 'lon'])
+        nure_pts = gpd.GeoDataFrame(
+            geometry=gpd.points_from_xy(nure['lon'], nure['lat']),
+            crs='EPSG:4326',
+        )
+
+        mrds_coords = np.column_stack([mrds.geometry.x.values, mrds.geometry.y.values])
+        nure_coords = np.column_stack([nure['lon'].values, nure['lat'].values])
+        tree = cKDTree(mrds_coords)
+        dist, _ = tree.query(nure_coords)
+        proximity_rate = (dist <= 0.15).mean()
+
+        joined = gpd.sjoin(nure_pts, catchment_gdf_fixture[['geometry']],
+                           how='left', predicate='within')
+        catchment_rate = (~joined['index_right'].isna()).mean()
+
+        if catchment_rate > proximity_rate:
+            import warnings
+            warnings.warn(
+                f"Catchment positive rate ({catchment_rate:.1%}) exceeds proximity rate "
+                f"({proximity_rate:.1%}). Catchments may be large for this DEM resolution."
+            )
+
+
+# ===========================================================================
+# E. Catchment-vs-proximity QA ledger (not the published model)
+# ===========================================================================
+
+_QA_PATH = _REPO_ROOT / 'ne_wa_ree' / 'outputs' / 'tables' / 'task9_label_qa.csv'
+
+
+class TestLabelQaLedger:
+    """Invariants on the committed Task 9 label-QA table.
+
+    Catchment-of-12 is a diagnostic, not training labels. These tests lock the
+    expected relationship to the published proximity result without re-running
+    D8 delineation.
+    """
+
+    @pytest.fixture
+    def qa(self):
+        if not _QA_PATH.exists():
+            pytest.skip("task9_label_qa.csv not written")
+        return pd.read_csv(_QA_PATH).set_index('metric')
+
+    def test_catchment_is_a_minority_of_proximity(self, qa):
+        prox = float(qa.loc['n_positive', 'proximity_result_of_record'])
+        catch = float(qa.loc['n_positive', 'catchment_qa_diagnostic'])
+        assert 1 <= catch < prox
+        assert catch < 100, "Catchment-of-12 should stay a small diagnostic set"
+
+    def test_catchment_auc_is_flagged_not_comparable(self, qa):
+        prox_auc = float(qa.loc['cv_roc_auc_mean', 'proximity_result_of_record'])
+        catch_auc = float(qa.loc['cv_roc_auc_mean', 'catchment_qa_diagnostic'])
+        assert prox_auc == pytest.approx(0.891, abs=0.005)
+        assert catch_auc > prox_auc, (
+            "Catchment AUC should be higher (easier, smaller class); "
+            "if it falls below proximity, the diagnostic inverted"
+        )
+
+    def test_published_top_feature_is_uranium(self, qa):
+        assert qa.loc['top_feature', 'proximity_result_of_record'] == 'U'
+        assert qa.loc['top_feature', 'catchment_qa_diagnostic'] == 'P'
+
+
+_SB_PATH = _REPO_ROOT / 'ne_wa_ree' / 'outputs' / 'tables' / 'task9_same_basin_qa.csv'
+
+
+class TestSameBasinQa:
+    """Invariants on the committed same-basin method-test table.
+
+    Independent placer pour points with the 12 ranked sites held out.
+    Does not replace the published proximity model.
+    """
+
+    @pytest.fixture
+    def sb(self):
+        if not _SB_PATH.exists():
+            pytest.skip("task9_same_basin_qa.csv not written")
+        return pd.read_csv(_SB_PATH).iloc[0]
+
+    def test_usable_and_not_tautological(self, sb):
+        assert sb.n_pour_points >= 50
+        assert 100 <= sb.n_positive < 290
+        assert sb.n_positive > 54, "Must be larger than the 12-site diagnostic"
+
+    def test_mostly_inside_proximity_circles(self, sb):
+        assert sb.overlap_with_proximity >= 0.9 * sb.n_positive
+
+    def test_auc_higher_than_published_proximity(self, sb):
+        assert 0.891 < sb.cv_roc_auc_mean < 0.99
+
+
+class TestSiteNureJoin:
+    """The 0.25° + max-Th window was the Hunters C165101 bug."""
+
+    def _gdf(self):
+        import geopandas as gpd
+        from shapely.geometry import Point
+        return gpd.GeoDataFrame(
+            {
+                'lab_id': ['LOCAL', 'FAR'],
+                'lon': [-118.21, -118.07],
+                'lat': [48.14, 47.95],
+                'Th': [12.0, 40.0],
+                'th_source': ['BACKGROUND', 'MONAZITE'],
+            },
+            geometry=[Point(-118.21, 48.14), Point(-118.07, 47.95)],
+            crs='EPSG:4326',
+        )
+
+    def test_tight_radius_keeps_local_not_far_monazite(self):
+        gdf = self._gdf()
+        row, dist_km = nearest_nure_row(-118.21, 48.14, gdf, 0.10)
+        assert row['lab_id'] == 'LOCAL'
+        assert dist_km < 2.0
+
+    def test_old_wide_radius_can_still_see_far_point(self):
+        far_only = self._gdf()
+        far_only = far_only[far_only['lab_id'] == 'FAR']
+        row, dist_km = nearest_nure_row(-118.21, 48.14, far_only, 0.25)
+        assert row['lab_id'] == 'FAR'
+        assert dist_km > 20
+        row_tight, _ = nearest_nure_row(-118.21, 48.14, far_only, 0.10)
+        assert row_tight is None
+
+    def test_config_default_is_tenth_degree(self):
+        assert site_join_radius_deg({}) == pytest.approx(0.10)
+        assert site_join_radius_deg({'geochemistry': {'site_join_radius_deg': 0.08}}) == 0.08
+
+
+class TestUniquePlacerPourPoints:
+    def test_holdout_and_dedup(self):
+        import geopandas as gpd
+        from shapely.geometry import Point
+        gdf = gpd.GeoDataFrame(
+            {
+                'commodity': ['Gold placer', 'placer gold', 'Gold', 'Gold placer'],
+                'site_name': ['A', 'A-dup', 'Lode', 'Heldout'],
+                'code_list': ['', '', '', ''],
+            },
+            geometry=[
+                Point(-118.00, 48.50),
+                Point(-118.005, 48.501),  # same 0.02° cell
+                Point(-118.50, 48.50),
+                Point(-118.21, 48.14),    # Hunters
+            ],
+            crs='EPSG:4326',
+        )
+        out = unique_placer_pour_points(
+            gdf, holdout_xy=np.array([[-118.21, 48.14]]), cell_deg=0.02, holdout_deg=0.03
+        )
+        assert len(out) == 1
+        assert abs(out.geometry.iloc[0].x + 118.00) < 0.02

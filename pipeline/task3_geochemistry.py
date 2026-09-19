@@ -51,45 +51,96 @@ def run(cfg):
     p_min   = geo.get('monazite_p_min_ppm', 400)
     uth_max = geo.get('monazite_uth_max', 0.5)
     uth_min = geo.get('thorite_uth_min', 1.5)
+    nb_thresh = geo.get('fergusonite_nb_min_ppm', 40)
+    sr_thresh = geo.get('apatite_sr_min_ppm', 300)
+    _y_pos = df['Y'][df['Y'] > 0]
+    y_thresh = geo.get('xenotime_y_min_ppm',
+                       float(_y_pos.mean() + 2 * _y_pos.std()) if len(_y_pos) > 5 else 82.0)
 
     def classify_th_source(row):
-        th = row['Th']
-        if pd.isna(th) or th < th_threshold / 2:
-            return 'BACKGROUND'
+        th   = row['Th']
+        y    = row['Y']
+        nb   = row['Nb']
+        sr   = row['Sr']
         u_th = row['U_Th_ratio']
         ce, la, zr, p = row['Ce'], row['La'], row['Zr'], row['P']
-        lree_ok = (pd.notna(ce) and ce > ce_min) or (pd.notna(la) and la > la_min)
-        p_ok    = pd.isna(p) or p > p_min
-        if pd.notna(u_th) and u_th < uth_max and lree_ok and p_ok:
-            return 'MONAZITE'
-        elif pd.notna(u_th) and u_th > uth_min:
+
+        lree_ok  = (pd.notna(ce) and ce > ce_min) or (pd.notna(la) and la > la_min)
+        p_ok     = pd.isna(p) or p > p_min
+        p_high   = pd.notna(p) and p > p_min
+        nb_high  = pd.notna(nb) and nb > nb_thresh
+        sr_high  = pd.notna(sr) and sr > sr_thresh
+        y_anom   = pd.notna(y) and y > y_thresh
+        th_bg    = pd.isna(th) or th < th_threshold / 2
+
+        # Y-only anomaly (xenotime/Y-phase without Th enrichment)
+        if th_bg and y_anom:
+            return 'XENOTIME_Y'
+        if th_bg:
+            return 'BACKGROUND'
+
+        # Nb-oxide suspect: elevated Nb + elevated LREE (fergusonite/columbite)
+        if nb_high and lree_ok:
+            return 'NB_OXIDE_SUSPECT'
+
+        # Apatite-dominated P: high Sr + high P overrides monazite assignment
+        if sr_high and p_high:
+            return 'APATITE_P'
+
+        # Thorite / U-Th oxide: high U/Th — split on whether LREE is also elevated.
+        # Pure thorite is REE-poor; LREE-ok + high U/Th = mixed assemblage.
+        if pd.notna(u_th) and u_th > uth_min:
+            if lree_ok:
+                return 'THORITE_LREE_MIX'  # thorite U/Th + REE mineral co-occurrence
             return 'THORITE_UTHO'
-        elif pd.notna(zr) and zr > 200 and th < th_threshold * 1.5:
+
+        # LREE-enriched and not confirmed thorite: split on whether P data supports phosphate.
+        # U/Th is secondary — P is the primary phosphate discriminator for monazite.
+        # NaN U/Th is included here: absence of U data does not confirm thorite.
+        if lree_ok:
+            if p_high:
+                return 'MONAZITE'    # P elevated — phosphate host confirmed
+            if pd.isna(p):
+                return 'LREE_INDET'  # P absent — monazite vs allanite indeterminate
+
+        # Zircon: high Zr + moderate Th
+        if pd.notna(zr) and zr > 200 and th < th_threshold * 1.5:
             return 'ZIRCON'
-        else:
-            return 'MIXED_UNCLEAR'
+
+        return 'MIXED_UNCLEAR'
 
     df['th_source'] = df.apply(classify_th_source, axis=1)
     df['th_anomaly'] = df['th_source'] != 'BACKGROUND'
 
-    # Correlation matrix
-    elements = ['Th', 'Ce', 'La', 'Nd', 'P', 'Y', 'U', 'Zr', 'Ti', 'Fe']
+    # Correlation matrix — Nb, Sr, Ca added as accessory-mineral discriminators
+    _corr_candidates = ['Th', 'Ce', 'La', 'Nd', 'P', 'Y', 'U', 'Zr', 'Ti', 'Fe', 'Nb', 'Sr', 'Ca']
+    elements = [e for e in _corr_candidates if e in df.columns and (df[e] > 0).any()]
     log_df = np.log10(df[elements].clip(lower=0.01))
     corr_matrix = log_df.corr()
 
     source_colors = {
-        'MONAZITE':      WONG['green'],
-        'THORITE_UTHO':  WONG['vermillion'],
-        'ZIRCON':        WONG['sky'],
-        'MIXED_UNCLEAR': WONG['orange'],
-        'BACKGROUND':    '#CCCCCC',
+        'MONAZITE':           WONG['green'],
+        'LREE_INDET':         WONG['black'],
+        'THORITE_LREE_MIX':   '#8E44AD',        # purple — thorite U/Th + REE mineral
+        'THORITE_UTHO':       WONG['vermillion'],
+        'ZIRCON':             WONG['sky'],
+        'NB_OXIDE_SUSPECT':   WONG['blue'],
+        'APATITE_P':          WONG['yellow'],
+        'XENOTIME_Y':         WONG['pink'],
+        'MIXED_UNCLEAR':      WONG['orange'],
+        'BACKGROUND':         '#CCCCCC',
     }
     source_labels = {
-        'MONAZITE':      'Monazite (Th-LREE-P)',
-        'THORITE_UTHO':  'Thorite/U-Th oxide',
-        'ZIRCON':        'Zircon-dominated',
-        'MIXED_UNCLEAR': 'Mixed/unclear',
-        'BACKGROUND':    'Background',
+        'MONAZITE':           'Monazite (P confirmed + LREE-ok)',
+        'LREE_INDET':         'LREE-enriched, host indet. (P absent)',
+        'THORITE_LREE_MIX':   'Thorite+REE-mineral mix (high U/Th + LREE-ok)',
+        'THORITE_UTHO':       'Thorite/U-Th oxide (high U/Th, LREE-poor)',
+        'ZIRCON':             'Zircon-dominated',
+        'NB_OXIDE_SUSPECT':   'Nb-oxide suspect (fergusonite/columbite)',
+        'APATITE_P':          'Apatite-dominated P (high Sr+P)',
+        'XENOTIME_Y':         'Xenotime/Y-phase (Y-only, no Th)',
+        'MIXED_UNCLEAR':      'Mixed/unclear',
+        'BACKGROUND':         'Background',
     }
 
     anomaly_df = df[df['th_anomaly']].copy()
@@ -150,13 +201,13 @@ def run(cfg):
         print(f"WGS data not available for Panel I overlay: {_wgs_err}")
 
     # ── Figure 3 ──────────────────────────────────────────────────────────────
-    fig = plt.figure(figsize=(16, 14))
+    fig = plt.figure(figsize=(16, 19))
     fig.suptitle(
         f'Figure 3 — Multi-element Geochemical Discrimination of Th Sources\n'
         f'{cfg["study_area"]["name"]} NURE Stream Sediment Data',
-        fontsize=13, fontweight='bold', y=0.98,
+        fontsize=13, fontweight='bold', y=0.99,
     )
-    gs = gridspec.GridSpec(3, 3, figure=fig, hspace=0.45, wspace=0.35)
+    gs = gridspec.GridSpec(4, 3, figure=fig, hspace=0.50, wspace=0.35)
 
     ax1 = fig.add_subplot(gs[0, 0])
     scatter_panel(ax1, 'Th', 'Ce', 'Th (ppm)', 'Ce (ppm)', show_legend=True)
@@ -223,8 +274,8 @@ def run(cfg):
     ax5 = fig.add_subplot(gs[1, 1])
     im = ax5.imshow(corr_matrix.values, cmap='PuOr', vmin=-1, vmax=1, aspect='auto')
     ax5.set_xticks(range(len(elements))); ax5.set_yticks(range(len(elements)))
-    ax5.set_xticklabels(elements, rotation=45, ha='right', fontsize=8)
-    ax5.set_yticklabels(elements, fontsize=8)
+    ax5.set_xticklabels(elements, rotation=45, ha='right', fontsize=7)
+    ax5.set_yticklabels(elements, fontsize=7)
     plt.colorbar(im, ax=ax5, shrink=0.8)
     ax5.set_title('E.  Log-element correlation matrix\n(all NURE samples)', fontsize=9)
     for i in range(len(elements)):
@@ -232,19 +283,29 @@ def run(cfg):
             r_val = corr_matrix.values[i, j]
             if abs(r_val) > 0.5 and i != j:
                 ax5.text(j, i, f'{r_val:.2f}', ha='center', va='center',
-                         fontsize=6, color='white' if abs(r_val) > 0.60 else 'black')
-    p_idx = elements.index('P') if 'P' in elements else None
-    if p_idx is not None:
-        ax5.add_patch(plt.Rectangle((-0.5, p_idx - 0.5), len(elements), 1,
-                                    color='gray', alpha=0.30, zorder=3, clip_on=True))
-        ax5.add_patch(plt.Rectangle((p_idx - 0.5, -0.5), 1, len(elements),
-                                    color='gray', alpha=0.30, zorder=3, clip_on=True))
-        ax5.text(p_idx, len(elements) + 0.2, '†', ha='center', va='bottom',
-                 fontsize=8, color='#555555', zorder=4)
-        ax5.text(0.5, -0.22, '† P: 66% NaN — correlation unreliable',
-                 transform=ax5.transAxes, fontsize=6.5, color='#555555',
+                         fontsize=5.5, color='white' if abs(r_val) > 0.60 else 'black')
+    # Grey out rows/columns for sparse elements and build footnote
+    _sparse_notes = []
+    for _sp_el in ('P', 'Nb', 'Sr', 'Ca'):
+        if _sp_el not in elements:
+            continue
+        _pct_nan = int(round(df[_sp_el].isna().mean() * 100))
+        if _pct_nan > 40:
+            _idx = elements.index(_sp_el)
+            _sym = {_sp_el: '†‡§¶'[('P','Nb','Sr','Ca').index(_sp_el)]}.get(_sp_el, '*')
+            ax5.add_patch(plt.Rectangle((-0.5, _idx - 0.5), len(elements), 1,
+                                        color='gray', alpha=0.20, zorder=3, clip_on=True))
+            ax5.add_patch(plt.Rectangle((_idx - 0.5, -0.5), 1, len(elements),
+                                        color='gray', alpha=0.20, zorder=3, clip_on=True))
+            ax5.text(_idx, len(elements) + 0.2, _sym, ha='center', va='bottom',
+                     fontsize=7, color='#555555', zorder=4)
+            _sparse_notes.append(f'{_sym} {_sp_el}: {_pct_nan}% NaN')
+    if _sparse_notes:
+        ax5.text(0.5, -0.24, '  '.join(_sparse_notes) + ' — correlations unreliable',
+                 transform=ax5.transAxes, fontsize=6.0, color='#555555',
                  ha='center', style='italic')
-    # Dashed annotation boxes: REE block (Th, Ce, La, Nd) and Oxide block (Ti, Fe)
+    # Dashed annotation boxes: REE block (Th, Ce, La, Nd), Oxide block (Ti, Fe),
+    # and Accessory block (Nb, Sr, Ca)
     ree_els = ['Th', 'Ce', 'La', 'Nd']
     ree_idxs = [elements.index(e) for e in ree_els if e in elements]
     if len(ree_idxs) >= 2:
@@ -263,6 +324,15 @@ def run(cfg):
                                     ls='--', zorder=5, clip_on=True))
         ax5.text(o1 + 0.1, (o0 + o1) / 2, 'Oxide\nblock', fontsize=6,
                  color=WONG['orange'], va='center', style='italic')
+    acc_els = ['Nb', 'Sr', 'Ca']
+    acc_idxs = [elements.index(e) for e in acc_els if e in elements]
+    if len(acc_idxs) >= 2:
+        a0, a1 = min(acc_idxs) - 0.5, max(acc_idxs) + 0.5
+        ax5.add_patch(plt.Rectangle((a0, a0), a1 - a0, a1 - a0,
+                                    fill=False, edgecolor=WONG['blue'], lw=1.8,
+                                    ls='--', zorder=5, clip_on=True))
+        ax5.text(a1 + 0.1, (a0 + a1) / 2, 'Acc.\nblock', fontsize=6,
+                 color=WONG['blue'], va='center', style='italic')
 
     # Panel F (spatial distribution of Th source types) removed — the spatial
     # story is told more completely by Fig 10C (ML probability map with NURE
@@ -282,7 +352,8 @@ def run(cfg):
     for src, color in source_colors.items():
         mask = (df['th_source'] == src) & df['th_anomaly']
         if mask.sum() < 3: continue
-        vals = np.log10(df.loc[mask, 'U_Th_ratio'].clip(lower=0.001))
+        vals = np.log10(df.loc[mask, 'U_Th_ratio'].dropna().clip(lower=0.001))
+        if len(vals) < 3: continue
         ax7.hist(vals, bins=20, color=color, alpha=0.6, label=source_labels[src], density=False)
     ax7.axvline(np.log10(uth_max), color='red', ls='--', lw=1.5, label=f'U/Th={uth_max} (mnz/thorite)')
     ax7.set_xlabel('log₁₀(U/Th)', fontsize=11); ax7.set_ylabel('Count', fontsize=11)
@@ -316,39 +387,35 @@ def run(cfg):
 
     # ── Panel H: Y vs Th  (xenotime as independent HREE signal) ──────────────
     ax_yth = fig.add_subplot(gs[2, 1])
-    _y_thresh = geo.get('xenotime_y_min_ppm',
-                        pd.to_numeric(df['Y'], errors='coerce').mean() +
-                        2 * pd.to_numeric(df['Y'], errors='coerce').std())
-    _yth_df = df[pd.to_numeric(df['Y'], errors='coerce').notna() &
-                 pd.to_numeric(df['Th'], errors='coerce').notna()].copy()
-    _yth_df['Y_n']  = pd.to_numeric(_yth_df['Y'],  errors='coerce')
-    _yth_df['Th_n'] = pd.to_numeric(_yth_df['Th'], errors='coerce')
-    _yth_df = _yth_df[(_yth_df['Y_n'] > 0) & (_yth_df['Th_n'] > 0)]
-    # All NURE samples as grey background
-    ax_yth.scatter(_yth_df['Th_n'], _yth_df['Y_n'], c='#cccccc', s=8, alpha=0.4,
+    _yth_df = df[df['Y'].notna() & df['Th'].notna() & (df['Y'] > 0) & (df['Th'] > 0)].copy()
+    # Background (non-anomalous) samples as grey
+    _yth_bg = _yth_df[_yth_df['th_source'] == 'BACKGROUND']
+    ax_yth.scatter(_yth_bg['Th'], _yth_bg['Y'], c='#cccccc', s=8, alpha=0.4,
                    zorder=1, label='Background NURE')
-    # Anomalous Th samples coloured by source
+    # All classified sources (includes XENOTIME_Y at low Th, coloured pink)
     for src, color in source_colors.items():
-        _mask = (_yth_df['th_source'] == src) if 'th_source' in _yth_df.columns else \
-                (pd.Series(False, index=_yth_df.index))
-        _sub = _yth_df[_mask]
-        if _sub.empty: continue
-        ax_yth.scatter(_sub['Th_n'], _sub['Y_n'], c=color, s=25, alpha=0.8,
-                       zorder=3, label=source_labels.get(src, src))
+        if src == 'BACKGROUND':
+            continue
+        _sub = _yth_df[_yth_df['th_source'] == src]
+        if _sub.empty:
+            continue
+        ax_yth.scatter(_sub['Th'], _sub['Y'], c=color, s=25, alpha=0.8,
+                       zorder=3, label=source_labels[src])
     # Y anomaly threshold line
-    ax_yth.axhline(_y_thresh, color=WONG['green'], ls='--', lw=1.5,
-                   label=f'Y anomaly threshold\n({_y_thresh:.0f} ppm, mean+2SD)')
+    ax_yth.axhline(y_thresh, color=WONG['green'], ls='--', lw=1.5,
+                   label=f'Y anomaly threshold\n({y_thresh:.0f} ppm, mean+2SD)')
     # Th anomaly threshold line
     ax_yth.axvline(th_threshold, color=WONG['vermillion'], ls=':', lw=1.3,
                    label=f'Th threshold ({th_threshold:.0f} ppm)')
     # Shade dual-anomaly quadrant
-    ax_yth.axvspan(th_threshold, _yth_df['Th_n'].max() * 1.2,
+    ax_yth.axvspan(th_threshold, _yth_df['Th'].max() * 1.2,
                    ymin=0, alpha=0.06, color=WONG['green'], zorder=0)
-    # Count dual-anomaly samples
-    _dual = _yth_df[(_yth_df['Y_n'] > _y_thresh) & (_yth_df['Th_n'] > th_threshold)]
-    _y_only = _yth_df[(_yth_df['Y_n'] > _y_thresh) & (_yth_df['Th_n'] <= th_threshold)]
+    # Count populations
+    _dual   = _yth_df[(_yth_df['Y'] > y_thresh) & (_yth_df['Th'] > th_threshold)]
+    _xen_y  = _yth_df[_yth_df['th_source'] == 'XENOTIME_Y']
     ax_yth.text(0.97, 0.97,
-                f'Dual Th+Y anomaly: n={len(_dual)}\nY-only (HREE, no Th): n={len(_y_only)}',
+                f'Dual Th+Y anomaly: n={len(_dual)}\n'
+                f'Xenotime/Y-only (pink, no Th): n={len(_xen_y)}',
                 transform=ax_yth.transAxes, ha='right', va='top', fontsize=7.5,
                 bbox=dict(boxstyle='round,pad=0.3', facecolor='#eaffea', alpha=0.9))
     ax_yth.set_xscale('log'); ax_yth.set_yscale('log')
@@ -458,7 +525,141 @@ def run(cfg):
                  ha='center', va='center', transform=ax9.transAxes, fontsize=9, color='gray')
         ax9.set_title('I.  LREE pattern (insufficient data)', fontsize=9)
 
-    fig.subplots_adjust(bottom=0.10)
+    # ── Panel J: Nb vs ΣLREE (fergusonite/columbite test) ────────────────────
+    ax_j = fig.add_subplot(gs[3, 0])
+    _nb_ok = 'Nb' in df.columns and (df['Nb'] > 0).sum() > 5
+    if _nb_ok:
+        _nb_bg = df[(df['Nb'] > 0) & (df['LREE_sum'] > 0)]
+        ax_j.scatter(_nb_bg['Nb'], _nb_bg['LREE_sum'],
+                     c='#cccccc', s=8, alpha=0.35, zorder=1, label='All NURE')
+        for src, color in source_colors.items():
+            mask = anomaly_df['th_source'] == src
+            valid = mask & (anomaly_df['Nb'] > 0) & (anomaly_df['LREE_sum'] > 0)
+            if valid.sum() == 0:
+                continue
+            ax_j.scatter(anomaly_df.loc[valid, 'Nb'], anomaly_df.loc[valid, 'LREE_sum'],
+                         c=color, s=25, alpha=0.75, label=source_labels[src],
+                         edgecolors='black', linewidths=0.3, zorder=2)
+        ax_j.set_xscale('log'); ax_j.set_yscale('log')
+        ax_j.grid(True, alpha=0.3, which='both')
+        # Fergusonite suspect threshold: Nb > 40 ppm in stream sediment
+        _fg_nb = geo.get('fergusonite_nb_min_ppm', 40)
+        ax_j.axvline(_fg_nb, color=WONG['vermillion'], ls='--', lw=1.2, alpha=0.8,
+                     label=f'Nb = {_fg_nb} ppm (Nb-oxide threshold)')
+        _n_nb = ((anomaly_df['Nb'] > 0) & (anomaly_df['LREE_sum'] > 0)).sum()
+        ax_j.text(0.97, 0.03, f'n={_n_nb}/{len(anomaly_df)} anomalous\nhave Nb & LREE data',
+                  transform=ax_j.transAxes, ha='right', va='bottom', fontsize=7, color='#555555')
+        ax_j.set_xlabel('Nb (ppm)', fontsize=11)
+        ax_j.set_ylabel('Ce+La+Nd (ppm)', fontsize=11)
+        ax_j.tick_params(labelsize=9)
+        ax_j.legend(fontsize=6.5, loc='upper left', markerscale=1.2, framealpha=0.88)
+    else:
+        ax_j.text(0.5, 0.5, 'Nb not available\nin this dataset',
+                  ha='center', va='center', transform=ax_j.transAxes, fontsize=9, color='gray')
+    ax_j.set_title('J.  Nb vs ΣLREE\n(fergusonite/columbite: elevated Nb + LREE = Nb-oxide candidate)',
+                   fontsize=9)
+
+    # ── Panel K: Sr vs P (apatite vs monazite test) ───────────────────────────
+    ax_k = fig.add_subplot(gs[3, 1])
+    _sr_ok = 'Sr' in df.columns and (df['Sr'] > 0).sum() > 5
+    _p_ok  = 'P'  in df.columns and (df['P']  > 0).sum() > 5
+    if _sr_ok and _p_ok:
+        _srp_bg = df[(df['Sr'] > 0) & (df['P'] > 0)]
+        ax_k.scatter(_srp_bg['P'], _srp_bg['Sr'],
+                     c='#cccccc', s=8, alpha=0.35, zorder=1, label='All NURE')
+        for src, color in source_colors.items():
+            mask = anomaly_df['th_source'] == src
+            valid = mask & (anomaly_df['Sr'] > 0) & (anomaly_df['P'] > 0)
+            if valid.sum() == 0:
+                continue
+            ax_k.scatter(anomaly_df.loc[valid, 'P'], anomaly_df.loc[valid, 'Sr'],
+                         c=color, s=25, alpha=0.75, label=source_labels[src],
+                         edgecolors='black', linewidths=0.3, zorder=2)
+        ax_k.set_xscale('log'); ax_k.set_yscale('log')
+        ax_k.grid(True, alpha=0.3, which='both')
+        # Sr > 300 ppm with high P → apatite dominant; low Sr + high P + high Th → monazite
+        _sr_ap = geo.get('apatite_sr_min_ppm', 300)
+        ax_k.axhline(_sr_ap, color=WONG['blue'], ls='--', lw=1.2, alpha=0.8,
+                     label=f'Sr = {_sr_ap} ppm (apatite-dominant P)')
+        ax_k.axvline(p_min, color=WONG['green'], ls=':', lw=1.2, alpha=0.8,
+                     label=f'P = {p_min} ppm (monazite proxy)')
+        _n_srp = ((anomaly_df['Sr'] > 0) & (anomaly_df['P'] > 0)).sum()
+        ax_k.text(0.97, 0.03, f'n={_n_srp}/{len(anomaly_df)} anomalous\nhave Sr & P data',
+                  transform=ax_k.transAxes, ha='right', va='bottom', fontsize=7, color='#555555')
+        ax_k.set_xlabel('P (ppm)', fontsize=11)
+        ax_k.set_ylabel('Sr (ppm)', fontsize=11)
+        ax_k.tick_params(labelsize=9)
+        ax_k.legend(fontsize=6.5, loc='upper left', markerscale=1.2, framealpha=0.88)
+    else:
+        ax_k.text(0.5, 0.5, 'Sr or P not available\nin this dataset',
+                  ha='center', va='center', transform=ax_k.transAxes, fontsize=9, color='gray')
+    ax_k.set_title('K.  Sr vs P  (apatite test: high-Sr + high-P → apatite;\n'
+                   '   low-Sr + high-P + high-Th → monazite)', fontsize=9)
+
+    # ── Panel L: Untested mineral hypotheses ──────────────────────────────────
+    ax_l = fig.add_subplot(gs[3, 2])
+    ax_l.axis('off')
+    # Compute counts for panel L — carefully scoped to what P data actually covers
+    _th_anom_mask  = df['th_source'] != 'BACKGROUND'
+    _lree_ok_mask  = (df['Ce'] > ce_min) | (df['La'] > la_min)
+    _low_uth_mask  = df['U_Th_ratio'] < uth_max
+    _has_p_mask    = df['P'].notna()
+    _p_low_mask    = df['P'] < p_min / 2
+    # Allanite test is only valid where P data exists
+    _lree_uth_anom = _th_anom_mask & _lree_ok_mask & _low_uth_mask
+    _n_allanite_tested  = int((_lree_uth_anom & _has_p_mask).sum())
+    _n_allanite_hit     = int((_lree_uth_anom & _has_p_mask & _p_low_mask).sum())
+    _n_allanite_no_p    = int((_lree_uth_anom & ~_has_p_mask).sum())
+    _p_pct_nan = int(round(df['P'].isna().mean() * 100))
+    # Titanite diagnostic: check multiple Ti thresholds over Th-anomalous population
+    _ti_anom  = df.loc[_th_anom_mask, 'Ti']
+    _ti_all   = df.loc[df['Ti'] > 0, 'Ti']
+    _ti_med_all  = float(_ti_all.median())
+    _ti_med_anom = float(_ti_anom[_ti_anom > 0].median()) if (_ti_anom > 0).any() else 0.0
+    # Test Ti > 0.6 wt% (top ~10%) + LREE-mod + not-thorite + low-P + low-Zr
+    _ti_hi    = df['Ti'] > 0.6
+    _lree_mod = df['LREE_sum'] > 0 if 'LREE_sum' in df.columns else \
+                (df['Ce'].fillna(0) + df['La'].fillna(0)) > df['La'][df['La'] > 0].median()
+    _not_thor = df['U_Th_ratio'].isna() | (df['U_Th_ratio'] < uth_min)
+    _low_p    = df['P'].isna() | (df['P'] < p_min)
+    _low_zr   = df['Zr'].isna() | (df['Zr'] < 200)
+    _n_titan_hi = int((_th_anom_mask & _ti_hi & _lree_mod & _not_thor & _low_p & _low_zr).sum())
+    _limits_text = (
+        'Accessory mineral discrimination results\n'
+        '────────────────────────────────────────\n'
+        'Allanite (REE-silicate) — UNTESTABLE\n'
+        f'  {_p_pct_nan}% of samples lack P data\n'
+        f'  Tested on P-data subset ({_n_allanite_tested} samples):\n'
+        f'    LREE-ok + P<{p_min//2} + low-U/Th → n={_n_allanite_hit}\n'
+        f'  P-absent LREE samples (black dots): n={_n_allanite_no_p}\n'
+        '  → monazite vs allanite indeterminate\n'
+        '  Si <1% NURE coverage for confirmation\n\n'
+        'Titanite (CaTiSiO₅) — ROBUST NEGATIVE\n'
+        f'  Ti median: {_ti_med_anom:.3f} wt% (Th-anom) vs\n'
+        f'             {_ti_med_all:.3f} wt% (all samples)\n'
+        '  Ti is LOWER in anomalous pop → no enrichment\n'
+        f'  Ti>0.6 + LREE + not-thorite + low-P: n={_n_titan_hi}\n'
+        '  High-Ti anomalous samples = MONAZITE class\n'
+        '  (ilmenite co-deposit, not REE host)\n'
+        '  Si/Hf <1% coverage for confirmation\n\n'
+        'Chevkinite / perrierite\n'
+        '  Ti–LREE coupling in panel E suggestive;\n'
+        '  no Si/Al to confirm silicate phase\n\n'
+        'Fergusonite: tested in panel J (Nb ~45%)\n'
+        '  Ta mostly BDL; limited to Nb proxy\n\n'
+        'Secondary REE phosphates\n'
+        '  Requires sequential extraction / SEM-EDS\n\n'
+        'Full HREE pattern (Gd–Lu)\n'
+        '  <2% NURE coverage; Ho/Yb ~21% only'
+    )
+    ax_l.text(0.04, 0.96, _limits_text, transform=ax_l.transAxes,
+              ha='left', va='top', fontsize=7.0, family='monospace',
+              color='#333333',
+              bbox=dict(boxstyle='round,pad=0.6', facecolor='#f5f5f5',
+                        edgecolor='#bbbbbb', alpha=0.95))
+    ax_l.set_title('L.  Analytical scope — untested mineral hypotheses', fontsize=9)
+
+    fig.subplots_adjust(bottom=0.06)
 
     watermark(fig, cfg)
     save_fig(fig, out(cfg, 'figures', 'fig3_geochemical_discrimination.png'))

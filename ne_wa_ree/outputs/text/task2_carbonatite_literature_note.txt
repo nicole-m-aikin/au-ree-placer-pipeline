@@ -28,7 +28,8 @@ INTERPRETATION:
   - High-grade metamorphic terranes producing abundant accessory monazite
     (Rasmussen & Muhling 2007; Holder et al. 2015)
   - Documented monazite in Okanogan MCC gneisses (Cheney et al. 1994)
-  - NURE Th anomaly spatial correlation with MCC outcrop areas
+  - NURE stream-sediment Th highs near MCC outcrop (creek chemistry;
+    airborne eTh does not confirm in-place Th under the ranked piles)
 
 ACTION: No carbonatite flag required for any current priority site.
         Maintain standard monazite-focused processing pathway assumption.

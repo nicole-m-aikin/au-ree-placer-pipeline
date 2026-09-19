@@ -6,16 +6,21 @@ NE Washington Placer Mine Tailings REE Project
 
 BASIS OF ESTIMATE:
   - Volume: aerial extent from MRDS historical production records
-  - Grade proxy: NURE stream sediment Th values upscaled by 5.0x dilution factor
+  - Grade proxy: nearest NURE stream-sediment Th within 0.10°
+    (retired: 0.25° max-Th window that assigned far chemistry)
+  - Th upscaled by 5.0x dilution factor
   - Th→monazite conversion: 4.4% Th in metamorphic monazite
   - Monazite→NdPr: 9% NdPr by mass
   - CAUTION: grade estimates carry ±50% uncertainty (log-normal, σ=0.4)
   - Monte Carlo: 2 000 samples per site; depth ~ N(μ, σ), grade ~ LogNormal
 
-COMBINED TOP-3 EXPLORATION TARGET (Monte Carlo P10 / P50 / P90):
-  NdPr metal P10: 290 t
-  NdPr metal P50: 753.0 t  (headline estimate)
-  NdPr metal P90: 1522 t
+COMBINED 12-SITE EXPLORATION TARGET (Monte Carlo P10 / P50 / P90):
+  NdPr metal P10: 295 t
+  NdPr metal P50: 712 t  (headline; was 1,375 t under the old join)
+  NdPr metal P90: 1428 t
+
+Integration ranking is Hunters / Bossburg / Oroville. Do not treat the
+three largest metal-P50 rows as the field-program priority.
 
 IMPORTANT DISCLAIMER:
   This is an exploration target only. Do not use for investment decisions

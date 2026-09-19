@@ -14,34 +14,20 @@ required for a reprocessing investment decision.
 Two sites emerge from the Section 5 analysis as the immediate auger
 reconnaissance targets, for distinct but complementary reasons.
 
-Colville Placer is the only site in the study area presenting three converging
-independent lines of evidence simultaneously: a coincident aeromagnetic high
-consistent with magnetite-bearing detrital input, a NURE Th anomaly classified
-MIXED_UNCLEAR (reflecting the geochemical ambiguity inherent in stream sediment
-data — see classification gap discussion below), and HIGH-confidence topographic
-and lidar indicators of preserved placer morphology. No other site achieves this
-convergence. The combined priority score is 9.13/10 (Section 5.4). The proxy-
-based NdPr estimate of 203 t sits at the lower end of the site range, but the
-break-even NdPr price of $81/kg — well below the current market price — means
-the economic threshold is achievable at moderate grade. Auger drilling here is
-not primarily a discovery program; it is a program to confirm what the
-converging proxy evidence strongly implies is present, and to generate the
-in-situ grade observations needed to convert the conceptual exploration target
-into a NI 43-101 or JORC Inferred Resource.
+Hunters Placer is #1 (combined score 8.5) on magnetics, MCC/felsic lithology,
+HIGH lidar/topo confidence, and ML — not on monazite. The retired 0.25°
+max-Th join had assigned it 40 ppm MONAZITE from C165101, 26 km SSE. The
+local grab is C164654 (20 ppm BACKGROUND, 5.8 km). Airborne eTh at the pile
+is ordinary (~6 ppm). Auger here tests the pile, not the far sample.
 
-Sanpoil River Placer presents the opposite risk profile. Its proxy-based NdPr
-estimate of 429 t is the largest single-site figure in the dataset — approximately
-2.1× the Colville Placer estimate — but it carries LOW confidence in the
-prioritization framework due to the absence of a magnetic co-indicator and
-reliance on stream sediment Th signal alone. No aeromagnetic high is present to
-corroborate detrital magnetite input from a monazite-bearing source. This is not
-disqualifying: monazite placers without a strong magnetic response are well
-documented in fluvial settings where heavy mineral sorting has separated monazite
-from magnetite over transport distance (Strezov et al. 2017). But it means the
-grade uncertainty range is wide and cannot be narrowed further by any additional
-desktop analysis. Sanpoil River Placer represents the highest-upside, highest-
-uncertainty site in the study area. An auger program here is specifically designed
-to collapse grade uncertainty before any larger investment decision is warranted.
+Bossburg Placer is #2 (8.2) and the only site with a *local* Th anomaly
+(33 ppm MONAZITE, C178928, 10.8 km) and the only break-even below ~$109/kg
+($99/kg). It has no magnetic high. That is the complementary hole: confirm
+whether the one remaining local monazite flag is in the tailings.
+
+Do not send the first holes to Colville or Sanpoil on the pre-join numbers
+(Colville 9.53 / $81/kg; Sanpoil 401 t). Those grades used far-away NURE
+samples. Combined NdPr P50 across 12 sites is 712 t, not 1,375 t.
 
 Addressing this gap more broadly requires stochastic subsurface modeling applied
 to both priority sites. The appropriate methodological framework integrates the
@@ -68,9 +54,11 @@ cerium (Ce) is present in only 35% of records and lanthanum (La) in only 49%.
 The Th-Ce-P elemental triplet required for definitive monazite mineral
 classification — as distinct from thorite, uranothorite, or other Th-bearing
 phases — could not be confirmed from the stream sediment data alone. The
-consequence is unambiguous in the classification results: all 61 Th-anomalous
-samples were assigned either MIXED_UNCLEAR (25 samples) or THORITE_UTHO (36
-samples); zero samples returned a confirmed MONAZITE classification.
+consequence is unambiguous in the current classification: of 77 Th-anomalous
+samples, only 4 are confirmed monazite (P-confirmed + LREE). Most of the
+anomalous set is thorite or mixed/unclear. Stream sediment alone does not
+replace mineralogy. Airborne eTh (Fig 1b) agrees with a stream Th high at
+only one sample (C165101).
 
 This result should not be misread as evidence against monazite. The absence of a
 confirmed classification is not the absence of monazite; it is the absence of
@@ -96,8 +84,8 @@ computational tools for integrating sparse geochemical observations with
 physics-informed structural priors now exist; the limiting factor for the sites
 identified here is in-situ sampling data, not analytical capability. Future work
 should proceed in two stages: (1) targeted shallow sampling (auger drilling or
-trenching) at the two priority sites identified above — Colville Placer and
-Sanpoil River Placer — to generate in-situ grade observations at a density
+trenching) at the two priority sites identified above — Hunters Placer and
+Bossburg Placer — to generate in-situ grade observations at a density
 sufficient to initialize a geostatistical model and resolve the monazite
 classification gap; (2) application of a probabilistic grade modeling workflow
 to those observations to produce site-scale estimates with explicit uncertainty
@@ -108,7 +96,7 @@ depth at each priority site, with full REE + P + actinide assay on each
 interval, is estimated at $68,000–$102,000 per site including mobilization
 (based on published rates for similar programs in the Pacific Northwest, at
 $2,000–$3,400 per hole; Western Mineral Group 2023; US Critical Minerals 2024).
-The total field program for both Colville Placer and Sanpoil River Placer is
+The total field program for both Hunters Placer and Bossburg Placer is
 estimated at $136,000–$204,000. This sampling investment would reduce grade
 uncertainty from the current ±50% to approximately ±15–25%, resolve the
 monazite classification ambiguity in the NURE proxy data, and make the
@@ -126,7 +114,7 @@ substantially if multiple heavy mineral co-products can be recovered from a sing
 processing pass. Magnetite and ilmenite, in particular, are recoverable by
 straightforward magnetic and gravity separation with no radioactive waste
 considerations, and may contribute meaningfully to project economics at the grade
-levels implied by the aeromagnetic data at sites such as Colville Placer.
+levels implied by the aeromagnetic data at sites such as Hunters Placer.
 
 6.3  Hard Rock Source Verification
 

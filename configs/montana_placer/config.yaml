@@ -25,6 +25,9 @@ data:
   mrds_geojson:   "data/mrds/mrds_mt_placer.geojson"         # TODO: download from mrdata.usgs.gov
   geology_geojson: null    # TODO: Montana state geology shapefile
   aeromagnetic_tif: null
+  radiometric_k_tif: null    # python -m pipeline.fetch_radiometric --config this file
+  radiometric_eth_tif: null
+  radiometric_eu_tif: null
   dem_tif: null
   wgs_excel: null          # No WGS OFR equivalent for Montana
 
@@ -79,6 +82,7 @@ wgs:
 
 geochemistry:
   regional_bg_th: 7.0          # TODO: verify Montana regional background Th
+  site_join_radius_deg: 0.10   # ~11 km; nearest NURE, not max-Th in a 0.25° window
   monazite_ce_min_ppm:   50
   monazite_la_min_ppm:   20
   monazite_p_min_ppm:   400

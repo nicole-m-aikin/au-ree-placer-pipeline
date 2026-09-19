@@ -423,13 +423,25 @@ def run(cfg):
         name = site['name']
         t4   = t4_idx.loc[name] if name in t4_idx.index else pd.Series()
         t5   = t5_idx.loc[name] if name in t5_idx.index else pd.Series()
+        th_src = site.get('th_source', None)
+        if pd.isna(th_src) or th_src in (None, '', 'N/A'):
+            th_txt = 'None'
+            lab = site.get('th_assign_lab_id', None)
+            ppm = site.get('th_local_ppm', None)
+            dist = site.get('th_assign_dist_km', None)
+            if lab and pd.notna(lab) and ppm is not None and pd.notna(ppm):
+                th_txt = (f"None (local {lab}, {float(ppm):.0f} ppm BACKGROUND"
+                          f"{f', {float(dist):.1f} km' if dist is not None and pd.notna(dist) else ''}. "
+                          f"Do not cite the old 40 ppm MONAZITE from C165101.)")
+        else:
+            th_txt = str(th_src)
         body += [
             "",
             f"SITE #{rank}: {name.upper()}",
             "="*60,
             f"  Coordinates:    {site.lat:.4f}°N, {site.lon:.4f}°W",
             f"  Combined score: {site.combined_score:.1f}",
-            f"  Th source:      {site.get('th_source','N/A')}",
+            f"  Th source:      {th_txt}",
             f"  Mag high:       {'YES' if site.get('mag_high') else 'NO'}",
             f"  Source lith:    {site.get('source_lith_desc','N/A')}",
             f"  Est. tonnage:   {int(t4.get('tonnage_t', 0)):,} t" if len(t4) else "  Est. tonnage:   N/A",

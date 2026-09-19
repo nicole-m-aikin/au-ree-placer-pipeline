@@ -49,9 +49,13 @@ airborne aeromagnetic surveys flown at standard mineral exploration line spacing
 For the northeastern Washington study area, the USGS aeromagnetic compilation
 (Blakely et al. 1999; Griscom & Mabey 1988) provides regional coverage at
 ~500m effective resolution. Magnetic highs above the mean+2SD threshold in this
-compilation were identified and spatially intersected with the MRDS mine site
-inventory and NURE Th anomaly locations to flag sites with evidence for both
-monazite and magnetite enrichment (Section 4.1 and Figure 1).
+compilation were identified and joined to the nearest NURE sample within
+0.10° (~11 km). The retired 0.25° max-Th window assigned far chemistry
+to ranked piles (Hunters received C165101, 26 km SSE). Local assignment
+is now C164654 (20 ppm BACKGROUND). Airborne eTh (Fig 1b) does not
+confirm stream-sediment Th as bedrock under the piles (Spearman ρ ≈ 0.05;
+one both_high sample, C165101). Magnetic high plus a *local* Th anomaly
+is the co-placer flag (Section 4.1 and Figures 1 / 1b).
 
 3.3.3  Spectral Detection of Ilmenite (EMIT/ASTER)
 

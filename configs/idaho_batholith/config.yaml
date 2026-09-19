@@ -25,6 +25,9 @@ data:
   mrds_geojson:   "data/mrds/mrds_id_batholith.geojson"        # TODO: download from mrdata.usgs.gov
   geology_geojson: null    # TODO: Idaho state geology shapefile
   aeromagnetic_tif: null   # TODO: USGS aeromagnetic survey
+  radiometric_k_tif: null    # python -m pipeline.fetch_radiometric --config this file
+  radiometric_eth_tif: null
+  radiometric_eu_tif: null
   dem_tif: null
   wgs_excel: null          # No WGS OFR equivalent for Idaho
 
@@ -77,6 +80,7 @@ wgs:
 
 geochemistry:
   regional_bg_th: 8.0          # TODO: verify Idaho Batholith background Th
+  site_join_radius_deg: 0.10   # ~11 km; nearest NURE, not max-Th in a 0.25° window
   monazite_ce_min_ppm:   50
   monazite_la_min_ppm:   20
   monazite_p_min_ppm:   400

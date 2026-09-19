@@ -54,7 +54,7 @@ def setup_mpl():
 
 
 def load_nure(cfg):
-    """Load NURE CSV, apply half-MDL below-detection substitution, convert P pct→ppm."""
+    """Load NURE CSV, apply half-MDL below-detection substitution, convert P and Ca pct→ppm."""
     path = cfg['data']['nure_csv']
     df = pd.read_csv(path)
     COORD_COLS = {'lat', 'lon', 'lat_orig', 'long_orig', 'depth'}
@@ -66,8 +66,13 @@ def load_nure(cfg):
         large = neg & (df[col].abs() > 10)
         df.loc[small, col] = df.loc[small, col].abs() / 2
         df.loc[large, col] = np.nan
-    if 'P' in df.columns and df['P'].notna().any() and df['P'].dropna().median() < 1:
-        df['P'] = df['P'] * 10000
+    # Columns whose NURE values are in wt% and need ppm conversion.
+    # Each entry is (column, max-wt%-median) — the threshold discriminates wt% from ppm
+    # without hardcoding: P wt% median ~0.09 (<1), Ca wt% median ~1.5 (<100).
+    _wt_ppm = [('P', 1), ('Ca', 100)]
+    for _col, _thresh in _wt_ppm:
+        if _col in df.columns and df[_col].notna().any() and df[_col].dropna().median() < _thresh:
+            df[_col] = df[_col] * 10000
     return df
 
 
@@ -190,6 +195,161 @@ def map_extent(cfg):
     pad = cfg['study_area'].get('map_padding', cfg.get('map_padding', 0.08))
     return (b['lon_min'] - pad, b['lon_max'] + pad,
             b['lat_min'] - pad, b['lat_max'] + pad)
+
+
+def resolve_data_path(cfg, key):
+    """Resolve a config data.* path relative to the repo root. None if unset."""
+    p = (cfg.get('data') or {}).get(key)
+    if not p:
+        return None
+    if os.path.isabs(p):
+        return p
+    root = os.path.dirname(os.path.dirname(__file__))
+    return os.path.join(root, p)
+
+
+def radiometric_tif_path(cfg, which='eth'):
+    """Return the local path to a configured radiometric GeoTIFF, or None.
+
+    which: 'k' | 'eth' | 'eu'. File must exist — does not invent a grid.
+    """
+    key = {
+        'k': 'radiometric_k_tif',
+        'eth': 'radiometric_eth_tif',
+        'eu': 'radiometric_eu_tif',
+    }[which]
+    p = resolve_data_path(cfg, key)
+    if p and os.path.exists(p):
+        return p
+    return None
+
+
+def sample_raster_at_xy(raster_path, xs, ys):
+    """Sample a single-band raster at lon/lat (or projected) coordinates.
+
+    Returns a float array aligned with xs/ys. Out-of-bounds and nodata
+    become NaN. Used for optional NURE aerial K / eTh / eU grids.
+    """
+    import rasterio
+    from rasterio.transform import rowcol
+
+    xs = np.asarray(xs, dtype=float)
+    ys = np.asarray(ys, dtype=float)
+    out_vals = np.full(xs.shape, np.nan, dtype=float)
+    if not raster_path or not os.path.exists(raster_path):
+        return out_vals
+    with rasterio.open(raster_path) as src:
+        rows, cols = rowcol(src.transform, xs, ys)
+        rows = np.asarray(rows)
+        cols = np.asarray(cols)
+        band = src.read(1)
+        nodata = src.nodata
+        in_b = (
+            (rows >= 0) & (rows < src.height) &
+            (cols >= 0) & (cols < src.width)
+        )
+        vals = np.full(xs.shape, np.nan, dtype=float)
+        vals[in_b] = band[rows[in_b], cols[in_b]].astype(float)
+        if nodata is not None:
+            vals[vals == nodata] = np.nan
+        return vals
+
+
+def load_raster_window(raster_path, bounds):
+    """Read a single-band raster clipped to (xmin, xmax, ymin, ymax).
+
+    Returns (array, extent) where extent is [left, right, bottom, top]
+    for imshow, aligned to the actual windowed pixels (may be a fraction
+    of a pixel larger than `bounds`). Nodata becomes NaN.
+    Returns (None, None) if the path is missing or the window is empty.
+    """
+    if not raster_path or not os.path.exists(raster_path):
+        return None, None
+    import rasterio
+    from rasterio.errors import WindowError
+    from rasterio.windows import Window, from_bounds
+
+    xmin, xmax, ymin, ymax = bounds
+    with rasterio.open(raster_path) as src:
+        try:
+            win = from_bounds(xmin, ymin, xmax, ymax, src.transform)
+            win = win.intersection(Window(0, 0, src.width, src.height))
+        except WindowError:
+            return None, None
+        if win.width <= 0 or win.height <= 0:
+            return None, None
+        win = win.round_offsets().round_lengths()
+        if win.width <= 0 or win.height <= 0:
+            return None, None
+        data = src.read(1, window=win).astype(float)
+        nodata = src.nodata
+        if nodata is not None:
+            data[data == nodata] = np.nan
+        wt = src.window_transform(win)
+        left, top = wt.c, wt.f
+        right = left + wt.a * data.shape[1]
+        bottom = top + wt.e * data.shape[0]
+        return data, [left, right, bottom, top]
+
+
+def linear_mean_2sd(values):
+    """Linear-space mean + 2 SD of finite positive values, or None."""
+    v = np.asarray(values, dtype=float)
+    v = v[np.isfinite(v) & (v > 0)]
+    if v.size < 5:
+        return None
+    return float(v.mean() + 2.0 * v.std())
+
+
+# Concordance classes: airborne eTh high vs stream-sediment Th anomaly.
+# Agreement is a ground-truth check; disagreement is cover, transport, or a gap.
+RAD_AGREE_BOTH = 'both_high'
+RAD_AGREE_STREAM = 'stream_only'
+RAD_AGREE_AIR = 'airborne_only'
+RAD_AGREE_NONE = 'neither'
+
+
+def classify_rad_concordance(stream_high, airborne_high):
+    """Classify airborne eTh vs stream-sediment Th agreement.
+
+    stream_high / airborne_high: array-like of bools. airborne_high may
+    contain NaN where the grid could not be sampled. Returns an object
+    Series: both_high / stream_only / airborne_only / neither, or NA
+    when airborne_high is missing.
+    """
+    stream = pd.Series(stream_high)
+    air_num = pd.to_numeric(pd.Series(airborne_high), errors='coerce')
+    known = air_num.notna().to_numpy()
+    stream_b = stream.fillna(False).astype(bool).to_numpy()
+    air_b = np.where(known, air_num.to_numpy() > 0, False)
+    out = pd.Series(pd.NA, index=stream.index, dtype='object')
+    out.iloc[known & stream_b & air_b] = RAD_AGREE_BOTH
+    out.iloc[known & stream_b & ~air_b] = RAD_AGREE_STREAM
+    out.iloc[known & ~stream_b & air_b] = RAD_AGREE_AIR
+    out.iloc[known & ~stream_b & ~air_b] = RAD_AGREE_NONE
+    return out
+
+
+def load_radiometric_at_points(cfg, lons, lats):
+    """Sample optional aerial gamma-ray grids (K %, eTh ppm, eU ppm) at points.
+
+    Returns a DataFrame with columns rad_K, rad_eTh, rad_eU, rad_eU_eTh,
+    rad_K_eTh. Empty/NaN if the GeoTIFFs are not configured. Does not
+    invent values.
+    """
+    k = sample_raster_at_xy(radiometric_tif_path(cfg, 'k'), lons, lats)
+    th = sample_raster_at_xy(radiometric_tif_path(cfg, 'eth'), lons, lats)
+    u = sample_raster_at_xy(radiometric_tif_path(cfg, 'eu'), lons, lats)
+    with np.errstate(divide='ignore', invalid='ignore'):
+        u_th = np.where(th > 0, u / th, np.nan)
+        k_th = np.where(th > 0, k / th, np.nan)
+    return pd.DataFrame({
+        'rad_K': k,
+        'rad_eTh': th,
+        'rad_eU': u,
+        'rad_eU_eTh': u_th,
+        'rad_K_eTh': k_th,
+    })
 
 
 def hillshade(cfg, ax, alpha=0.25, zorder=0):
