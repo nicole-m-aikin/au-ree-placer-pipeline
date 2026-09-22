@@ -1,10 +1,11 @@
 """Score the frozen NE WA forest on one other placer belt. Do not retrain.
 
 Literature (Airola 2018; LIT_REVIEW §8 item 7): transfer is the honest test.
-This module fetches Idaho Batholith NURE + gold MRDS, applies the published
+This module fetches a belt's NURE + gold MRDS, applies the published
 log-medians, and reports ROC-AUC. A sag is the result, not a failure.
 
-Not a national model. Montana stays a stub until someone asks.
+Not a national model. Do not run this against the training box.
+Montana stays a stub until someone asks.
 """
 
 import os
@@ -179,14 +180,17 @@ def fetch_nure_hssr(lon_min, lat_min, lon_max, lat_max, dest_csv, cache_dir=None
                 if keep.any():
                     chunks.append(chunk.loc[keep])
     if not chunks:
-        raise RuntimeError('NURE clip was empty — check the Idaho bbox')
+        raise RuntimeError(
+            f'NURE clip was empty — check the bbox '
+            f'({lon_min}, {lat_min})–({lon_max}, {lat_max})'
+        )
     raw = pd.concat(chunks, ignore_index=True)
     mapped = hssr_to_nure_frame(raw)
     mapped = mapped.dropna(subset=['lat', 'lon'])
     os.makedirs(os.path.dirname(os.path.abspath(dest_csv)) or '.', exist_ok=True)
     mapped.to_csv(dest_csv, index=False)
     present = [f for f in FEATURES if f in mapped.columns and mapped[f].notna().any()]
-    print(f'  Wrote {len(mapped)} Idaho NURE rows → {dest_csv}')
+    print(f'  Wrote {len(mapped)} NURE rows → {dest_csv}')
     print(f'  Features present: {present}')
     missing = [f for f in FEATURES if f not in present]
     if missing:
@@ -195,7 +199,7 @@ def fetch_nure_hssr(lon_min, lat_min, lon_max, lat_max, dest_csv, cache_dir=None
 
 
 def score_frozen_transfer(df, gold_xy, estimator, metadata, radius_deg=FAR_FROM_MINE_DEG):
-    """Apply the published forest. Labels = Idaho gold proximity (no DEM)."""
+    """Apply the published forest. Labels = gold proximity (no DEM)."""
     from scipy.spatial import cKDTree
 
     order = list(metadata['feature_order'])
@@ -217,8 +221,54 @@ def score_frozen_transfer(df, gold_xy, estimator, metadata, radius_deg=FAR_FROM_
     }), auc
 
 
+def belt_slug(cfg):
+    """Filename stem. Idaho keeps the historic 'idaho' name."""
+    short = (cfg.get('study_area', {}) or {}).get('short') or 'second_belt'
+    if short in ('id_batholith', 'idaho'):
+        return 'idaho'
+    return str(short).replace('-', '_')
+
+
+def _assert_not_training_belt(cfg, metadata):
+    trained = str(metadata.get('study_area') or '').strip().lower()
+    this = str((cfg.get('study_area') or {}).get('name') or '').strip().lower()
+    if trained and this and trained == this:
+        raise RuntimeError(
+            f'{this} is the training belt. Transfer needs a different box.'
+        )
+
+
+def _transfer_note(belt, auc, auc_tight, frac_near, mean_pos, mean_neg):
+    bits = [f'Frozen NE Washington forest scored on {belt} NURE.']
+    if auc is None:
+        bits.append('Transfer AUC could not be scored (one class).')
+    elif auc < 0.60:
+        bits.append(f'Transfer AUC is {auc:.2f} (coin flip — the forest does not travel).')
+    else:
+        bits.append(f'Transfer AUC is {auc:.2f}.')
+    if auc_tight is not None:
+        bits.append(f'Tightening the gold circle to 0.05° gives {auc_tight:.2f}.')
+    if frac_near is not None and frac_near >= 0.60:
+        bits.append(
+            '0.15° labels most of this box because gold MRDS pins are dense '
+            '— that is a weak negative class.'
+        )
+    if (
+        mean_pos is not None and mean_neg is not None
+        and abs(mean_pos - mean_neg) < 0.05
+    ):
+        bits.append('Mean P is flat near gold and far from it.')
+    bits.append(
+        'This is a transfer test, not a new model. Do not call the doorbell national.'
+    )
+    return ' '.join(bits)
+
+
 def run(cfg):
     ensure_outputs(cfg['outputs_dir'])
+    slug = belt_slug(cfg)
+    belt = (cfg.get('study_area') or {}).get('name', slug)
+    short = (cfg.get('study_area') or {}).get('short', slug)
     lon_min, lon_max, lat_min, lat_max = bbox(cfg)
     nure_path = cfg['data']['nure_csv']
     mrds_path = cfg['data']['mrds_geojson']
@@ -254,45 +304,46 @@ def run(cfg):
     gold_xy = np.column_stack([gold.geometry.x.values, gold.geometry.y.values])
 
     estimator, metadata = load_published_artifacts()
+    _assert_not_training_belt(cfg, metadata)
     scored, auc = score_frozen_transfer(df, gold_xy, estimator, metadata)
     scored_tight, auc_tight = score_frozen_transfer(
         df, gold_xy, estimator, metadata, radius_deg=0.05,
     )
-    scored.to_csv(out(cfg, 'tables', 'task12_idaho_transfer_scores.csv'), index=False)
+    scored.to_csv(out(cfg, 'tables', f'task12_{slug}_transfer_scores.csv'), index=False)
 
     n_pos = int(scored['label'].sum())
     n = int(len(scored))
     mean_pos = float(scored.loc[scored['label'] == 1, 'p_anomalous'].mean()) if n_pos else None
     mean_neg = float(scored.loc[scored['label'] == 0, 'p_anomalous'].mean()) if n_pos < n else None
+    frac = None if not n else round(n_pos / n, 4)
+    auc_r = None if auc is None else round(auc, 4)
+    auc_t = None if auc_tight is None else round(auc_tight, 4)
     summary = {
-        'belt': cfg.get('study_area', {}).get('name', 'Idaho Batholith'),
+        'belt': belt,
+        'short': short,
         'model_id': metadata.get('model_id'),
         'trained_on': metadata.get('study_area'),
         'retrained': False,
         'n_samples': n,
         'n_positive': n_pos,
         'n_gold_mrds': int(len(gold_xy)),
-        'fraction_near_gold': None if not n else round(n_pos / n, 4),
-        'transfer_auc': None if auc is None else round(auc, 4),
-        'transfer_auc_0p05deg': None if auc_tight is None else round(auc_tight, 4),
+        'fraction_near_gold': frac,
+        'transfer_auc': auc_r,
+        'transfer_auc_0p05deg': auc_t,
         'mean_p_near_gold': None if mean_pos is None else round(mean_pos, 4),
         'mean_p_far_from_gold': None if mean_neg is None else round(mean_neg, 4),
-        'mean_p_all': round(float(scored['p_anomalous'].mean()), 4),
-        'label_method': 'proximity (no DEM elevation cut — Idaho has no regional DEM in this repo)',
-        'mrds_proximity_deg': FAR_FROM_MINE_DEG,
-        'note': (
-            "Frozen NE Washington forest scored on Idaho Batholith NURE. "
-            "Transfer AUC is ~0.50 (coin flip). Tightening the gold circle to "
-            "0.05° does not rescue it. 0.15° labels most of this box because "
-            "Idaho County is painted with gold MRDS pins — that is a weak "
-            "negative class, not a reason to call the doorbell national. "
-            "This is a transfer test, not a new model."
+        'mean_p_all': None if not n else round(float(scored['p_anomalous'].mean()), 4),
+        'label_method': (
+            'proximity (no DEM elevation cut — this belt has no regional DEM in this repo)'
         ),
+        'mrds_proximity_deg': FAR_FROM_MINE_DEG,
+        'note': _transfer_note(belt, auc, auc_tight, frac, mean_pos, mean_neg),
     }
     persist_transfer(summary)
-    path = out(cfg, 'text', 'task12_idaho_transfer_summary.txt')
+    path = out(cfg, 'text', f'task12_{slug}_transfer_summary.txt')
+    title = f'SECOND BELT — FROZEN NE WA FOREST ON {belt.upper()}'
     lines = [
-        'SECOND BELT — FROZEN NE WA FOREST ON IDAHO BATHOLITH',
+        title,
         summary['note'],
         '=' * 68,
         '',

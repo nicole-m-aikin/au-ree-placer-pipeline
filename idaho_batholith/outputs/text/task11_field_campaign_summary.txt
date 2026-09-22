@@ -1,0 +1,44 @@
+FIELD CAMPAIGN WALK LIST
+Idaho Batholith — 0.4° cells + pour points
+P is the frozen NE Washington forest (lookalike), not a local gold model. Gold distance uses this belt's MRDS pins. Stars are NURE; circles are pans.
+====================================================================
+
+Cells on the map:     35  (occupied by NURE: 23)
+Expedition (high P, >5 km from a gold pin): 2
+Confirm    (high P, ≤5 km from a gold pin): 4
+Watch      (moderate P):                     17
+Skip       (low P or empty):                 12
+
+Leave-one-cell-out AUC (cells with ≥8 grabs): 0.529  (min 0.208, max 0.722, n=19 cells)
+Same story as the 0.94 vs 0.62 folds — some cells transfer, some do not.
+
+WALK ORDER (expedition first, most isolated first)
+
+  # 1  expedition   max P=0.6  8.3 km from gold  pour 45.9914, -115.9667  nure=4
+  # 2  expedition   max P=0.7822  7.3 km from gold  pour 45.1508, -115.5678  nure=4
+  # 3  confirm      max P=0.675  2.5 km from gold  pour 45.5614, -115.1719  nure=4
+  # 4  confirm      max P=0.731  1.9 km from gold  pour 45.0769, -115.6425  nure=4
+  # 5  confirm      max P=0.715  1.0 km from gold  pour 45.3417, -114.3361  nure=4
+  # 6  confirm      max P=0.6555  0.3 km from gold  pour 45.1011, -114.8275  nure=4
+  # 7  watch        max P=0.465  37.6 km from gold  pour 46.0892, -115.1197  nure=4
+  # 8  watch        max P=0.52  34.1 km from gold  pour 46.1972, -114.7589  nure=3
+  # 9  watch        max P=0.525  30.8 km from gold  pour 46.1647, -114.1514  nure=4
+  #10  watch        max P=0.545  25.0 km from gold  pour 46.1669, -115.5758  nure=4
+  #11  watch        max P=0.495  24.6 km from gold  pour 46.1425, -115.9411  nure=1
+  #12  watch        max P=0.515  14.4 km from gold  pour 45.9786, -114.8369  nure=4
+  #13  watch        max P=0.5  13.5 km from gold  pour 45.9119, -115.245  nure=4
+  #14  watch        max P=0.5  12.9 km from gold  pour 45.9998, -114.1672  nure=4
+  #15  watch        max P=0.4056  6.4 km from gold  pour 44.9902, -116.1891  nure=2
+  #16  watch        max P=0.5464  5.6 km from gold  pour 45.1756, -114.3144  nure=4
+  #17  watch        max P=0.57  4.6 km from gold  pour 45.9044, -114.7883  nure=4
+  #18  watch        max P=0.4564  3.2 km from gold  pour 44.8, -114.8362  nure=1
+  #19  watch        max P=0.59  3.1 km from gold  pour 45.4689, -115.8064  nure=4
+  #20  watch        max P=0.4178  1.8 km from gold  pour 44.8, -114.67  nure=1
+  #21  watch        max P=0.545  1.6 km from gold  pour 45.3944, -114.7461  nure=4
+  #22  watch        max P=0.575  1.2 km from gold  pour 45.395, -115.4911  nure=4
+  #23  watch        max P=0.5814  0.5 km from gold  pour 45.0675, -114.7258  nure=4
+
+nure_spots = NURE chemistry grabs (the forest). They say this creek.
+pan_locations = trap-geometry pins on the D8 line. They say stand here.
+Pour point = where the water leaves. It is not automatically a pan pin.
+See task11_nure_spots.csv and task11_pan_locations.csv.

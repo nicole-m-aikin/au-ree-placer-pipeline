@@ -174,3 +174,4 @@ class ModelInfoResponse(BaseModel):
     transfer_n_positive: Optional[int] = None
     transfer_retrained: Optional[bool] = None
     transfer_note: Optional[str] = None
+    transfer_belts: Optional[list] = None

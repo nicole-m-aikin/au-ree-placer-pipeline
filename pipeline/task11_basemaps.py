@@ -2,7 +2,7 @@
 
 LiDAR is clipped to a 2 km buffer around each pour (the walk, not the
 whole 0.4° cell). Newest 1 m project wins when tiles overlap. Geology is
-the USGS SGMC Washington extract, clipped to the study map.
+the USGS SGMC state extract for the study-area config, clipped to the map.
 """
 
 from __future__ import annotations
@@ -17,9 +17,11 @@ import warnings
 import numpy as np
 import pandas as pd
 
+from pipeline.geo_crs import sgmc_state
 from pipeline.utils import map_extent, resolve_data_path
 
-SGMC_WA_URL = 'https://mrdata.usgs.gov/geology/state/shp/WA.zip'
+SGMC_STATE_URL = 'https://mrdata.usgs.gov/geology/state/shp/{state}.zip'
+SGMC_WA_URL = SGMC_STATE_URL.format(state='WA')
 TNM_PRODUCTS = 'https://tnmaccess.nationalmap.gov/api/v1/products'
 USER_AGENT = 'AuREE-pipeline/1.0 (research; 3DEP/SGMC clip)'
 LIDAR_RANKS = 10
@@ -41,9 +43,12 @@ SGMC_LITH_MAP = {
 }
 
 
-def _sgmc_dir(repo_root=None):
+def _sgmc_dir(state='WA', repo_root=None):
     root = repo_root or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    return os.path.join(root, 'ne_wa_ree', 'data', 'geologic', 'WA_sgmc_extracted')
+    state = str(state).upper()
+    if state == 'WA':
+        return os.path.join(root, 'ne_wa_ree', 'data', 'geologic', 'WA_sgmc_extracted')
+    return os.path.join(root, 'data', 'geologic', f'{state}_sgmc_extracted')
 
 
 def _lidar_dir(repo_root=None):
@@ -63,23 +68,42 @@ def _download(url, dest):
     return dest
 
 
-def ensure_sgmc_wa(repo_root=None, force=False):
-    """Download and unzip the 5.4 MB USGS SGMC Washington extract if needed."""
-    dest_dir = _sgmc_dir(repo_root)
-    shp = os.path.join(dest_dir, 'WA_geol_poly.shp')
+def _sgmc_poly_path(dest_dir, state):
+    named = os.path.join(dest_dir, f'{state}_geol_poly.shp')
+    if os.path.exists(named):
+        return named
+    for root, _dirs, files in os.walk(dest_dir):
+        for name in files:
+            if name.lower().endswith('_geol_poly.shp') or name.lower() == 'geol_poly.shp':
+                return os.path.join(root, name)
+    return named
+
+
+def ensure_sgmc(state='WA', repo_root=None, force=False):
+    """Download and unzip the USGS SGMC state extract if needed."""
+    state = str(state).upper()
+    dest_dir = _sgmc_dir(state, repo_root)
+    shp = _sgmc_poly_path(dest_dir, state)
     if os.path.exists(shp) and not force:
         return dest_dir
     os.makedirs(dest_dir, exist_ok=True)
-    zpath = os.path.join(os.path.dirname(dest_dir), 'WA.zip')
+    zpath = os.path.join(os.path.dirname(dest_dir), f'{state}.zip')
+    url = SGMC_STATE_URL.format(state=state)
     if force or not os.path.exists(zpath):
-        print(f"  Downloading SGMC Washington geology ({SGMC_WA_URL})...")
-        _download(SGMC_WA_URL, zpath)
+        print(f"  Downloading SGMC {state} geology ({url})...")
+        _download(url, zpath)
     with zipfile.ZipFile(zpath) as zf:
         zf.extractall(dest_dir)
+    shp = _sgmc_poly_path(dest_dir, state)
     if not os.path.exists(shp):
-        raise FileNotFoundError(f'SGMC extract missing {shp}')
-    print(f"  SGMC Washington geology ready at {dest_dir}")
+        raise FileNotFoundError(f'SGMC extract missing a geology polygon shapefile in {dest_dir}')
+    print(f"  SGMC {state} geology ready at {dest_dir}")
     return dest_dir
+
+
+def ensure_sgmc_wa(repo_root=None, force=False):
+    """Backward-compatible alias."""
+    return ensure_sgmc('WA', repo_root=repo_root, force=force)
 
 
 def lith_type_from_generalize(value):
@@ -93,8 +117,9 @@ def load_geology(cfg, dest_dir=None):
     import geopandas as gpd
     from shapely.geometry import box
 
-    dest_dir = dest_dir or ensure_sgmc_wa()
-    gdf = gpd.read_file(os.path.join(dest_dir, 'WA_geol_poly.shp'))
+    state = sgmc_state(cfg)
+    dest_dir = dest_dir or ensure_sgmc(state)
+    gdf = gpd.read_file(_sgmc_poly_path(dest_dir, state))
     if gdf.crs is None:
         gdf = gdf.set_crs('EPSG:4326')
     else:
@@ -105,7 +130,12 @@ def load_geology(cfg, dest_dir=None):
     gdf['geometry'] = gdf.geometry.intersection(clip)
     gdf = gdf[~gdf.geometry.is_empty]
     gdf['lith_type'] = gdf['GENERALIZE'].map(lith_type_from_generalize)
-    units_csv = os.path.join(dest_dir, 'WA_units.csv')
+    units_csv = os.path.join(dest_dir, f'{state}_units.csv')
+    if not os.path.exists(units_csv):
+        for name in os.listdir(dest_dir):
+            if name.lower().endswith('_units.csv'):
+                units_csv = os.path.join(dest_dir, name)
+                break
     if os.path.exists(units_csv):
         units = pd.read_csv(units_csv)
         units.columns = [c.strip().lower() for c in units.columns]
@@ -136,8 +166,14 @@ def load_structures(cfg, dest_dir=None):
     import geopandas as gpd
     from shapely.geometry import box
 
-    dest_dir = dest_dir or ensure_sgmc_wa()
-    path = os.path.join(dest_dir, 'WA_structure.shp')
+    dest_dir = dest_dir or ensure_sgmc(sgmc_state(cfg))
+    path = os.path.join(dest_dir, f'{sgmc_state(cfg)}_structure.shp')
+    if not os.path.exists(path):
+        for root, _dirs, files in os.walk(dest_dir):
+            for name in files:
+                if name.lower().endswith('_structure.shp') or name.lower() == 'structure.shp':
+                    path = os.path.join(root, name)
+                    break
     if not os.path.exists(path):
         return gpd.GeoDataFrame(geometry=[], crs='EPSG:4326')
     gdf = gpd.read_file(path)
@@ -409,7 +445,7 @@ def add_basemaps_to_gpkg(cfg, gpkg_path, catchments=None, fetch_lidar=True):
     """Write geology + structures into the GPKG; optionally embed LiDAR hillshades."""
     import pyogrio
 
-    dest_dir = ensure_sgmc_wa()
+    dest_dir = ensure_sgmc(sgmc_state(cfg))
     geology = load_geology(cfg, dest_dir=dest_dir)
     structures = load_structures(cfg, dest_dir=dest_dir)
     added = []

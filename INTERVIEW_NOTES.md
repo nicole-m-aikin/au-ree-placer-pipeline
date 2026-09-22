@@ -162,15 +162,21 @@ Leave-one-cell-out AUC (cells with ≥8 grabs): **0.56**, range 0.25–1.00, 11 
 
 Outputs: `fig11_catchment_walk_list_map.png`, `task11_catchment_walk_list.csv`, `task11_nure_spots.csv`, `task11_pan_locations.csv`.
 
+Idaho and California now have the same layers. P is the Washington forest. Gold pins and SGMC geology are local. California has no expedition cell.
+
 ---
 
 ## Public doorbell + second belt
 
 **Live:** https://placer-lookalike.onrender.com/docs
 
-**Decision:** Ship `/predict` as a frozen-forest doorbell. Score Idaho with that same joblib. Do not retrain. Do not national-model.
+**Decision:** Ship `/predict` as a frozen-forest doorbell. Score Idaho, then California, with that same joblib. Do not retrain. Do not national-model.
 
-**Idaho result:** 2,465 NURE grabs, transfer AUC **0.50**. Mean P ≈ 0.38 next to gold and far from it. Tightening the circle to 5 km does not help. That is the honesty slide, not a failed deploy.
+**Idaho result:** 2,465 NURE grabs, transfer AUC **0.50**. Mean P ≈ 0.38 next to gold and far from it. Tightening the circle to 5 km does not help.
+
+**California result:** Northern Sierra foothills (Feather / Yuba / American — the belt you can walk). 596 NURE grabs, 7,872 gold MRDS pins, transfer AUC **0.52**. Mean P is 0.38 next to gold and far from it. Tightening to 5 km lifts AUC to 0.61; the doorbell still does not know California. This clip has no Au or As.
+
+**Walk lists:** Idaho GeoPackage — 2 expedition / 4 confirm / 16 pans. California GeoPackage — 0 expedition / 0 confirm / 8 watch / 10 pans. P is Washington lookalike. Gold pins and geology are local. Open `~/projects/task11_ca_sierra_placer_field_campaign.gpkg` (no `+` in the path).
 
 **Q: What does the API actually do?**
 
@@ -178,7 +184,7 @@ You POST eleven NURE concentrations and `fe_unit`. You get P(this grab looks lik
 
 **Q: Why Idaho if you expect the AUC to drop?**
 
-Because 0.891 is shuffled CV on one belt. Airola 2018: that number can look great and fail on new ground. The literature says score the second belt with the first forest *before* you refit. A sag is the result. Retraining Idaho would be a new model, not proof the doorbell travels.
+Because 0.891 is shuffled CV on one belt. Airola 2018: that number can look great and fail on new ground. The literature says score the next belt with the first forest *before* you refit. A sag is the result. Retraining Idaho or California would be a new model, not proof the doorbell travels. Living in California does not make the Washington forest a Sierra model.
 
 **Q: Why Render / Docker?**
 

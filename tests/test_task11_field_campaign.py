@@ -10,9 +10,12 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from pipeline.ml_spatial import block_ids, leave_one_block_aucs
 from pipeline.task11_basemaps import hillshade, lith_type_from_generalize
+from pipeline.geo_crs import sgmc_state, utm_epsg
 from pipeline.task11_field_campaign import (
     CELL_DEG,
     campaign_class,
+    campaign_probability_path,
+    clean_gpkg_copy,
     named_rivers_gdf,
     pick_pour_candidate,
     pour_points_at_snap,
@@ -20,6 +23,40 @@ from pipeline.task11_field_campaign import (
     walk_sort_key,
     write_field_campaign_gpkg,
 )
+
+
+def test_utm_zone_is_11n_for_idaho_and_10n_for_sierra():
+    assert utm_epsg(-115.1, 45.5) == 'EPSG:32611'
+    assert utm_epsg(-121.05, 39.3) == 'EPSG:32610'
+
+
+def test_sgmc_state_follows_config():
+    assert sgmc_state({'data': {'sgmc_state': 'ID'}}) == 'ID'
+    assert sgmc_state({'study_area': {'short': 'ca_sierra_placer'}}) == 'CA'
+    assert sgmc_state({'study_area': {'short': 'ne_wa'}}) == 'WA'
+
+
+def test_clean_gpkg_copy_is_belt_specific():
+    assert clean_gpkg_copy({'study_area': {'short': 'ne_wa'}}).endswith(
+        'task11_field_campaign.gpkg'
+    )
+    assert 'ca_sierra_placer' in clean_gpkg_copy(
+        {'study_area': {'short': 'ca_sierra_placer'}}
+    )
+
+
+def test_campaign_probability_prefers_transfer_scores(tmp_path):
+    tables = tmp_path / 'tables'
+    tables.mkdir()
+    scores = tables / 'task12_idaho_transfer_scores.csv'
+    scores.write_text('lon,lat,p_anomalous\n-115.5,45.4,0.4\n')
+    cfg = {
+        'outputs_dir': str(tmp_path),
+        'study_area': {'short': 'id_batholith'},
+    }
+    path, is_transfer = campaign_probability_path(cfg)
+    assert path == str(scores)
+    assert is_transfer is True
 
 
 def test_campaign_class_is_honest_about_known_mines():

@@ -27,6 +27,10 @@ env/
 ne_wa_ree/data/lidar/
 ne_wa_ree/data/dem/
 ne_wa_ree/data/aster_emit/
+data/dem/
+
+# SGMC state extracts (re-download from mrdata.usgs.gov)
+data/geologic/
 
 # Historical topo PDFs (re-download from USGS TopoView)
 ne_wa_ree/data/lidar/*.pdf
@@ -41,8 +45,8 @@ data/radiometric/raw/
 data/nure/raw/
 
 # Regenerable Task 11 caches (rebuild with --tasks 11 / --gpkg-only)
-ne_wa_ree/outputs/geojson/task11_dem_streams.geojson
-ne_wa_ree/outputs/geojson/task11_field_campaign.gpkg
+**/outputs/geojson/task11_dem_streams.geojson
+**/outputs/geojson/task11_field_campaign.gpkg
 ne_wa_ree/data/geologic/WA.zip
 
 # Editor / IDE

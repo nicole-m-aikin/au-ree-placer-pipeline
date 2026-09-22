@@ -30,7 +30,7 @@ Each pipeline task evaluates one or more components of this framework:
 - **Task 8** — preservation context (mine waste ABA risk; WGS OFR 2026-02 field data)
 - **Task 9** — data-driven spatial targeting across all components (ML probability surface)
 - **Task 11** — trap walk list: chemistry picks the drainage; stream-geometry votes pick the pan pin
-- **Task 12** — transfer test: frozen NE WA forest on Idaho Batholith NURE (AUC 0.50; do not retrain)
+- **Task 12** — transfer test: frozen NE WA forest on Idaho Batholith NURE (AUC 0.50) and California Sierra foothills NURE (AUC 0.52; do not retrain)
 
 ---
 
@@ -303,6 +303,7 @@ on `/model-info` and in `models/task9_rf_placer_gold.meta.json`:
 | Dead-zone spatial CV (drop train samples within 0.15° of a test sample) | **0.699 ± 0.055** |
 | 0.4° cell blocked CV | **0.757 ± 0.139** |
 | Frozen forest on Idaho Batholith NURE (Task 12; not retrained) | **0.50** |
+| Frozen forest on CA Sierra foothills NURE (Task 12; not retrained) | **0.52** |
 
 0.891 is “can the forest separate yes/no in this belt when neighbors are allowed.”
 0.70 is “new drainage in the same belt.” 0.50 is “new belt.” Do not quote only 0.891.
@@ -438,11 +439,24 @@ The decision unit is the drainage (Yousefi & Carranza 2013), not an IDW blob.
 Stay out of the forest: slope and stream power are not Random Forest features.
 They leak space and retrace the 200 m valley-floor label rule.
 
-## Idaho transfer (Task 12)
+## Transfer belts (Task 12)
 
-Score the frozen NE WA forest on Idaho Batholith NURE. Do not retrain. Transfer
-AUC is 0.50. Mean P is ~0.38 next to gold and far from it. That is the
-literature failure mode, not a reason to build a national model.
+Score the frozen NE WA forest on another placer box. Do not retrain.
+
+Idaho Batholith: AUC 0.50 (2,465 grabs; 79% within 0.15° of a gold pin). Mean
+P is ~0.38 next to gold and far from it. Tightening to 0.05° does not help.
+
+California Sierra foothills (Feather / Yuba / American): AUC 0.52 (596 grabs;
+88% near gold; 7,872 MRDS gold pins). Mean P is again ~0.38 both sides.
+Tightening to 0.05° lifts AUC to 0.61 — still a weak ranker, not a walk list.
+This HSSR clip has no Au or As; those two features are Washington log-medians.
+
+Walk-list GeoPackages now exist for both belts. P is still the frozen
+Washington forest. Gold distance uses each belt's own MRDS pins. Idaho has
+two expedition cells (max P 0.78). California has zero — every occupied
+cell is watch (max P 0.52). The pans are DEM geometry, not a new model.
+
+That is the literature failure mode, not a reason to build a national model.
 
 ---
 

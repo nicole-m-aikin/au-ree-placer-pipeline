@@ -11,6 +11,9 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from pipeline.ml_preprocess import FEATURES, _log_impute
 from pipeline.task12_second_belt import (
+    _assert_not_training_belt,
+    _transfer_note,
+    belt_slug,
     hssr_to_nure_frame,
     parse_mrds_bbox_xml,
     score_frozen_transfer,
@@ -76,3 +79,31 @@ def test_frozen_transfer_auc_is_not_random_on_separated_chemistry():
     assert auc is not None
     assert auc > 0.8
     assert int(scored['label'].sum()) == n // 2
+
+
+def test_belt_slug_keeps_historic_idaho_name():
+    assert belt_slug({'study_area': {'short': 'id_batholith'}}) == 'idaho'
+    assert belt_slug({'study_area': {'short': 'ca_sierra_placer'}}) == 'ca_sierra_placer'
+
+
+def test_training_belt_is_rejected():
+    try:
+        _assert_not_training_belt(
+            {'study_area': {'name': 'NE Washington'}},
+            {'study_area': 'NE Washington'},
+        )
+    except RuntimeError as exc:
+        assert 'training belt' in str(exc)
+    else:
+        raise AssertionError('expected RuntimeError')
+    _assert_not_training_belt(
+        {'study_area': {'name': 'California Sierra placer foothills'}},
+        {'study_area': 'NE Washington'},
+    )
+
+
+def test_transfer_note_calls_coin_flip_when_auc_is_chance():
+    note = _transfer_note('California Sierra placer foothills', 0.50, 0.48, 0.8, 0.38, 0.37)
+    assert 'coin flip' in note
+    assert 'weak negative' in note
+    assert 'national' in note

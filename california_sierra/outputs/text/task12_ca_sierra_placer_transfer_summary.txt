@@ -1,0 +1,16 @@
+SECOND BELT — FROZEN NE WA FOREST ON CALIFORNIA SIERRA PLACER FOOTHILLS
+Frozen NE Washington forest scored on California Sierra placer foothills NURE. Transfer AUC is 0.52 (coin flip — the forest does not travel). Tightening the gold circle to 0.05° gives 0.61. 0.15° labels most of this box because gold MRDS pins are dense — that is a weak negative class. Mean P is flat near gold and far from it. This is a transfer test, not a new model. Do not call the doorbell national.
+====================================================================
+
+NURE grabs:     596
+Near gold MRDS: 527  (88.4%)
+Gold MRDS pins: 7872
+Transfer AUC (0.15°): 0.5223
+Transfer AUC (0.05°): 0.6061
+Mean P near gold / far: 0.3779 / 0.3784
+Mean P all grabs:       0.3779
+
+NE WA random CV:  0.8912799999999999
+NE WA spatial CV: 0.6988467686686458
+
+Do not retrain from this number. Do not call the doorbell national.

@@ -16,6 +16,8 @@ MODEL_FILENAME = 'task9_rf_placer_gold.joblib'
 META_FILENAME = 'task9_rf_placer_gold.meta.json'
 GOLD_MRDS_FILENAME = 'task9_rf_placer_gold.gold_mrds.json'
 TRANSFER_FILENAME = 'task9_rf_placer_gold.transfer.json'
+TRANSFERS_FILENAME = 'task9_rf_placer_gold.transfers.json'
+IDAHO_TRANSFER_KEYS = ('id_batholith', 'Idaho Batholith')
 
 
 def published_model_path(model_dir=None):
@@ -70,21 +72,55 @@ def load_gold_mrds(model_dir=None):
     return np.asarray(coords, dtype=float)
 
 
+def _transfer_key(summary):
+    return summary.get('short') or summary.get('belt') or 'unknown'
+
+
 def persist_transfer(summary, model_dir=None):
+    """Upsert one belt. Idaho stays the legacy single-file sidecar."""
     dest = Path(model_dir) if model_dir else MODEL_DIR
     dest.mkdir(parents=True, exist_ok=True)
-    path = dest / TRANSFER_FILENAME
-    path.write_text(json.dumps(summary, indent=2, sort_keys=True) + '\n')
-    return path
+    catalog = load_transfers(dest)
+    catalog[_transfer_key(summary)] = summary
+    catalog_path = dest / TRANSFERS_FILENAME
+    catalog_path.write_text(json.dumps(catalog, indent=2, sort_keys=True) + '\n')
+    legacy = None
+    for key in IDAHO_TRANSFER_KEYS:
+        if key in catalog:
+            legacy = catalog[key]
+            break
+    if legacy is None:
+        legacy = summary
+    (dest / TRANSFER_FILENAME).write_text(
+        json.dumps(legacy, indent=2, sort_keys=True) + '\n'
+    )
+    return catalog_path
+
+
+def load_transfers(model_dir=None):
+    """All scored belts, keyed by short name or belt title."""
+    dest = Path(model_dir) if model_dir else MODEL_DIR
+    path = dest / TRANSFERS_FILENAME
+    if path.exists():
+        data = json.loads(path.read_text())
+        if isinstance(data, dict):
+            return data
+    legacy_path = dest / TRANSFER_FILENAME
+    if legacy_path.exists():
+        old = json.loads(legacy_path.read_text())
+        return {_transfer_key(old): old}
+    return {}
 
 
 def load_transfer(model_dir=None):
-    """Idaho (or later) transfer sidecar. None if the second belt has not run."""
-    dest = Path(model_dir) if model_dir else MODEL_DIR
-    path = dest / TRANSFER_FILENAME
-    if not path.exists():
+    """Idaho (or the only belt) for the legacy /model-info fields."""
+    catalog = load_transfers(model_dir)
+    if not catalog:
         return None
-    return json.loads(path.read_text())
+    for key in IDAHO_TRANSFER_KEYS:
+        if key in catalog:
+            return catalog[key]
+    return next(iter(catalog.values()))
 
 
 def load_published_artifacts(model_dir=None):

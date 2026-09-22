@@ -50,11 +50,15 @@
 # Ratio maps (eU/eTh, K/eTh) and RF features are later steps; do not add
 # the 1–10 km grids to Task 9 until the map-layer check is done.
 
-### DEM for Catchment Analysis (Task 2)
-# 3DEP 30m DEM via The National Map:
+### DEM for Catchment Analysis (Task 2 / Task 11)
+# NE WA result of record is Copernicus GLO-30 (~30 m), not a hand-clicked 3DEP tile.
+# Other belts use the same fetcher (gitignored under data/dem/):
+#   python -m pipeline.fetch_dem --config configs/ne_washington/config.yaml
+#   python -m pipeline.fetch_dem --config configs/idaho_batholith/config.yaml
+#   python -m pipeline.fetch_dem --config configs/california_sierra/config.yaml
+# Writes data/dem/<short>_30m.tif (Idaho / Sierra) or the path in data.dem_tif.
+# TNM 3DEP is still valid if you already have a local mosaic:
 # https://apps.nationalmap.gov/downloader/
-# AOI: -120.0,47.5,-117.0,49.1
-# Save to: data/dem/ne_wa_dem_30m.tif
 
 ### Lidar DEMs (Task 4)
 # Washington Lidar Portal: https://lidar.wa.gov
@@ -66,10 +70,26 @@
 # Download 7.5-min quads for each site, 1950s-1970s vintage
 # Save to: data/lidar/<site_name>_historical_topo.pdf
 
-### USGS State Geologic Map (Task 2)
-# https://ngmdb.usgs.gov/Prodesc/proddesc_9215.htm (WA state geologic map)
-# Or GeMS format: https://www.usgs.gov/programs/national-cooperative-geologic-mapping-program
-# Save to: data/geologic/wa_geology.geojson
+### USGS State Geologic Map (Task 2 / Task 11)
+# SGMC state shapefiles (Horton 2017): https://mrdata.usgs.gov/geology/state/
+# Task 11 downloads the zip for data.sgmc_state (WA / ID / CA) on first run:
+#   https://mrdata.usgs.gov/geology/state/shp/WA.zip
+#   https://mrdata.usgs.gov/geology/state/shp/ID.zip
+#   https://mrdata.usgs.gov/geology/state/shp/CA.zip
+# WA extract lives in ne_wa_ree/data/geologic/WA_sgmc_extracted/.
+# ID / CA extracts are gitignored under data/geologic/.
+
+### Idaho + California transfer extracts (Task 12)
+# Frozen NE WA forest. Do not retrain. Fetched by:
+#   python -m pipeline.task12_second_belt configs/idaho_batholith/config.yaml
+#   python -m pipeline.task12_second_belt configs/california_sierra/config.yaml
+# NURE: national HSSR CSV clip (data/nure/raw/nuresed-csv.zip is gitignored).
+# MRDS: search-bbox gold pins.
+# Kept extracts:
+#   data/nure/nure_id_batholith_sediment.csv
+#   data/nure/nure_ca_sierra_sediment.csv
+#   data/mrds/mrds_id_batholith.geojson
+#   data/mrds/mrds_ca_sierra.geojson
 
 ### WGS OFR 2026-02 Mine Waste Supplement (Tasks 2, 3, 4, 8 — optional overlay)
 # Washington Geological Survey Open-File Report 2026-02 (van Alderwerelt & Di Fiori, 2026)

@@ -15,6 +15,8 @@ import warnings
 import numpy as np
 import pandas as pd
 
+from pipeline.geo_crs import utm_epsg
+
 SPACING_M = 150.0
 MIN_SEP_M = 400.0
 N_PANS = 2
@@ -270,7 +272,7 @@ def _mark_junctions(pts, radius_m=JUNCTION_M):
     return hit
 
 
-def _confinement(dem_path, lons, lats, xs, ys, line_groups):
+def _confinement(dem_path, lons, lats, xs, ys, line_groups, utm=UTM):
     """Rough valley walls: mean z at ±150/300 m perpendicular minus channel z."""
     if not lons:
         return np.array([])
@@ -298,7 +300,7 @@ def _confinement(dem_path, lons, lats, xs, ys, line_groups):
     if not extra_x:
         return np.full(len(z0), np.nan)
     extra = gpd.GeoDataFrame(
-        geometry=gpd.points_from_xy(extra_x, extra_y), crs=UTM,
+        geometry=gpd.points_from_xy(extra_x, extra_y), crs=utm,
     ).to_crs('EPSG:4326')
     z_side = _sample_raster(
         dem_path,
@@ -319,7 +321,7 @@ def _confinement(dem_path, lons, lats, xs, ys, line_groups):
 
 
 def pan_locations_gdf(catchments, streams, dem_path, nure_spots=None,
-                      acc_path=None, n_pans=N_PANS):
+                      acc_path=None, n_pans=N_PANS, utm=None):
     """One or two pan pins per walkable catchment, on the D8 line."""
     import geopandas as gpd
 
@@ -329,6 +331,11 @@ def pan_locations_gdf(catchments, streams, dem_path, nure_spots=None,
             or not dem_path or not os.path.exists(dem_path)):
         return empty
 
+    if utm is None:
+        cx = float(catchments.geometry.centroid.x.median())
+        cy = float(catchments.geometry.centroid.y.median())
+        utm = utm_epsg(cx, cy)
+
     acc_vals_ok = acc_path and os.path.exists(acc_path)
     nure_utm = None
     if nure_spots is not None and len(nure_spots):
@@ -336,7 +343,7 @@ def pan_locations_gdf(catchments, streams, dem_path, nure_spots=None,
         if 'p_anomalous' in nure_spots.columns:
             hot = nure_spots[nure_spots['p_anomalous'].fillna(0) >= 0.4]
         if len(hot):
-            nure_utm = hot.to_crs(UTM)
+            nure_utm = hot.to_crs(utm)
 
     rows = []
     for _, cat in catchments.iterrows():
@@ -350,8 +357,8 @@ def pan_locations_gdf(catchments, streams, dem_path, nure_spots=None,
             continue
         if clipped is None or clipped.empty:
             continue
-        utm = clipped.to_crs(UTM)
-        pts = _densify_utm_lines(utm)
+        utm_lines = clipped.to_crs(utm)
+        pts = _densify_utm_lines(utm_lines)
         if pts.empty:
             continue
         # Channel should run downhill: flip a line if the last vertex is higher.
@@ -362,7 +369,7 @@ def pan_locations_gdf(catchments, streams, dem_path, nure_spots=None,
         pts = pd.concat(flipped, ignore_index=True)
 
         g4326 = gpd.GeoDataFrame(
-            pts, geometry=gpd.points_from_xy(pts['x'], pts['y']), crs=UTM,
+            pts, geometry=gpd.points_from_xy(pts['x'], pts['y']), crs=utm,
         ).to_crs('EPSG:4326')
         lons = g4326.geometry.x.to_numpy()
         lats = g4326.geometry.y.to_numpy()
@@ -371,7 +378,8 @@ def pan_locations_gdf(catchments, streams, dem_path, nure_spots=None,
         jn = _mark_junctions(pts)
         try:
             conf = _confinement(dem_path, lons, lats, pts['x'].tolist(),
-                                pts['y'].tolist(), pts['line_id'].tolist())
+                                pts['y'].tolist(), pts['line_id'].tolist(),
+                                utm=utm)
         except Exception:
             conf = np.full(len(pts), np.nan)
 

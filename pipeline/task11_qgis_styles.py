@@ -222,7 +222,7 @@ def embed_qgis_styles(gpkg_path):
     notes = {
         'streams': 'D8 channels from the DEM',
         'named_rivers': 'Named rivers from the study-area config',
-        'geology': 'USGS SGMC Washington (Horton 2017)',
+        'geology': 'USGS SGMC state geology (Horton 2017)',
         'geology_structure': 'SGMC faults and contacts',
         'lidar_index': '3DEP 1 m LiDAR clip footprints',
         'nure_spots': 'NURE stream-sediment grabs — chemistry, not a pan pin',

@@ -254,7 +254,7 @@ Do not rebuild the forest from scratch. The gold labels, the heavy-mineral featu
 
 6. **Hold out a sub-area inside NE WA** (e.g. train west, test east). That is the poor person’s transfer test. If known placers in the held-out side do not score high, stop.
 
-7. **One other belt** (Idaho). **Done.** Frozen NE WA forest on Idaho Batholith NURE: transfer AUC **0.50**. Do not retrain to paper over it. Do not talk about more than one state as a product.
+7. **Other belts** (Idaho, then California). **Done.** Frozen NE WA forest on Idaho Batholith NURE: transfer AUC **0.50**. Same forest on the Sierra foothills (Feather / Yuba / American): **0.52**. Do not retrain to paper over it. Do not talk about more than one state as a product. Living in California does not make this a Sierra walk list.
 
 8. **Field check a handful of high-P / no-mine drainages in NE WA.** Without pans, “robust” is still a computer talking to itself.
 
@@ -272,7 +272,8 @@ Do not rebuild the forest from scratch. The gold labels, the heavy-mineral featu
 2. Gold-question sentence + negative-class sentence on `/model-info` — **done**  
 3. Distance-to-nearest-gold-MRDS on `/predict` — **done**  
 4. Catchment walk list (batch, not the doorbell) — **done** (Task 11; NURE stars ≠ pan pins)  
-5. Idaho transfer — **done** (AUC 0.50; not retrained)  
+5. Idaho transfer — **done** (AUC 0.50; not retrained; walk-list GPKG: 2 expedition / 4 confirm)
+5b. California Sierra transfer — **done** (AUC 0.52; Au/As missing; walk-list GPKG: 0 expedition / 8 watch)  
 6. Hold-out sub-area inside NE WA — still useful, not blocking  
 8. Field pans — still missing. Without them, “robust” is a computer talking to itself.
 

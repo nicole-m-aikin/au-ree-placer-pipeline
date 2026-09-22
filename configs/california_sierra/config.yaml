@@ -1,0 +1,162 @@
+# Northern Sierra Nevada placer foothills — frozen-forest transfer box.
+# Feather / Yuba / American (Malakoff, Downieville, Nevada City, Coloma).
+# Task 12 scores the NE WA forest here. It does not retrain.
+# It does not run the full 1–11 figure factory. It is not a California model.
+
+study_area:
+  name: "California Sierra placer foothills"
+  short: "ca_sierra_placer"
+  bbox:
+    lon_min: -121.70
+    lon_max: -120.40
+    lat_min:  38.50
+    lat_max:  40.00
+  map_padding: 0.08
+  wgs_bbox:
+    lon_min: -121.70
+    lon_max: -120.40
+    lat_min:  38.50
+    lat_max:  40.00
+  crs: "EPSG:4326"
+
+outputs_dir: "california_sierra/outputs"
+
+data:
+  nure_csv:        "data/nure/nure_ca_sierra_sediment.csv"
+  mrds_geojson:    "data/mrds/mrds_ca_sierra.geojson"
+  geology_geojson: null
+  sgmc_state: CA
+  aeromagnetic_tif: null
+  radiometric_k_tif: null
+  radiometric_eth_tif: null
+  radiometric_eu_tif: null
+  dem_tif: data/dem/ca_sierra_30m.tif
+  wgs_excel: null
+
+task11:
+  fetch_lidar: false
+  p_is_transfer: true
+
+sites:
+  - name: "Malakoff Diggins"
+    lon: -120.917
+    lat:  39.368
+    commodity: "Au"
+    mrds_id: null
+    area_ha: null
+    depth_m: null
+    depth_uncertainty_m: null
+  - name: "Downieville"
+    lon: -120.828
+    lat:  39.559
+    commodity: "Au"
+    mrds_id: null
+    area_ha: null
+    depth_m: null
+    depth_uncertainty_m: null
+  - name: "Nevada City"
+    lon: -121.016
+    lat:  39.262
+    commodity: "Au"
+    mrds_id: null
+    area_ha: null
+    depth_m: null
+    depth_uncertainty_m: null
+  - name: "Grass Valley"
+    lon: -121.061
+    lat:  39.219
+    commodity: "Au"
+    mrds_id: null
+    area_ha: null
+    depth_m: null
+    depth_uncertainty_m: null
+  - name: "Smartsville"
+    lon: -121.298
+    lat:  39.208
+    commodity: "Au"
+    mrds_id: null
+    area_ha: null
+    depth_m: null
+    depth_uncertainty_m: null
+  - name: "Oroville"
+    lon: -121.556
+    lat:  39.514
+    commodity: "Au"
+    mrds_id: null
+    area_ha: null
+    depth_m: null
+    depth_uncertainty_m: null
+  - name: "Coloma"
+    lon: -120.894
+    lat:  38.800
+    commodity: "Au"
+    mrds_id: null
+    area_ha: null
+    depth_m: null
+    depth_uncertainty_m: null
+  - name: "Auburn"
+    lon: -121.077
+    lat:  38.897
+    commodity: "Au"
+    mrds_id: null
+    area_ha: null
+    depth_m: null
+    depth_uncertainty_m: null
+
+aeromagnetic_anomaly_centers: []
+
+task1_highlight_site: "Malakoff Diggins"
+
+geology_domains: []
+rivers: []
+
+wgs:
+  exclude_sites: []
+  endowment_to_site: {}
+  site_abbrevs: {}
+  label_offsets: {}
+
+geochemistry:
+  regional_bg_th: 8.0
+  site_join_radius_deg: 0.10
+  monazite_ce_min_ppm:   50
+  monazite_la_min_ppm:   20
+  monazite_p_min_ppm:   400
+  monazite_uth_max:        0.5
+  thorite_uth_min:         1.5
+  bulk_density_t_m3:       1.5
+  th_in_monazite_frac:     0.044
+  lree_in_monazite:        0.28
+  ndpr_in_monazite:        0.09
+  stream_to_insitu_factor: 5.0
+
+economics:
+  processor_name:          "Energy Fuels White Mesa Mill"
+  processor_location:      "Blanding, UT"
+  ndpr_price_central:      109.0
+  ndpr_price_low:           60.0
+  ndpr_price_high:         140.0
+  tailings_handling_cost:    5.0
+  concentration_cost:       10.0
+  logistics_conc_per_tonne: 250.0
+  processing_cost_per_kg:   50.0
+  ndpr_recovery:             0.80
+
+ml:
+  label_method: proximity
+  mrds_proximity_deg: 0.15
+  mrds_commodity_filter: placer_gold
+
+scoring:
+  weights:
+    th_source_monazite: 1.0
+    magnetic_high:      1.0
+    source_lith:        1.0
+    coverage:           1.0
+    ndpr_volume:        2.0
+    au_pathfinder:      1.0
+  tier_thresholds: [8, 6, 4]
+
+map_domain_patches: []
+county_labels: []
+task7_annotations: []

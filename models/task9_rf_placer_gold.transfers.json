@@ -1,0 +1,39 @@
+{
+  "Idaho Batholith": {
+    "belt": "Idaho Batholith",
+    "fraction_near_gold": 0.7878,
+    "label_method": "proximity (no DEM elevation cut \u2014 Idaho has no regional DEM in this repo)",
+    "mean_p_all": 0.3795,
+    "mean_p_far_from_gold": 0.3768,
+    "mean_p_near_gold": 0.3802,
+    "model_id": "task9_rf_placer_gold",
+    "mrds_proximity_deg": 0.15,
+    "n_gold_mrds": 1334,
+    "n_positive": 1942,
+    "n_samples": 2465,
+    "note": "Frozen NE Washington forest scored on Idaho Batholith NURE. Transfer AUC is ~0.50 (coin flip). Tightening the gold circle to 0.05\u00b0 does not rescue it. 0.15\u00b0 labels most of this box because Idaho County is painted with gold MRDS pins \u2014 that is a weak negative class, not a reason to call the doorbell national. This is a transfer test, not a new model.",
+    "retrained": false,
+    "trained_on": "NE Washington",
+    "transfer_auc": 0.4986,
+    "transfer_auc_0p05deg": 0.4776
+  },
+  "ca_sierra_placer": {
+    "belt": "California Sierra placer foothills",
+    "fraction_near_gold": 0.8842,
+    "label_method": "proximity (no DEM elevation cut \u2014 this belt has no regional DEM in this repo)",
+    "mean_p_all": 0.3779,
+    "mean_p_far_from_gold": 0.3784,
+    "mean_p_near_gold": 0.3779,
+    "model_id": "task9_rf_placer_gold",
+    "mrds_proximity_deg": 0.15,
+    "n_gold_mrds": 7872,
+    "n_positive": 527,
+    "n_samples": 596,
+    "note": "Frozen NE Washington forest scored on California Sierra placer foothills NURE. Transfer AUC is 0.52 (coin flip \u2014 the forest does not travel). Tightening the gold circle to 0.05\u00b0 gives 0.61. 0.15\u00b0 labels most of this box because gold MRDS pins are dense \u2014 that is a weak negative class. Mean P is flat near gold and far from it. This is a transfer test, not a new model. Do not call the doorbell national.",
+    "retrained": false,
+    "short": "ca_sierra_placer",
+    "trained_on": "NE Washington",
+    "transfer_auc": 0.5223,
+    "transfer_auc_0p05deg": 0.6061
+  }
+}

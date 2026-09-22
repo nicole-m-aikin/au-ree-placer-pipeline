@@ -34,7 +34,7 @@ TASKS = {
     9:  ('pipeline.task9_ml_targeting',   'ML anomaly targeting (Random Forest)'),
     10: ('pipeline.integration',          'Integration & priority ranking'),
     11: ('pipeline.task11_field_campaign', 'Catchment walk list (NURE spots + pan pins)'),
-    12: ('pipeline.task12_second_belt', 'Second belt: frozen NE WA forest on Idaho'),
+    12: ('pipeline.task12_second_belt', 'Second belt: frozen NE WA forest (not the training box)'),
 }
 
 # Prerequisites for each task: DEPENDENCIES[n] = tasks that must complete before n

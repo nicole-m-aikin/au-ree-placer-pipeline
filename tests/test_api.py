@@ -142,6 +142,8 @@ class TestModelInfo:
         assert body['transfer_auc'] == pytest.approx(0.61)
         assert body['transfer_retrained'] is False
         assert 'national' in body['transfer_note']
+        assert body['transfer_belts']
+        assert body['transfer_belts'][0]['belt'] == 'Idaho Batholith'
 
     def test_503_when_sklearn_mismatch(self, mismatch_client):
         r = mismatch_client.get('/model-info')

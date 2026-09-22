@@ -367,6 +367,52 @@ GPKG_LAYERS = ('cells', 'catchments', 'named_rivers', 'streams',
 CLEAN_GPKG_COPY = os.path.expanduser(
     '~/projects/task11_field_campaign.gpkg'
 )
+
+
+def clean_gpkg_copy(cfg):
+    """QGIS-safe copy. WA keeps the historic filename; other belts get a slug."""
+    short = str((cfg.get('study_area') or {}).get('short') or '').strip()
+    if short in ('', 'ne_wa', 'ne_washington'):
+        return CLEAN_GPKG_COPY
+    return os.path.expanduser(f'~/projects/task11_{short}_field_campaign.gpkg')
+
+
+def campaign_probability_path(cfg):
+    """Task 9 CSV, or Task 12 transfer scores if this belt was never retrained."""
+    p9 = out(cfg, 'tables', 'task9_ml_nure_probability.csv')
+    if os.path.exists(p9):
+        return p9, False
+    from pipeline.task12_second_belt import belt_slug
+    p12 = out(cfg, 'tables', f'task12_{belt_slug(cfg)}_transfer_scores.csv')
+    if os.path.exists(p12):
+        return p12, True
+    raise FileNotFoundError(
+        f"Need {p9} (Task 9) or {p12} (Task 12 transfer). "
+        "Score the frozen forest first; do not retrain on this box."
+    )
+
+
+def campaign_gold_xy(cfg):
+    """Local belt MRDS gold pins when present; else the NE WA training sidecar."""
+    path = resolve_data_path(cfg, 'mrds_geojson')
+    if path and os.path.exists(path):
+        import geopandas as gpd
+        gdf = gpd.read_file(path)
+        if gdf.crs is None:
+            gdf = gdf.set_crs('EPSG:4326')
+        elif '4326' not in str(gdf.crs):
+            gdf = gdf.to_crs('EPSG:4326')
+        if 'target_commodity' in gdf.columns:
+            gold = gdf[
+                gdf['target_commodity'].fillna('').str.contains('Gold')
+                & ~gdf['target_commodity'].fillna('').str.contains('Rare Earth')
+            ]
+            if len(gold):
+                gdf = gold
+        if len(gdf) == 0:
+            return None
+        return np.column_stack([gdf.geometry.x.values, gdf.geometry.y.values])
+    return load_gold_mrds()
 SHP_NAME = {
     'campaign_class': 'camp_class',
     'nearest_gold_deg': 'gold_deg',
@@ -706,17 +752,19 @@ def write_gpkg_from_outputs(cfg):
     path = os.path.join(gis_dir, GPKG_NAME)
     written = write_field_campaign_gpkg(path, **layers)
     from pipeline.task11_basemaps import add_basemaps_to_gpkg
-    extra = add_basemaps_to_gpkg(cfg, path, catchments=catchments, fetch_lidar=True)
+    fetch_lidar = bool((cfg.get('task11') or {}).get('fetch_lidar', True))
+    extra = add_basemaps_to_gpkg(cfg, path, catchments=catchments, fetch_lidar=fetch_lidar)
     written.extend(extra)
     # Keep a copy on the old geojson path so existing notes still resolve.
     legacy = out(cfg, 'geojson', GPKG_NAME)
     import shutil
     shutil.copy2(path, legacy)
     try:
-        shutil.copy2(path, CLEAN_GPKG_COPY)
-        print(f"  Copied to {CLEAN_GPKG_COPY}  (open this one in QGIS — no + in the path)")
+        dest_copy = clean_gpkg_copy(cfg)
+        shutil.copy2(path, dest_copy)
+        print(f"  Copied to {dest_copy}  (open this one in QGIS — no + in the path)")
     except OSError as e:
-        print(f"  Could not copy to {CLEAN_GPKG_COPY}: {e}")
+        print(f"  Could not copy to {clean_gpkg_copy(cfg)}: {e}")
     zip_path = os.path.join(gis_dir, 'task11_field_campaign_shp.zip')
     shp_layers = _write_shapefile_zip(zip_path, layers)
     print(f"  Wrote {path}")
@@ -735,12 +783,11 @@ def write_gpkg_from_outputs(cfg):
             pass
     print(f"  Wrote shapefile zip {zip_path} ({', '.join(shp_layers)})")
     _publish_lidar_hillshades(gis_dir)
-    _write_qgis_project(os.path.join(gis_dir, 'task11_field_campaign.qgs'), path)
+    _write_qgis_project(os.path.join(gis_dir, 'task11_field_campaign.qgs'), path, cfg=cfg)
     try:
-        _write_qgis_project(
-            os.path.expanduser('~/projects/task11_field_campaign.qgs'),
-            CLEAN_GPKG_COPY,
-        )
+        dest_copy = clean_gpkg_copy(cfg)
+        qgs_copy = dest_copy.replace('.gpkg', '.qgs')
+        _write_qgis_project(qgs_copy, dest_copy, cfg=cfg)
     except OSError:
         pass
     return path
@@ -779,7 +826,20 @@ def _lidar_hillshade_tifs():
     return found
 
 
-def _write_qgis_project(qgs_path, gpkg_path):
+def _web_mercator_extent(cfg):
+    """Map canvas in EPSG:3857 from the study bbox."""
+    xmin, xmax, ymin, ymax = map_extent(cfg)
+    def _xy(lon, lat):
+        import math
+        x = lon * 20037508.34 / 180.0
+        y = math.log(math.tan((90.0 + lat) * math.pi / 360.0)) * 20037508.34 / 180.0
+        return x, y
+    x0, y0 = _xy(xmin, ymin)
+    x1, y1 = _xy(xmax, ymax)
+    return min(x0, x1), max(x0, x1), min(y0, y1), max(y0, y1)
+
+
+def _write_qgis_project(qgs_path, gpkg_path, cfg=None):
     """QGIS project: ranked vectors on top of 1 m LiDAR hillshades."""
     gpkg_path = os.path.abspath(gpkg_path)
     layers = [
@@ -818,6 +878,10 @@ def _write_qgis_project(qgs_path, gpkg_path):
     <datasource>{os.path.abspath(tif)}</datasource>
     <provider>gdal</provider>
   </maplayer>''')
+    if cfg is not None:
+        cxmin, cxmax, cymin, cymax = _web_mercator_extent(cfg)
+    else:
+        cxmin, cxmax, cymin, cymax = -13380000, -13030000, 5980000, 6300000
     xml = f'''<!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
 <qgis version="3.34.0" projectname="Task 11 field campaign">
   <title>Task 11 — ranked walk list</title>
@@ -828,8 +892,8 @@ def _write_qgis_project(qgs_path, gpkg_path):
   <mapcanvas>
     <units>meters</units>
     <extent>
-      <xmin>-13380000</xmin><xmax>-13030000</xmax>
-      <ymin>5980000</ymin><ymax>6300000</ymax>
+      <xmin>{cxmin}</xmin><xmax>{cxmax}</xmax>
+      <ymin>{cymin}</ymin><ymax>{cymax}</ymax>
     </extent>
   </mapcanvas>
   <projectlayers>
@@ -859,11 +923,9 @@ def run(cfg):
     import geopandas as gpd
     from shapely.geometry import Point
 
-    prob_path = out(cfg, 'tables', 'task9_ml_nure_probability.csv')
-    if not os.path.exists(prob_path):
-        raise FileNotFoundError(
-            f"Need {prob_path}. Run Task 9 first."
-        )
+    prob_path, p_is_transfer = campaign_probability_path(cfg)
+    print(f"  Using probabilities from {prob_path}"
+          f"{' (frozen WA transfer — not a local model)' if p_is_transfer else ''}")
 
     df = load_nure(cfg)
     lon_min, lon_max, lat_min, lat_max = bbox(cfg)
@@ -885,9 +947,9 @@ def run(cfg):
     df['elev_m'] = _sample_elev(dem_path, df['lon'].values, df['lat'].values)
     df['block_id'] = block_ids(df['lon'].values, df['lat'].values, cell_deg=CELL_DEG)
 
-    gold_xy = load_gold_mrds()
+    gold_xy = campaign_gold_xy(cfg)
     if gold_xy is None:
-        warnings.warn("gold_mrds sidecar missing; distance flags will be unknown")
+        warnings.warn("no gold MRDS for this belt; distance flags will be unknown")
     ml_cfg = cfg.get('ml') or {}
     radius = ml_cfg.get('mrds_proximity_deg', FAR_FROM_MINE_DEG)
     elev_diff = ml_cfg.get('mrds_elev_diff_m', 200)
@@ -1153,21 +1215,27 @@ def run(cfg):
 
     write_gpkg_from_outputs(cfg)
 
-    _write_summary(cfg, walk, spots_df, loco)
+    _write_summary(cfg, walk, spots_df, loco, p_is_transfer=p_is_transfer)
     pan_path = out(cfg, 'tables', 'task11_pan_locations.csv')
     pans_df = pd.read_csv(pan_path) if os.path.exists(pan_path) else pd.DataFrame()
     _draw_figure(cfg, blocks, catch_gdf, pour_df, spots_df, walk, pans_df=pans_df)
     print("Task 11 complete — fig11 walk list saved.")
 
 
-def _write_summary(cfg, walk, spots_df, loco):
+def _write_summary(cfg, walk, spots_df, loco, p_is_transfer=False):
     n_cells = len(walk)
     n_occ = int((walk['n_nure'] > 0).sum())
     counts = walk['campaign_class'].value_counts().to_dict()
+    claim = "This is a screen, not a gold claim. Stars are NURE; circles are pans."
+    if p_is_transfer or (cfg.get('task11') or {}).get('p_is_transfer'):
+        claim = (
+            "P is the frozen NE Washington forest (lookalike), not a local gold model. "
+            "Gold distance uses this belt's MRDS pins. Stars are NURE; circles are pans."
+        )
     lines = [
         "FIELD CAMPAIGN WALK LIST",
         f"{cfg.get('study_area', {}).get('name', 'Study area')} — 0.4° cells + pour points",
-        "This is a screen, not a gold claim. Stars are NURE; circles are pans.",
+        claim,
         "=" * 68,
         "",
         f"Cells on the map:     {n_cells}  (occupied by NURE: {n_occ})",

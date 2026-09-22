@@ -23,13 +23,18 @@ outputs_dir: "idaho_batholith/outputs"
 data:
   nure_csv:       "data/nure/nure_id_batholith_sediment.csv"
   mrds_geojson:   "data/mrds/mrds_id_batholith.geojson"
-  geology_geojson: null    # TODO: Idaho state geology shapefile
-  aeromagnetic_tif: null   # TODO: USGS aeromagnetic survey
-  radiometric_k_tif: null    # python -m pipeline.fetch_radiometric --config this file
+  geology_geojson: null
+  sgmc_state: ID
+  aeromagnetic_tif: null
+  radiometric_k_tif: null
   radiometric_eth_tif: null
   radiometric_eu_tif: null
-  dem_tif: null
-  wgs_excel: null          # No WGS OFR equivalent for Idaho
+  dem_tif: data/dem/id_batholith_30m.tif
+  wgs_excel: null
+
+task11:
+  fetch_lidar: false
+  p_is_transfer: true
 
 sites:  # TODO: fill in real placer sites with coordinates and lidar data
   - name: "Orogrande Placer"

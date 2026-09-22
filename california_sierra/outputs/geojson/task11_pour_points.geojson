@@ -1,0 +1,15 @@
+{
+"type": "FeatureCollection",
+"name": "task11_pour_points",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "block_id": -3049904, "name": "block_-3049904", "lon": -121.671, "lat": 38.7641, "p_anomalous": 0.425, "elev_m": 3.5, "nearest_gold_deg": 0.28082383748535705, "spatial_flag": "far_from_known_gold", "campaign_class": "watch", "walk_rank": 1 }, "geometry": { "type": "Point", "coordinates": [ -121.671, 38.7641 ] } },
+{ "type": "Feature", "properties": { "block_id": -3049903, "name": "block_-3049903", "lon": -121.6703, "lat": 38.8174, "p_anomalous": 0.40361244019138748, "elev_m": 5.2272019386291504, "nearest_gold_deg": 0.23556105302023017, "spatial_flag": "far_from_known_gold", "campaign_class": "watch", "walk_rank": 2 }, "geometry": { "type": "Point", "coordinates": [ -121.6703, 38.8174 ] } },
+{ "type": "Feature", "properties": { "block_id": -3039904, "name": "block_-3039904", "lon": -121.5668, "lat": 38.5348, "p_anomalous": 0.43, "elev_m": 1.7484586238861084, "nearest_gold_deg": 0.11192180127214321, "spatial_flag": "near_known_gold", "campaign_class": "watch", "walk_rank": 4 }, "geometry": { "type": "Point", "coordinates": [ -121.5668, 38.5348 ] } },
+{ "type": "Feature", "properties": { "block_id": -3039903, "name": "block_-3039903", "lon": -121.5508, "lat": 38.8147, "p_anomalous": 0.415, "elev_m": 5.6106100082397461, "nearest_gold_deg": 0.19438769431216255, "spatial_flag": "far_from_known_gold", "campaign_class": "watch", "walk_rank": 3 }, "geometry": { "type": "Point", "coordinates": [ -121.5508, 38.8147 ] } },
+{ "type": "Feature", "properties": { "block_id": -3029904, "name": "block_-3029904", "lon": -121.1922, "lat": 38.6783, "p_anomalous": 0.4286124401913875, "elev_m": 39.095123291015625, "nearest_gold_deg": 0.018405838747522971, "spatial_flag": "near_known_gold", "campaign_class": "watch", "walk_rank": 7 }, "geometry": { "type": "Point", "coordinates": [ -121.1922, 38.6783 ] } },
+{ "type": "Feature", "properties": { "block_id": -3029903, "name": "block_-3029903", "lon": -121.1945, "lat": 38.8543, "p_anomalous": 0.425, "elev_m": 125.29006958007812, "nearest_gold_deg": 0.011259706923363583, "spatial_flag": "near_known_gold", "campaign_class": "watch", "walk_rank": 8 }, "geometry": { "type": "Point", "coordinates": [ -121.1945, 38.8543 ] } },
+{ "type": "Feature", "properties": { "block_id": -3019904, "name": "block_-3019904", "lon": -120.7802, "lat": 38.5994, "p_anomalous": 0.405, "elev_m": 395.56939697265625, "nearest_gold_deg": 0.024640584408658069, "spatial_flag": "near_known_gold", "campaign_class": "watch", "walk_rank": 5 }, "geometry": { "type": "Point", "coordinates": [ -120.7802, 38.5994 ] } },
+{ "type": "Feature", "properties": { "block_id": -3019903, "name": "block_-3019903", "lon": -120.6238, "lat": 38.964, "p_anomalous": 0.43, "elev_m": 674.3812255859375, "nearest_gold_deg": 0.024324645937813007, "spatial_flag": "near_known_gold", "campaign_class": "watch", "walk_rank": 6 }, "geometry": { "type": "Point", "coordinates": [ -120.6238, 38.964 ] } }
+]
+}

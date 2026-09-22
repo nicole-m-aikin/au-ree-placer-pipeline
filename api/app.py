@@ -18,6 +18,7 @@ from pipeline.ml_artifacts import (
     load_gold_mrds,
     load_published_artifacts,
     load_transfer,
+    load_transfers,
     published_meta_path,
     published_model_path,
 )
@@ -144,6 +145,7 @@ def create_app(model_dir=None):
             )
         meta = app.state.meta
         transfer = load_transfer(resolved_dir)
+        catalog = load_transfers(resolved_dir)
         return ModelInfoResponse(
             model_id=meta.get('model_id', 'task9_rf_placer_gold'),
             training_date=meta['training_date'],
@@ -177,6 +179,7 @@ def create_app(model_dir=None):
             transfer_n_positive=None if not transfer else transfer.get('n_positive'),
             transfer_retrained=None if not transfer else bool(transfer.get('retrained')),
             transfer_note=None if not transfer else transfer.get('note'),
+            transfer_belts=list(catalog.values()) if catalog else None,
         )
 
     @app.post('/predict', response_model=PredictResponse)

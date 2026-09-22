@@ -1,0 +1,17 @@
+walk_rank,block_id,campaign_class,pan_order,role,lon,lat,elev_m,trap_score,why,slope,omega
+15.0,-2909888,watch,1,pan,-116.155649,45.063194,1904.6,7.5,slope_break;knickpoint_foot;power_drop;tributary_junction,0.0931,88.1
+15.0,-2909888,watch,2,pan,-116.176632,45.109028,2062.0,7.5,slope_break;knickpoint_foot;power_drop;tributary_junction,0.06999,4.1
+11.0,-2899885,watch,1,pan,-115.929111,46.173555,524.8,7.5,slope_break;knickpoint_foot;power_drop;tributary_junction,0.08203,586.6
+11.0,-2899885,watch,2,pan,-115.895054,46.203001,680.7,7.5,slope_break;knickpoint_foot;power_drop;tributary_junction,0.00067,0.0
+2.0,-2889888,expedition,1,pan,-115.510114,45.134053,1641.0,9.0,slope_break;knickpoint_foot;power_drop;tributary_junction;near_hot_nure,0.0533,0.3
+2.0,-2889888,expedition,2,pan,-115.565149,45.149316,1086.6,9.0,slope_break;knickpoint_foot;power_drop;tributary_junction;near_hot_nure,0.00139,208.7
+13.0,-2889886,watch,1,pan,-115.241784,45.902661,902.8,9.0,slope_break;knickpoint_foot;power_drop;tributary_junction;near_hot_nure,0.0559,0.1
+13.0,-2889886,watch,2,pan,-115.244298,45.906798,867.6,9.0,slope_break;knickpoint_foot;power_drop;tributary_junction;near_hot_nure,0.0063,3437.4
+20.0,-2869889,watch,1,pan,-114.63864,44.779138,0.0,6.0,slope_break;knickpoint_foot;power_drop,0.0,0.0
+20.0,-2869889,watch,2,pan,-114.652877,44.779306,0.0,6.0,slope_break;knickpoint_foot;power_drop,0.0,0.0
+8.0,-2869885,watch,1,pan,-114.503352,46.171528,1880.3,9.0,slope_break;knickpoint_foot;power_drop;tributary_junction;near_hot_nure,0.07958,0.1
+8.0,-2869885,watch,2,pan,-114.649431,46.196681,1654.1,7.5,slope_break;knickpoint_foot;power_drop;tributary_junction,0.15411,0.6
+5.0,-2859887,confirm,1,pan,-114.042883,45.304272,2010.2,9.0,slope_break;knickpoint_foot;power_drop;tributary_junction;near_hot_nure,0.00976,287.3
+5.0,-2859887,confirm,2,pan,-114.158194,45.441064,1220.4,7.5,slope_break;knickpoint_foot;power_drop;tributary_junction,0.04933,443.7
+9.0,-2859885,watch,1,pan,-114.096807,46.10014,1343.8,9.0,slope_break;knickpoint_foot;power_drop;tributary_junction;near_hot_nure,0.00444,160.9
+9.0,-2859885,watch,2,pan,-114.127064,46.124583,1249.5,7.5,slope_break;knickpoint_foot;power_drop;tributary_junction,0.10444,81.0
