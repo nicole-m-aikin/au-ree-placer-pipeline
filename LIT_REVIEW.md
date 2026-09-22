@@ -85,7 +85,7 @@ So “ML for placers” exists. It is not “score US NURE against MRDS gold and
 | Mineral systems (source–path–trap) | Wyborn 1994; McCuaig & Hronsky 2014; GA, BCGS | The rest of the pipeline, not `/predict` |
 | Spatial cross-validation | Strong warning: ordinary k-fold AUC can be fake | We used stratified k-fold. **Gap.** METHODOLOGY already names this. |
 | Public predict API + frozen train medians + tree-vote spread | Not found | What we just built |
-| Field-feedback loop that books expeditions | Not in papers; KoBold-like shops do it in-house | Not built |
+| Field-feedback loop that books expeditions | Not in papers; KoBold-like shops do it in-house | Overlay built: `hobby_reports` gazetteer + opt-in form, catchment hit-rate (not AUC). Own pans still missing. |
 
 **Bottom line for a hiring manager:** you did not invent mineral prospectivity. You took the Carranza RF + known-gold-deposit recipe, used NURE chemistry (heavy-mineral suite + Au–As, not As–Sb-only), refused circular Th labels, and put a defensible serve path on it. The target is **gold-placer lookalike drainages**. Monazite/REE is a co-product question in the ranking/tonnage tasks, not the API’s job. The missing published object is the serve path, plus (still) spatial CV and a field loop.
 
@@ -164,6 +164,7 @@ No. Airola 2018: random k-fold AUC on spatial mineral data can be a lie. I would
 - Grosz, A.E. et al. (1992). Heavy minerals and aeroradiometric anomalies, NC Fall Zone. USGS OFR 92-396.
 - Bern, C.R. et al. (2016). REE potential, SE US Coastal Plain. https://pubs.usgs.gov/publication/70189106
 - USGS Earth MRI data/services. https://mrdata.usgs.gov/earthmri/
+- Earth MRI watch (states, awards, what has actually published): `EARTH_MRI_WATCH.md`
 - USGS MRData API list (NURE/MRDS bbox). https://mrdata.usgs.gov/catalog/api.php
 
 ### Mineral systems / integration
@@ -275,7 +276,7 @@ Do not rebuild the forest from scratch. The gold labels, the heavy-mineral featu
 5. Idaho transfer — **done** (AUC 0.50; not retrained; walk-list GPKG: 2 expedition / 4 confirm)
 5b. California Sierra transfer — **done** (AUC 0.52; Au/As missing; walk-list GPKG: 0 expedition / 8 watch)  
 6. Hold-out sub-area inside NE WA — still useful, not blocking  
-8. Field pans — still missing. Without them, “robust” is a computer talking to itself.
+8. Field pans — pamphlet / opt-in overlay shipped (`hobby_reports`; hit-rate, not AUC). Own pans still missing. Without those, “robust” is still a computer talking to itself.
 
 Live doorbell: https://placer-lookalike.onrender.com/docs
 

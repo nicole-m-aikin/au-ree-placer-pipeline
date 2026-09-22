@@ -1,49 +1,48 @@
-# Montana Placer REE Study Area — STUB CONFIG
-# TODO: Replace all placeholder values with verified data before running pipeline.
-# Districts: Confederate Gulch, Alder Gulch, Montana Bar, Libby Creek
+# Southwest Montana gold gulches — frozen-forest transfer box.
+# Boulder Batholith / Elkhorn / Confederate Gulch / Alder Gulch / Montana Bar.
+# Libby is a different belt and is not in this box.
+# Task 12 scores the NE WA forest. Task 11 builds the walk list.
+# Tasks 1–10 stay off until sites have real public depths.
 
 study_area:
-  name: "Montana Placer"
+  name: "Montana SW gold gulches"
   short: "mt_placer"
   bbox:
-    lon_min: -114.0
-    lon_max: -111.0
-    lat_min:  45.0
-    lat_max:  47.0
-  map_padding: 0.08   # TODO: adjust after verifying study area coverage
-  wgs_bbox:  # TODO: refine to WGS data coverage
-    lon_min: -114.0
-    lon_max: -111.0
-    lat_min:  45.0
-    lat_max:  47.0
+    lon_min: -112.85
+    lon_max: -111.15
+    lat_min:  45.20
+    lat_max:  46.80
+  map_padding: 0.08
+  wgs_bbox:
+    lon_min: -112.85
+    lon_max: -111.15
+    lat_min:  45.20
+    lat_max:  46.80
   crs: "EPSG:4326"
 
-outputs_dir: "outputs/mt_placer"
+outputs_dir: "montana_placer/outputs"
 
 data:
-  nure_csv:       "data/nure/nure_mt_placer_sediment.csv"    # TODO: generate via prep_nure.py
-  mrds_geojson:   "data/mrds/mrds_mt_placer.geojson"         # TODO: download from mrdata.usgs.gov
-  geology_geojson: null    # TODO: Montana state geology shapefile
+  nure_csv:        "data/nure/nure_mt_placer_sediment.csv"
+  mrds_geojson:    "data/mrds/mrds_mt_placer.geojson"
+  geology_geojson: null
+  sgmc_state: MT
   aeromagnetic_tif: null
-  radiometric_k_tif: null    # python -m pipeline.fetch_radiometric --config this file
+  radiometric_k_tif: null
   radiometric_eth_tif: null
   radiometric_eu_tif: null
-  dem_tif: null
-  wgs_excel: null          # No WGS OFR equivalent for Montana
+  dem_tif: data/dem/mt_placer_30m.tif
+  wgs_excel: null
 
-sites:  # TODO: fill in real placer sites with coordinates and lidar data
+task11:
+  fetch_lidar: false
+  p_is_transfer: true
+
+sites:
   - name: "Confederate Gulch"
     lon: -111.40
     lat:  46.56
-    commodity: "Au+REE"
-    mrds_id: null
-    area_ha: null
-    depth_m: null
-    depth_uncertainty_m: null
-  - name: "Alder Gulch"
-    lon: -111.82
-    lat:  45.33
-    commodity: "Au+REE"
+    commodity: "Au"
     mrds_id: null
     area_ha: null
     depth_m: null
@@ -51,15 +50,23 @@ sites:  # TODO: fill in real placer sites with coordinates and lidar data
   - name: "Montana Bar"
     lon: -112.09
     lat:  46.59
-    commodity: "Au+REE"
+    commodity: "Au"
     mrds_id: null
     area_ha: null
     depth_m: null
     depth_uncertainty_m: null
-  - name: "Libby Creek"
-    lon: -115.55
-    lat:  48.39
-    commodity: "Au+REE"
+  - name: "Elkhorn"
+    lon: -112.14
+    lat:  46.27
+    commodity: "Au"
+    mrds_id: null
+    area_ha: null
+    depth_m: null
+    depth_uncertainty_m: null
+  - name: "Alder Gulch"
+    lon: -111.82
+    lat:  45.33
+    commodity: "Au"
     mrds_id: null
     area_ha: null
     depth_m: null
@@ -69,10 +76,8 @@ aeromagnetic_anomaly_centers: []
 
 task1_highlight_site: "Confederate Gulch"
 
-# Source lithologies: Boulder Batholith, Tobacco Root Mountains (Archean gneiss),
-# Belt Supergroup (Proterozoic metasedimentary), Beartooth uplift
-geology_domains: []   # TODO
-rivers: []            # TODO: Jefferson, Madison, Gallatin, Kootenai
+geology_domains: []
+rivers: []
 
 wgs:
   exclude_sites: []
@@ -81,8 +86,8 @@ wgs:
   label_offsets: {}
 
 geochemistry:
-  regional_bg_th: 7.0          # TODO: verify Montana regional background Th
-  site_join_radius_deg: 0.10   # ~11 km; nearest NURE, not max-Th in a 0.25° window
+  regional_bg_th: 7.0
+  site_join_radius_deg: 0.10
   monazite_ce_min_ppm:   50
   monazite_la_min_ppm:   20
   monazite_p_min_ppm:   400
@@ -95,7 +100,6 @@ geochemistry:
   stream_to_insitu_factor: 5.0
 
 economics:
-  # TODO: consider Canadian options (Vital Metals, Neo Performance) for Libby area
   processor_name:          "Energy Fuels White Mesa Mill"
   processor_location:      "Blanding, UT"
   ndpr_price_central:      109.0
@@ -103,9 +107,14 @@ economics:
   ndpr_price_high:         140.0
   tailings_handling_cost:    5.0
   concentration_cost:       10.0
-  logistics_conc_per_tonne: 250.0   # TODO: longer haul from MT
+  logistics_conc_per_tonne: 250.0
   processing_cost_per_kg:   50.0
   ndpr_recovery:             0.80
+
+ml:
+  label_method: proximity
+  mrds_proximity_deg: 0.15
+  mrds_commodity_filter: placer_gold
 
 scoring:
   weights:

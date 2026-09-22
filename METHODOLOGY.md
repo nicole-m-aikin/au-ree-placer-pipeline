@@ -29,8 +29,9 @@ Each pipeline task evaluates one or more components of this framework:
 - **Task 7** — pathfinder halos around traps (Au/As anomaly delineation as placer vectors)
 - **Task 8** — preservation context (mine waste ABA risk; WGS OFR 2026-02 field data)
 - **Task 9** — data-driven spatial targeting across all components (ML probability surface)
-- **Task 11** — trap walk list: chemistry picks the drainage; stream-geometry votes pick the pan pin
-- **Task 12** — transfer test: frozen NE WA forest on Idaho Batholith NURE (AUC 0.50) and California Sierra foothills NURE (AUC 0.52; do not retrain)
+- **Task 11** — trap walk list: chemistry picks the drainage; stream-geometry votes pick the pan pin; pamphlet / opt-in pans are a catchment hit-rate overlay (not AUC)
+- **Task 12** — transfer test: frozen NE WA forest on Idaho (AUC 0.50), California Sierra (0.52), and Montana SW gulches (0.34; do not retrain)
+- **Task 13** — in-belt east-west hold-out on NE WA (does not rewrite the published joblib)
 
 ---
 
@@ -304,9 +305,13 @@ on `/model-info` and in `models/task9_rf_placer_gold.meta.json`:
 | 0.4° cell blocked CV | **0.757 ± 0.139** |
 | Frozen forest on Idaho Batholith NURE (Task 12; not retrained) | **0.50** |
 | Frozen forest on CA Sierra foothills NURE (Task 12; not retrained) | **0.52** |
+| Frozen forest on Montana SW gulches NURE (Task 12; not retrained) | **0.34** |
+| In-belt hold-out: published forest on east of −118.50° (Task 13) | **0.53** |
+| In-belt hold-out: refit west, test east (not the published joblib) | **0.63** |
 
 0.891 is “can the forest separate yes/no in this belt when neighbors are allowed.”
-0.70 is “new drainage in the same belt.” 0.50 is “new belt.” Do not quote only 0.891.
+0.70 is “new drainage in the same belt.” 0.53 / 0.63 is the same belt, other
+side of the Kettle. 0.50 / 0.34 is “new belt.” Do not quote only 0.891.
 
 **IDW interpolation:** `scipy.interpolate.griddata` with method='linear' interpolates
 point predictions to a 200×200 grid over the study area bbox. Cells > 0.5° from the
@@ -439,6 +444,27 @@ The decision unit is the drainage (Yousefi & Carranza 2013), not an IDW blob.
 Stay out of the forest: slope and stream power are not Random Forest features.
 They leak space and retrace the 200 m valley-floor label rule.
 
+**Hobby / pamphlet overlay (`hobby_reports`)** — a positive-only occurrence
+layer, not a retraining set and not ROC-AUC. Seed rows are cited public
+gazetteer points (WA DNR recreational gold-panning pamphlet / OFR 79-0;
+USFS Nez Perce-Clearwater recreational mining waters; BLM / CA State Parks
+designated panning areas; USGS GNIS for the named place). `gold_class` on
+those rows is `unknown`, not a recovery. Opt-in form rows append to the
+same CSV (`data/hobby_reports/OPT_IN_FORM.txt`). Do not scrape forums.
+
+Join rules, enforced in `pipeline/task11_hobby_reports.py`:
+
+- `point` / `bar` / `reach` / `creek` can hit a walkable catchment.
+- `district` is mapped and does **not** count as a drainage hit.
+- Only `location_precision=point` gets `nearest_pan_pin_m`.
+- Metric: catchment hit-rate (how many walkable catchments contain an
+  eligible report; how many of those are `expedition`). People post
+  flakes, not blanks — there is no honest 0-class until form blanks arrive.
+
+This is still not a substitute for walking the Task 11 pins. Gazetteer
+rows in California and Idaho mostly rediscover MRDS geography. The useful
+test is an eligible hit in a NE WA **expedition** cell.
+
 ## Transfer belts (Task 12)
 
 Score the frozen NE WA forest on another placer box. Do not retrain.
@@ -451,10 +477,18 @@ California Sierra foothills (Feather / Yuba / American): AUC 0.52 (596 grabs;
 Tightening to 0.05° lifts AUC to 0.61 — still a weak ranker, not a walk list.
 This HSSR clip has no Au or As; those two features are Washington log-medians.
 
-Walk-list GeoPackages now exist for both belts. P is still the frozen
-Washington forest. Gold distance uses each belt's own MRDS pins. Idaho has
-two expedition cells (max P 0.78). California has zero — every occupied
-cell is watch (max P 0.52). The pans are DEM geometry, not a new model.
+Montana SW gulches (Confederate / Alder / Montana Bar / Elkhorn; not Libby):
+AUC 0.34 (4,672 grabs; 94% near gold; 2,039 MRDS gold pins). Mean P is 0.28
+next to gold and 0.38 far from it — inverted. P and Y are missing in this
+HSSR clip and filled with Washington log-medians. Tightening to 0.05° is
+0.33. Tasks 1–10 stay off: no public site depths, no WGS-style waste OFR.
+
+Walk-list GeoPackages now exist for Idaho, California, and Montana. P is
+still the frozen Washington forest. Gold distance uses each belt's own MRDS
+pins. Idaho has two expedition cells (max P 0.78). California has zero —
+every occupied cell is watch (max P 0.52). Montana has one expedition and
+two confirm (mean P 0.29; leave-one-cell-out 0.52). The pans are DEM
+geometry, not a new model.
 
 That is the literature failure mode, not a reason to build a national model.
 
@@ -497,4 +531,5 @@ space or at site scale using lidar-derived elevations.
 - Reimann, C. & Filzmoser, P. (2000). Normal and lognormal data distribution in geochemistry. *The Science of the Total Environment*, 250(1–3), 267–281.
 - Stanley, C.R. & Sinclair, A.J. (1989). Comparison of probability plots and the gap statistic in the selection of thresholds for exploration geochemistry data. *Journal of Geochemical Exploration*, 32(1–3), 355–357.
 - Sun, S.S. & McDonough, W.F. (1989). Chemical and isotopic systematics of oceanic basalts. *Geological Society Special Publications*, 42, 313–345.
+- Washington Division of Geology and Earth Resources (2025). *Recreational Gold Panning in Washington State*. https://dnr.wa.gov/sites/default/files/2025-03/ger_gold_panning.pdf
 - Wyborn, L.A.I. et al. (1994). Australian Proterozoic mineral systems: essential ingredients and mappable criteria. *AusIMM Annual Conference*, 109–115.

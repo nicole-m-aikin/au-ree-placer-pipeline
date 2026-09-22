@@ -18,6 +18,8 @@ Outputs:
   {outputs_dir}/tables/task11_catchment_walk_list.csv
   {outputs_dir}/tables/task11_nure_spots.csv
   {outputs_dir}/tables/task11_pan_locations.csv
+  {outputs_dir}/tables/task11_hobby_reports.csv
+  {outputs_dir}/tables/task11_hobby_hit_rate.csv
   {outputs_dir}/gis/task11_field_campaign.gpkg
   {outputs_dir}/gis/task11_field_campaign_shp.zip    # ArcGIS Online
   ~/projects/task11_field_campaign.gpkg              # QGIS copy (path has no +)
@@ -28,8 +30,10 @@ Outputs:
   {outputs_dir}/text/task11_field_campaign_summary.txt
 
 GeoPackage layers (EPSG:4326): cells, catchments, named_rivers, streams,
-pour_points, nure_spots, pan_locations. Pour points sit on the D8 outlet.
-NURE spots are chemistry grabs. Pan locations are the trap-geometry pins.
+pour_points, nure_spots, pan_locations, hobby_reports. Pour points sit
+on the D8 outlet. NURE spots are chemistry grabs. Pan locations are the
+trap-geometry pins. Hobby reports are a cited gazetteer / opt-in overlay
+(catchment hit-rate, not AUC; the forest stays frozen).
 """
 
 import os
@@ -360,8 +364,8 @@ def extract_dem_streams(dem_path, percentile=STREAM_MAIN_PCT, cache_path=None,
 
 GPKG_NAME = 'task11_field_campaign.gpkg'
 GPKG_LAYERS = ('cells', 'catchments', 'named_rivers', 'streams',
-               'pour_points', 'nure_spots', 'pan_locations', 'geology',
-               'geology_structure', 'lidar_index')
+               'pour_points', 'nure_spots', 'pan_locations', 'hobby_reports',
+               'geology', 'geology_structure', 'lidar_index')
 # Folder name "Au + REE pipeline" breaks some QGIS/GDAL path parsers.
 # A second copy lives next to the projects folder (no spaces, no +).
 CLEAN_GPKG_COPY = os.path.expanduser(
@@ -422,6 +426,15 @@ SHP_NAME = {
     'n_field_spots': 'n_spots',
     'n_nure_spots': 'n_nspots',
     'n_pan_locations': 'n_pans',
+    'n_hobby_hit': 'n_hobby',
+    'gold_class': 'gold_class',
+    'location_precision': 'loc_prec',
+    'geom_confidence': 'geom_conf',
+    'source_type': 'src_type',
+    'source_cite': 'src_cite',
+    'nearest_pan_pin_m': 'pin_m',
+    'catchment_hit': 'catch_hit',
+    'pin_scored': 'pin_scored',
     'catchment_ok': 'catch_ok',
     'p_anomalous': 'p_anom',
     'spot_order': 'spot_order',
@@ -503,6 +516,7 @@ def _strip_gpkg_tile_tables(path):
 def write_field_campaign_gpkg(path, cells=None, catchments=None,
                               pour_points=None, nure_spots=None,
                               field_spots=None, pan_locations=None,
+                              hobby_reports=None,
                               streams=None, named_rivers=None,
                               geology=None, geology_structure=None,
                               lidar_index=None):
@@ -522,6 +536,7 @@ def write_field_campaign_gpkg(path, cells=None, catchments=None,
         'pour_points': ('Point', pour_points),
         'nure_spots': ('Point', nure_spots),
         'pan_locations': ('Point', pan_locations),
+        'hobby_reports': ('Point', hobby_reports),
     }
     if os.path.exists(path):
         os.remove(path)
@@ -741,11 +756,22 @@ def write_gpkg_from_outputs(cfg):
     else:
         pans = None
 
+    from pipeline.task11_hobby_reports import apply_hobby_counts, build_hobby_reports
+    hobby = build_hobby_reports(cfg, catchments=catchments, pans=pans, walk=walk)
+    walk = apply_hobby_counts(walk, hobby)
+    walk.to_csv(out(cfg, 'tables', 'task11_catchment_walk_list.csv'), index=False)
+    if 'n_hobby_hit' in walk.columns:
+        cells = cells.drop(columns=['n_hobby_hit'], errors='ignore')
+        cells = cells.merge(
+            walk[['block_id', 'n_hobby_hit']].drop_duplicates('block_id'),
+            on='block_id', how='left',
+        )
+
     layers = dict(
         cells=cells, catchments=catchments,
         named_rivers=named_rivers, streams=streams,
         pour_points=pour_points, nure_spots=nure_spots,
-        pan_locations=pans,
+        pan_locations=pans, hobby_reports=hobby,
     )
     gis_dir = os.path.join(cfg['outputs_dir'], 'gis')
     os.makedirs(gis_dir, exist_ok=True)
@@ -853,6 +879,7 @@ def _write_qgis_project(qgs_path, gpkg_path, cfg=None):
         ('nure_spots', 'Point', 'NURE spots — chemistry grabs'),
         ('pour_points', 'Point', 'pour points — D8 outlet'),
         ('pan_locations', 'Point', 'pan locations — trap geometry'),
+        ('hobby_reports', 'Point', 'hobby reports — pamphlet / opt-in pans'),
     ]
     rasters = _lidar_hillshade_tifs()
     maplayers = []
@@ -1272,9 +1299,24 @@ def _write_summary(cfg, walk, spots_df, loco, p_is_transfer=False):
         "",
         "nure_spots = NURE chemistry grabs (the forest). They say this creek.",
         "pan_locations = trap-geometry pins on the D8 line. They say stand here.",
+        "hobby_reports = pamphlet / opt-in pans. Catchment hit-rate, not AUC.",
         "Pour point = where the water leaves. It is not automatically a pan pin.",
-        "See task11_nure_spots.csv and task11_pan_locations.csv.",
+        "See task11_nure_spots.csv, task11_pan_locations.csv,",
+        "task11_hobby_reports.csv and task11_hobby_hit_rate.csv.",
     ]
+    hobby_rate = out(cfg, 'tables', 'task11_hobby_hit_rate.csv')
+    if os.path.exists(hobby_rate):
+        hr = pd.read_csv(hobby_rate).iloc[0]
+        lines += [
+            "",
+            "Hobby / pamphlet overlay (not AUC): "
+            f"{int(hr.get('n_reports_in_bbox', 0))} reports, "
+            f"{int(hr.get('n_catchment_hit', 0))} catchment hits "
+            f"({int(hr.get('n_expedition_hit', 0))} expedition). "
+            f"Recoveries={int(hr.get('n_recovery', 0))}  "
+            f"blanks={int(hr.get('n_blank', 0))}  "
+            f"gazetteer={int(hr.get('n_unknown', 0))}.",
+        ]
     path = out(cfg, 'text', 'task11_field_campaign_summary.txt')
     with open(path, 'w') as f:
         f.write('\n'.join(lines) + '\n')

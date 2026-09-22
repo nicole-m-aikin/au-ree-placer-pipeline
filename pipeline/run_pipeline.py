@@ -33,7 +33,7 @@ TASKS = {
     8:  ('pipeline.task8_mine_waste',    'Mine waste REE & critical minerals'),
     9:  ('pipeline.task9_ml_targeting',   'ML anomaly targeting (Random Forest)'),
     10: ('pipeline.integration',          'Integration & priority ranking'),
-    11: ('pipeline.task11_field_campaign', 'Catchment walk list (NURE spots + pan pins)'),
+    11: ('pipeline.task11_field_campaign', 'Catchment walk list (NURE spots + pan pins + hobby overlay)'),
     12: ('pipeline.task12_second_belt', 'Second belt: frozen NE WA forest (not the training box)'),
 }
 

@@ -28,12 +28,14 @@ from pipeline.task11_field_campaign import (
 def test_utm_zone_is_11n_for_idaho_and_10n_for_sierra():
     assert utm_epsg(-115.1, 45.5) == 'EPSG:32611'
     assert utm_epsg(-121.05, 39.3) == 'EPSG:32610'
+    assert utm_epsg(-111.82, 45.33) == 'EPSG:32612'
 
 
 def test_sgmc_state_follows_config():
     assert sgmc_state({'data': {'sgmc_state': 'ID'}}) == 'ID'
     assert sgmc_state({'study_area': {'short': 'ca_sierra_placer'}}) == 'CA'
     assert sgmc_state({'study_area': {'short': 'ne_wa'}}) == 'WA'
+    assert sgmc_state({'data': {'sgmc_state': 'MT'}}) == 'MT'
 
 
 def test_clean_gpkg_copy_is_belt_specific():

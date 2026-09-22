@@ -1,0 +1,11 @@
+IN-BELT HOLD-OUT — TRAIN WEST, TEST EAST
+Train west of -118.50°, test east. The published joblib was not rewritten. This is an in-belt hold-out, not a new model.
+====================================================================
+
+Lon cut:          -118.500
+West grabs / pos: 118 / 96
+East grabs / pos: 927 / 888
+Refit west→east AUC: 0.6314
+Frozen forest on east AUC: 0.5348
+
+Do not replace models/task9_rf_placer_gold.joblib with this refit.

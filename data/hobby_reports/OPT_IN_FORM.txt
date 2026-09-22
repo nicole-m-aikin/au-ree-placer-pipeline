@@ -1,0 +1,44 @@
+Au+REE pipeline — opt-in recreational pan report
+================================================
+
+Do not scrape Reddit or forums. If you panned in one of the study boxes
+(NE Washington, Idaho Batholith, northern Sierra foothills), fill a row
+and send it to the person who asked. Blanks count. They are the 0-class.
+
+Copy the header + one data row into the matching CSV:
+
+  data/hobby_reports/hobby_reports_ne_wa.csv
+  data/hobby_reports/hobby_reports_id_batholith.csv
+  data/hobby_reports/hobby_reports_ca_sierra_placer.csv
+
+Or start from hobby_reports_template.csv.
+
+Fields
+------
+report_id            Your initials + date, e.g. NA20260921a. Leave blank to auto-id.
+name                 Short label for the map.
+creek_name           Named creek or river.
+lon, lat             Decimal degrees, WGS84. Required.
+gold_class           blank | color | flake | picker | nugget | unknown
+location_precision   point | bar | reach | creek | district
+                     point = you stood there with a GPS or phone waypoint.
+                     creek = you named the stream, not the hole.
+                     district is mapped and does NOT count as a catchment hit.
+geom_confidence      1 (guess) to 5 (standing on the bar with GNSS).
+source_type          form          ← use this for opt-in rows
+source_cite          your name or "anonymous"
+source_url           leave blank, or a page you wrote and want cited
+date_approx          YYYY-MM or YYYY
+hours_or_pans        e.g. "6 pans" or "2 hr" — whatever you remember
+public_land          yes | no | unknown     (claims = no)
+notes                season, tools (pan only / sluice), claim courtesy
+
+Join rules (already coded)
+--------------------------
+- Creek / reach / bar / point  →  can hit a Task 11 catchment.
+- Point only                   →  distance to nearest geometry pan pin, metres.
+- District                     →  on the map, not a hit.
+- This never retrains Task 9.
+
+Please do not post other people's secret holes. Public land, your own
+waypoints, and published pamphlet sites only.

@@ -35,5 +35,24 @@
     "trained_on": "NE Washington",
     "transfer_auc": 0.5223,
     "transfer_auc_0p05deg": 0.6061
+  },
+  "mt_placer": {
+    "belt": "Montana SW gold gulches",
+    "fraction_near_gold": 0.9411,
+    "label_method": "proximity (Task 12 does not apply a DEM elevation cut)",
+    "mean_p_all": 0.2892,
+    "mean_p_far_from_gold": 0.3768,
+    "mean_p_near_gold": 0.2837,
+    "model_id": "task9_rf_placer_gold",
+    "mrds_proximity_deg": 0.15,
+    "n_gold_mrds": 2039,
+    "n_positive": 4397,
+    "n_samples": 4672,
+    "note": "Frozen NE Washington forest scored on Montana SW gold gulches NURE. Transfer AUC is 0.34 (coin flip \u2014 the forest does not travel). Tightening the gold circle to 0.05\u00b0 gives 0.33. 0.15\u00b0 labels most of this box because gold MRDS pins are dense \u2014 that is a weak negative class. Mean P is higher far from gold than next to it. This is a transfer test, not a new model. Do not call the doorbell national.",
+    "retrained": false,
+    "short": "mt_placer",
+    "trained_on": "NE Washington",
+    "transfer_auc": 0.3438,
+    "transfer_auc_0p05deg": 0.3278
   }
 }

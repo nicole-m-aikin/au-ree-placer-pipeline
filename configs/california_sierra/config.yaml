@@ -32,6 +32,7 @@ data:
   radiometric_eu_tif: null
   dem_tif: data/dem/ca_sierra_30m.tif
   wgs_excel: null
+  hobby_reports_csv: "data/hobby_reports/hobby_reports_ca_sierra_placer.csv"
 
 task11:
   fetch_lidar: false

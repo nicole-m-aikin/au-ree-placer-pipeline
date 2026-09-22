@@ -160,9 +160,9 @@ Leave-one-cell-out AUC (cells with ≥8 grabs): **0.56**, range 0.25–1.00, 11 
 
 **Not a gold claim.** `#1` is 15 km from a pin with P=0.94. The star is the hot NURE grab. The circles are where geometry says stand with a pan — upstream of that star, which is the right order for a stream-sediment hit.
 
-Outputs: `fig11_catchment_walk_list_map.png`, `task11_catchment_walk_list.csv`, `task11_nure_spots.csv`, `task11_pan_locations.csv`.
+Outputs: `fig11_catchment_walk_list_map.png`, `task11_catchment_walk_list.csv`, `task11_nure_spots.csv`, `task11_pan_locations.csv`, `task11_hobby_reports.csv` (gazetteer / opt-in overlay; catchment hit-rate, not AUC).
 
-Idaho and California now have the same layers. P is the Washington forest. Gold pins and SGMC geology are local. California has no expedition cell.
+Idaho, California, and Montana now have the same layers. P is the Washington forest. Gold pins and SGMC geology are local. California has no expedition cell. Montana has one.
 
 ---
 
@@ -170,13 +170,17 @@ Idaho and California now have the same layers. P is the Washington forest. Gold 
 
 **Live:** https://placer-lookalike.onrender.com/docs
 
-**Decision:** Ship `/predict` as a frozen-forest doorbell. Score Idaho, then California, with that same joblib. Do not retrain. Do not national-model.
+**Decision:** Ship `/predict` as a frozen-forest doorbell. Score Idaho, California, then Montana with that same joblib. Do not retrain. Do not national-model.
 
 **Idaho result:** 2,465 NURE grabs, transfer AUC **0.50**. Mean P ≈ 0.38 next to gold and far from it. Tightening the circle to 5 km does not help.
 
 **California result:** Northern Sierra foothills (Feather / Yuba / American — the belt you can walk). 596 NURE grabs, 7,872 gold MRDS pins, transfer AUC **0.52**. Mean P is 0.38 next to gold and far from it. Tightening to 5 km lifts AUC to 0.61; the doorbell still does not know California. This clip has no Au or As.
 
-**Walk lists:** Idaho GeoPackage — 2 expedition / 4 confirm / 16 pans. California GeoPackage — 0 expedition / 0 confirm / 8 watch / 10 pans. P is Washington lookalike. Gold pins and geology are local. Open `~/projects/task11_ca_sierra_placer_field_campaign.gpkg` (no `+` in the path).
+**Montana result:** SW gulches (Confederate / Alder / Montana Bar / Elkhorn; not Libby). 4,672 NURE grabs, 2,039 gold pins, transfer AUC **0.34**. Mean P is 0.28 next to gold and 0.38 far from it — inverted. P and Y are Washington medians. Tasks 1–10 stay off.
+
+**In-belt hold-out (Task 13):** train west of −118.50°, test east. Published forest on the east is **0.53**. A west-only refit is 0.63. The published joblib was not rewritten.
+
+**Walk lists:** Idaho GeoPackage — 2 expedition / 4 confirm / 16 pans. California GeoPackage — 0 expedition / 0 confirm / 8 watch / 10 pans. Montana GeoPackage — 1 expedition / 2 confirm / 20 watch / 34 pans. P is Washington lookalike. Gold pins and geology are local. Open `~/projects/task11_mt_placer_field_campaign.gpkg` (no `+` in the path).
 
 **Q: What does the API actually do?**
 
@@ -184,7 +188,7 @@ You POST eleven NURE concentrations and `fe_unit`. You get P(this grab looks lik
 
 **Q: Why Idaho if you expect the AUC to drop?**
 
-Because 0.891 is shuffled CV on one belt. Airola 2018: that number can look great and fail on new ground. The literature says score the next belt with the first forest *before* you refit. A sag is the result. Retraining Idaho or California would be a new model, not proof the doorbell travels. Living in California does not make the Washington forest a Sierra model.
+Because 0.891 is shuffled CV on one belt. Airola 2018: that number can look great and fail on new ground. The literature says score the next belt with the first forest *before* you refit. A sag is the result. Retraining Idaho, California, or Montana would be a new model, not proof the doorbell travels. Living in California does not make the Washington forest a Sierra model.
 
 **Q: Why Render / Docker?**
 

@@ -1,0 +1,16 @@
+SECOND BELT — FROZEN NE WA FOREST ON MONTANA SW GOLD GULCHES
+Frozen NE Washington forest scored on Montana SW gold gulches NURE. Transfer AUC is 0.34 (coin flip — the forest does not travel). Tightening the gold circle to 0.05° gives 0.33. 0.15° labels most of this box because gold MRDS pins are dense — that is a weak negative class. Mean P is higher far from gold than next to it. This is a transfer test, not a new model. Do not call the doorbell national.
+====================================================================
+
+NURE grabs:     4672
+Near gold MRDS: 4397  (94.1%)
+Gold MRDS pins: 2039
+Transfer AUC (0.15°): 0.3438
+Transfer AUC (0.05°): 0.3278
+Mean P near gold / far: 0.2837 / 0.3768
+Mean P all grabs:       0.2892
+
+NE WA random CV:  0.8912799999999999
+NE WA spatial CV: 0.6988467686686458
+
+Do not retrain from this number. Do not call the doorbell national.

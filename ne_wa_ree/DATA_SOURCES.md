@@ -72,24 +72,28 @@
 
 ### USGS State Geologic Map (Task 2 / Task 11)
 # SGMC state shapefiles (Horton 2017): https://mrdata.usgs.gov/geology/state/
-# Task 11 downloads the zip for data.sgmc_state (WA / ID / CA) on first run:
+# Task 11 downloads the zip for data.sgmc_state (WA / ID / CA / MT) on first run:
 #   https://mrdata.usgs.gov/geology/state/shp/WA.zip
 #   https://mrdata.usgs.gov/geology/state/shp/ID.zip
 #   https://mrdata.usgs.gov/geology/state/shp/CA.zip
+#   https://mrdata.usgs.gov/geology/state/shp/MT.zip
 # WA extract lives in ne_wa_ree/data/geologic/WA_sgmc_extracted/.
-# ID / CA extracts are gitignored under data/geologic/.
+# ID / CA / MT extracts are gitignored under data/geologic/.
 
-### Idaho + California transfer extracts (Task 12)
+### Idaho + California + Montana transfer extracts (Task 12)
 # Frozen NE WA forest. Do not retrain. Fetched by:
 #   python -m pipeline.task12_second_belt configs/idaho_batholith/config.yaml
 #   python -m pipeline.task12_second_belt configs/california_sierra/config.yaml
+#   python -m pipeline.task12_second_belt configs/montana_placer/config.yaml
 # NURE: national HSSR CSV clip (data/nure/raw/nuresed-csv.zip is gitignored).
 # MRDS: search-bbox gold pins.
 # Kept extracts:
 #   data/nure/nure_id_batholith_sediment.csv
 #   data/nure/nure_ca_sierra_sediment.csv
+#   data/nure/nure_mt_placer_sediment.csv
 #   data/mrds/mrds_id_batholith.geojson
 #   data/mrds/mrds_ca_sierra.geojson
+#   data/mrds/mrds_mt_placer.geojson
 
 ### WGS OFR 2026-02 Mine Waste Supplement (Tasks 2, 3, 4, 8 — optional overlay)
 # Washington Geological Survey Open-File Report 2026-02 (van Alderwerelt & Di Fiori, 2026)

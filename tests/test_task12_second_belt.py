@@ -84,6 +84,7 @@ def test_frozen_transfer_auc_is_not_random_on_separated_chemistry():
 def test_belt_slug_keeps_historic_idaho_name():
     assert belt_slug({'study_area': {'short': 'id_batholith'}}) == 'idaho'
     assert belt_slug({'study_area': {'short': 'ca_sierra_placer'}}) == 'ca_sierra_placer'
+    assert belt_slug({'study_area': {'short': 'mt_placer'}}) == 'mt_placer'
 
 
 def test_training_belt_is_rejected():
@@ -107,3 +108,9 @@ def test_transfer_note_calls_coin_flip_when_auc_is_chance():
     assert 'coin flip' in note
     assert 'weak negative' in note
     assert 'national' in note
+
+
+def test_transfer_note_flags_inverted_mean_p():
+    note = _transfer_note('Montana SW gold gulches', 0.34, 0.33, 0.94, 0.28, 0.38)
+    assert 'higher far from gold' in note
+    assert 'flat' not in note

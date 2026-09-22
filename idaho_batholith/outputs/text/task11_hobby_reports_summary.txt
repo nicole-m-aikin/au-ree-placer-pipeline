@@ -1,0 +1,26 @@
+HOBBY / PAMPHLET PAN OVERLAY
+Idaho Batholith — catchment hit-rate, not AUC
+====================================================================
+
+This layer does not retrain the forest. Gazetteer rows are unknown,
+not recoveries. Blanks from the opt-in form are the 0-class we lack.
+Creek/reach/bar/point can hit a catchment. District cannot.
+Only precision=point gets nearest_pan_pin_m.
+
+Reports in bbox:              15
+Catchment-eligible:           10
+Joined a walkable catchment:  10
+  expedition hits:            8
+  confirm hits:               1
+  watch hits:                 1
+No catchment:                 1
+District (mapped, not a hit): 5
+Recoveries (color or better): 0
+Blanks:                       0
+Unknown / gazetteer:          15
+Pin-scored (precision=point): 0
+Walkable catchments:          23
+Walkable with ≥1 eligible hit:3
+
+Do not quote this as ROC-AUC. People post flakes, not blanks.
+Append rows via data/hobby_reports/OPT_IN_FORM.txt — do not scrape.

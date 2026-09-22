@@ -39,6 +39,8 @@ data:
   radiometric_eu_tif: "ne_wa_ree/data/radiometric/ne_wa_eU.tif"
   dem_tif: "ne_wa_ree/data/dem/ne_wa_dem_30m.tif"  # Copernicus GLO-30, 8 tiles mosaicked, covers lon -120→-116 / lat 47→49
   wgs_excel: data/wgs_ofr2026/ger_ofr2026-02_data_supplement.xlsx
+  # Cited recreational gazetteer + opt-in form rows. Not a scrape. Not labels.
+  hobby_reports_csv: "data/hobby_reports/hobby_reports_ne_wa.csv"
 
 # ── MRDS commodity filter ─────────────────────────────────────────────────────
 mrds_commodities: ["placer gold", "gold", "REE", "monazite", "magnetite"]
@@ -56,6 +58,8 @@ mrds_commodities: ["placer gold", "gold", "REE", "monazite", "magnetite"]
 #   'ree'         — Rare Earth Elements target_commodity (7 sites; sparse)
 #   'cu_mo'       — sites with CU or MO in code_list (~300+ sites)
 #   'all'         — no filter, blended model (legacy behaviour)
+holdout:
+  lon_cut: -118.50  # Kettle — train west, test east; do not rewrite the joblib
 ml:
   label_method: "proximity"    # published default; "catchment" is experimental
   mrds_proximity_deg: 0.15

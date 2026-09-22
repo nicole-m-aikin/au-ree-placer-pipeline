@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/nicole-m-aikin/au-ree-placer-pipeline/actions/workflows/ci.yml/badge.svg)](https://github.com/nicole-m-aikin/au-ree-placer-pipeline/actions/workflows/ci.yml)
 
-**Live doorbell:** [https://placer-lookalike.onrender.com/docs](https://placer-lookalike.onrender.com/docs) — Washington gold-placer lookalike API, not a national model. Idaho transfer AUC 0.50; California Sierra 0.52.
+**Live doorbell:** [https://placer-lookalike.onrender.com/docs](https://placer-lookalike.onrender.com/docs) — Washington gold-placer lookalike API, not a national model. Idaho transfer AUC 0.50; California Sierra 0.52; Montana SW gulches 0.34.
 
 A reproducible, config-driven geoscience pipeline for screening placer Au and REE/monazite potential from public geochemical, geophysical, and mine-waste datasets — designed to demonstrate end-to-end applied geoscience from dataset QA/QC through ML targeting and economic screening.
 
@@ -32,13 +32,13 @@ wrangling through spatial ML and economic screening — in a single reproducible
 - **Geochemical QA/QC of legacy public datasets**: NURE half-MDL substitution, MRDS deduplication, WGS column validation; procedures documented and reproducible
 - **Monte Carlo uncertainty quantification**: P10/P50/P90 resource endowment using log-normal grade distributions; results reported with full uncertainty bands, not point estimates
 - **ML targeting with geochemically independent ground truth**: MRDS-proximity labels avoid the circular-labeling failure mode common in geochemical classifiers; Random Forest on the placer heavy-mineral suite (Th, Ce, La, P, U, Au, As, Ti, Fe, Zr, Y); shuffled 5-fold CV ROC-AUC 0.891 ± 0.018; dead-zone spatial CV 0.699 ± 0.055
-- **Transfer test, not a national model**: the frozen NE WA forest scored on Idaho Batholith NURE at AUC **0.50** and on California Sierra foothills NURE at **0.52**. Those numbers are on `/model-info`. Do not retrain to hide them.
+- **Transfer test, not a national model**: the frozen NE WA forest scored on Idaho Batholith NURE at AUC **0.50**, California Sierra foothills at **0.52**, and Montana SW gulches at **0.34**. Those numbers are on `/model-info`. Do not retrain to hide them.
 - **Public lookalike API**: FastAPI `/predict` at [placer-lookalike.onrender.com](https://placer-lookalike.onrender.com/docs) — chemistry in, P(lookalike) + tree-vote spread + distance to a training gold mine out. Not Task 4 tonnes.
-- **Catchment walk list**: Task 11 GeoPackage with NURE grabs vs pan pins (slope break / power drop / junction). Chemistry picks the creek; geometry picks the hole.
+- **Catchment walk list**: Task 11 GeoPackage with NURE grabs vs pan pins (slope break / power drop / junction) plus a pamphlet / opt-in `hobby_reports` overlay. Chemistry picks the creek; geometry picks the hole; hobby rows score catchment hit-rate, not AUC.
 - **Spatial geostatistical interpolation**: IDW probability surface for continuous spatial prediction; kriging variance surface identified as production upgrade path
 - **Economic screening**: break-even NdPr price analysis, undiscounted NPV rationale, tornado-style weight-sensitivity analysis on integrated priority scores
 - **Acid-base accounting (ABA) risk classification**: median NP/AP ratio tiers per MEND 2009 thresholds; flags acid-generating sites for environmental due diligence
-- **Config-driven, multi-study-area architecture**: NE Washington complete (Figs 1–11); Idaho and California Sierra are transfer tests; Montana stays a stub
+- **Config-driven, multi-study-area architecture**: NE Washington complete (Figs 1–11); Idaho, California Sierra, and Montana SW gulches are transfer + walk-list boxes
 
 ## Output Figures
 
@@ -69,7 +69,7 @@ wrangling through spatial ML and economic screening — in a single reproducible
 | NE Washington (Okanogan/Ferry/Stevens Co.) | `configs/ne_washington/config.yaml` | Complete — Figs 1–11 + walk-list GeoPackage |
 | Idaho Batholith (Orogrande/Dixie/Warren/Florence) | `configs/idaho_batholith/config.yaml` | Transfer AUC **0.50** + walk-list GeoPackage (WA lookalike P, local gold pins) |
 | California Sierra placer foothills (Feather/Yuba/American) | `configs/california_sierra/config.yaml` | Transfer AUC **0.52** + walk-list GeoPackage (WA lookalike P; Au/As missing) |
-| Montana Placer (Confederate Gulch/Alder Gulch/Libby Creek) | `configs/montana_placer/config.yaml` | Stub — not a fourth belt until someone asks |
+| Montana SW gold gulches (Confederate/Alder/Montana Bar; not Libby) | `configs/montana_placer/config.yaml` | Transfer AUC **0.34** + walk-list GeoPackage |
 
 ## Public doorbell (chemistry → P(gold-placer lookalike))
 
@@ -79,7 +79,7 @@ A FastAPI service loads the **frozen** Task 9 forest. It is a doorbell, not a
 discovery engine: send NURE-style ppm (and `fe_unit`), get `probability`,
 `tree_vote_spread`, and — if you send lon/lat — distance to the nearest
 **training** gold mine. It does not emit Task 4 tonnes. It is not a national
-model. `/model-info` reports shuffled CV 0.891, spatial CV 0.70, Idaho transfer 0.50, and California transfer 0.52.
+model. `/model-info` reports shuffled CV 0.891, spatial CV 0.70, Idaho 0.50, California 0.52, Montana 0.34. East-of-Kettle hold-out (published forest) is 0.53.
 
 ```bash
 # local
@@ -109,11 +109,12 @@ The model files are in `models/`. One click starts the free web service from thi
 
 Already deployed: **https://placer-lookalike.onrender.com/docs**. First hit on the free tier is slow (cold start). This is a Washington lookalike screen, not a national model.
 
-## Second belt (frozen forest — Idaho, then California)
+## Second belt (frozen forest — Idaho, California, Montana)
 
 ```bash
 python -m pipeline.task12_second_belt configs/idaho_batholith/config.yaml
 python -m pipeline.task12_second_belt configs/california_sierra/config.yaml
+python -m pipeline.task12_second_belt configs/montana_placer/config.yaml
 ```
 
 Downloads that box's NURE (USGS HSSR CSV) and gold MRDS, scores them with the
@@ -124,10 +125,13 @@ Idaho stays the legacy `transfer.json` sidecar.
 |------|------:|------------------:|----------:|----------:|------------------:|
 | Idaho Batholith | 2,465 | 79% | **0.50** | 0.48 | 0.38 / 0.38 |
 | CA Sierra foothills | 596 | 88% | **0.52** | 0.61 | 0.38 / 0.38 |
+| Montana SW gulches | 4,672 | 94% | **0.34** | 0.33 | 0.28 / 0.38 |
 
 Sierra HSSR in this box has no Au or As — those two features are filled with
-the Washington training medians. Tightening the gold circle to 0.05° lifts
-California to 0.61 and does nothing for Idaho. Mean P is still flat.
+the Washington training medians. Montana HSSR is missing P and Y (same median
+fill). Tightening the gold circle to 0.05° lifts California to 0.61 and does
+nothing for Idaho or Montana. Mean P is flat on Idaho and California; on
+Montana it is *higher* far from gold than next to it.
 **Does not retrain.** Do not turn this into a continental forest.
 
 Walk-list GeoPackages use that same frozen P plus each belt's own gold pins,
@@ -138,12 +142,15 @@ Walk-list GeoPackages use that same frozen P plus each belt's own gold pins,
 python -m pipeline.fetch_dem --config configs/idaho_batholith/config.yaml
 python -m pipeline.task11_field_campaign configs/idaho_batholith/config.yaml
 python -m pipeline.task11_field_campaign configs/california_sierra/config.yaml
+python -m pipeline.task11_field_campaign configs/montana_placer/config.yaml
 ```
 
 - Idaho: `~/projects/task11_id_batholith_field_campaign.gpkg` — 2 expedition, 4 confirm, 16 pans
 - California: `~/projects/task11_ca_sierra_placer_field_campaign.gpkg` — **0 expedition, 0 confirm**, 8 watch, 10 pans
+- Montana: `~/projects/task11_mt_placer_field_campaign.gpkg` — **1 expedition, 2 confirm**, 20 watch, 34 pans
 
-California never crosses P=0.6. The walk list is geometry. The doorbell still does not know the Sierra.
+California never crosses P=0.6. Montana mean P is 0.29 and inverted vs gold.
+The walk lists are geometry. The doorbell still does not know these belts.
 
 ## Quick start (NE Washington)
 
@@ -176,7 +183,8 @@ python pipeline/run_pipeline.py --config configs/ne_washington/config.yaml --lis
 | 9 | `pipeline/task8_mine_waste.py` | Preservation | WGS mine waste REE + critical minerals |
 | 10 | `pipeline/task9_ml_targeting.py` | All | ML anomaly probability surface (geological feature engineering) |
 | 11 | `pipeline/task11_field_campaign.py` | Trap | Walk list: 0.4° cells, pours, NURE grabs, pan pins |
-| — | `pipeline/task12_second_belt.py` | All | Frozen-forest transfer on Idaho (AUC 0.50) and CA Sierra (AUC 0.52) |
+| — | `pipeline/task12_second_belt.py` | All | Frozen-forest transfer on Idaho (0.50), CA Sierra (0.52), Montana (0.34) |
+| — | `pipeline/task13_holdout.py` | All | In-belt east-west hold-out; does not rewrite the joblib |
 
 All outputs land in `{outputs_dir}` defined in the config (default: `ne_wa_ree/outputs/` for NE WA).
 
@@ -227,7 +235,7 @@ non-obvious methodological choice, including:
 - Combined priority scoring weights
 - ML model, spatial CV vs shuffled CV, and IDW interpolation limitations
 - Public `/predict` doorbell (tree-vote spread ≠ Task 4 Monte Carlo)
-- Idaho + California transfer tests (frozen forest; do not national-model)
+- Idaho + California + Montana transfer tests (frozen forest; do not national-model)
 - 3D modeling scope and what is explicitly out of scope
 
 ## Directory structure
@@ -237,7 +245,7 @@ configs/
   ne_washington/config.yaml   # NE WA study area
   idaho_batholith/config.yaml # Idaho transfer box (not a full pipeline)
   california_sierra/config.yaml # Sierra foothills transfer box
-  montana_placer/config.yaml  # Montana stub
+  montana_placer/config.yaml  # SW MT gold gulches (Libby dropped)
 api/                          # FastAPI doorbell
 models/                       # Frozen joblib + metadata + transfer sidecars
 pipeline/
@@ -245,14 +253,19 @@ pipeline/
   fetch_dem.py                # Copernicus GLO-30 mosaic for a config bbox
   geo_crs.py                  # UTM zone + SGMC state
   task1_coplacer.py … task9_ml_targeting.py
-  task11_field_campaign.py    # Walk list + GeoPackage (any belt)
-  task12_second_belt.py       # Frozen NE WA forest on Idaho / California
+  task11_field_campaign.py    # Walk list + GeoPackage
+  task11_hobby_reports.py     # Pamphlet / opt-in pan overlay (not a scrape)
+  task11_pan_traps.py         # Trap-geometry pan pins
+  task12_second_belt.py       # Frozen NE WA forest on Idaho / CA / MT
+  task13_holdout.py           # In-belt east-west hold-out (not a new joblib)
   run_pipeline.py
 tests/
+data/hobby_reports/           # Cited gazetteer CSVs + opt-in form
 ne_wa_ree/outputs/            # NE WA figures, tables, GeoJSON / GPKG
 idaho_batholith/outputs/      # Idaho transfer scores + walk list
 california_sierra/outputs/    # Sierra transfer scores + walk list
-data/nure/                    # NE WA + Idaho + Sierra NURE extracts
+montana_placer/outputs/       # Montana transfer scores + walk list
+data/nure/                    # NE WA + Idaho + Sierra + Montana NURE extracts
 ```
 
 ## Config schema
@@ -269,6 +282,7 @@ outputs_dir: "ne_wa_ree/outputs"   # backward-compat for NE WA
 data:
   nure_csv: "data/nure/nure_ne_wa_sediment.csv"
   wgs_excel: null    # or path; also resolved via WGS_OFR2026_PATH env var
+  hobby_reports_csv: "data/hobby_reports/hobby_reports_ne_wa.csv"
 
 sites:               # list of mine sites with coordinates, lidar, topo, volume
 geology_domains:     # list of polygon domains with lithology scores

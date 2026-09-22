@@ -130,6 +130,48 @@ def _categorized(kind):
 '''.format('\n'.join(cats), '\n'.join(syms), labels)
 
 
+def _hobby_qml():
+    """Diamonds by gold_class. Gazetteer unknown is teal; recoveries go hot."""
+    cats = [
+        ('blank', '160,160,160,220', '4.0', 'blank (the 0-class)'),
+        ('color', '240,228,66,230', '4.4', 'color'),
+        ('flake', '230,159,0,230', '4.8', 'flake'),
+        ('picker', '213,94,0,240', '5.2', 'picker'),
+        ('nugget', '204,0,0,250', '5.6', 'nugget'),
+        ('unknown', '0,158,115,220', '4.2', 'unknown / gazetteer'),
+    ]
+    cat_xml = []
+    sym_xml = []
+    for i, (value, fill, size, label) in enumerate(cats):
+        cat_xml.append(
+            '      <category value="{0}" label="{1}" symbol="{2}" render="true"/>'
+            .format(value, label, i)
+        )
+        sym_xml.append(_mark(str(i), fill, size, 'diamond'))
+    labels = '''  <labeling type="simple">
+    <settings>
+      <text-style fontFamily="Arial" fontSize="8" namedStyle="Italic" textColor="20,60,50,255" fieldName="name" isExpression="0">
+        <text-buffer bufferDraw="1" bufferSize="0.8" bufferColor="255,255,255,220"/>
+      </text-style>
+      <placement placement="0" dist="1.0" distUnits="MM"/>
+      <rendering drawLabels="1" maxNumLabels="24" obstacle="1"/>
+    </settings>
+  </labeling>'''
+    return '''<!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
+<qgis version="3.34.0" styleCategories="Symbology|Labeling">
+  <renderer-v2 type="categorizedSymbol" attr="gold_class" symbollevels="0" enableorderby="0" forceraster="0">
+    <categories>
+{0}
+    </categories>
+    <symbols>
+{1}
+    </symbols>
+  </renderer-v2>
+{2}
+</qgis>
+'''.format('\n'.join(cat_xml), '\n'.join(sym_xml), labels)
+
+
 def _geology_qml():
     cats = [
         ('MCC_metapelite', '86,180,233,140', 'MCC / metapelite'),
@@ -166,6 +208,7 @@ LAYER_QML = {
     'pour_points': _categorized('pour_points'),
     'nure_spots': _categorized('nure_spots'),
     'pan_locations': _categorized('pan_locations'),
+    'hobby_reports': _hobby_qml(),
     'streams': _line_qml('70,130,180,210', '0.45'),
     'named_rivers': _line_qml('30,90,150,240', '1.15', label_field='name'),
     'geology': _geology_qml(),
@@ -227,6 +270,7 @@ def embed_qgis_styles(gpkg_path):
         'lidar_index': '3DEP 1 m LiDAR clip footprints',
         'nure_spots': 'NURE stream-sediment grabs — chemistry, not a pan pin',
         'pan_locations': 'Where to pan — slope break / power drop / junction',
+        'hobby_reports': 'Pamphlet / opt-in pans — catchment hit-rate, not AUC',
     }
     for layer, qml in LAYER_QML.items():
         if present and layer not in present:

@@ -5,7 +5,6 @@ This module fetches a belt's NURE + gold MRDS, applies the published
 log-medians, and reports ROC-AUC. A sag is the result, not a failure.
 
 Not a national model. Do not run this against the training box.
-Montana stays a stub until someone asks.
 """
 
 import os
@@ -253,11 +252,11 @@ def _transfer_note(belt, auc, auc_tight, frac_near, mean_pos, mean_neg):
             '0.15° labels most of this box because gold MRDS pins are dense '
             '— that is a weak negative class.'
         )
-    if (
-        mean_pos is not None and mean_neg is not None
-        and abs(mean_pos - mean_neg) < 0.05
-    ):
-        bits.append('Mean P is flat near gold and far from it.')
+    if mean_pos is not None and mean_neg is not None:
+        if abs(mean_pos - mean_neg) < 0.05:
+            bits.append('Mean P is flat near gold and far from it.')
+        elif mean_neg > mean_pos + 0.05:
+            bits.append('Mean P is higher far from gold than next to it.')
     bits.append(
         'This is a transfer test, not a new model. Do not call the doorbell national.'
     )
@@ -334,7 +333,7 @@ def run(cfg):
         'mean_p_far_from_gold': None if mean_neg is None else round(mean_neg, 4),
         'mean_p_all': None if not n else round(float(scored['p_anomalous'].mean()), 4),
         'label_method': (
-            'proximity (no DEM elevation cut — this belt has no regional DEM in this repo)'
+            'proximity (Task 12 does not apply a DEM elevation cut)'
         ),
         'mrds_proximity_deg': FAR_FROM_MINE_DEG,
         'note': _transfer_note(belt, auc, auc_tight, frac, mean_pos, mean_neg),
