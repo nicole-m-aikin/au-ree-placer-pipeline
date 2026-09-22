@@ -4,6 +4,11 @@ The forest stays frozen. Earth MRI picks the **next bbox**, not a new
 model. Idaho, California, Montana, Colorado, and the NC Fall Zone already
 proved the doorbell does not travel (0.50 / 0.52 / 0.34 / 0.56 / 0.50).
 
+**Two products only.** Published doorbell = frozen WA forest + transfer
+table. Walkable product = CA Zr–Fe–Ti sidecar + 1 m lidar + access ranks
++ park pins. Idaho / Montana / Colorado / Fall Zone stay **tests**.
+Do not sell four more walk apps.
+
 **Do not:** national-model, retrain to hide a sag, put Task 4 tonnes on
 `/predict`, add slope/eTh to the Random Forest, or treat an award press
 release as a study area.
@@ -54,11 +59,15 @@ release as a study area.
 
 ## Next (see [`SESSION_SUMMARY.md`](SESSION_SUMMARY.md))
 
-1. Manual Deploy so live `/model-info` lists the transfer belts.
-2. Walk one Sierra USFS confirm (1 m hillshade already clipped).
-3. Flip `land_access` on for NE WA / Idaho / Montana.
+1. **CA-only Task 11 sort:** geometry + access first, P only to break
+   ties. Not a new model. Do not apply that sort to the test belts.
+2. Manual Deploy so live `/model-info` lists the transfer belts.
+3. Walk one Sierra USFS confirm (1 m hillshade already clipped).
 4. Northern Sierra chemistry from something that is not NURE HSSR.
-5. When transfer is a coin flip, rank Task 11 geometry-first; P is a weak vote.
+
+Change-our-mind: if geometry-first colors a low-P cell, P is a
+tiebreaker. If access-ok expedition ground is blank, lookalike does
+not find new bars.
 
 ## Still waiting
 
@@ -75,6 +84,7 @@ release as a study area.
 - A continental NURE forest.
 - Putting topography or airborne eTh into the 200 trees.
 - One model for every state we scored.
+- Four more walk apps (ID / MT / CO / Fall Zone stay tests).
 - Full Figs 1–10 on a belt with no site depths.
 - Field-walking Washington from California.
 - Utah as a study area (White Mesa is the mill, not a belt).

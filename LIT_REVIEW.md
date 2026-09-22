@@ -83,11 +83,24 @@ So “ML for placers” exists. It is not “score US NURE against MRDS gold and
 | Do **not** label from Th itself (anti-circular) | Implied by “deposits as positives”; rarely stated this bluntly | Stated and tested |
 | Catchment as the right unit | Yousefi & Carranza 2013; Yangshan 2025 | Implemented as QA, **not** the published model (too few positives / tautology on 12 sites) |
 | Mineral systems (source–path–trap) | Wyborn 1994; McCuaig & Hronsky 2014; GA, BCGS | The rest of the pipeline, not `/predict` |
-| Spatial cross-validation | Strong warning: ordinary k-fold AUC can be fake | We used stratified k-fold. **Gap.** METHODOLOGY already names this. |
+| Spatial cross-validation | Strong warning: ordinary k-fold AUC can be fake | **Done.** Dead-zone + 0.4° block CV on `/model-info`. Quote the block, not 0.891. |
 | Public predict API + frozen train medians + tree-vote spread | Not found | What we just built |
 | Field-feedback loop that books expeditions | Not in papers; KoBold-like shops do it in-house | Overlay built: `hobby_reports` gazetteer + opt-in form, catchment hit-rate (not AUC). Own pans still missing. |
 
-**Bottom line for a hiring manager:** you did not invent mineral prospectivity. You took the Carranza RF + known-gold-deposit recipe, used NURE chemistry (heavy-mineral suite + Au–As, not As–Sb-only), refused circular Th labels, and put a defensible serve path on it. The target is **gold-placer lookalike drainages**. Monazite/REE is a co-product question in the ranking/tonnage tasks, not the API’s job. The missing published object is the serve path, plus (still) spatial CV and a field loop.
+**Bottom line for a hiring manager:** you did not invent mineral prospectivity. You took the Carranza RF + known-gold-deposit recipe, used NURE chemistry (heavy-mineral suite + Au–As, not As–Sb-only), refused circular Th labels, and put a defensible serve path on it. The target is **gold-placer lookalike drainages**. Monazite/REE is a co-product question in the ranking/tonnage tasks, not the API’s job. Spatial CV is now reported. The missing published object is still the field loop.
+
+### Findings vs literature (22 Sep 2026)
+
+| What we measured | Paper that already said this | What we do not claim |
+|------------------|------------------------------|----------------------|
+| Frozen WA forest ≈ 0.50 on ID / CA / MT / CO / NC | **Airola et al. 2018**; 2026 *Ore Geol. Rev.* blocked-CV drop. Transfer is the honest test. | That 0.891 “works in a new state.” |
+| CA forest scores Colorado high on both sides of gold | **Grosz & Schruben 1993** B2097: NURE Ti–Zr–REE–Th–U outlines a **province**, not a paystreak. | That the CA sidecar found a Colorado bar. |
+| Sierra valley floor = Zr–Fe–Ti, ridges not | **Slingerland & Smith 1986** (hydraulic sorting); **Yeend 1974** PP 772 (ancestral Yuba factory). | That Zr–Fe–Ti in the RF is a trap vote. |
+| P found the factory; elev + access found the walk | **McCuaig & Hronsky 2014**; **Yousefi & Carranza 2013**: chemistry without trap / catchment is not a target. | That expedition class is a ranking. |
+| Extra metals ticked shuffled CV, dead-zone flat | Lithology leak. Grosz used eTh as a **map**, not a CV feature. | That more NURE columns help. |
+| Lookalike picks a new bar? | Not in the open literature. Papers end at a map. | Either yes or no until pans exist. |
+
+Locked products: doorbell = frozen WA + transfer table. Walk list = California only. Idaho / Montana / Colorado / Fall Zone stay tests.
 
 ---
 
@@ -150,6 +163,9 @@ Grosz already showed the multi-element heavy-mineral suite. Labeling from Th wou
 
 **“Would you send a crew from 0.891?”**  
 No. Airola 2018: random k-fold AUC on spatial mineral data can be a lie. I would re-score with blocked or leave-cluster-out CV, map to catchments (Yousefi & Carranza 2013), keep the mineral-system filters, and field-check a handful in-belt before I trusted another state.
+
+**“The California forest lights up Colorado — new gold?”**  
+No. Grosz & Schruben 1993: NURE heavies outline a province. McCuaig & Hronsky 2014: chemistry without a trap is not a target. Flat high P is “same heavies,” not a bar.
 
 ---
 
@@ -255,7 +271,7 @@ Do not rebuild the forest from scratch. The gold labels, the heavy-mineral featu
 
 6. **Hold out a sub-area inside NE WA** (e.g. train west, test east). **Done** (Task 13). Published forest east of −118.50° is **0.53**. A west-only refit is 0.63. Joblib not rewritten.
 
-7. **Other belts.** **Done.** Frozen NE WA forest: Idaho **0.50**, California **0.52**, Montana **0.34**, Colorado **0.56**, NC Fall Zone **0.50**. Local Sierra forest (sidecar) is a different object — quote 0.4° block **0.69**, not the 3 km 0.83. It does not beat Washington on other states. Do not retrain to paper over the sag. Do not talk about more than one state as a product. Living in California does not make the Washington forest a Sierra model.
+7. **Other belts.** **Done.** Frozen NE WA forest: Idaho **0.50**, California **0.52**, Montana **0.34**, Colorado **0.56**, NC Fall Zone **0.50**. Local Sierra forest (sidecar) is a different object — quote 0.4° block **0.69**, not the 3 km 0.83. It does not beat Washington on other states. Flat high CA-on-CO P is Grosz 1993 (province), not a bar. Do not retrain to paper over the sag. Two products only: WA doorbell + CA walk list. Living in California does not make the Washington forest a Sierra model.
 
 8. **Field check a handful of high-P / no-mine drainages in NE WA.** Without pans, “robust” is still a computer talking to itself.
 
@@ -278,6 +294,7 @@ Do not rebuild the forest from scratch. The gold labels, the heavy-mineral featu
 5c. Montana / Colorado / Fall Zone transfer — **done** (0.34 / 0.56 / 0.50). Local sidecars on MT and CO; cousins test deleted.
 6. Hold-out sub-area inside NE WA — **done** (Task 13: published forest 0.53 east of −118.50°)
 8. Field pans — pamphlet / opt-in overlay shipped (`hobby_reports`; hit-rate, not AUC). Own pans still missing. Without those, “robust” is still a computer talking to itself.
+9. CA-only Task 11 sort (geometry + access first, P breaks ties) — **next**, not a new model.
 
 Live doorbell: https://placer-lookalike.onrender.com/docs
 

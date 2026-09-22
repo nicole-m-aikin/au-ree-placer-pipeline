@@ -6,9 +6,17 @@ Phase-by-phase decisions, tradeoffs, and answers I would actually give.
 The doorbell does not travel (ID 0.50 / CA 0.52 / MT 0.34 / CO 0.56 / NC 0.50).
 Only the Sierra local forest really learned (quote **0.4° block 0.69**, not
 the 3 km 0.83). Extra metals were noise. California’s forest does not beat
-Washington on other states. Topography makes the trap — keep slope out of
-the 200 trees. Next: Manual Deploy so `/model-info` lists the belts; walk
-one Sierra USFS confirm; flip `land_access` on WA/ID/MT; wait for pubs.
+Washington on other states.
+
+**Locked (22 Sep night):** two products only. Published doorbell = frozen WA
+forest + transfer table. Walkable product = CA Zr–Fe–Ti sidecar + 1 m lidar
++ access ranks + park pins. Idaho / Montana / Colorado / Fall Zone stay
+tests — do not sell four more walk apps. Tomorrow: CA-only Task 11 sort,
+geometry + access first, P only to break ties (not a new model). Colorado
+flat high P is a **province** map (Grosz & Schruben 1993), not a bar.
+Lookalike-finds-a-new-bar is unknown until pans exist. Change-our-mind:
+geometry-first colors a low-P cell (P is a tiebreaker) or access-ok
+expedition ground is blank (lookalike does not find new bars).
 
 ---
 
@@ -214,7 +222,7 @@ Idaho, California, Montana, Colorado, and the Fall Zone now have the same layers
 
 **NURE coverage hole (hard):** national HSSR sediment has **no samples north of ~39.00°** in lon −121.7…−120.4. Re-clip does not fill it. South Yuba / Malakoff / Downieville cannot be ML-ranked. DEM/MRDS/PAD-US/MLRS cover the north. Pamphlet parks there are access-labeled at the pin (`task11_park_pin_access.csv`): South Yuba BLM/State Parks `access_ok=yes`; Marshall state_park + hot NURE; Auburn HQ pin local_gov; Mammoth Bar pin private — confirm rules on site. Filling northern chemistry needs a **different source than NURE HSSR**.
 
-**Tomorrow (see `NEXT_SESSION_PROMPT.md` top):** (1) Manual Deploy on `placer-lookalike` so `/model-info` lists ID/CA/MT/CO/NC — do not change `/predict`; (2) walk one Sierra access-ok USFS confirm (−120.78, 38.60) and write pans on the opt-in form; (3) flip `land_access` on for NE WA / Idaho / Montana (config + fetch + Task 11 rebuild); (4) evaluate non-NURE chemistry (NGDB / CGS / aerial radiometrics as a *map*, not an RF feature) for northern Sierra. Do not national-model. Do not invent Mineral Hill / Phosphoria / CA waste OFR boxes.
+**Tomorrow (see `NEXT_SESSION_PROMPT.md` top):** (1) CA-only Task 11 sort — geometry + access first, P only to break ties (not a new model; not applied to test belts); (2) Manual Deploy so `/model-info` lists ID/CA/MT/CO/NC — do not change `/predict`; (3) walk one Sierra access-ok USFS confirm (−120.78, 38.60) and write pans on the opt-in form; (4) evaluate non-NURE chemistry (NGDB / CGS / aerial radiometrics as a *map*, not an RF feature) for northern Sierra. Idaho / Montana / Colorado / Fall Zone stay tests. Do not national-model. Do not invent Mineral Hill / Phosphoria / CA waste OFR boxes.
 
 **Walk lists (local P except Fall Zone):** Idaho 5 expedition / 12 confirm. California **2 / 4** (2 USFS `access_ok`). Montana 7 / 12. Colorado 1 / 5. Fall Zone 5 “expedition” on WA gold-P — not sand targets. Gold pins and geology are local. Open `~/projects/task11_{short}_field_campaign.gpkg` (no `+` in the path).
 
@@ -225,6 +233,14 @@ You POST eleven NURE concentrations and `fe_unit`. You get P(this grab looks lik
 **Q: Why Idaho if you expect the AUC to drop?**
 
 Because 0.891 is shuffled CV on one belt. Airola 2018: that number can look great and fail on new ground. The literature says score the next belt with the first forest *before* you refit. A sag is the result. Retraining Idaho or Montana to hide a transfer sag would be wrong. A **named second forest** for California (`ca_sierra_placer` sidecar) is a different product: local walk list, doorbell still WA 0.52. Living in California does not make the Washington forest a Sierra model.
+
+**Q: The California forest lights up Colorado. Did you find Colorado gold?**
+
+No. Grosz & Schruben 1993 already said NURE heavy-mineral chemistry outlines a **province**, not a bar. Flat high P on both sides of the gold line is “this belt has the same heavies.” McCuaig & Hronsky 2014: chemistry without a trap is not a target. The trap is topography (Slingerland & Smith 1986; Yeend PP 772). That is why slope stays out of the 200 trees and why Task 11 will sort geometry + access first.
+
+**Q: Does lookalike pick a new bar?**
+
+Unknown. Right now it re-finds the factory. Valley expeditions were FWS levees. Remaining high-P / far-from-mine cells are not `access_ok`. Another AUC will not answer it. Pans on a watch or expedition cell will.
 
 **Q: Why Render / Docker?**
 

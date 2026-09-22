@@ -29,7 +29,7 @@ Each pipeline task evaluates one or more components of this framework:
 - **Task 7** — pathfinder halos around traps (Au/As anomaly delineation as placer vectors)
 - **Task 8** — preservation context (mine waste ABA risk; WGS OFR 2026-02 field data)
 - **Task 9** — data-driven spatial targeting across all components (ML probability surface)
-- **Task 11** — trap walk list: chemistry picks the drainage; stream-geometry votes pick the pan pin; pamphlet / opt-in pans are a catchment hit-rate overlay (not AUC)
+- **Task 11** — trap walk list: chemistry picks the drainage; stream-geometry votes pick the pan pin (Yousefi & Carranza 2013; Slingerland & Smith 1986). California is the only walk product: next sort is geometry + access first, P only to break ties. Pamphlet / opt-in pans are a catchment hit-rate overlay (not AUC).
 - **Task 12** — transfer test: frozen NE WA forest on Idaho (AUC 0.50), California Sierra (0.52), Montana SW gulches (0.34), Colorado Wet Mountains (0.56), and NC Fall Zone (0.50; other placer). Do not retrain.
 - **Task 13** — in-belt east-west hold-out on NE WA (does not rewrite the published joblib)
 
@@ -556,11 +556,24 @@ not the doorbell, does not travel, and is not proof the Washington model
 travels.
 
 Chemistry picks the creek. Geometry picks the boot. Access and claims
-filter the list. Do not put slope or eTh in the Random Forest.
+filter the list. Do not put slope or eTh in the Random Forest
+(McCuaig & Hronsky 2014: a high chemistry score with no trap is not a
+target; LIT_REVIEW §10.4: slope in the RF leaks the valley-floor label).
 
-That is the literature failure mode for transfer, not a reason to build a
-national model. A second forest for a walkable belt is allowed when the
-doorbell stays frozen. See [`SESSION_SUMMARY.md`](SESSION_SUMMARY.md).
+**What the numbers mean against the papers:**
+
+| What we measured | What the literature already said |
+|------------------|----------------------------------|
+| WA forest ~0.50 on every new belt | Airola et al. 2018: shuffled AUC can look great and fail on new ground. Transfer is the real test. |
+| CA forest flat-high on Colorado | Grosz & Schruben 1993 (B2097): NURE heavies outline a **province**, not a bar. |
+| CA valley floor = Zr–Fe–Ti, ridges not | Slingerland & Smith 1986 (hydraulic sorting); Yeend USGS PP 772 (ancestral Yuba factory). |
+| P found the factory; elev + PAD-US + MLRS found the walk | McCuaig & Hronsky 2014; Yousefi & Carranza 2013: drainage + trap after chemistry. |
+| Extra metals (cousins) raised shuffled CV, left dead-zone flat | Lithology leak. Grosz used eTh as a **map**, not a CV feature. |
+| Expedition class without pans | Papers end at a map. A field loop is not in the open literature. Another AUC will not close it. |
+
+Locked products: doorbell = frozen WA forest + transfer table. Walk list =
+California sidecar + 1 m lidar + access. Idaho / Montana / Colorado /
+Fall Zone stay tests. See [`SESSION_SUMMARY.md`](SESSION_SUMMARY.md).
 
 ---
 
@@ -594,7 +607,11 @@ space or at site scale using lidar-derived elevations.
 - Airola, A. et al. (2018). A comparison of leave-one-out and leave-pair-out cross-validation for assessing spatial prediction models. *Data Mining and Knowledge Discovery*.
 - Blakely, R.J. et al. (1999). Aeromagnetic anomalies of the Pacific Northwest. USGS OFR 99-0440.
 - Bonham-Carter, G.F. et al. (1988). Integration of geological datasets for gold exploration in Nova Scotia. *Photogrammetric Engineering & Remote Sensing*, 54(11), 1585–1592.
+- Grosz, A.E. & Schruben, P.G. (1993). *NURE geochemical and geophysical surveys: defining prospective terranes for United States placer exploration.* USGS Bulletin 2097. https://doi.org/10.3133/b2097
 - McCuaig, T.C. & Hronsky, J.M.A. (2014). The mineral system concept: the key to exploration targeting. *SEG Special Publications*, 18, 153–175.
+- Slingerland, R. & Smith, N.D. (1986). Occurrence and formation of water-laid placers. *Annual Review of Earth and Planetary Sciences*, 14, 113–147.
+- Yeend, W.E. (1974). Gold-bearing gravel of the ancestral Yuba River, Nevada County, California. USGS Professional Paper 772.
+- Yousefi, M., Carranza, E.J.M. & Kamkar-Rouhani, A. (2013). Weighted drainage catchment basin mapping of geochemical anomalies. *Journal of Geochemical Exploration*, 128, 88–96.
 - MEND (2009). *MEND Manual, Volume 4: Sampling and Analysis*. Mine Environment Neutral Drainage Program.
 - Mücke, A. & Bhaskara Rao, A. (1996). Opaque minerals in Sri Lankan gem-bearing eluvial and fluvial sediments. *Mineralogy and Petrology*, 58, 37–66.
 - Rasmussen, B. & Muhling, J.R. (2009). Monazite begets monazite. *Contributions to Mineralogy and Petrology*, 158, 15–32.
