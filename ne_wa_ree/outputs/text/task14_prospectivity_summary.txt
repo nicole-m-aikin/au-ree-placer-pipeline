@@ -1,0 +1,64 @@
+TASK 14 — extras vs chemistry-only transfer
+Sidecar. Doorbell unchanged.
+
+Train labels: 0.15° gold + 200 m valley floor.
+Transfer labels: 0.15° gold (Task 12).
+Transferable extras: SGMC lith_score (0–3), 30 m slope_deg.
+Slope leaks the valley-floor label. lith_slope is the control.
+
+NE Washington (train)
+  chem               dead-zone=0.699  block=0.757
+  chem_lith          dead-zone=0.613  block=0.653
+  chem_lith_slope    dead-zone=0.630  block=0.658
+  lith_slope         dead-zone=0.538  block=0.640
+  chem_mag_eth       dead-zone=0.742  block=0.798
+
+Idaho Batholith
+  chem               transfer=0.485
+  chem_lith          transfer=0.489
+  chem_lith_slope    transfer=0.514
+  lith_slope         transfer=0.503
+
+California Sierra placer foothills
+  chem               transfer=0.464
+  chem_lith          transfer=0.473
+  chem_lith_slope    transfer=0.467
+  lith_slope         transfer=0.648
+
+Montana SW gold gulches
+  chem               transfer=0.470
+  chem_lith          transfer=0.388
+  chem_lith_slope    transfer=0.481
+  lith_slope         transfer=0.502
+
+Colorado Wet Mountains / Arkansas gulches
+  chem               transfer=0.557
+  chem_lith          transfer=0.626
+  chem_lith_slope    transfer=0.528
+  lith_slope         transfer=0.457
+
+North Carolina Fall Zone (Ti–Zr–REE sand)
+  chem               transfer=0.496
+  chem_lith          transfer=0.421
+  chem_lith_slope    transfer=0.460
+  lith_slope         transfer=0.523
+
+Did extras beat chemistry on transfer?
+  Idaho Batholith: chem 0.485 → chem+lith+slope 0.514  (tie)
+  California Sierra placer foothills: chem 0.464 → chem+lith+slope 0.467  (tie)
+  Montana SW gold gulches: chem 0.470 → chem+lith+slope 0.481  (tie)
+  Colorado Wet Mountains / Arkansas gulches: chem 0.557 → chem+lith+slope 0.528  (tie)
+  North Carolina Fall Zone (Ti–Zr–REE sand): chem 0.496 → chem+lith+slope 0.460  (no)
+Extras did not travel. Prospectivity layers did not rescue the doorbell.
+
+Notes
+  In-belt, lith + slope *hurt* chemistry (0.70 → 0.63). They became the
+  top features and leaked the valley-floor label.
+  lith_slope alone is a valley detector (dead-zone 0.54).
+  chem+mag+eTh looks better in-belt (0.74 / 0.80) because those grids are
+  smooth. Neighbors share the same mag/eTh. Cannot transfer — other belts
+  have no rasters.
+  California lith_slope transfer 0.65 is the foothills factory (slope +
+  lith vs valley floor), not a better doorbell. Chemistry+extras stayed 0.47.
+  Colorado chem_lith 0.63 sits on 21 negatives (97% near gold). Fragile.
+
