@@ -1,0 +1,43 @@
+FIELD CAMPAIGN WALK LIST
+North Carolina Fall Zone (Ti–Zr–REE sand) — 0.4° cells + pour points
+P is the frozen NE Washington forest (lookalike), not a local gold model. Gold distance uses this belt's MRDS pins. Stars are NURE; circles are pans.
+====================================================================
+
+Cells on the map:     12  (occupied by NURE: 12)
+Expedition (high P, >5 km from a gold pin): 5
+Confirm    (high P, ≤5 km from a gold pin): 0
+Watch      (moderate P):                     7
+Skip       (low P or empty):                 0
+
+Leave-one-cell-out AUC (cells with ≥8 grabs): 0.670  (min 0.555, max 0.815, n=3 cells)
+Same story as the 0.94 vs 0.62 folds — some cells transfer, some do not.
+
+WALK ORDER (expedition first, most isolated first)
+
+  # 1  expedition   max P=0.6438  50.8 km from gold  pour 36.4037, -77.3732  nure=2
+  # 2  expedition   max P=0.7114  46.4 km from gold  pour 36.2274, -77.3672  nure=4
+  # 3  expedition   max P=0.6247  39.0 km from gold  pour 35.8143, -77.703  nure=4
+  # 4  expedition   max P=0.6968  35.2 km from gold  pour 36.4819, -77.6346  nure=4
+  # 5  expedition   max P=0.6565  20.0 km from gold  pour 36.1431, -77.6148  nure=4
+  # 6  watch        max P=0.425  82.3 km from gold  pour 35.5535, -77.3785  nure=1
+  # 7  watch        max P=0.5546  63.3 km from gold  pour 35.5592, -78.0217  nure=2
+  # 8  watch        max P=0.4996  61.1 km from gold  pour 35.5913, -77.8445  nure=4
+  # 9  watch        max P=0.44  60.6 km from gold  pour 35.7217, -77.4813  nure=4
+  #10  watch        max P=0.5614  54.1 km from gold  pour 35.6425, -78.0283  nure=2
+  #11  watch        max P=0.4034  40.8 km from gold  pour 36.4897, -78.2434  nure=1
+  #12  watch        max P=0.4848  3.3 km from gold  pour 36.2297, -78.014  nure=4
+
+NURE COVERAGE
+  NURE envelope: lon -78.249–-77.350, lat 35.501–36.495  (n=588)
+  Study bbox:    lon -78.250–-77.350, lat 35.500–36.500
+
+nure_spots = NURE chemistry grabs (the forest). They say this creek.
+pan_locations = trap-geometry pins on the D8 line. They say stand here.
+hobby_reports = pamphlet / opt-in pans. Catchment hit-rate, not AUC.
+access_* = PAD-US manager + MLRS claims + hobby club/industry labels.
+This is a screen, not permission. Confirm claims and park rules on site.
+Pour point = where the water leaves. It is not automatically a pan pin.
+See task11_nure_spots.csv, task11_pan_locations.csv,
+task11_hobby_reports.csv and task11_hobby_hit_rate.csv.
+
+Hobby / pamphlet overlay (not AUC): 0 reports, 0 catchment hits (0 expedition). Recoveries=0  blanks=0  gazetteer=0.

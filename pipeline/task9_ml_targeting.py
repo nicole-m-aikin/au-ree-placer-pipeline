@@ -33,7 +33,20 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import roc_curve, auc, precision_recall_fscore_support
 
-from pipeline.ml_artifacts import persist_gold_mrds, persist_published_model
+from pipeline.ml_preprocess import (
+    COUSIN_FEATURES,
+    FEATURES,
+    FEATURES_BY_COMMODITY,
+    feature_list_for_cfg,
+    usable_feature_columns,
+)
+from pipeline.ml_artifacts import (
+    is_published_training_belt,
+    persist_belt_model,
+    persist_gold_mrds,
+    persist_published_model,
+    study_area_short,
+)
 from pipeline.ml_preprocess import FEATURES, FEATURES_BY_COMMODITY, _log_impute
 from pipeline.ml_spatial import (
     CV_OPTIMISM_NOTE,
@@ -233,8 +246,27 @@ def run(cfg, export_only=False):
     commodity_filter  = cfg.get('ml', {}).get('mrds_commodity_filter', 'all')
 
     # Select per-commodity feature set when splitting models; fall back to full set.
-    feature_set = FEATURES_BY_COMMODITY.get(commodity_filter, FEATURES)
-    avail_feats = [f for f in feature_set if f in df.columns]
+    # Drop columns with no positive measurements — empty Au/As would become a
+    # constant log-median fill and fake a pathfinder the belt never assayed.
+    include_cousins = bool((cfg.get('ml') or {}).get('include_cousins'))
+    feature_set = feature_list_for_cfg(cfg, commodity_filter)
+    avail_feats, features_dropped = usable_feature_columns(df, feature_set)
+    if include_cousins:
+        thin = []
+        for f in list(avail_feats):
+            if f not in COUSIN_FEATURES:
+                continue
+            n_pos = int((pd.to_numeric(df[f], errors='coerce') > 0).sum())
+            if n_pos < 20:
+                thin.append(f)
+                avail_feats.remove(f)
+        if thin:
+            features_dropped = list(features_dropped) + thin
+            print(f"  Cousins dropped (<20 positives): {thin}")
+    if features_dropped:
+        print(f"  Features dropped (missing or no positive values): {features_dropped}")
+    if not avail_feats:
+        raise ValueError('No usable Task 9 features after dropping empty columns.')
     log_X, log_medians = _log_impute(df, avail_feats)
     X = log_X.values
     elements_used = avail_feats
@@ -394,7 +426,8 @@ def run(cfg, export_only=False):
         })
 
     cv_df = pd.DataFrame(cv_rows)
-    cv_df.to_csv(out(cfg, 'tables', 'task9_ml_cv_scores.csv'), index=False)
+    table_tag = 'task9_cousins' if include_cousins else 'task9_ml'
+    cv_df.to_csv(out(cfg, 'tables', f'{table_tag}_cv_scores.csv'), index=False)
     mean_auc = cv_df['roc_auc'].mean()
     std_auc  = cv_df['roc_auc'].std()
     print(f"  CV ROC-AUC: {mean_auc:.3f} ± {std_auc:.3f}")
@@ -423,7 +456,7 @@ def run(cfg, export_only=False):
         spatial_rows.append({'scheme': 'block_0.4deg', 'fold': i, 'roc_auc': a})
     if spatial_rows:
         pd.DataFrame(spatial_rows).to_csv(
-            out(cfg, 'tables', 'task9_ml_spatial_cv.csv'), index=False
+            out(cfg, 'tables', f'{table_tag}_spatial_cv.csv'), index=False
         )
 
     # ── Final model on all data ───────────────────────────────────────────────
@@ -434,16 +467,24 @@ def run(cfg, export_only=False):
     feat_imp = pd.DataFrame({'feature': avail_feats,
                              'importance': rf_final.feature_importances_}) \
                  .sort_values('importance', ascending=False).reset_index(drop=True)
-    feat_imp.to_csv(out(cfg, 'tables', 'task9_ml_feature_importance.csv'), index=False)
+    feat_imp.to_csv(out(cfg, 'tables', f'{table_tag}_feature_importance.csv'), index=False)
 
-    # Persist the published proximity / placer_gold forest for the API.
-    # Other commodity filters or label methods must not overwrite that artifact.
+    # Persist proximity / placer_gold forests. Only NE WA may overwrite the
+    # doorbell joblib. Cousins tests and other belts write sidecars.
     if (commodity_filter == 'placer_gold'
             and cfg.get('ml', {}).get('label_method', 'proximity') == 'proximity'):
+        short = study_area_short(cfg) or 'ne_wa'
+        if include_cousins:
+            short = f'{short}_cousins'
+        is_doorbell = is_published_training_belt(cfg) and not include_cousins
         metadata = {
-            'model_id': 'task9_rf_placer_gold',
+            'model_id': (
+                'task9_rf_placer_gold' if is_doorbell
+                else f'task9_rf_placer_gold.{short}'
+            ),
             'feature_order': list(avail_feats),
             'feature_units': {f: 'ppm' for f in avail_feats},
+            'features_dropped': list(features_dropped),
             'log_medians': {k: float(v) for k, v in log_medians.items()},
             'training_date': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
             'sklearn_version': sklearn.__version__,
@@ -477,26 +518,51 @@ def run(cfg, export_only=False):
                 row['feature']: float(row['importance']) for _, row in feat_imp.iterrows()
             },
             'study_area': cfg.get('study_area', {}).get('name', 'unknown'),
+            'study_area_short': short or 'ne_wa',
+            'is_doorbell': is_doorbell,
             'resource_tonnage_uncertainty': (
                 'Resource-tonnage uncertainty (Task 4 Monte Carlo; P10/P50/P90 '
                 'NdPr tonnes) is a separate quantity and is not exposed by this model.'
             ),
         }
-        model_path, meta_path = persist_published_model(rf_final, metadata)
-        print(f"  Persisted published model: {model_path}")
-        print(f"  Persisted metadata:        {meta_path}")
+        if not is_doorbell:
+            metadata['doorbell_note'] = (
+                'Not the public doorbell. The frozen NE Washington forest stays '
+                'on /predict. This file is a belt-local forest for a walk list.'
+            )
+        if is_doorbell:
+            model_path, meta_path = persist_published_model(rf_final, metadata)
+            print(f"  Persisted published model: {model_path}")
+            print(f"  Persisted metadata:        {meta_path}")
+            gold_short = None
+        else:
+            model_path, meta_path = persist_belt_model(
+                rf_final, metadata, short,
+            )
+            print(f"  Persisted belt-local model: {model_path}")
+            print(f"  Persisted belt-local metadata: {meta_path}")
+            print("  Did not touch the doorbell joblib.")
+            gold_short = short
         if gold_mrds_coords is not None:
-            gold_path = persist_gold_mrds(gold_mrds_coords)
+            gold_path = persist_gold_mrds(
+                gold_mrds_coords, short=gold_short,
+            )
             print(f"  Persisted gold MRDS coords: {gold_path} "
                   f"({len(gold_mrds_coords)} sites)")
+
+    if include_cousins:
+        df[['lat', 'lon', 'p_anomalous']].to_csv(
+            out(cfg, 'tables', 'task9_cousins_nure_probability.csv'), index=False)
+        print("  Cousins test — did not overwrite task9_ml_nure_probability.csv.")
 
     if export_only:
         print("Task 9 export-only — skipping figure and secondary models.")
         return
 
     # Write per-sample probability for integration scoring (Change 4a)
-    df[['lat', 'lon', 'p_anomalous']].to_csv(
-        out(cfg, 'tables', 'task9_ml_nure_probability.csv'), index=False)
+    if not include_cousins:
+        df[['lat', 'lon', 'p_anomalous']].to_csv(
+            out(cfg, 'tables', 'task9_ml_nure_probability.csv'), index=False)
 
     # ── Cu-Mo discriminator model (secondary; no CV, importance only) ────────
     feat_imp_cumo = None
@@ -871,10 +937,13 @@ if __name__ == '__main__':
     args = sys.argv[1:]
     same_basin = '--same-basin' in args
     export_only = '--export-only' in args
-    args = [a for a in args if a not in ('--same-basin', '--export-only')]
+    include_cousins = '--cousins' in args
+    args = [a for a in args if a not in ('--same-basin', '--export-only', '--cousins')]
     cfg_path = args[0] if args else 'configs/ne_washington/config.yaml'
     with open(cfg_path) as f:
         cfg = yaml.safe_load(f)
+    if include_cousins:
+        cfg.setdefault('ml', {})['include_cousins'] = True
     if same_basin:
         run_same_basin_qa(cfg)
     else:

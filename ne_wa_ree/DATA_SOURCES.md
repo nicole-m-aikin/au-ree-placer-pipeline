@@ -72,28 +72,36 @@
 
 ### USGS State Geologic Map (Task 2 / Task 11)
 # SGMC state shapefiles (Horton 2017): https://mrdata.usgs.gov/geology/state/
-# Task 11 downloads the zip for data.sgmc_state (WA / ID / CA / MT) on first run:
+# Task 11 downloads the zip for data.sgmc_state (WA / ID / CA / MT / CO / NC) on first run:
 #   https://mrdata.usgs.gov/geology/state/shp/WA.zip
 #   https://mrdata.usgs.gov/geology/state/shp/ID.zip
 #   https://mrdata.usgs.gov/geology/state/shp/CA.zip
 #   https://mrdata.usgs.gov/geology/state/shp/MT.zip
+#   https://mrdata.usgs.gov/geology/state/shp/CO.zip
+#   https://mrdata.usgs.gov/geology/state/shp/NC.zip
 # WA extract lives in ne_wa_ree/data/geologic/WA_sgmc_extracted/.
-# ID / CA / MT extracts are gitignored under data/geologic/.
+# Other extracts are gitignored under data/geologic/.
 
-### Idaho + California + Montana transfer extracts (Task 12)
+### Transfer extracts (Task 12 — frozen NE WA forest, do not retrain)
 # Frozen NE WA forest. Do not retrain. Fetched by:
 #   python -m pipeline.task12_second_belt configs/idaho_batholith/config.yaml
 #   python -m pipeline.task12_second_belt configs/california_sierra/config.yaml
 #   python -m pipeline.task12_second_belt configs/montana_placer/config.yaml
+#   python -m pipeline.task12_second_belt configs/colorado_wet_mtns/config.yaml
+#   python -m pipeline.task12_second_belt configs/fall_zone_nc/config.yaml
 # NURE: national HSSR CSV clip (data/nure/raw/nuresed-csv.zip is gitignored).
 # MRDS: search-bbox gold pins.
 # Kept extracts:
 #   data/nure/nure_id_batholith_sediment.csv
 #   data/nure/nure_ca_sierra_sediment.csv
 #   data/nure/nure_mt_placer_sediment.csv
+#   data/nure/nure_co_wet_mtns_sediment.csv
+#   data/nure/nure_nc_fall_zone_sediment.csv
 #   data/mrds/mrds_id_batholith.geojson
 #   data/mrds/mrds_ca_sierra.geojson
 #   data/mrds/mrds_mt_placer.geojson
+#   data/mrds/mrds_co_wet_mtns.geojson
+#   data/mrds/mrds_nc_fall_zone.geojson
 
 ### WGS OFR 2026-02 Mine Waste Supplement (Tasks 2, 3, 4, 8 — optional overlay)
 # Washington Geological Survey Open-File Report 2026-02 (van Alderwerelt & Di Fiori, 2026)

@@ -19,7 +19,7 @@ Recoveries (color or better): 0
 Blanks:                       0
 Unknown / gazetteer:          0
 Pin-scored (precision=point): 0
-Walkable catchments:          23
+Walkable catchments:          19
 Walkable with ≥1 eligible hit:0
 
 Do not quote this as ROC-AUC. People post flakes, not blanks.

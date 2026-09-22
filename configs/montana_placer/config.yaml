@@ -1,8 +1,9 @@
 # Southwest Montana gold gulches — frozen-forest transfer box.
 # Boulder Batholith / Elkhorn / Confederate Gulch / Alder Gulch / Montana Bar.
 # Libby is a different belt and is not in this box.
-# Task 12 scores the NE WA forest. Task 11 builds the walk list.
-# Tasks 1–10 stay off until sites have real public depths.
+# Task 12 scores the NE WA forest (doorbell stays WA).
+# Task 9 may write task9_rf_placer_gold.mt_placer.joblib — not /predict.
+# Tasks 1–8 / 10 stay off until sites have real public depths.
 
 study_area:
   name: "Montana SW gold gulches"
@@ -36,7 +37,8 @@ data:
 
 task11:
   fetch_lidar: false
-  p_is_transfer: true
+  # False once a local Task 9 forest exists (task9_ml_nure_probability.csv).
+  p_is_transfer: false
 
 sites:
   - name: "Confederate Gulch"
@@ -113,8 +115,10 @@ economics:
 
 ml:
   label_method: proximity
-  mrds_proximity_deg: 0.15
+  # 0.15° paints ~94% yes. Train at 0.03° (~3 km), same as the Sierra sidecar.
+  mrds_proximity_deg: 0.03
   mrds_commodity_filter: placer_gold
+  mrds_elev_diff_m: 200
 
 scoring:
   weights:

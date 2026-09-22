@@ -17,6 +17,10 @@ import pandas as pd
 # leak spatial autocorrelation into CV. Map layer first (Task 1 Fig 1b).
 FEATURES = ['Th', 'Ce', 'La', 'P', 'U', 'Au', 'As', 'Ti', 'Fe', 'Zr', 'Y']
 
+# Heavy-mineral cousins — local-forest test only, never the doorbell.
+# Cr (chromite), Nb (columbite), Hf (zircon), Sc (mafic/heavy), W (scheelite).
+COUSIN_FEATURES = ['Cr', 'Nb', 'Hf', 'Sc', 'W']
+
 # After load_nure, every published feature is ppm. NURE stores P and Fe as wt%;
 # load_nure multiplies those columns by 10,000 when the median-threshold fires.
 FEATURE_UNITS_PPM = {
@@ -38,6 +42,33 @@ P_WT_PCT_MAX = 1.0
 FE_WT_PCT_MAX = 20.0
 FE_PPM_MIN_PLAUSIBLE = 100.0
 TRACE_PPM_MAX = 1.0e5
+
+
+def feature_list_for_cfg(cfg, commodity_filter='placer_gold'):
+    """Published suite, plus cousins when ml.include_cousins is on."""
+    base = list(FEATURES_BY_COMMODITY.get(commodity_filter, FEATURES))
+    if (cfg.get('ml') or {}).get('include_cousins'):
+        base.extend(f for f in COUSIN_FEATURES if f not in base)
+    return base
+
+
+def usable_feature_columns(df, feature_set):
+    """Keep features that exist and have at least one positive concentration.
+
+    Empty columns (e.g. Sierra HSSR Au/As) must not become a constant
+    log-median fill — that would fake a pathfinder the belt never assayed.
+    Returns (kept, dropped).
+    """
+    kept, dropped = [], []
+    for f in feature_set:
+        if f not in df.columns:
+            dropped.append(f)
+            continue
+        if not (pd.to_numeric(df[f], errors='coerce') > 0).any():
+            dropped.append(f)
+            continue
+        kept.append(f)
+    return kept, dropped
 
 
 def apply_nure_mdl(value):

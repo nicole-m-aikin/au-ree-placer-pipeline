@@ -1,0 +1,15 @@
+{
+"type": "FeatureCollection",
+"name": "mrds_nc_fall_zone",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "dep_id": "10055333", "site_name": "Alston Mine", "dev_stat": "Past Producer", "code_list": " AU ", "target_commodity": "Gold", "lon": -77.93472, "lat": 36.2048 }, "geometry": { "type": "Point", "coordinates": [ -77.93472, 36.2048 ] } },
+{ "type": "Feature", "properties": { "dep_id": "10084226", "site_name": "Portis Mine", "dev_stat": "Past Producer", "code_list": " AU AG CU ", "target_commodity": "Gold", "lon": -78.01639, "lat": 36.20008 }, "geometry": { "type": "Point", "coordinates": [ -78.01639, 36.20008 ] } },
+{ "type": "Feature", "properties": { "dep_id": "10084228", "site_name": "Argo Mine", "dev_stat": "Past Producer", "code_list": " AU AG ", "target_commodity": "Gold", "lon": -77.99889, "lat": 36.12925 }, "geometry": { "type": "Point", "coordinates": [ -77.99889, 36.12925 ] } },
+{ "type": "Feature", "properties": { "dep_id": "10084271", "site_name": "Conyers Mine", "dev_stat": "Past Producer", "code_list": " AU ", "target_commodity": "Gold", "lon": -77.83027, "lat": 36.14175 }, "geometry": { "type": "Point", "coordinates": [ -77.83027, 36.14175 ] } },
+{ "type": "Feature", "properties": { "dep_id": "10084272", "site_name": "Arrington Mine", "dev_stat": "Past Producer", "code_list": " AU ", "target_commodity": "Gold", "lon": -77.99278, "lat": 36.19452 }, "geometry": { "type": "Point", "coordinates": [ -77.99278, 36.19452 ] } },
+{ "type": "Feature", "properties": { "dep_id": "10100462", "site_name": "Nick Arrington Mine", "dev_stat": "Past Producer", "code_list": " AU ", "target_commodity": "Gold", "lon": -77.78443, "lat": 36.20286 }, "geometry": { "type": "Point", "coordinates": [ -77.78443, 36.20286 ] } },
+{ "type": "Feature", "properties": { "dep_id": "10248957", "site_name": "Portis Mine", "dev_stat": "Past Producer", "code_list": " AU ", "target_commodity": "Gold", "lon": -78.01582, "lat": 36.19588 }, "geometry": { "type": "Point", "coordinates": [ -78.01582, 36.19588 ] } },
+{ "type": "Feature", "properties": { "dep_id": "10273350", "site_name": "Argo Mine", "dev_stat": "Past Producer", "code_list": " AU ", "target_commodity": "Gold", "lon": -77.99552, "lat": 36.13178 }, "geometry": { "type": "Point", "coordinates": [ -77.99552, 36.13178 ] } }
+]
+}

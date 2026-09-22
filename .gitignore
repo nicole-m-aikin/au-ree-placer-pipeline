@@ -29,6 +29,10 @@ ne_wa_ree/data/dem/
 ne_wa_ree/data/aster_emit/
 data/dem/
 
+# PAD-US / MLRS land-access caches (python -m pipeline.fetch_land_access)
+data/padus/
+data/mlrs/
+
 # SGMC state extracts (re-download from mrdata.usgs.gov)
 data/geologic/
 

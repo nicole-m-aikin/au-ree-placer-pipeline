@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/nicole-m-aikin/au-ree-placer-pipeline/actions/workflows/ci.yml/badge.svg)](https://github.com/nicole-m-aikin/au-ree-placer-pipeline/actions/workflows/ci.yml)
 
-**Live doorbell:** [https://placer-lookalike.onrender.com/docs](https://placer-lookalike.onrender.com/docs) — Washington gold-placer lookalike API, not a national model. Idaho transfer AUC 0.50; California Sierra 0.52; Montana SW gulches 0.34.
+**Live doorbell:** [https://placer-lookalike.onrender.com/docs](https://placer-lookalike.onrender.com/docs) — Washington gold-placer lookalike API, not a national model. Transfer AUCs: Idaho 0.50, California 0.52, Montana 0.34, Colorado 0.56, NC Fall Zone 0.50. Session wrap: [`SESSION_SUMMARY.md`](SESSION_SUMMARY.md).
 
 A reproducible, config-driven geoscience pipeline for screening placer Au and REE/monazite potential from public geochemical, geophysical, and mine-waste datasets — designed to demonstrate end-to-end applied geoscience from dataset QA/QC through ML targeting and economic screening.
 
@@ -32,13 +32,13 @@ wrangling through spatial ML and economic screening — in a single reproducible
 - **Geochemical QA/QC of legacy public datasets**: NURE half-MDL substitution, MRDS deduplication, WGS column validation; procedures documented and reproducible
 - **Monte Carlo uncertainty quantification**: P10/P50/P90 resource endowment using log-normal grade distributions; results reported with full uncertainty bands, not point estimates
 - **ML targeting with geochemically independent ground truth**: MRDS-proximity labels avoid the circular-labeling failure mode common in geochemical classifiers; Random Forest on the placer heavy-mineral suite (Th, Ce, La, P, U, Au, As, Ti, Fe, Zr, Y); shuffled 5-fold CV ROC-AUC 0.891 ± 0.018; dead-zone spatial CV 0.699 ± 0.055
-- **Transfer test, not a national model**: the frozen NE WA forest scored on Idaho Batholith NURE at AUC **0.50**, California Sierra foothills at **0.52**, and Montana SW gulches at **0.34**. Those numbers are on `/model-info`. Do not retrain to hide them.
+- **Transfer test, not a national model**: frozen NE WA forest on Idaho **0.50**, California **0.52**, Montana **0.34**, Colorado **0.56**, NC Fall Zone **0.50**. Local Sierra forest is a different file (Zr–Fe–Ti). It does not beat Washington on other states. Do not retrain to hide the sag.
 - **Public lookalike API**: FastAPI `/predict` at [placer-lookalike.onrender.com](https://placer-lookalike.onrender.com/docs) — chemistry in, P(lookalike) + tree-vote spread + distance to a training gold mine out. Not Task 4 tonnes.
-- **Catchment walk list**: Task 11 GeoPackage with NURE grabs vs pan pins (slope break / power drop / junction) plus a pamphlet / opt-in `hobby_reports` overlay. Chemistry picks the creek; geometry picks the hole; hobby rows score catchment hit-rate, not AUC.
+- **Catchment walk list**: Task 11 GeoPackage with NURE grabs vs pan pins (slope break / power drop / junction) plus a pamphlet / opt-in `hobby_reports` overlay. Chemistry picks the creek; geometry picks the hole; hobby rows score catchment hit-rate, not AUC. California Sierra also labels `access_type` / `access_ok` from PAD-US + MLRS claims (`walk_rank`, `access_rank`, `rank_in_access_type`). CA HSSR has **no sediment north of ~39°** — South Yuba / Malakoff are access-labeled at pamphlet pins (`task11_park_pin_access.csv`) but not ML-ranked.
 - **Spatial geostatistical interpolation**: IDW probability surface for continuous spatial prediction; kriging variance surface identified as production upgrade path
 - **Economic screening**: break-even NdPr price analysis, undiscounted NPV rationale, tornado-style weight-sensitivity analysis on integrated priority scores
 - **Acid-base accounting (ABA) risk classification**: median NP/AP ratio tiers per MEND 2009 thresholds; flags acid-generating sites for environmental due diligence
-- **Config-driven, multi-study-area architecture**: NE Washington complete (Figs 1–11); Idaho, California Sierra, and Montana SW gulches are transfer + walk-list boxes
+- **Config-driven, multi-study-area architecture**: NE Washington complete (Figs 1–11); Idaho, California, Montana, Colorado, and the NC Fall Zone are transfer + walk-list boxes. Utah is the mill, not a belt.
 
 ## Output Figures
 
@@ -67,9 +67,11 @@ wrangling through spatial ML and economic screening — in a single reproducible
 | Study area | Config | Status |
 |-----------|--------|--------|
 | NE Washington (Okanogan/Ferry/Stevens Co.) | `configs/ne_washington/config.yaml` | Complete — Figs 1–11 + walk-list GeoPackage |
-| Idaho Batholith (Orogrande/Dixie/Warren/Florence) | `configs/idaho_batholith/config.yaml` | Transfer AUC **0.50** + walk-list GeoPackage (WA lookalike P, local gold pins) |
-| California Sierra placer foothills (Feather/Yuba/American) | `configs/california_sierra/config.yaml` | Transfer AUC **0.52** + walk-list GeoPackage (WA lookalike P; Au/As missing) |
-| Montana SW gold gulches (Confederate/Alder/Montana Bar; not Libby) | `configs/montana_placer/config.yaml` | Transfer AUC **0.34** + walk-list GeoPackage |
+| Idaho Batholith (Orogrande/Dixie/Warren/Florence) | `configs/idaho_batholith/config.yaml` | Transfer AUC **0.50**. Local sidecar dead-zone **0.67**. Walk list from local P. |
+| California Sierra placer foothills (Feather/Yuba/American) | `configs/california_sierra/config.yaml` | WA transfer AUC **0.52** (doorbell). Local Sierra forest (block CV **0.69**) + access-gated walk list. |
+| Montana SW gold gulches (Confederate/Alder/Montana Bar; not Libby) | `configs/montana_placer/config.yaml` | Transfer AUC **0.34**. Local sidecar dead-zone **0.62**. Walk list from local P. |
+| Colorado Wet Mountains / Arkansas gulches (not Leadville) | `configs/colorado_wet_mtns/config.yaml` | Transfer AUC **0.56**. Local sidecar dead-zone **0.50** (Wave 3) |
+| North Carolina Fall Zone (Ti–Zr–REE sand; not gold) | `configs/fall_zone_nc/config.yaml` | Transfer AUC **0.50**; other-placer doorbell test (Wave 3) |
 
 ## Public doorbell (chemistry → P(gold-placer lookalike))
 
@@ -79,7 +81,7 @@ A FastAPI service loads the **frozen** Task 9 forest. It is a doorbell, not a
 discovery engine: send NURE-style ppm (and `fe_unit`), get `probability`,
 `tree_vote_spread`, and — if you send lon/lat — distance to the nearest
 **training** gold mine. It does not emit Task 4 tonnes. It is not a national
-model. `/model-info` reports shuffled CV 0.891, spatial CV 0.70, Idaho 0.50, California 0.52, Montana 0.34. East-of-Kettle hold-out (published forest) is 0.53.
+model. `/model-info` should list shuffled CV 0.891, spatial CV 0.70, and the transfer belts (Idaho 0.50, California 0.52, Montana 0.34, Colorado 0.56, Fall Zone 0.50). Live Render may still be Idaho-only until Manual Deploy. East-of-Kettle hold-out is 0.53.
 
 ```bash
 # local
@@ -109,12 +111,38 @@ The model files are in `models/`. One click starts the free web service from thi
 
 Already deployed: **https://placer-lookalike.onrender.com/docs**. First hit on the free tier is slow (cold start). This is a Washington lookalike screen, not a national model.
 
-## Second belt (frozen forest — Idaho, California, Montana)
+## California forest (not the doorbell)
+
+Living in California does not make the Washington forest a Sierra model. The
+frozen WA joblib still scores this box at transfer AUC **0.52**. Separately,
+Task 9 can train a **belt-local** forest on Sierra NURE + Sierra gold MRDS:
+
+- Writes `models/task9_rf_placer_gold.ca_sierra_placer.joblib` — never the
+  doorbell filenames.
+- Drops Au and As (empty in this HSSR clip). Nine features.
+- Labels at **0.03°** (~3 km); 0.15° paints ~88% of the foothills as yes.
+- Shuffled CV ~0.86; 3 km dead-zone ~0.83; **0.4° block ~0.69** (quote the block).
+- Task 11 walk list reads `task9_ml_nure_probability.csv` (local P), not the
+  WA transfer scores. Access-gated: **2 expedition / 4 confirm** (2 USFS
+  `access_ok`). Northern HSSR is empty above ~39°.
+- That forest does not beat Washington on other states (ID 0.43, MT 0.42,
+  CO 0.53, NC 0.54). High flat P is a province, not a trap.
+
+```bash
+python -m pipeline.task9_ml_targeting configs/california_sierra/config.yaml
+python -m pipeline.task11_field_campaign configs/california_sierra/config.yaml
+```
+
+`/predict` stays Washington. Do not national-model.
+
+## Second belt (frozen forest — not a national model)
 
 ```bash
 python -m pipeline.task12_second_belt configs/idaho_batholith/config.yaml
 python -m pipeline.task12_second_belt configs/california_sierra/config.yaml
 python -m pipeline.task12_second_belt configs/montana_placer/config.yaml
+python -m pipeline.task12_second_belt configs/colorado_wet_mtns/config.yaml
+python -m pipeline.task12_second_belt configs/fall_zone_nc/config.yaml
 ```
 
 Downloads that box's NURE (USGS HSSR CSV) and gold MRDS, scores them with the
@@ -126,12 +154,15 @@ Idaho stays the legacy `transfer.json` sidecar.
 | Idaho Batholith | 2,465 | 79% | **0.50** | 0.48 | 0.38 / 0.38 |
 | CA Sierra foothills | 596 | 88% | **0.52** | 0.61 | 0.38 / 0.38 |
 | Montana SW gulches | 4,672 | 94% | **0.34** | 0.33 | 0.28 / 0.38 |
+| Colorado Wet Mountains | 732 | 97% | **0.56** | 0.40 | 0.37 / 0.36 |
+| NC Fall Zone (other placer) | 588 | 27% | **0.50** | 0.59 | 0.36 / 0.37 |
 
 Sierra HSSR in this box has no Au or As — those two features are filled with
-the Washington training medians. Montana HSSR is missing P and Y (same median
-fill). Tightening the gold circle to 0.05° lifts California to 0.61 and does
-nothing for Idaho or Montana. Mean P is flat on Idaho and California; on
-Montana it is *higher* far from gold than next to it.
+the Washington training medians. Montana HSSR is missing P and Y; Colorado is
+missing P/As/Zr/Y (same median fill). Tightening the gold circle to 0.05°
+lifts California to 0.61, drops Colorado to 0.40, and does nothing useful
+for Idaho or Montana. Mean P is flat on Idaho, California, Colorado, and
+the Fall Zone; on Montana it is *higher* far from gold than next to it.
 **Does not retrain.** Do not turn this into a continental forest.
 
 Walk-list GeoPackages use that same frozen P plus each belt's own gold pins,
@@ -143,14 +174,18 @@ python -m pipeline.fetch_dem --config configs/idaho_batholith/config.yaml
 python -m pipeline.task11_field_campaign configs/idaho_batholith/config.yaml
 python -m pipeline.task11_field_campaign configs/california_sierra/config.yaml
 python -m pipeline.task11_field_campaign configs/montana_placer/config.yaml
+python -m pipeline.task11_field_campaign configs/colorado_wet_mtns/config.yaml
+python -m pipeline.task11_field_campaign configs/fall_zone_nc/config.yaml
 ```
 
-- Idaho: `~/projects/task11_id_batholith_field_campaign.gpkg` — 2 expedition, 4 confirm, 16 pans
-- California: `~/projects/task11_ca_sierra_placer_field_campaign.gpkg` — **0 expedition, 0 confirm**, 8 watch, 10 pans
-- Montana: `~/projects/task11_mt_placer_field_campaign.gpkg` — **1 expedition, 2 confirm**, 20 watch, 34 pans
+- Idaho: `~/projects/task11_id_batholith_field_campaign.gpkg` — local P: **5 expedition / 12 confirm**
+- California: `~/projects/task11_ca_sierra_placer_field_campaign.gpkg` — local P + access: **2 expedition / 4 confirm** (2 USFS walkable)
+- Montana: `~/projects/task11_mt_placer_field_campaign.gpkg` — local P: **7 expedition / 12 confirm**
+- Colorado: `~/projects/task11_co_wet_mtns_field_campaign.gpkg` — local P: **1 expedition / 5 confirm** (dead-zone 0.50)
+- Fall Zone: `~/projects/task11_nc_fall_zone_field_campaign.gpkg` — WA P on sand country: 5 “expedition”; not a gold walk
 
-California never crosses P=0.6. Montana mean P is 0.29 and inverted vs gold.
-The walk lists are geometry. The doorbell still does not know these belts.
+The doorbell still does not know these belts. Chemistry picks the creek;
+geometry picks the hole. See [`SESSION_SUMMARY.md`](SESSION_SUMMARY.md).
 
 ## Quick start (NE Washington)
 
@@ -183,7 +218,7 @@ python pipeline/run_pipeline.py --config configs/ne_washington/config.yaml --lis
 | 9 | `pipeline/task8_mine_waste.py` | Preservation | WGS mine waste REE + critical minerals |
 | 10 | `pipeline/task9_ml_targeting.py` | All | ML anomaly probability surface (geological feature engineering) |
 | 11 | `pipeline/task11_field_campaign.py` | Trap | Walk list: 0.4° cells, pours, NURE grabs, pan pins |
-| — | `pipeline/task12_second_belt.py` | All | Frozen-forest transfer on Idaho (0.50), CA Sierra (0.52), Montana (0.34) |
+| — | `pipeline/task12_second_belt.py` | All | Frozen-forest transfer: ID 0.50, CA 0.52, MT 0.34, CO 0.56, NC 0.50 |
 | — | `pipeline/task13_holdout.py` | All | In-belt east-west hold-out; does not rewrite the joblib |
 
 All outputs land in `{outputs_dir}` defined in the config (default: `ne_wa_ree/outputs/` for NE WA).
@@ -235,7 +270,7 @@ non-obvious methodological choice, including:
 - Combined priority scoring weights
 - ML model, spatial CV vs shuffled CV, and IDW interpolation limitations
 - Public `/predict` doorbell (tree-vote spread ≠ Task 4 Monte Carlo)
-- Idaho + California + Montana transfer tests (frozen forest; do not national-model)
+- Transfer tests and local sidecars (frozen WA doorbell; do not national-model) — [`SESSION_SUMMARY.md`](SESSION_SUMMARY.md)
 - 3D modeling scope and what is explicitly out of scope
 
 ## Directory structure
@@ -246,26 +281,34 @@ configs/
   idaho_batholith/config.yaml # Idaho transfer box (not a full pipeline)
   california_sierra/config.yaml # Sierra foothills transfer box
   montana_placer/config.yaml  # SW MT gold gulches (Libby dropped)
+  colorado_wet_mtns/config.yaml # Wet Mountains / Arkansas (Leadville out)
+  fall_zone_nc/config.yaml    # Ti–Zr–REE sand (other_placer)
 api/                          # FastAPI doorbell
 models/                       # Frozen joblib + metadata + transfer sidecars
 pipeline/
   utils.py
   fetch_dem.py                # Copernicus GLO-30 mosaic for a config bbox
+  fetch_land_access.py        # PAD-US + MLRS claim polygons (CA land-access)
   geo_crs.py                  # UTM zone + SGMC state
   task1_coplacer.py … task9_ml_targeting.py
   task11_field_campaign.py    # Walk list + GeoPackage
+  task11_land_access.py       # Access labels + ranks (PAD-US / MLRS)
   task11_hobby_reports.py     # Pamphlet / opt-in pan overlay (not a scrape)
   task11_pan_traps.py         # Trap-geometry pan pins
-  task12_second_belt.py       # Frozen NE WA forest on Idaho / CA / MT
+  task12_second_belt.py       # Frozen NE WA forest on ID / CA / MT / CO / NC
   task13_holdout.py           # In-belt east-west hold-out (not a new joblib)
   run_pipeline.py
 tests/
 data/hobby_reports/           # Cited gazetteer CSVs + opt-in form
+data/padus/                   # PAD-US bbox caches (CA when land_access on)
+data/mlrs/                    # MLRS claim bbox caches
 ne_wa_ree/outputs/            # NE WA figures, tables, GeoJSON / GPKG
 idaho_batholith/outputs/      # Idaho transfer scores + walk list
 california_sierra/outputs/    # Sierra transfer scores + walk list
 montana_placer/outputs/       # Montana transfer scores + walk list
-data/nure/                    # NE WA + Idaho + Sierra + Montana NURE extracts
+colorado_wet_mtns/outputs/    # Colorado transfer scores + walk list
+fall_zone_nc/outputs/         # Fall Zone transfer scores + walk list
+data/nure/                    # NURE extracts for every scored box
 ```
 
 ## Config schema
@@ -283,6 +326,13 @@ data:
   nure_csv: "data/nure/nure_ne_wa_sediment.csv"
   wgs_excel: null    # or path; also resolved via WGS_OFR2026_PATH env var
   hobby_reports_csv: "data/hobby_reports/hobby_reports_ne_wa.csv"
+  # CA Sierra only (when task11.land_access: true):
+  # padus_geojson / mlrs_geojson — bbox caches from fetch_land_access
+
+task11:                # optional; CA Sierra turns land_access on
+  land_access: false   # PAD-US + MLRS labels; access_rank / rank_in_access_type
+  min_pour_elev_m: null
+  claim_buffer_m: 50
 
 sites:               # list of mine sites with coordinates, lidar, topo, volume
 geology_domains:     # list of polygon domains with lithology scores

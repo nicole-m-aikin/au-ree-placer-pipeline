@@ -1,2 +1,2 @@
 n_reports_in_bbox,n_catchment_eligible,n_catchment_hit,n_expedition_hit,n_confirm_hit,n_watch_hit,n_no_catchment,n_district,n_recovery,n_blank,n_unknown,n_pin_scored,median_pin_m,n_walkable_catchments,n_walkable_with_hit
-21,17,16,0,0,16,1,4,0,0,21,0,,8,2
+21,17,0,0,0,0,21,4,0,0,21,0,,6,0

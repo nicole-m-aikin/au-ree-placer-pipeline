@@ -2,6 +2,9 @@
 
 The API loads these files. Task 9 writes them after rf_final.fit so the
 log-medians are the ones training actually used.
+
+Only NE Washington may overwrite the doorbell joblib. Other belts write
+task9_rf_placer_gold.{short}.joblib next to it — a different model.
 """
 
 import json
@@ -18,6 +21,8 @@ GOLD_MRDS_FILENAME = 'task9_rf_placer_gold.gold_mrds.json'
 TRANSFER_FILENAME = 'task9_rf_placer_gold.transfer.json'
 TRANSFERS_FILENAME = 'task9_rf_placer_gold.transfers.json'
 IDAHO_TRANSFER_KEYS = ('id_batholith', 'Idaho Batholith')
+# Only these shorts may overwrite the doorbell files.
+PUBLISHED_SHORTS = frozenset({'ne_wa', 'ne_washington', ''})
 
 
 def published_model_path(model_dir=None):
@@ -35,8 +40,40 @@ def published_gold_mrds_path(model_dir=None):
     return d / GOLD_MRDS_FILENAME
 
 
+def study_area_short(cfg):
+    """Config study_area.short, trimmed. Empty string if unset."""
+    return str((cfg.get('study_area') or {}).get('short') or '').strip()
+
+
+def is_published_training_belt(cfg):
+    """True only for NE Washington — the doorbell training box."""
+    short = study_area_short(cfg).lower()
+    return short in PUBLISHED_SHORTS
+
+
+def belt_model_stem(short):
+    """Filename stem for a non-doorbell forest."""
+    slug = str(short or 'belt').strip().replace('-', '_')
+    return f'task9_rf_placer_gold.{slug}'
+
+
+def belt_model_path(short, model_dir=None):
+    d = Path(model_dir) if model_dir else MODEL_DIR
+    return d / f'{belt_model_stem(short)}.joblib'
+
+
+def belt_meta_path(short, model_dir=None):
+    d = Path(model_dir) if model_dir else MODEL_DIR
+    return d / f'{belt_model_stem(short)}.meta.json'
+
+
+def belt_gold_mrds_path(short, model_dir=None):
+    d = Path(model_dir) if model_dir else MODEL_DIR
+    return d / f'{belt_model_stem(short)}.gold_mrds.json'
+
+
 def persist_published_model(estimator, metadata, model_dir=None):
-    """Write joblib + metadata JSON. Returns (model_path, meta_path)."""
+    """Write the doorbell joblib + metadata. NE WA only — callers must gate."""
     dest = Path(model_dir) if model_dir else MODEL_DIR
     dest.mkdir(parents=True, exist_ok=True)
     model_path = dest / MODEL_FILENAME
@@ -46,11 +83,25 @@ def persist_published_model(estimator, metadata, model_dir=None):
     return model_path, meta_path
 
 
-def persist_gold_mrds(coords, model_dir=None):
-    """Write gold MRDS lon/lat used for training labels (serve-time distance flag)."""
+def persist_belt_model(estimator, metadata, short, model_dir=None):
+    """Write a belt-local forest. Never touches the doorbell filenames."""
     dest = Path(model_dir) if model_dir else MODEL_DIR
     dest.mkdir(parents=True, exist_ok=True)
-    path = dest / GOLD_MRDS_FILENAME
+    model_path = belt_model_path(short, dest)
+    meta_path = belt_meta_path(short, dest)
+    joblib.dump(estimator, model_path)
+    meta_path.write_text(json.dumps(metadata, indent=2, sort_keys=True) + '\n')
+    return model_path, meta_path
+
+
+def persist_gold_mrds(coords, model_dir=None, short=None):
+    """Write gold MRDS lon/lat. Belt short → sidecar next to that belt's forest."""
+    dest = Path(model_dir) if model_dir else MODEL_DIR
+    dest.mkdir(parents=True, exist_ok=True)
+    if short and str(short).strip().lower() not in PUBLISHED_SHORTS:
+        path = belt_gold_mrds_path(short, dest)
+    else:
+        path = dest / GOLD_MRDS_FILENAME
     arr = np.asarray(coords, dtype=float).reshape(-1, 2)
     path.write_text(json.dumps({
         'crs': 'EPSG:4326',

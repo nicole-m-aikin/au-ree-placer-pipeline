@@ -1,0 +1,99 @@
+{
+  "class_weight": "balanced",
+  "cv_auc_folds": [
+    0.6793,
+    0.7052,
+    0.6872,
+    0.6865,
+    0.6899
+  ],
+  "cv_auc_mean": 0.68962,
+  "cv_auc_std": 0.009551282636379277,
+  "cv_optimism_note": "cv_auc_mean is shuffled 5-fold stratified CV. It can be optimistic because nearby samples often share the same mine. spatial_cv_auc_mean is the same fold split after dropping training samples within 0.15\u00b0 of any test sample (the label radius). That is the more honest number for new drainages.",
+  "doorbell_note": "Not the public doorbell. The frozen NE Washington forest stays on /predict. This file is a belt-local forest for a walk list.",
+  "feature_importances": {
+    "As": 0.049646531018484055,
+    "Au": 0.08021377572145988,
+    "Ce": 0.10269459810686334,
+    "Fe": 0.13156458132213944,
+    "La": 0.09608727330233749,
+    "Th": 0.13838786936237465,
+    "Ti": 0.13456992980917207,
+    "U": 0.2106580692338705,
+    "Zr": 0.05617737212329869
+  },
+  "feature_order": [
+    "Th",
+    "Ce",
+    "La",
+    "U",
+    "Au",
+    "As",
+    "Ti",
+    "Fe",
+    "Zr"
+  ],
+  "feature_units": {
+    "As": "ppm",
+    "Au": "ppm",
+    "Ce": "ppm",
+    "Fe": "ppm",
+    "La": "ppm",
+    "Th": "ppm",
+    "Ti": "ppm",
+    "U": "ppm",
+    "Zr": "ppm"
+  },
+  "features_dropped": [
+    "P",
+    "Y"
+  ],
+  "is_doorbell": false,
+  "label_desc": "MRDS proximity \u22640.03\u00b0 [placer_gold] + elevation within 200 m",
+  "label_method": "proximity",
+  "log_medians": {
+    "As": 1.1139433523068367,
+    "Au": -1.3979400086720375,
+    "Ce": 1.8864907251724818,
+    "Fe": 4.481800803635339,
+    "La": 1.6232492903979006,
+    "Th": 1.100370545117563,
+    "Ti": 3.5503506723016156,
+    "U": 0.5910646070264992,
+    "Zr": 2.3909351071033793
+  },
+  "model_id": "task9_rf_placer_gold.mt_placer",
+  "mrds_commodity_filter": "placer_gold",
+  "mrds_elev_diff_m": 200,
+  "mrds_proximity_deg": 0.03,
+  "n_estimators": 200,
+  "n_positive": 1985,
+  "n_samples": 4672,
+  "negative_class_note": "A training label of 0 means the grab was not near a mapped gold mine (and, when a DEM was present, not on the same valley floor). It does not mean the ground is barren.",
+  "random_state": 42,
+  "resource_tonnage_uncertainty": "Resource-tonnage uncertainty (Task 4 Monte Carlo; P10/P50/P90 NdPr tonnes) is a separate quantity and is not exposed by this model.",
+  "sklearn_version": "1.6.1",
+  "spatial_block_cv_auc_folds": [
+    0.7529,
+    0.6115,
+    0.534,
+    0.6351,
+    0.5189
+  ],
+  "spatial_block_cv_auc_mean": 0.610479164575301,
+  "spatial_block_cv_auc_std": 0.09369477383420478,
+  "spatial_cv_auc_folds": [
+    0.6294,
+    0.6278,
+    0.618,
+    0.6085,
+    0.5913
+  ],
+  "spatial_cv_auc_mean": 0.614995981278528,
+  "spatial_cv_auc_std": 0.01569271152110114,
+  "spatial_cv_method": "dead-zone 5-fold: drop train samples within mrds_proximity_deg of any test sample; plus 0.4\u00b0 cell StratifiedGroupKFold",
+  "study_area": "Montana SW gold gulches",
+  "study_area_short": "mt_placer",
+  "target_question": "Does this stream-sediment grab look like NURE samples taken near known gold placers in the study area? This is a gold-placer lookalike screen, not a monazite or REE detector.",
+  "training_date": "2026-09-22T07:45:20Z"
+}

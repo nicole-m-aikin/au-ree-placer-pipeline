@@ -30,7 +30,7 @@ Each pipeline task evaluates one or more components of this framework:
 - **Task 8** — preservation context (mine waste ABA risk; WGS OFR 2026-02 field data)
 - **Task 9** — data-driven spatial targeting across all components (ML probability surface)
 - **Task 11** — trap walk list: chemistry picks the drainage; stream-geometry votes pick the pan pin; pamphlet / opt-in pans are a catchment hit-rate overlay (not AUC)
-- **Task 12** — transfer test: frozen NE WA forest on Idaho (AUC 0.50), California Sierra (0.52), and Montana SW gulches (0.34; do not retrain)
+- **Task 12** — transfer test: frozen NE WA forest on Idaho (AUC 0.50), California Sierra (0.52), Montana SW gulches (0.34), Colorado Wet Mountains (0.56), and NC Fall Zone (0.50; other placer). Do not retrain.
 - **Task 13** — in-belt east-west hold-out on NE WA (does not rewrite the published joblib)
 
 ---
@@ -306,12 +306,37 @@ on `/model-info` and in `models/task9_rf_placer_gold.meta.json`:
 | Frozen forest on Idaho Batholith NURE (Task 12; not retrained) | **0.50** |
 | Frozen forest on CA Sierra foothills NURE (Task 12; not retrained) | **0.52** |
 | Frozen forest on Montana SW gulches NURE (Task 12; not retrained) | **0.34** |
+| Frozen forest on Colorado Wet Mountains NURE (Task 12; not retrained) | **0.56** |
+| Frozen forest on NC Fall Zone NURE (Task 12; other placer; not retrained) | **0.50** |
 | In-belt hold-out: published forest on east of −118.50° (Task 13) | **0.53** |
 | In-belt hold-out: refit west, test east (not the published joblib) | **0.63** |
 
 0.891 is “can the forest separate yes/no in this belt when neighbors are allowed.”
 0.70 is “new drainage in the same belt.” 0.53 / 0.63 is the same belt, other
-side of the Kettle. 0.50 / 0.34 is “new belt.” Do not quote only 0.891.
+side of the Kettle. 0.50 / 0.34 / 0.56 is “new belt.” Do not quote only 0.891.
+
+**Belt-local forests (not `/predict`):** same 0.03° + 200 m recipe, written to
+`task9_rf_placer_gold.{short}.joblib`. Quote the 0.4° block number, not the
+3 km dead-zone, when you say a belt learned.
+
+| Belt | Shuffled | ~3 km dead-zone | 0.4° block |
+|------|----------|-----------------|------------|
+| California Sierra | 0.86 | 0.83 | **0.69** |
+| Idaho Batholith | 0.73 | 0.67 | 0.63 |
+| Montana SW gulches | 0.69 | 0.62 | 0.61 |
+| Colorado Wet Mountains | 0.67 | 0.50 | 0.49 |
+
+California’s forest does not beat Washington on other states (Idaho 0.43,
+Montana 0.42, Colorado 0.53, Fall Zone 0.54 at 0.15°). High flat P is a
+province (heavies present), not a trap. Keep slope out of the 200 trees;
+Task 11 ranks the bar.
+
+**Cousins test (not a product):** Cr, Nb, Hf, Sc, W were added to local forests
+on every belt (`--cousins`). Empty or <20-positive cousins were dropped
+(Washington Hf/W; California W). Dead-zone vs the suite-only local forest:
+Washington 0.70→0.69, Idaho 0.67→0.66, California 0.83→0.84, Montana 0.62→0.64.
+Shuffled CV rose a little. That is lithology leak, not a better fingerprint.
+Those sidecar joblibs were deleted. `/predict` still uses the eleven-element suite.
 
 **IDW interpolation:** `scipy.interpolate.griddata` with method='linear' interpolates
 point predictions to a 200×200 grid over the study area bbox. Cells > 0.5° from the
@@ -465,6 +490,26 @@ This is still not a substitute for walking the Task 11 pins. Gazetteer
 rows in California and Idaho mostly rediscover MRDS geography. The useful
 test is an eligible hit in a NE WA **expedition** cell.
 
+**Land access (CA Sierra first, `task11.land_access: true`)** — every pan pin
+and pour gets `access_type`, `access_ok`, `access_reason`, `manager_name`,
+`claim_status`, and `pub_access` from PAD-US 4.1 (manager / Pub_Access) and
+BLM MLRS mining claims not closed. Priority at a point:
+`claimed > restricted > club/industry (hobby) > PAD-US manager > private`.
+`access_ok=yes` only for `blm` / `usfs` / `state_park` that are claim-free
+and not Pub_Access RA/XA. Ranks:
+
+- `walk_rank` — chemistry class + catchment_ok + optional `min_pour_elev_m`
+  (valley-floor snaps drop out); access labels only
+- `access_rank` — same sort among `access_ok=yes` (“I can go test”)
+- `rank_in_access_type` — within each access bucket
+
+Fetch caches with `python -m pipeline.fetch_land_access --config …`.
+GPKG layers `padus_open` and `mlrs_claims` are filterable in QGIS. Pamphlet
+park pins get a separate access table (`task11_park_pin_access.csv`) so
+South Yuba / Malakoff stay visible when NURE is absent. This is a screen,
+not permission — confirm claims and park rules on site. Other belts keep
+`land_access` off until the same flag is flipped.
+
 ## Transfer belts (Task 12)
 
 Score the frozen NE WA forest on another placer box. Do not retrain.
@@ -477,20 +522,45 @@ California Sierra foothills (Feather / Yuba / American): AUC 0.52 (596 grabs;
 Tightening to 0.05° lifts AUC to 0.61 — still a weak ranker, not a walk list.
 This HSSR clip has no Au or As; those two features are Washington log-medians.
 
+**NURE coverage hole (hard):** the national HSSR sediment CSV has **no samples
+north of ~39.00°** in lon −121.7…−120.4. South Yuba, Malakoff, Downieville,
+and Oregon Creek sit in the study bbox (to 40°) but cannot be chemistry-ranked.
+DEM / MRDS / PAD-US / MLRS cover the north; Task 9/11 chemistry does not.
+Re-clipping NURE does not fill the hole — the national file is empty there.
+Pamphlet parks in that gap are access-labeled at the pin
+(`task11_park_pin_access.csv`) and must not be read as ML targets.
+
 Montana SW gulches (Confederate / Alder / Montana Bar / Elkhorn; not Libby):
 AUC 0.34 (4,672 grabs; 94% near gold; 2,039 MRDS gold pins). Mean P is 0.28
 next to gold and 0.38 far from it — inverted. P and Y are missing in this
 HSSR clip and filled with Washington log-medians. Tightening to 0.05° is
 0.33. Tasks 1–10 stay off: no public site depths, no WGS-style waste OFR.
 
-Walk-list GeoPackages now exist for Idaho, California, and Montana. P is
-still the frozen Washington forest. Gold distance uses each belt's own MRDS
-pins. Idaho has two expedition cells (max P 0.78). California has zero —
-every occupied cell is watch (max P 0.52). Montana has one expedition and
-two confirm (mean P 0.29; leave-one-cell-out 0.52). The pans are DEM
-geometry, not a new model.
+Walk-list GeoPackages exist for Idaho, California, Montana, Colorado, and
+the Fall Zone. Gold distance uses each belt's own MRDS pins. Idaho, Montana,
+and Colorado walk lists now read the **local** sidecar P (not the doorbell).
+Idaho: 5 expedition / 12 confirm. Montana: 7 / 12. Colorado: 1 / 5
+(leave-one-cell-out 0.50). More high-P cells after a local retrain is
+homework, not transfer. The Fall Zone list is WA gold-P on sand country
+(5 “expedition”) — not a gold walk.
 
-That is the literature failure mode, not a reason to build a national model.
+**California is two objects.** Task 12 transfer of the WA forest stays **0.52**
+on `/model-info` — do not hide it. Separately, a belt-local Sierra forest
+(`models/task9_rf_placer_gold.ca_sierra_placer.joblib`) trains on Sierra NURE
++ Sierra gold MRDS with Au/As dropped and a **0.03°** label radius (0.15°
+paints ~88% yes; 0.05° still ~68%). Shuffled CV ~0.86; 3 km dead-zone ~0.83;
+**0.4° block CV ~0.69** (quote the block). Task 11 reads the local
+`task9_ml_nure_probability.csv` plus PAD-US / MLRS: 2 expedition / 4 confirm
+(2 USFS `access_ok`). Northern HSSR is empty above ~39°. That forest is
+not the doorbell, does not travel, and is not proof the Washington model
+travels.
+
+Chemistry picks the creek. Geometry picks the boot. Access and claims
+filter the list. Do not put slope or eTh in the Random Forest.
+
+That is the literature failure mode for transfer, not a reason to build a
+national model. A second forest for a walkable belt is allowed when the
+doorbell stays frozen. See [`SESSION_SUMMARY.md`](SESSION_SUMMARY.md).
 
 ---
 

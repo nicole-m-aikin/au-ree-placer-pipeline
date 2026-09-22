@@ -36,6 +36,25 @@
     "transfer_auc": 0.5223,
     "transfer_auc_0p05deg": 0.6061
   },
+  "co_wet_mtns": {
+    "belt": "Colorado Wet Mountains / Arkansas gulches",
+    "fraction_near_gold": 0.9713,
+    "label_method": "proximity (Task 12 does not apply a DEM elevation cut)",
+    "mean_p_all": 0.3727,
+    "mean_p_far_from_gold": 0.3638,
+    "mean_p_near_gold": 0.373,
+    "model_id": "task9_rf_placer_gold",
+    "mrds_proximity_deg": 0.15,
+    "n_gold_mrds": 46,
+    "n_positive": 711,
+    "n_samples": 732,
+    "note": "Frozen NE Washington forest scored on Colorado Wet Mountains / Arkansas gulches NURE. Transfer AUC is 0.56 (coin flip \u2014 the forest does not travel). Tightening the gold circle to 0.05\u00b0 gives 0.40. 0.15\u00b0 labels most of this box because gold MRDS pins are dense \u2014 that is a weak negative class. Mean P is flat near gold and far from it. This is a transfer test, not a new model. Do not call the doorbell national.",
+    "retrained": false,
+    "short": "co_wet_mtns",
+    "trained_on": "NE Washington",
+    "transfer_auc": 0.5568,
+    "transfer_auc_0p05deg": 0.4022
+  },
   "mt_placer": {
     "belt": "Montana SW gold gulches",
     "fraction_near_gold": 0.9411,
@@ -54,5 +73,24 @@
     "trained_on": "NE Washington",
     "transfer_auc": 0.3438,
     "transfer_auc_0p05deg": 0.3278
+  },
+  "nc_fall_zone": {
+    "belt": "North Carolina Fall Zone (Ti\u2013Zr\u2013REE sand)",
+    "fraction_near_gold": 0.267,
+    "label_method": "proximity (Task 12 does not apply a DEM elevation cut)",
+    "mean_p_all": 0.3679,
+    "mean_p_far_from_gold": 0.3694,
+    "mean_p_near_gold": 0.3636,
+    "model_id": "task9_rf_placer_gold",
+    "mrds_proximity_deg": 0.15,
+    "n_gold_mrds": 8,
+    "n_positive": 157,
+    "n_samples": 588,
+    "note": "Frozen NE Washington forest scored on North Carolina Fall Zone (Ti\u2013Zr\u2013REE sand) NURE. Transfer AUC is 0.50 (coin flip \u2014 the forest does not travel). Tightening the gold circle to 0.05\u00b0 gives 0.59. Mean P is flat near gold and far from it. This box is a different placer (Ti\u2013Zr\u2013REE sand), not gold country. This is a transfer test, not a new model. Do not call the doorbell national.",
+    "retrained": false,
+    "short": "nc_fall_zone",
+    "trained_on": "NE Washington",
+    "transfer_auc": 0.4957,
+    "transfer_auc_0p05deg": 0.5921
   }
 }

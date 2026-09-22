@@ -1,0 +1,9 @@
+walk_rank,block_id,campaign_class,pan_order,role,lon,lat,elev_m,trap_score,why,slope,omega
+2.0,-2649905,confirm,1,pan,-105.690707,38.54957,2721.9,7.5,slope_break;knickpoint_foot;power_drop;tributary_junction,0.02982,0.0
+2.0,-2649905,confirm,2,pan,-105.667564,38.507286,2572.1,6.0,slope_break;knickpoint_foot;power_drop,0.01402,1197.1
+1.0,-2639905,expedition,1,pan,-105.206452,38.369381,1738.4,7.5,slope_break;knickpoint_foot;power_drop;tributary_junction,0.00194,0.0
+1.0,-2639905,expedition,2,pan,-105.245635,38.35881,1936.9,6.0,slope_break;knickpoint_foot;power_drop,0.0547,0.4
+6.0,-2639904,confirm,1,pan,-105.299028,38.518841,2216.0,7.5,slope_break;knickpoint_foot;power_drop;tributary_junction,0.0269,0.1
+6.0,-2639904,confirm,2,pan,-105.257169,38.46828,1706.5,7.0,slope_break;knickpoint_foot;tributary_junction;near_hot_nure,0.02001,491.6
+3.0,-2629905,confirm,1,pan,-105.278194,38.255193,2433.2,7.5,slope_break;knickpoint_foot;power_drop;tributary_junction,0.00404,379.0
+3.0,-2629905,confirm,2,pan,-105.244109,38.201331,2593.5,7.5,slope_break;knickpoint_foot;power_drop;tributary_junction,0.01609,384.3

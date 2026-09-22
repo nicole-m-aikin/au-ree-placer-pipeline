@@ -1,0 +1,133 @@
+# Colorado Wet Mountains / Arkansas gulches — Wave 3 transfer box.
+# CGS OF-23-07 Wet Mountains map + chemistry is on the shelf.
+# Leadville is a different high-country district and is not in this box.
+# Task 12 scores the frozen NE WA forest (doorbell stays WA).
+# Task 9 may write task9_rf_placer_gold.co_wet_mtns.joblib — not /predict.
+# Tasks 1–8 / 10 stay off (no public site depths).
+
+study_area:
+  name: "Colorado Wet Mountains / Arkansas gulches"
+  short: "co_wet_mtns"
+  bbox:
+    lon_min: -105.90
+    lon_max: -105.10
+    lat_min:  38.05
+    lat_max:  38.70
+  map_padding: 0.08
+  wgs_bbox:
+    lon_min: -105.90
+    lon_max: -105.10
+    lat_min:  38.05
+    lat_max:  38.70
+  crs: "EPSG:4326"
+
+outputs_dir: "colorado_wet_mtns/outputs"
+
+data:
+  nure_csv:        "data/nure/nure_co_wet_mtns_sediment.csv"
+  mrds_geojson:    "data/mrds/mrds_co_wet_mtns.geojson"
+  geology_geojson: null
+  sgmc_state: CO
+  aeromagnetic_tif: null
+  radiometric_k_tif: null
+  radiometric_eth_tif: null
+  radiometric_eu_tif: null
+  dem_tif: data/dem/co_wet_mtns_30m.tif
+  wgs_excel: null
+  hobby_reports_csv: "data/hobby_reports/hobby_reports_co_wet_mtns.csv"
+
+task11:
+  fetch_lidar: false
+  # False once a local Task 9 forest exists (task9_ml_nure_probability.csv).
+  p_is_transfer: false
+
+sites:
+  - name: "Texas Creek"
+    lon: -105.60
+    lat:  38.41
+    commodity: "Au"
+    mrds_id: null
+    area_ha: null
+    depth_m: null
+    depth_uncertainty_m: null
+  - name: "Cotopaxi"
+    lon: -105.69
+    lat:  38.37
+    commodity: "Au"
+    mrds_id: null
+    area_ha: null
+    depth_m: null
+    depth_uncertainty_m: null
+  - name: "Silver Cliff"
+    lon: -105.45
+    lat:  38.13
+    commodity: "Au"
+    mrds_id: null
+    area_ha: null
+    depth_m: null
+    depth_uncertainty_m: null
+  - name: "Canon City"
+    lon: -105.24
+    lat:  38.44
+    commodity: "Au"
+    mrds_id: null
+    area_ha: null
+    depth_m: null
+    depth_uncertainty_m: null
+
+aeromagnetic_anomaly_centers: []
+task1_highlight_site: "Texas Creek"
+geology_domains: []
+rivers: []
+wgs:
+  exclude_sites: []
+  endowment_to_site: {}
+  site_abbrevs: {}
+  label_offsets: {}
+
+geochemistry:
+  regional_bg_th: 8.0
+  site_join_radius_deg: 0.10
+  monazite_ce_min_ppm:   50
+  monazite_la_min_ppm:   20
+  monazite_p_min_ppm:   400
+  monazite_uth_max:        0.5
+  thorite_uth_min:         1.5
+  bulk_density_t_m3:       1.5
+  th_in_monazite_frac:     0.044
+  lree_in_monazite:        0.28
+  ndpr_in_monazite:        0.09
+  stream_to_insitu_factor: 5.0
+
+economics:
+  processor_name:          "Energy Fuels White Mesa Mill"
+  processor_location:      "Blanding, UT"
+  ndpr_price_central:      109.0
+  ndpr_price_low:           60.0
+  ndpr_price_high:         140.0
+  tailings_handling_cost:    5.0
+  concentration_cost:       10.0
+  logistics_conc_per_tonne: 250.0
+  processing_cost_per_kg:   50.0
+  ndpr_recovery:             0.80
+
+ml:
+  label_method: proximity
+  # 0.15° paints ~97% yes. Train at 0.03° (~3 km), same as the other sidecars.
+  mrds_proximity_deg: 0.03
+  mrds_commodity_filter: placer_gold
+  mrds_elev_diff_m: 200
+
+scoring:
+  weights:
+    th_source_monazite: 1.0
+    magnetic_high:      1.0
+    source_lith:        1.0
+    coverage:           1.0
+    ndpr_volume:        2.0
+    au_pathfinder:      1.0
+  tier_thresholds: [8, 6, 4]
+
+map_domain_patches: []
+county_labels: []
+task7_annotations: []

@@ -1,0 +1,131 @@
+# North Carolina Fall Zone — Wave 3 other-placer transfer box.
+# Grosz & Schruben B2097 / Grosz et al. USGS OFR 92-396 (Ti–Zr–REE sand).
+# This is not a gold walk. The frozen WA gold forest is the doorbell test.
+# Task 12 first. Task 11 walk list is geometry on that frozen P.
+# Tasks 1–10 stay off.
+
+study_area:
+  name: "North Carolina Fall Zone (Ti–Zr–REE sand)"
+  short: "nc_fall_zone"
+  other_placer: true
+  bbox:
+    lon_min: -78.25
+    lon_max: -77.35
+    lat_min:  35.50
+    lat_max:  36.50
+  map_padding: 0.08
+  wgs_bbox:
+    lon_min: -78.25
+    lon_max: -77.35
+    lat_min:  35.50
+    lat_max:  36.50
+  crs: "EPSG:4326"
+
+outputs_dir: "fall_zone_nc/outputs"
+
+data:
+  nure_csv:        "data/nure/nure_nc_fall_zone_sediment.csv"
+  mrds_geojson:    "data/mrds/mrds_nc_fall_zone.geojson"
+  geology_geojson: null
+  sgmc_state: NC
+  aeromagnetic_tif: null
+  radiometric_k_tif: null
+  radiometric_eth_tif: null
+  radiometric_eu_tif: null
+  dem_tif: data/dem/nc_fall_zone_30m.tif
+  wgs_excel: null
+  hobby_reports_csv: "data/hobby_reports/hobby_reports_nc_fall_zone.csv"
+
+task11:
+  fetch_lidar: false
+  p_is_transfer: true
+
+sites:
+  - name: "Rocky Mount"
+    lon: -77.79
+    lat:  35.94
+    commodity: "Ti-Zr-REE"
+    mrds_id: null
+    area_ha: null
+    depth_m: null
+    depth_uncertainty_m: null
+  - name: "Wilson"
+    lon: -77.92
+    lat:  35.73
+    commodity: "Ti-Zr-REE"
+    mrds_id: null
+    area_ha: null
+    depth_m: null
+    depth_uncertainty_m: null
+  - name: "Halifax"
+    lon: -77.59
+    lat:  36.33
+    commodity: "Ti-Zr-REE"
+    mrds_id: null
+    area_ha: null
+    depth_m: null
+    depth_uncertainty_m: null
+  - name: "Enfield"
+    lon: -77.67
+    lat:  36.18
+    commodity: "Ti-Zr-REE"
+    mrds_id: null
+    area_ha: null
+    depth_m: null
+    depth_uncertainty_m: null
+
+aeromagnetic_anomaly_centers: []
+task1_highlight_site: "Rocky Mount"
+geology_domains: []
+rivers: []
+wgs:
+  exclude_sites: []
+  endowment_to_site: {}
+  site_abbrevs: {}
+  label_offsets: {}
+
+geochemistry:
+  regional_bg_th: 8.0
+  site_join_radius_deg: 0.10
+  monazite_ce_min_ppm:   50
+  monazite_la_min_ppm:   20
+  monazite_p_min_ppm:   400
+  monazite_uth_max:        0.5
+  thorite_uth_min:         1.5
+  bulk_density_t_m3:       1.5
+  th_in_monazite_frac:     0.044
+  lree_in_monazite:        0.28
+  ndpr_in_monazite:        0.09
+  stream_to_insitu_factor: 5.0
+
+economics:
+  processor_name:          "Energy Fuels White Mesa Mill"
+  processor_location:      "Blanding, UT"
+  ndpr_price_central:      109.0
+  ndpr_price_low:           60.0
+  ndpr_price_high:         140.0
+  tailings_handling_cost:    5.0
+  concentration_cost:       10.0
+  logistics_conc_per_tonne: 250.0
+  processing_cost_per_kg:   50.0
+  ndpr_recovery:             0.80
+
+ml:
+  label_method: proximity
+  mrds_proximity_deg: 0.15
+  mrds_commodity_filter: placer_gold
+  mrds_elev_diff_m: 200
+
+scoring:
+  weights:
+    th_source_monazite: 1.0
+    magnetic_high:      1.0
+    source_lith:        1.0
+    coverage:           1.0
+    ndpr_volume:        2.0
+    au_pathfinder:      1.0
+  tier_thresholds: [8, 6, 4]
+
+map_domain_patches: []
+county_labels: []
+task7_annotations: []

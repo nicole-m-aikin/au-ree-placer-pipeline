@@ -1,0 +1,162 @@
+<!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
+<qgis version="3.34.0" projectname="Task 11 field campaign">
+  <title>Task 11 — ranked walk list</title>
+  <projectCrs><spatialrefsys><authid>EPSG:3857</authid></spatialrefsys></projectCrs>
+  <layer-tree-group>
+    <layer-tree-layer name="geology" id="t11_geology"/><layer-tree-layer name="geology_structure" id="t11_geology_structure"/><layer-tree-layer name="padus_open" id="t11_padus_open"/><layer-tree-layer name="mlrs_claims" id="t11_mlrs_claims"/><layer-tree-layer name="cells" id="t11_cells"/><layer-tree-layer name="catchments" id="t11_catchments"/><layer-tree-layer name="named_rivers" id="t11_named_rivers"/><layer-tree-layer name="streams" id="t11_streams"/><layer-tree-layer name="lidar_index" id="t11_lidar_index"/><layer-tree-layer name="nure_spots" id="t11_nure_spots"/><layer-tree-layer name="pour_points" id="t11_pour_points"/><layer-tree-layer name="pan_locations" id="t11_pan_locations"/><layer-tree-layer name="hobby_reports" id="t11_hobby_reports"/><layer-tree-layer name="lidar_01" id="t11_lidar_01"/><layer-tree-layer name="lidar_02" id="t11_lidar_02"/><layer-tree-layer name="lidar_03" id="t11_lidar_03"/><layer-tree-layer name="lidar_05" id="t11_lidar_05"/><layer-tree-layer name="lidar_06" id="t11_lidar_06"/><layer-tree-layer name="lidar_07" id="t11_lidar_07"/><layer-tree-layer name="lidar_08" id="t11_lidar_08"/><layer-tree-layer name="lidar_09" id="t11_lidar_09"/><layer-tree-layer name="lidar_10" id="t11_lidar_10"/>
+  </layer-tree-group>
+  <mapcanvas>
+    <units>meters</units>
+    <extent>
+      <xmin>-11797639.63262889</xmin><xmax>-11690772.921482222</xmax>
+      <ymin>79852.10644970977</ymin><ymax>81859.55952803475</ymax>
+    </extent>
+  </mapcanvas>
+  <projectlayers>
+  <maplayer type="vector" geometry="Polygon" hasScaleBasedVisibilityFlag="0">
+    <id>t11_geology</id>
+    <layername>geology — SGMC lithology</layername>
+    <srs><spatialrefsys><authid>EPSG:4326</authid></spatialrefsys></srs>
+    <datasource>/Users/nicoleaikin/projects/Au + REE pipeline/colorado_wet_mtns/outputs/gis/task11_field_campaign.gpkg|layername=geology</datasource>
+    <provider>ogr</provider>
+  </maplayer>
+  <maplayer type="vector" geometry="Line" hasScaleBasedVisibilityFlag="0">
+    <id>t11_geology_structure</id>
+    <layername>geology — faults / contacts</layername>
+    <srs><spatialrefsys><authid>EPSG:4326</authid></spatialrefsys></srs>
+    <datasource>/Users/nicoleaikin/projects/Au + REE pipeline/colorado_wet_mtns/outputs/gis/task11_field_campaign.gpkg|layername=geology_structure</datasource>
+    <provider>ogr</provider>
+  </maplayer>
+  <maplayer type="vector" geometry="Polygon" hasScaleBasedVisibilityFlag="0">
+    <id>t11_padus_open</id>
+    <layername>PAD-US open public land</layername>
+    <srs><spatialrefsys><authid>EPSG:4326</authid></spatialrefsys></srs>
+    <datasource>/Users/nicoleaikin/projects/Au + REE pipeline/colorado_wet_mtns/outputs/gis/task11_field_campaign.gpkg|layername=padus_open</datasource>
+    <provider>ogr</provider>
+  </maplayer>
+  <maplayer type="vector" geometry="Polygon" hasScaleBasedVisibilityFlag="0">
+    <id>t11_mlrs_claims</id>
+    <layername>MLRS mining claims (not closed)</layername>
+    <srs><spatialrefsys><authid>EPSG:4326</authid></spatialrefsys></srs>
+    <datasource>/Users/nicoleaikin/projects/Au + REE pipeline/colorado_wet_mtns/outputs/gis/task11_field_campaign.gpkg|layername=mlrs_claims</datasource>
+    <provider>ogr</provider>
+  </maplayer>
+  <maplayer type="vector" geometry="Polygon" hasScaleBasedVisibilityFlag="0">
+    <id>t11_cells</id>
+    <layername>cells — walk rank</layername>
+    <srs><spatialrefsys><authid>EPSG:4326</authid></spatialrefsys></srs>
+    <datasource>/Users/nicoleaikin/projects/Au + REE pipeline/colorado_wet_mtns/outputs/gis/task11_field_campaign.gpkg|layername=cells</datasource>
+    <provider>ogr</provider>
+  </maplayer>
+  <maplayer type="vector" geometry="MultiPolygon" hasScaleBasedVisibilityFlag="0">
+    <id>t11_catchments</id>
+    <layername>catchments — walk rank</layername>
+    <srs><spatialrefsys><authid>EPSG:4326</authid></spatialrefsys></srs>
+    <datasource>/Users/nicoleaikin/projects/Au + REE pipeline/colorado_wet_mtns/outputs/gis/task11_field_campaign.gpkg|layername=catchments</datasource>
+    <provider>ogr</provider>
+  </maplayer>
+  <maplayer type="vector" geometry="Line" hasScaleBasedVisibilityFlag="0">
+    <id>t11_named_rivers</id>
+    <layername>named rivers</layername>
+    <srs><spatialrefsys><authid>EPSG:4326</authid></spatialrefsys></srs>
+    <datasource>/Users/nicoleaikin/projects/Au + REE pipeline/colorado_wet_mtns/outputs/gis/task11_field_campaign.gpkg|layername=named_rivers</datasource>
+    <provider>ogr</provider>
+  </maplayer>
+  <maplayer type="vector" geometry="Line" hasScaleBasedVisibilityFlag="0">
+    <id>t11_streams</id>
+    <layername>DEM streams</layername>
+    <srs><spatialrefsys><authid>EPSG:4326</authid></spatialrefsys></srs>
+    <datasource>/Users/nicoleaikin/projects/Au + REE pipeline/colorado_wet_mtns/outputs/gis/task11_field_campaign.gpkg|layername=streams</datasource>
+    <provider>ogr</provider>
+  </maplayer>
+  <maplayer type="vector" geometry="Polygon" hasScaleBasedVisibilityFlag="0">
+    <id>t11_lidar_index</id>
+    <layername>LiDAR 1 m clip footprints</layername>
+    <srs><spatialrefsys><authid>EPSG:4326</authid></spatialrefsys></srs>
+    <datasource>/Users/nicoleaikin/projects/Au + REE pipeline/colorado_wet_mtns/outputs/gis/task11_field_campaign.gpkg|layername=lidar_index</datasource>
+    <provider>ogr</provider>
+  </maplayer>
+  <maplayer type="vector" geometry="Point" hasScaleBasedVisibilityFlag="0">
+    <id>t11_nure_spots</id>
+    <layername>NURE spots — chemistry grabs</layername>
+    <srs><spatialrefsys><authid>EPSG:4326</authid></spatialrefsys></srs>
+    <datasource>/Users/nicoleaikin/projects/Au + REE pipeline/colorado_wet_mtns/outputs/gis/task11_field_campaign.gpkg|layername=nure_spots</datasource>
+    <provider>ogr</provider>
+  </maplayer>
+  <maplayer type="vector" geometry="Point" hasScaleBasedVisibilityFlag="0">
+    <id>t11_pour_points</id>
+    <layername>pour points — D8 outlet</layername>
+    <srs><spatialrefsys><authid>EPSG:4326</authid></spatialrefsys></srs>
+    <datasource>/Users/nicoleaikin/projects/Au + REE pipeline/colorado_wet_mtns/outputs/gis/task11_field_campaign.gpkg|layername=pour_points</datasource>
+    <provider>ogr</provider>
+  </maplayer>
+  <maplayer type="vector" geometry="Point" hasScaleBasedVisibilityFlag="0">
+    <id>t11_pan_locations</id>
+    <layername>pan locations — trap geometry</layername>
+    <srs><spatialrefsys><authid>EPSG:4326</authid></spatialrefsys></srs>
+    <datasource>/Users/nicoleaikin/projects/Au + REE pipeline/colorado_wet_mtns/outputs/gis/task11_field_campaign.gpkg|layername=pan_locations</datasource>
+    <provider>ogr</provider>
+  </maplayer>
+  <maplayer type="vector" geometry="Point" hasScaleBasedVisibilityFlag="0">
+    <id>t11_hobby_reports</id>
+    <layername>hobby reports — pamphlet / opt-in pans</layername>
+    <srs><spatialrefsys><authid>EPSG:4326</authid></spatialrefsys></srs>
+    <datasource>/Users/nicoleaikin/projects/Au + REE pipeline/colorado_wet_mtns/outputs/gis/task11_field_campaign.gpkg|layername=hobby_reports</datasource>
+    <provider>ogr</provider>
+  </maplayer>
+  <maplayer type="raster" hasScaleBasedVisibilityFlag="0">
+    <id>t11_lidar_01</id>
+    <layername>LiDAR #1 hillshade (1 m)</layername>
+    <datasource>/Users/nicoleaikin/projects/Au + REE pipeline/ne_wa_ree/data/lidar/lidar_r01_hs.tif</datasource>
+    <provider>gdal</provider>
+  </maplayer>
+  <maplayer type="raster" hasScaleBasedVisibilityFlag="0">
+    <id>t11_lidar_02</id>
+    <layername>LiDAR #2 hillshade (1 m)</layername>
+    <datasource>/Users/nicoleaikin/projects/Au + REE pipeline/ne_wa_ree/data/lidar/lidar_r02_hs.tif</datasource>
+    <provider>gdal</provider>
+  </maplayer>
+  <maplayer type="raster" hasScaleBasedVisibilityFlag="0">
+    <id>t11_lidar_03</id>
+    <layername>LiDAR #3 hillshade (1 m)</layername>
+    <datasource>/Users/nicoleaikin/projects/Au + REE pipeline/ne_wa_ree/data/lidar/lidar_r03_hs.tif</datasource>
+    <provider>gdal</provider>
+  </maplayer>
+  <maplayer type="raster" hasScaleBasedVisibilityFlag="0">
+    <id>t11_lidar_05</id>
+    <layername>LiDAR #5 hillshade (1 m)</layername>
+    <datasource>/Users/nicoleaikin/projects/Au + REE pipeline/ne_wa_ree/data/lidar/lidar_r05_hs.tif</datasource>
+    <provider>gdal</provider>
+  </maplayer>
+  <maplayer type="raster" hasScaleBasedVisibilityFlag="0">
+    <id>t11_lidar_06</id>
+    <layername>LiDAR #6 hillshade (1 m)</layername>
+    <datasource>/Users/nicoleaikin/projects/Au + REE pipeline/ne_wa_ree/data/lidar/lidar_r06_hs.tif</datasource>
+    <provider>gdal</provider>
+  </maplayer>
+  <maplayer type="raster" hasScaleBasedVisibilityFlag="0">
+    <id>t11_lidar_07</id>
+    <layername>LiDAR #7 hillshade (1 m)</layername>
+    <datasource>/Users/nicoleaikin/projects/Au + REE pipeline/ne_wa_ree/data/lidar/lidar_r07_hs.tif</datasource>
+    <provider>gdal</provider>
+  </maplayer>
+  <maplayer type="raster" hasScaleBasedVisibilityFlag="0">
+    <id>t11_lidar_08</id>
+    <layername>LiDAR #8 hillshade (1 m)</layername>
+    <datasource>/Users/nicoleaikin/projects/Au + REE pipeline/ne_wa_ree/data/lidar/lidar_r08_hs.tif</datasource>
+    <provider>gdal</provider>
+  </maplayer>
+  <maplayer type="raster" hasScaleBasedVisibilityFlag="0">
+    <id>t11_lidar_09</id>
+    <layername>LiDAR #9 hillshade (1 m)</layername>
+    <datasource>/Users/nicoleaikin/projects/Au + REE pipeline/ne_wa_ree/data/lidar/lidar_r09_hs.tif</datasource>
+    <provider>gdal</provider>
+  </maplayer>
+  <maplayer type="raster" hasScaleBasedVisibilityFlag="0">
+    <id>t11_lidar_10</id>
+    <layername>LiDAR #10 hillshade (1 m)</layername>
+    <datasource>/Users/nicoleaikin/projects/Au + REE pipeline/ne_wa_ree/data/lidar/lidar_r10_hs.tif</datasource>
+    <provider>gdal</provider>
+  </maplayer>
+  </projectlayers>
+</qgis>

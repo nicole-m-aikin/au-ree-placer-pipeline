@@ -1,0 +1,1 @@
+{"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"CSE_NAME": "TEST CLAIM ONE", "CSE_DISP": "Authorized", "BLM_PROD": "Mining Claim", "CASE_ID": "CACA-TEST-1"}, "geometry": {"type": "Polygon", "coordinates": [[[-121.005, 39.325], [-120.995, 39.325], [-120.995, 39.335], [-121.005, 39.335], [-121.005, 39.325]]]}}]}

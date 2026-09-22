@@ -2,6 +2,14 @@
 
 Phase-by-phase decisions, tradeoffs, and answers I would actually give.
 
+**Session wrap (22 Sep 2026):** [`SESSION_SUMMARY.md`](SESSION_SUMMARY.md).
+The doorbell does not travel (ID 0.50 / CA 0.52 / MT 0.34 / CO 0.56 / NC 0.50).
+Only the Sierra local forest really learned (quote **0.4° block 0.69**, not
+the 3 km 0.83). Extra metals were noise. California’s forest does not beat
+Washington on other states. Topography makes the trap — keep slope out of
+the 200 trees. Next: Manual Deploy so `/model-info` lists the belts; walk
+one Sierra USFS confirm; flip `land_access` on WA/ID/MT; wait for pubs.
+
 ---
 
 ## Phase 0 — What is actually in the repo
@@ -162,7 +170,7 @@ Leave-one-cell-out AUC (cells with ≥8 grabs): **0.56**, range 0.25–1.00, 11 
 
 Outputs: `fig11_catchment_walk_list_map.png`, `task11_catchment_walk_list.csv`, `task11_nure_spots.csv`, `task11_pan_locations.csv`, `task11_hobby_reports.csv` (gazetteer / opt-in overlay; catchment hit-rate, not AUC).
 
-Idaho, California, and Montana now have the same layers. P is the Washington forest. Gold pins and SGMC geology are local. California has no expedition cell. Montana has one.
+Idaho, California, Montana, Colorado, and the Fall Zone now have the same layers. Walk-list P is the **local** sidecar on CA / ID / MT / CO (doorbell transfer stays on `/model-info`). Fall Zone still uses WA gold-P on sand country. Gold pins and SGMC geology are local. Land-access ranks are California-first (PAD-US / MLRS); flip the flag on the other belts next. California local chemistry still lights known placer country; access filter drops levees/claims from the “go test” list. More expedition cells after a local retrain is homework, not transfer.
 
 ---
 
@@ -176,11 +184,39 @@ Idaho, California, and Montana now have the same layers. P is the Washington for
 
 **California result:** Northern Sierra foothills (Feather / Yuba / American — the belt you can walk). 596 NURE grabs, 7,872 gold MRDS pins, transfer AUC **0.52**. Mean P is 0.38 next to gold and far from it. Tightening to 5 km lifts AUC to 0.61; the doorbell still does not know California. This clip has no Au or As.
 
+**California local forest (not the doorbell):** Same recipe, new file — `task9_rf_placer_gold.ca_sierra_placer.joblib`. Au/As dropped; labels at 0.03°. Shuffled CV ~0.86, 3 km dead-zone ~0.83, **0.4° block ~0.69** (quote the block). Doorbell transfer stays **0.52** on `/model-info`. Living in California does not make the Washington forest a Sierra model; this is a different model for a walk list.
+
+**Why California learned and the others did not:** Sierra valley-floor mud is Zr–Fe–Ti (magnetite, ilmenite, zircon) and the ridges are not. That is a placer factory. Idaho / Montana are gold wallpaper on one granite. Colorado is missing Zr (California’s top feature) and has only 66 valley-floor yes-class. The 3 km dead-zone on California is easier than Washington’s 0.15° dead-zone — that is why 0.83 looks heroic. The honest local number is the 0.4° block.
+
+**California forest on other states (one-off, not persisted):** Idaho 0.43, Montana 0.42, Colorado 0.53, Fall Zone 0.54 at 0.15°. Mean P is high on both sides of the gold line (~0.66–0.83). It does not beat Washington. Lighting up Colorado is “this province has the same heavies,” not “the trees found the bar.” Topography creates the trap. Keep slope on Task 11.
+
+**Idaho local forest (not the doorbell):** `task9_rf_placer_gold.id_batholith.joblib`. Same 0.03° + 200 m recipe. 726 / 2,465 yes (29.5%). Shuffled CV **0.73**, dead-zone **0.67**. Better than WA-transfer 0.50, not a Sierra-style 0.83. Walk list from local P: 5 expedition / 12 confirm (was 2 / 4 on WA P). Leave-one-cell-out 0.61.
+
+**Montana local forest (not the doorbell):** `task9_rf_placer_gold.mt_placer.joblib`. P and Y dropped. 1,985 / 4,672 yes (42.5%). Shuffled CV **0.69**, dead-zone **0.62**. Better than WA-transfer 0.34, still weak. Walk list from local P: 7 expedition / 12 confirm (was 1 / 2 on WA P). Leave-one-cell-out 0.55. More high-P cells is in-sample scoring, not proof the forest travels.
+
+**Cousins test (not the doorbell):** same extra metals on every belt — Cr, Nb, Hf, Sc, W. Dropped if missing or <20 positives (WA: Hf/W; CA: W). Dead-zone vs the suite-only local forest: WA 0.70→0.69, Idaho 0.67→0.66, California 0.83→0.84, Montana 0.62→0.64. Shuffled CV ticked up a little everywhere. That is noise / rock type, not a better fingerprint. The `*_cousins.joblib` files were deleted. `/predict` still eleven elements.
+
 **Montana result:** SW gulches (Confederate / Alder / Montana Bar / Elkhorn; not Libby). 4,672 NURE grabs, 2,039 gold pins, transfer AUC **0.34**. Mean P is 0.28 next to gold and 0.38 far from it — inverted. P and Y are Washington medians. Tasks 1–10 stay off.
 
 **In-belt hold-out (Task 13):** train west of −118.50°, test east. Published forest on the east is **0.53**. A west-only refit is 0.63. The published joblib was not rewritten.
 
-**Walk lists:** Idaho GeoPackage — 2 expedition / 4 confirm / 16 pans. California GeoPackage — 0 expedition / 0 confirm / 8 watch / 10 pans. Montana GeoPackage — 1 expedition / 2 confirm / 20 watch / 34 pans. P is Washington lookalike. Gold pins and geology are local. Open `~/projects/task11_mt_placer_field_campaign.gpkg` (no `+` in the path).
+**Wave 3 — Colorado Wet Mountains / Arkansas gulches (not Leadville):** CGS OF-23-07 is the pub. 732 NURE grabs, 46 gold pins, **97%** already near gold. Transfer AUC **0.56** (0.05° = 0.40). Mean P flat ~0.37.
+
+**Colorado local forest (not the doorbell):** `task9_rf_placer_gold.co_wet_mtns.joblib`. Same 0.03° + 200 m recipe. P/As/Zr/Y dropped. 66 / 732 yes (9%). Shuffled CV **0.67**, dead-zone **0.50**. Walk list from local P: 1 expedition / 5 confirm (leave-one-cell-out 0.50). That is not a Sierra-style local story — even at home it is a coin flip on new drainages. `/predict` still Washington. Open `~/projects/task11_co_wet_mtns_field_campaign.gpkg`.
+
+**Wave 3 — NC Fall Zone (other placer):** Grosz B2097 / OFR 92-396. 588 grabs, 8 gold pins, only 27% near gold — a fairer negative class. Transfer AUC **0.50** (0.05° = 0.59). Mean P still ~0.37 both sides. This is Ti–Zr–REE sand, not a gold walk. Five “expedition” cells are WA gold-lookalike P far from the few gold pins, not sand targets. Open `~/projects/task11_nc_fall_zone_field_campaign.gpkg`.
+
+**Wave 4 — one Sierra 1 m LiDAR clip:** walk-rank 1 (USFS confirm, −120.78, 38.60). `california_sierra/data/lidar/lidar_r01_hs.tif`. Not all ten ranks. Hobby overlay already on the GPKGs; own pans still missing.
+
+**California land access + walk list (CA first):** Task 11 now labels every pan/pour with `access_type` / `access_ok` / `access_reason` from PAD-US + MLRS claims, plus `walk_rank` (chemistry + elev ≥50 m), `access_rank` (public + claim-free), and `rank_in_access_type`. Chemistry without access was sending “go look” pins to Sacramento Valley levees (~2–8 m elev, FWS/restricted). After the gate: **4 walkable confirms** — 2× USFS `access_ok=yes`, 1× private, 1× claimed (Rocky Ridge). Valley-floor expeditions keep chemistry class but lose `walk_rank`. Open `~/projects/task11_ca_sierra_placer_field_campaign.gpkg` (layers include `padus_open`, `mlrs_claims`).
+
+**Sanity checks (positive signals):** Auburn / Marshall / Chili Bar chemically hot (P≈0.9–1.0) and `confirm` where NURE exists — forest sees known placer country. Access split does real work. Hobby miss on walkable catchments is geometry (pamphlet pin ≠ cell pour), not rejection.
+
+**NURE coverage hole (hard):** national HSSR sediment has **no samples north of ~39.00°** in lon −121.7…−120.4. Re-clip does not fill it. South Yuba / Malakoff / Downieville cannot be ML-ranked. DEM/MRDS/PAD-US/MLRS cover the north. Pamphlet parks there are access-labeled at the pin (`task11_park_pin_access.csv`): South Yuba BLM/State Parks `access_ok=yes`; Marshall state_park + hot NURE; Auburn HQ pin local_gov; Mammoth Bar pin private — confirm rules on site. Filling northern chemistry needs a **different source than NURE HSSR**.
+
+**Tomorrow (see `NEXT_SESSION_PROMPT.md` top):** (1) Manual Deploy on `placer-lookalike` so `/model-info` lists ID/CA/MT/CO/NC — do not change `/predict`; (2) walk one Sierra access-ok USFS confirm (−120.78, 38.60) and write pans on the opt-in form; (3) flip `land_access` on for NE WA / Idaho / Montana (config + fetch + Task 11 rebuild); (4) evaluate non-NURE chemistry (NGDB / CGS / aerial radiometrics as a *map*, not an RF feature) for northern Sierra. Do not national-model. Do not invent Mineral Hill / Phosphoria / CA waste OFR boxes.
+
+**Walk lists (local P except Fall Zone):** Idaho 5 expedition / 12 confirm. California **2 / 4** (2 USFS `access_ok`). Montana 7 / 12. Colorado 1 / 5. Fall Zone 5 “expedition” on WA gold-P — not sand targets. Gold pins and geology are local. Open `~/projects/task11_{short}_field_campaign.gpkg` (no `+` in the path).
 
 **Q: What does the API actually do?**
 
@@ -188,7 +224,7 @@ You POST eleven NURE concentrations and `fe_unit`. You get P(this grab looks lik
 
 **Q: Why Idaho if you expect the AUC to drop?**
 
-Because 0.891 is shuffled CV on one belt. Airola 2018: that number can look great and fail on new ground. The literature says score the next belt with the first forest *before* you refit. A sag is the result. Retraining Idaho, California, or Montana would be a new model, not proof the doorbell travels. Living in California does not make the Washington forest a Sierra model.
+Because 0.891 is shuffled CV on one belt. Airola 2018: that number can look great and fail on new ground. The literature says score the next belt with the first forest *before* you refit. A sag is the result. Retraining Idaho or Montana to hide a transfer sag would be wrong. A **named second forest** for California (`ca_sierra_placer` sidecar) is a different product: local walk list, doorbell still WA 0.52. Living in California does not make the Washington forest a Sierra model.
 
 **Q: Why Render / Docker?**
 

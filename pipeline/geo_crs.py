@@ -23,4 +23,8 @@ def sgmc_state(cfg):
         return 'CA'
     if 'montana' in blob or short.startswith('mt_'):
         return 'MT'
+    if 'colorado' in blob or short.startswith('co_'):
+        return 'CO'
+    if 'fall_zone' in blob or 'carolina' in blob or short.startswith('nc_'):
+        return 'NC'
     return 'WA'

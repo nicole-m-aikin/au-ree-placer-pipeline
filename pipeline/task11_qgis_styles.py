@@ -213,6 +213,44 @@ LAYER_QML = {
     'named_rivers': _line_qml('30,90,150,240', '1.15', label_field='name'),
     'geology': _geology_qml(),
     'geology_structure': _line_qml('90,60,40,220', '0.35'),
+    'padus_open': '''<!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
+<qgis version="3.34.0" styleCategories="Symbology|Labeling">
+  <renderer-v2 type="singleSymbol" enableorderby="0" forceraster="0">
+    <symbols>
+      <symbol type="fill" name="0" clip_to_extent="1" alpha="1">
+        <layer class="SimpleFill" enabled="1" locked="0" pass="0">
+          <prop k="color" v="230,159,0,60"/>
+          <prop k="outline_color" v="180,120,0,180"/>
+          <prop k="outline_style" v="solid"/>
+          <prop k="outline_width" v="0.30"/>
+          <prop k="outline_width_unit" v="MM"/>
+          <prop k="style" v="solid"/>
+        </layer>
+      </symbol>
+    </symbols>
+  </renderer-v2>
+  <labeling type="simple"><settings><rendering drawLabels="0"/></settings></labeling>
+</qgis>
+''',
+    'mlrs_claims': '''<!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
+<qgis version="3.34.0" styleCategories="Symbology|Labeling">
+  <renderer-v2 type="singleSymbol" enableorderby="0" forceraster="0">
+    <symbols>
+      <symbol type="fill" name="0" clip_to_extent="1" alpha="1">
+        <layer class="SimpleFill" enabled="1" locked="0" pass="0">
+          <prop k="color" v="0,0,0,40"/>
+          <prop k="outline_color" v="0,0,0,200"/>
+          <prop k="outline_style" v="solid"/>
+          <prop k="outline_width" v="0.35"/>
+          <prop k="outline_width_unit" v="MM"/>
+          <prop k="style" v="solid"/>
+        </layer>
+      </symbol>
+    </symbols>
+  </renderer-v2>
+  <labeling type="simple"><settings><rendering drawLabels="0"/></settings></labeling>
+</qgis>
+''',
     'lidar_index': '''<!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
 <qgis version="3.34.0" styleCategories="Symbology|Labeling">
   <renderer-v2 type="singleSymbol" enableorderby="0" forceraster="0">
@@ -268,6 +306,8 @@ def embed_qgis_styles(gpkg_path):
         'geology': 'USGS SGMC state geology (Horton 2017)',
         'geology_structure': 'SGMC faults and contacts',
         'lidar_index': '3DEP 1 m LiDAR clip footprints',
+        'padus_open': 'PAD-US public land (BLM/USFS/state/local) — CA land-access',
+        'mlrs_claims': 'BLM MLRS mining claims not closed',
         'nure_spots': 'NURE stream-sediment grabs — chemistry, not a pan pin',
         'pan_locations': 'Where to pan — slope break / power drop / junction',
         'hobby_reports': 'Pamphlet / opt-in pans — catchment hit-rate, not AUC',

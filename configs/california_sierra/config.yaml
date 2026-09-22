@@ -33,10 +33,18 @@ data:
   dem_tif: data/dem/ca_sierra_30m.tif
   wgs_excel: null
   hobby_reports_csv: "data/hobby_reports/hobby_reports_ca_sierra_placer.csv"
+  padus_geojson: "data/padus/padus_ca_sierra_placer.geojson"
+  mlrs_geojson: "data/mlrs/mlrs_claims_ca_sierra_placer.geojson"
 
 task11:
   fetch_lidar: false
-  p_is_transfer: true
+  # False once a local Task 9 forest exists (task9_ml_nure_probability.csv).
+  # True only for the frozen-WA transfer walk list.
+  p_is_transfer: false
+  # PAD-US + MLRS labels + access_rank (CA first). Other belts stay off.
+  land_access: true
+  min_pour_elev_m: 50
+  claim_buffer_m: 50
 
 sites:
   - name: "Malakoff Diggins"
@@ -145,8 +153,10 @@ economics:
 
 ml:
   label_method: proximity
-  mrds_proximity_deg: 0.15
+  # 0.15° paints ~88% yes; 0.05° still ~68%. Train at 0.03° (~3 km).
+  mrds_proximity_deg: 0.03
   mrds_commodity_filter: placer_gold
+  mrds_elev_diff_m: 200
 
 scoring:
   weights:

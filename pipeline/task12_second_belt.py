@@ -44,6 +44,11 @@ HSSR_TO_FEATURE = {
     'fe_pct': 'Fe',
     'zr_ppm': 'Zr',
     'y_ppm': 'Y',
+    'cr_ppm': 'Cr',
+    'nb_ppm': 'Nb',
+    'hf_ppm': 'Hf',
+    'sc_ppm': 'Sc',
+    'w_ppm': 'W',
 }
 
 
@@ -237,7 +242,8 @@ def _assert_not_training_belt(cfg, metadata):
         )
 
 
-def _transfer_note(belt, auc, auc_tight, frac_near, mean_pos, mean_neg):
+def _transfer_note(belt, auc, auc_tight, frac_near, mean_pos, mean_neg,
+                   other_placer=False):
     bits = [f'Frozen NE Washington forest scored on {belt} NURE.']
     if auc is None:
         bits.append('Transfer AUC could not be scored (one class).')
@@ -257,6 +263,10 @@ def _transfer_note(belt, auc, auc_tight, frac_near, mean_pos, mean_neg):
             bits.append('Mean P is flat near gold and far from it.')
         elif mean_neg > mean_pos + 0.05:
             bits.append('Mean P is higher far from gold than next to it.')
+    if other_placer:
+        bits.append(
+            'This box is a different placer (Ti–Zr–REE sand), not gold country.'
+        )
     bits.append(
         'This is a transfer test, not a new model. Do not call the doorbell national.'
     )
@@ -336,7 +346,10 @@ def run(cfg):
             'proximity (Task 12 does not apply a DEM elevation cut)'
         ),
         'mrds_proximity_deg': FAR_FROM_MINE_DEG,
-        'note': _transfer_note(belt, auc, auc_tight, frac, mean_pos, mean_neg),
+        'note': _transfer_note(
+            belt, auc, auc_tight, frac, mean_pos, mean_neg,
+            other_placer=bool((cfg.get('study_area') or {}).get('other_placer')),
+        ),
     }
     persist_transfer(summary)
     path = out(cfg, 'text', f'task12_{slug}_transfer_summary.txt')

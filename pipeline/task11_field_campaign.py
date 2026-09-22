@@ -13,6 +13,11 @@ Campaign classes (plain language):
   watch      — moderate P (0.4–0.6)
   skip       — low P or no NURE in the cell
 
+When task11.land_access is true (CA Sierra first), every pan/pour also gets
+access_type / access_ok / access_reason from PAD-US + MLRS claims, plus
+access_rank and rank_in_access_type. Chemistry ranks stay; elev gate drops
+valley-floor snaps from walk_rank.
+
 Outputs:
   {outputs_dir}/figures/fig11_catchment_walk_list_map.png
   {outputs_dir}/tables/task11_catchment_walk_list.csv
@@ -30,10 +35,11 @@ Outputs:
   {outputs_dir}/text/task11_field_campaign_summary.txt
 
 GeoPackage layers (EPSG:4326): cells, catchments, named_rivers, streams,
-pour_points, nure_spots, pan_locations, hobby_reports. Pour points sit
-on the D8 outlet. NURE spots are chemistry grabs. Pan locations are the
-trap-geometry pins. Hobby reports are a cited gazetteer / opt-in overlay
-(catchment hit-rate, not AUC; the forest stays frozen).
+pour_points, nure_spots, pan_locations, hobby_reports, padus_open,
+mlrs_claims. Pour points sit on the D8 outlet. NURE spots are chemistry
+grabs. Pan locations are the trap-geometry pins. Hobby reports are a cited
+gazetteer / opt-in overlay (catchment hit-rate, not AUC; the forest stays
+frozen).
 """
 
 import os
@@ -365,6 +371,7 @@ def extract_dem_streams(dem_path, percentile=STREAM_MAIN_PCT, cache_path=None,
 GPKG_NAME = 'task11_field_campaign.gpkg'
 GPKG_LAYERS = ('cells', 'catchments', 'named_rivers', 'streams',
                'pour_points', 'nure_spots', 'pan_locations', 'hobby_reports',
+               'padus_open', 'mlrs_claims',
                'geology', 'geology_structure', 'lidar_index')
 # Folder name "Au + REE pipeline" breaks some QGIS/GDAL path parsers.
 # A second copy lives next to the projects folder (no spaces, no +).
@@ -439,6 +446,14 @@ SHP_NAME = {
     'p_anomalous': 'p_anom',
     'spot_order': 'spot_order',
     'rank_label': 'rank_lbl',
+    'access_type': 'acc_type',
+    'access_ok': 'acc_ok',
+    'access_reason': 'acc_why',
+    'manager_name': 'manager',
+    'claim_status': 'claim_st',
+    'pub_access': 'pub_acc',
+    'access_rank': 'acc_rank',
+    'rank_in_access_type': 'rank_atype',
 }
 
 
@@ -519,7 +534,8 @@ def write_field_campaign_gpkg(path, cells=None, catchments=None,
                               hobby_reports=None,
                               streams=None, named_rivers=None,
                               geology=None, geology_structure=None,
-                              lidar_index=None):
+                              lidar_index=None,
+                              padus_open=None, mlrs_claims=None):
     """Write vector layers to a GeoPackage. Skips empty layers. Overwrites path."""
     import pyogrio
 
@@ -533,6 +549,8 @@ def write_field_campaign_gpkg(path, cells=None, catchments=None,
         'named_rivers': ('LineString', named_rivers),
         'streams': ('LineString', streams),
         'lidar_index': ('Polygon', lidar_index),
+        'padus_open': ('Unknown', padus_open),
+        'mlrs_claims': ('Unknown', mlrs_claims),
         'pour_points': ('Point', pour_points),
         'nure_spots': ('Point', nure_spots),
         'pan_locations': ('Point', pan_locations),
@@ -655,6 +673,9 @@ def write_gpkg_from_outputs(cfg):
         'nearest_gold_km', 'pour_lon', 'pour_lat', 'n_field_spots',
         'n_nure_spots', 'n_pan_locations',
         'catchment_ok', 'notes',
+        'access_type', 'access_ok', 'access_reason', 'manager_name',
+        'claim_status', 'pub_access', 'access_rank', 'rank_in_access_type',
+        'n_hobby_hit',
     ) if c in walk.columns]
     cells = cells.drop(columns=[c for c in rank_cols if c in cells.columns], errors='ignore')
     cells = cells.merge(walk[['block_id'] + rank_cols], on='block_id', how='left')
@@ -767,11 +788,60 @@ def write_gpkg_from_outputs(cfg):
             on='block_id', how='left',
         )
 
+    padus_open = None
+    mlrs_claims = None
+    from pipeline.task11_land_access import annotate_campaign, land_access_enabled
+    if land_access_enabled(cfg):
+        pans, pour_points, walk, padus_open, mlrs_claims = annotate_campaign(
+            cfg, pans, pour_points, walk, hobby=hobby,
+        )
+        walk.to_csv(out(cfg, 'tables', 'task11_catchment_walk_list.csv'), index=False)
+        if pans is not None and len(pans):
+            pans.drop(columns='geometry', errors='ignore').to_csv(
+                out(cfg, 'tables', 'task11_pan_locations.csv'), index=False,
+            )
+        # Refresh cell / catchment / pour meta with access ranks
+        access_cols = [c for c in (
+            'walk_rank', 'campaign_class', 'access_type', 'access_ok',
+            'access_reason', 'manager_name', 'claim_status', 'pub_access',
+            'access_rank', 'rank_in_access_type', 'max_p', 'nearest_gold_km',
+            'n_hobby_hit',
+        ) if c in walk.columns]
+        if access_cols:
+            cells = cells.drop(
+                columns=[c for c in access_cols if c in cells.columns],
+                errors='ignore',
+            )
+            cells = cells.merge(
+                walk[['block_id'] + access_cols].drop_duplicates('block_id'),
+                on='block_id', how='left',
+            )
+        if catchments is not None and len(catchments) and 'block_id' in catchments.columns:
+            meta = walk[['block_id'] + [c for c in access_cols if c in walk.columns]]
+            meta = meta.drop_duplicates('block_id')
+            catchments = catchments.drop(
+                columns=[c for c in meta.columns if c != 'block_id' and c in catchments.columns],
+                errors='ignore',
+            ).merge(meta, on='block_id', how='left')
+        if pour_points is not None and len(pour_points) and 'block_id' in pour_points.columns:
+            pour_meta = [c for c in (
+                'walk_rank', 'campaign_class', 'access_rank', 'rank_in_access_type',
+            ) if c in walk.columns]
+            if pour_meta:
+                pour_points = pour_points.drop(
+                    columns=[c for c in pour_meta if c in pour_points.columns],
+                    errors='ignore',
+                ).merge(
+                    walk[['block_id'] + pour_meta].drop_duplicates('block_id'),
+                    on='block_id', how='left',
+                )
+
     layers = dict(
         cells=cells, catchments=catchments,
         named_rivers=named_rivers, streams=streams,
         pour_points=pour_points, nure_spots=nure_spots,
         pan_locations=pans, hobby_reports=hobby,
+        padus_open=padus_open, mlrs_claims=mlrs_claims,
     )
     gis_dir = os.path.join(cfg['outputs_dir'], 'gis')
     os.makedirs(gis_dir, exist_ok=True)
@@ -871,6 +941,8 @@ def _write_qgis_project(qgs_path, gpkg_path, cfg=None):
     layers = [
         ('geology', 'Polygon', 'geology — SGMC lithology'),
         ('geology_structure', 'Line', 'geology — faults / contacts'),
+        ('padus_open', 'Polygon', 'PAD-US open public land'),
+        ('mlrs_claims', 'Polygon', 'MLRS mining claims (not closed)'),
         ('cells', 'Polygon', 'cells — walk rank'),
         ('catchments', 'MultiPolygon', 'catchments — walk rank'),
         ('named_rivers', 'Line', 'named rivers'),
@@ -1242,11 +1314,128 @@ def run(cfg):
 
     write_gpkg_from_outputs(cfg)
 
+    # Land-access re-ranks walk_rank / access_rank inside write_gpkg.
+    walk = pd.read_csv(out(cfg, 'tables', 'task11_catchment_walk_list.csv'))
     _write_summary(cfg, walk, spots_df, loco, p_is_transfer=p_is_transfer)
     pan_path = out(cfg, 'tables', 'task11_pan_locations.csv')
     pans_df = pd.read_csv(pan_path) if os.path.exists(pan_path) else pd.DataFrame()
     _draw_figure(cfg, blocks, catch_gdf, pour_df, spots_df, walk, pans_df=pans_df)
     print("Task 11 complete — fig11 walk list saved.")
+
+
+def _nure_coverage_and_park_access(cfg):
+    """Report where NURE exists vs the study bbox; label pamphlet park pins.
+
+    Returns (coverage_lines, park_access_dataframe_or_None).
+    """
+    lines = []
+    park_df = None
+    try:
+        nure = load_nure(cfg)
+    except Exception:
+        return lines, park_df
+    if nure is None or nure.empty or 'lat' not in nure.columns:
+        return lines, park_df
+
+    lon_min, lon_max, lat_min, lat_max = bbox(cfg)
+    nure = nure.dropna(subset=['lat', 'lon'])
+    nure = nure[
+        nure.lon.between(lon_min, lon_max) & nure.lat.between(lat_min, lat_max)
+    ]
+    if nure.empty:
+        lines.append("  No NURE samples inside the study bbox.")
+        return lines, park_df
+
+    nlat0, nlat1 = float(nure.lat.min()), float(nure.lat.max())
+    nlon0, nlon1 = float(nure.lon.min()), float(nure.lon.max())
+    lines.append(
+        f"  NURE envelope: lon {nlon0:.3f}–{nlon1:.3f}, "
+        f"lat {nlat0:.3f}–{nlat1:.3f}  (n={len(nure)})"
+    )
+    lines.append(
+        f"  Study bbox:    lon {lon_min:.3f}–{lon_max:.3f}, "
+        f"lat {lat_min:.3f}–{lat_max:.3f}"
+    )
+    gap_north = lat_max - nlat1
+    if gap_north > 0.05:
+        lines.append(
+            f"  GAP: no HSSR sediment north of {nlat1:.3f}° "
+            f"({gap_north:.2f}° of the study box is chemistry-dark). "
+            "South Yuba / Malakoff cannot be ML-ranked until another "
+            "chemistry source exists — national NURE has a hole here."
+        )
+
+    # Pamphlet / public_land park pins → access at the pin
+    hobby_path = out(cfg, 'tables', 'task11_hobby_reports.csv')
+    if not os.path.exists(hobby_path):
+        return lines, park_df
+    try:
+        import geopandas as gpd
+        from pipeline.task11_land_access import annotate_points, land_access_enabled
+        hobby = pd.read_csv(hobby_path)
+        parks = hobby.copy()
+        if 'public_land' in parks.columns:
+            parks = parks[parks['public_land'].fillna('').astype(str).str.lower().eq('yes')]
+        if parks.empty or 'lon' not in parks.columns:
+            return lines, park_df
+        gdf = gpd.GeoDataFrame(
+            parks.copy(),
+            geometry=gpd.points_from_xy(parks['lon'], parks['lat']),
+            crs='EPSG:4326',
+        )
+        if land_access_enabled(cfg):
+            gdf = annotate_points(gdf, cfg)
+        else:
+            gdf['access_type'] = 'unknown'
+            gdf['access_ok'] = 'no'
+            gdf['manager_name'] = ''
+            gdf['access_reason'] = 'land_access disabled'
+
+        # Chemistry note: nearest NURE within 3 km / or coverage miss
+        from scipy.spatial import cKDTree
+        tree = cKDTree(np.column_stack([nure.lon.values, nure.lat.values]))
+        d, i = tree.query(np.column_stack([gdf.geometry.x.values, gdf.geometry.y.values]))
+        chem = []
+        for dist, ii, lat in zip(d, i, gdf.geometry.y.values):
+            km = float(dist) * 111.0
+            if km <= 3.5:
+                p = float(nure.iloc[int(ii)]['p_anomalous']) if 'p_anomalous' in nure.columns else np.nan
+                # Prefer task9 scores if available
+                chem.append(f'near NURE {km:.1f} km' + (f' P={p:.2f}' if np.isfinite(p) else ''))
+            elif float(lat) > nlat1:
+                chem.append(f'outside NURE coverage (north of {nlat1:.2f}°)')
+            else:
+                chem.append(f'nearest NURE {km:.0f} km')
+        # Upgrade chem with task9 P if present
+        p9 = out(cfg, 'tables', 'task9_ml_nure_probability.csv')
+        if os.path.exists(p9):
+            scored = pd.read_csv(p9)
+            st = cKDTree(np.column_stack([scored.lon.values, scored.lat.values]))
+            d2, i2 = st.query(np.column_stack([gdf.geometry.x.values, gdf.geometry.y.values]))
+            chem = []
+            for dist, ii, lat in zip(d2, i2, gdf.geometry.y.values):
+                km = float(dist) * 111.0
+                if km <= 3.5:
+                    p = float(scored.iloc[int(ii)]['p_anomalous'])
+                    chem.append(f'NURE {km:.1f} km P={p:.2f}')
+                elif float(lat) > float(scored.lat.max()):
+                    chem.append(
+                        f'outside NURE coverage (north of {float(scored.lat.max()):.2f}°)'
+                    )
+                else:
+                    chem.append(f'nearest NURE {km:.0f} km')
+        gdf['chem_note'] = chem
+        keep = [
+            c for c in (
+                'report_id', 'name', 'creek_name', 'lon', 'lat', 'public_land',
+                'access_type', 'access_ok', 'claim_status', 'manager_name',
+                'pub_access', 'access_reason', 'chem_note',
+            ) if c in gdf.columns
+        ]
+        park_df = gdf.drop(columns='geometry', errors='ignore')[keep].copy()
+    except Exception as exc:
+        lines.append(f"  Park-pin access failed: {exc}")
+    return lines, park_df
 
 
 def _write_summary(cfg, walk, spots_df, loco, p_is_transfer=False):
@@ -1283,23 +1472,72 @@ def _write_summary(cfg, walk, spots_df, loco, p_is_transfer=False):
             "",
         ]
     lines += ["WALK ORDER (expedition first, most isolated first)", ""]
-    show = walk[walk['campaign_class'].isin(['expedition', 'confirm', 'watch'])]
+    show = walk[walk['walk_rank'].notna()] if 'walk_rank' in walk.columns else walk[
+        walk['campaign_class'].isin(['expedition', 'confirm', 'watch'])
+    ]
+    show = show.sort_values('walk_rank', ascending=True) if 'walk_rank' in show.columns else show
     for _, r in show.iterrows():
         km = r.get('nearest_gold_km')
         km_bit = f"{km} km from gold  " if pd.notna(km) else ""
+        acc = ''
+        if 'access_type' in r.index and pd.notna(r.get('access_type')):
+            ok = r.get('access_ok', '?')
+            acc = f"  access={r['access_type']}/{ok}"
+            if r.get('access_reason'):
+                why = str(r['access_reason'])
+                if len(why) > 70:
+                    why = why[:67] + '...'
+                acc += f" ({why})"
+        wr = int(r['walk_rank']) if pd.notna(r.get('walk_rank')) else '-'
         lines.append(
-            f"  #{int(r['walk_rank']):>2}  {r['campaign_class']:<11}  "
+            f"  #{wr:>2}  {r['campaign_class']:<11}  "
             f"max P={r['max_p']}  {km_bit}"
             f"pour {r['pour_lat']}, {r['pour_lon']}  "
             f"nure={int(r.get('n_nure_spots', r.get('n_field_spots', 0)))}"
+            f"{acc}"
         )
     if show.empty:
-        lines.append("  (none — every occupied cell was skip)")
+        lines.append("  (none — every occupied cell was skip or failed elev/catchment screen)")
+    if 'access_rank' in walk.columns and walk['access_rank'].notna().any():
+        lines += ["", "ACCESS-OK RANK (I can go test — BLM/USFS/state_park, claim-free)", ""]
+        aok = walk[walk['access_rank'].notna()].sort_values('access_rank')
+        for _, r in aok.iterrows():
+            wr = int(r['walk_rank']) if pd.notna(r.get('walk_rank')) else '-'
+            lines.append(
+                f"  access#{int(r['access_rank']):>2}  walk#{wr:>2}  "
+                f"{r.get('access_type')}  {r.get('manager_name') or ''}  "
+                f"max P={r['max_p']}  pour {r['pour_lat']}, {r['pour_lon']}"
+            )
+        if (
+            'claim_status' in walk.columns
+            and walk.loc[walk['walk_rank'].notna(), 'claim_status'].eq('unchecked').any()
+        ):
+            lines.append("  NOTE: some claim_status=unchecked — confirm MLRS before panning.")
+
+    # NURE coverage envelope + pamphlet park access (even outside chemistry)
+    cov_lines, park_df = _nure_coverage_and_park_access(cfg)
+    if cov_lines:
+        lines += ["", "NURE COVERAGE"] + cov_lines
+    if park_df is not None and len(park_df):
+        lines += ["", "PAMPHLET PARK PINS (access at the pin — not the cell pour)", ""]
+        for _, r in park_df.iterrows():
+            chem = r.get('chem_note', '')
+            lines.append(
+                f"  {r.get('report_id')}  {r.get('name')}  "
+                f"access={r.get('access_type')}/{r.get('access_ok')}  "
+                f"{r.get('manager_name') or ''}  {chem}"
+            )
+        park_path = out(cfg, 'tables', 'task11_park_pin_access.csv')
+        park_df.to_csv(park_path, index=False)
+        lines.append(f"  Wrote {park_path}")
+
     lines += [
         "",
         "nure_spots = NURE chemistry grabs (the forest). They say this creek.",
         "pan_locations = trap-geometry pins on the D8 line. They say stand here.",
         "hobby_reports = pamphlet / opt-in pans. Catchment hit-rate, not AUC.",
+        "access_* = PAD-US manager + MLRS claims + hobby club/industry labels.",
+        "This is a screen, not permission. Confirm claims and park rules on site.",
         "Pour point = where the water leaves. It is not automatically a pan pin.",
         "See task11_nure_spots.csv, task11_pan_locations.csv,",
         "task11_hobby_reports.csv and task11_hobby_hit_rate.csv.",
@@ -1423,17 +1661,40 @@ def _draw_figure(cfg, blocks, catch_gdf, pour_df, spots_df, walk, pans_df=None):
                 edgecolors='black', linewidths=0.4, zorder=6, clip_on=True,
             )
     if pans_df is not None and not pans_df.empty:
-        ax.scatter(
-            pans_df['lon'], pans_df['lat'], s=42, marker='o',
-            facecolors='none',
-            edgecolors=[CLASS_COLOR.get(c, '#111') for c in pans_df['campaign_class']],
-            linewidths=1.4, zorder=8, clip_on=True,
-        )
+        if 'access_type' in pans_df.columns:
+            from pipeline.task11_land_access import ACCESS_COLOR
+            edge = [
+                ACCESS_COLOR.get(str(t), '#111') for t in pans_df['access_type']
+            ]
+            face = [
+                ACCESS_COLOR.get(str(t), '#888') if ok == 'yes' else 'none'
+                for t, ok in zip(
+                    pans_df['access_type'],
+                    pans_df.get('access_ok', pd.Series(['no'] * len(pans_df))),
+                )
+            ]
+            ax.scatter(
+                pans_df['lon'], pans_df['lat'], s=42, marker='o',
+                facecolors=face, edgecolors=edge,
+                linewidths=1.4, zorder=8, clip_on=True,
+            )
+        else:
+            ax.scatter(
+                pans_df['lon'], pans_df['lat'], s=42, marker='o',
+                facecolors='none',
+                edgecolors=[CLASS_COLOR.get(c, '#111') for c in pans_df['campaign_class']],
+                linewidths=1.4, zorder=8, clip_on=True,
+            )
 
     if not pour_df.empty:
-        meta = walk[['block_id', 'campaign_class', 'walk_rank']].drop_duplicates('block_id')
+        meta_cols = ['block_id', 'campaign_class', 'walk_rank']
+        for c in ('access_type', 'access_ok', 'access_rank'):
+            if c in walk.columns:
+                meta_cols.append(c)
+        meta = walk[meta_cols].drop_duplicates('block_id')
         pplot = pour_df.drop(
-            columns=['campaign_class', 'walk_rank'], errors='ignore',
+            columns=[c for c in meta_cols if c != 'block_id' and c in pour_df.columns],
+            errors='ignore',
         ).merge(meta, on='block_id', how='left')
         if 'pour_snap_lon' in walk.columns:
             snap = walk[['block_id', 'pour_snap_lon', 'pour_snap_lat']].drop_duplicates(
@@ -1443,15 +1704,23 @@ def _draw_figure(cfg, blocks, catch_gdf, pour_df, spots_df, walk, pans_df=None):
             use = pplot['pour_snap_lon'].notna()
             pplot.loc[use, 'lon'] = pplot.loc[use, 'pour_snap_lon']
             pplot.loc[use, 'lat'] = pplot.loc[use, 'pour_snap_lat']
-        ax.scatter(
-            pplot['lon'], pplot['lat'], s=55, marker='v',
-            c=[CLASS_COLOR.get(c, '#888') for c in pplot['campaign_class']],
-            edgecolors='black', linewidths=0.6, zorder=7, clip_on=True,
-        )
-        label_me = pd.concat([
-            pplot[pplot['campaign_class'] == 'expedition'],
-            pplot[pplot['campaign_class'] == 'confirm'].nsmallest(6, 'walk_rank'),
-        ]).drop_duplicates('block_id')
+        if 'access_type' in pplot.columns:
+            from pipeline.task11_land_access import ACCESS_COLOR
+            fill = [ACCESS_COLOR.get(str(t), '#888') for t in pplot['access_type']]
+            edge = [
+                CLASS_COLOR.get(c, '#000') for c in pplot['campaign_class']
+            ]
+            ax.scatter(
+                pplot['lon'], pplot['lat'], s=55, marker='v',
+                c=fill, edgecolors=edge, linewidths=0.9, zorder=7, clip_on=True,
+            )
+        else:
+            ax.scatter(
+                pplot['lon'], pplot['lat'], s=55, marker='v',
+                c=[CLASS_COLOR.get(c, '#888') for c in pplot['campaign_class']],
+                edgecolors='black', linewidths=0.6, zorder=7, clip_on=True,
+            )
+        label_me = pplot[pplot['walk_rank'].notna()].nsmallest(8, 'walk_rank')
         if len(label_me):
             oys = _stagger_oy(label_me['lon'].tolist(), label_me['lat'].tolist())
             for (_, row), oy in zip(label_me.iterrows(), oys):
@@ -1480,11 +1749,13 @@ def _draw_figure(cfg, blocks, catch_gdf, pour_df, spots_df, walk, pans_df=None):
     ax.tick_params(labelsize=8)
     ax.set_title(
         'A.  Every 0.4-degree cell, NURE grabs (stars), and pan pins (circles)\n'
-        '(cell colour = leave-one-cell-out AUC;  grey = cannot score)',
+        '(cell colour = leave-one-cell-out AUC;  pour fill = access type when labeled)',
         fontsize=9,
     )
 
-    ranked = walk[walk['campaign_class'].isin(['expedition', 'confirm', 'watch'])].copy()
+    ranked = walk[walk['walk_rank'].notna()].copy() if 'walk_rank' in walk.columns else (
+        walk[walk['campaign_class'].isin(['expedition', 'confirm', 'watch'])].copy()
+    )
     ranked = ranked.sort_values('walk_rank', ascending=True).head(15)
     ranked = ranked.sort_values('walk_rank', ascending=False)
     if ranked.empty:
@@ -1500,7 +1771,12 @@ def _draw_figure(cfg, blocks, catch_gdf, pour_df, spots_df, walk, pans_df=None):
                 r['nearest_gold_deg'] * 111 if pd.notna(r.get('nearest_gold_deg')) else None
             )
             km_s = f'{km:.0f} km' if pd.notna(km) else ''
-            labels.append(f"#{int(r['walk_rank'])}  {km_s}")
+            acc = ''
+            if 'access_type' in r.index and pd.notna(r.get('access_type')):
+                acc = f"  {r['access_type']}"
+                if r.get('access_ok') == 'yes':
+                    acc += '*'
+            labels.append(f"#{int(r['walk_rank'])}  {km_s}{acc}")
         axb.set_yticks(y_pos)
         axb.set_yticklabels(labels, fontsize=8)
         axb.set_xlim(0, 1.12)

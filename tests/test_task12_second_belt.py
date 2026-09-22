@@ -34,6 +34,11 @@ def test_hssr_maps_units_and_mdl_flags():
         'as_ppm': [9],
         'ti_ppm': [4873],
         'zr_ppm': [717],
+        'cr_ppm': [80],
+        'nb_ppm': ['<2'],
+        'hf_ppm': [4],
+        'sc_ppm': [12],
+        'w_ppm': ['L1'],
     })
     out = hssr_to_nure_frame(raw)
     assert out.loc[0, 'lat'] == 45.5
@@ -42,6 +47,9 @@ def test_hssr_maps_units_and_mdl_flags():
     assert out.loc[0, 'La'] == -5.0
     assert out.loc[0, 'Au'] == -0.07
     assert out.loc[0, 'Fe'] == 2.16
+    assert out.loc[0, 'Cr'] == 80
+    assert out.loc[0, 'Nb'] == -2.0
+    assert out.loc[0, 'W'] == -1.0
     assert 'P' not in out.columns or pd.isna(out.loc[0].get('P', np.nan))
 
 
@@ -85,6 +93,8 @@ def test_belt_slug_keeps_historic_idaho_name():
     assert belt_slug({'study_area': {'short': 'id_batholith'}}) == 'idaho'
     assert belt_slug({'study_area': {'short': 'ca_sierra_placer'}}) == 'ca_sierra_placer'
     assert belt_slug({'study_area': {'short': 'mt_placer'}}) == 'mt_placer'
+    assert belt_slug({'study_area': {'short': 'co_wet_mtns'}}) == 'co_wet_mtns'
+    assert belt_slug({'study_area': {'short': 'nc_fall_zone'}}) == 'nc_fall_zone'
 
 
 def test_training_belt_is_rejected():
@@ -114,3 +124,12 @@ def test_transfer_note_flags_inverted_mean_p():
     note = _transfer_note('Montana SW gold gulches', 0.34, 0.33, 0.94, 0.28, 0.38)
     assert 'higher far from gold' in note
     assert 'flat' not in note
+
+
+def test_transfer_note_marks_other_placer():
+    note = _transfer_note(
+        'North Carolina Fall Zone (Ti–Zr–REE sand)', 0.50, 0.48, 0.1, 0.3, 0.3,
+        other_placer=True,
+    )
+    assert 'Ti–Zr–REE sand' in note
+    assert 'not gold country' in note

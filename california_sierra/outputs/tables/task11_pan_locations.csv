@@ -1,11 +1,13 @@
-walk_rank,block_id,campaign_class,pan_order,role,lon,lat,elev_m,trap_score,why,slope,omega
-4.0,-3039904,watch,1,pan,-121.619802,38.695972,4.2,9.0,slope_break;knickpoint_foot;power_drop;tributary_junction;near_hot_nure,0.00156,5.7
-4.0,-3039904,watch,2,pan,-121.608368,38.653646,3.7,9.0,slope_break;knickpoint_foot;power_drop;tributary_junction;near_hot_nure,0.00122,0.5
-3.0,-3039903,watch,1,pan,-121.361155,38.89625,32.4,9.0,slope_break;knickpoint_foot;power_drop;tributary_junction;near_hot_nure,0.00097,0.0
-3.0,-3039903,watch,2,pan,-121.297116,38.878194,41.5,9.0,slope_break;knickpoint_foot;power_drop;tributary_junction;near_hot_nure,0.01224,7.5
-8.0,-3029903,watch,1,pan,-121.147172,38.883561,190.2,7.5,slope_break;knickpoint_foot;power_drop;tributary_junction,0.03589,76.4
-8.0,-3029903,watch,2,pan,-121.160196,38.845751,139.4,7.5,slope_break;knickpoint_foot;power_drop;near_hot_nure,0.01373,38.6
-5.0,-3019904,watch,1,pan,-120.690245,38.6492,539.9,7.5,slope_break;knickpoint_foot;power_drop;tributary_junction,0.1376,1.2
-5.0,-3019904,watch,2,pan,-120.489566,38.572344,1141.4,7.5,slope_break;knickpoint_foot;power_drop;tributary_junction,0.02201,18.5
-6.0,-3019903,watch,1,pan,-120.534808,38.930694,1316.4,7.5,slope_break;knickpoint_foot;power_drop;tributary_junction,0.03938,47.4
-6.0,-3019903,watch,2,pan,-120.457361,38.982626,1181.5,7.5,slope_break;knickpoint_foot;power_drop;tributary_junction,0.00965,428.8
+walk_rank,block_id,campaign_class,pan_order,role,lon,lat,elev_m,trap_score,why,slope,omega,access_type,access_ok,access_reason,manager_name,claim_status,pub_access
+,-3039904,expedition,1,pan,-121.625172,38.676005,3.8,7.5,slope_break;knickpoint_foot;power_drop;tributary_junction,0.00031,0.3,restricted,no,PAD-US restricted Pub_Access=UK Mang=FWS; no MLRS claim in buffer,FWS,free,UK
+,-3039904,expedition,2,pan,-121.589182,38.616929,5.4,7.5,slope_break;knickpoint_foot;power_drop;tributary_junction,0.00704,1.1,restricted,no,PAD-US restricted Pub_Access=UK Mang=FWS; no MLRS claim in buffer,FWS,free,UK
+,-3039903,expedition,1,pan,-121.542639,38.895798,10.6,6.0,slope_break;knickpoint_foot;power_drop,0.00048,0.0,restricted,no,PAD-US restricted Pub_Access=UK Mang=FWS; no MLRS claim in buffer,FWS,free,UK
+,-3039903,expedition,2,pan,-121.542361,38.870622,8.9,6.0,slope_break;knickpoint_foot;power_drop,7e-05,1.3,restricted,no,PAD-US restricted Pub_Access=UK Mang=FWS; no MLRS claim in buffer,FWS,free,UK
+3.0,-3029904,confirm,1,pan,-120.911146,38.599479,178.6,7.5,slope_break;knickpoint_foot;power_drop;tributary_junction,0.00355,258.5,claimed,no,active MLRS claim: Rocky Ridge,Rocky Ridge,claimed,
+3.0,-3029904,confirm,2,pan,-120.913176,38.606546,189.0,7.5,slope_break;knickpoint_foot;power_drop;tributary_junction,0.02205,0.2,claimed,no,active MLRS claim: Rocky Ridge,Rocky Ridge,claimed,
+2.0,-3029903,confirm,1,pan,-121.160624,38.873472,186.5,7.5,slope_break;knickpoint_foot;power_drop;near_hot_nure,0.0178,10.3,private,no,not in PAD-US public layer; no MLRS claim in buffer,,free,
+2.0,-3029903,confirm,2,pan,-121.128564,38.88338,240.6,7.5,slope_break;knickpoint_foot;power_drop;tributary_junction,0.0035,0.0,private,no,not in PAD-US public layer; no MLRS claim in buffer,,free,
+1.0,-3019904,confirm,1,pan,-120.450917,38.606861,1351.6,7.5,slope_break;knickpoint_foot;power_drop;tributary_junction,0.05287,0.9,usfs,yes,PAD-US Mang=USFS type=usfs Pub_Access=OA; no MLRS claim in buffer,USFS,free,OA
+1.0,-3019904,confirm,2,pan,-120.489566,38.572344,1141.4,7.5,slope_break;knickpoint_foot;power_drop;tributary_junction,0.02201,18.5,private,no,not in PAD-US public layer; no MLRS claim in buffer,,free,
+4.0,-3019903,confirm,1,pan,-120.795868,38.85559,609.9,7.5,slope_break;knickpoint_foot;power_drop;near_hot_nure,0.01128,426.9,private,no,not in PAD-US public layer; no MLRS claim in buffer,,free,
+4.0,-3019903,confirm,2,pan,-120.818395,38.894506,677.6,7.5,slope_break;knickpoint_foot;power_drop;tributary_junction,0.01371,90.4,usfs,yes,PAD-US Mang=USFS type=usfs Pub_Access=UK; no MLRS claim in buffer,USFS,free,UK

@@ -9,18 +9,18 @@ Only precision=point gets nearest_pan_pin_m.
 
 Reports in bbox:              15
 Catchment-eligible:           10
-Joined a walkable catchment:  10
-  expedition hits:            8
-  confirm hits:               1
-  watch hits:                 1
-No catchment:                 1
+Joined a walkable catchment:  0
+  expedition hits:            0
+  confirm hits:               0
+  watch hits:                 0
+No catchment:                 15
 District (mapped, not a hit): 5
 Recoveries (color or better): 0
 Blanks:                       0
 Unknown / gazetteer:          15
 Pin-scored (precision=point): 0
-Walkable catchments:          23
-Walkable with ≥1 eligible hit:3
+Walkable catchments:          17
+Walkable with ≥1 eligible hit:0
 
 Do not quote this as ROC-AUC. People post flakes, not blanks.
 Append rows via data/hobby_reports/OPT_IN_FORM.txt — do not scrape.

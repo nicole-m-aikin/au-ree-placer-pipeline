@@ -253,9 +253,9 @@ Do not rebuild the forest from scratch. The gold labels, the heavy-mineral featu
 
 5. **Walk a catchment, not an IDW blob.** Yousefi & Carranza (2013). Same-basin QA is already in the repo — use independent pour points as the **output unit**, not as a replacement label set of 12 ranked sites.
 
-6. **Hold out a sub-area inside NE WA** (e.g. train west, test east). That is the poor person’s transfer test. If known placers in the held-out side do not score high, stop.
+6. **Hold out a sub-area inside NE WA** (e.g. train west, test east). **Done** (Task 13). Published forest east of −118.50° is **0.53**. A west-only refit is 0.63. Joblib not rewritten.
 
-7. **Other belts** (Idaho, then California). **Done.** Frozen NE WA forest on Idaho Batholith NURE: transfer AUC **0.50**. Same forest on the Sierra foothills (Feather / Yuba / American): **0.52**. Do not retrain to paper over it. Do not talk about more than one state as a product. Living in California does not make this a Sierra walk list.
+7. **Other belts.** **Done.** Frozen NE WA forest: Idaho **0.50**, California **0.52**, Montana **0.34**, Colorado **0.56**, NC Fall Zone **0.50**. Local Sierra forest (sidecar) is a different object — quote 0.4° block **0.69**, not the 3 km 0.83. It does not beat Washington on other states. Do not retrain to paper over the sag. Do not talk about more than one state as a product. Living in California does not make the Washington forest a Sierra model.
 
 8. **Field check a handful of high-P / no-mine drainages in NE WA.** Without pans, “robust” is still a computer talking to itself.
 
@@ -273,9 +273,10 @@ Do not rebuild the forest from scratch. The gold labels, the heavy-mineral featu
 2. Gold-question sentence + negative-class sentence on `/model-info` — **done**  
 3. Distance-to-nearest-gold-MRDS on `/predict` — **done**  
 4. Catchment walk list (batch, not the doorbell) — **done** (Task 11; NURE stars ≠ pan pins)  
-5. Idaho transfer — **done** (AUC 0.50; not retrained; walk-list GPKG: 2 expedition / 4 confirm)
-5b. California Sierra transfer — **done** (AUC 0.52; Au/As missing; walk-list GPKG: 0 expedition / 8 watch)  
-6. Hold-out sub-area inside NE WA — still useful, not blocking  
+5. Idaho transfer — **done** (AUC 0.50; not retrained). Local sidecar walk list: 5 expedition / 12 confirm.
+5b. California Sierra transfer — **done** (WA doorbell AUC 0.52). Local Sierra forest (sidecar; Au/As dropped; 0.03° labels; block CV 0.69; access-gated walk list). Doorbell stays WA.
+5c. Montana / Colorado / Fall Zone transfer — **done** (0.34 / 0.56 / 0.50). Local sidecars on MT and CO; cousins test deleted.
+6. Hold-out sub-area inside NE WA — **done** (Task 13: published forest 0.53 east of −118.50°)
 8. Field pans — pamphlet / opt-in overlay shipped (`hobby_reports`; hit-rate, not AUC). Own pans still missing. Without those, “robust” is still a computer talking to itself.
 
 Live doorbell: https://placer-lookalike.onrender.com/docs

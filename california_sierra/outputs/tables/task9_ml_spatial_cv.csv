@@ -1,0 +1,11 @@
+scheme,fold,roc_auc
+deadzone_0.15deg,1,0.7467
+deadzone_0.15deg,2,0.8468
+deadzone_0.15deg,3,0.7831
+deadzone_0.15deg,4,0.8573
+deadzone_0.15deg,5,0.921
+block_0.4deg,1,0.9028
+block_0.4deg,2,0.5399
+block_0.4deg,3,0.582
+block_0.4deg,4,0.8406
+block_0.4deg,5,0.6043

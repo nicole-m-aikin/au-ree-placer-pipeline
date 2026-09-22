@@ -1,0 +1,10 @@
+block_id,lon_min,lon_max,lat_min,lat_max,n_nure,n_positive_labels,mean_p,max_p,loco_auc,nearest_gold_deg,nearest_gold_km,spatial_flag,campaign_class,pour_lon,pour_lat,pour_snap_lon,pour_snap_lat,pour_elev_m,n_nure_spots,n_field_spots,catchment_ok,catchment_area_deg2,notes,walk_rank,n_pan_locations,n_hobby_hit
+-2639905,-105.6,-105.2,38.0,38.4,100,17,0.1505,0.76,0.3455,0.0613,6.8,near_known_gold,expedition,-105.2047,38.3731,-105.205417,38.372917,1751.4,2,2,True,0.0029,,1.0,2,0
+-2649905,-106.0,-105.6,38.0,38.4,50,8,0.1459,0.71,0.4732,0.0433,4.8,near_known_gold,confirm,-105.6394,38.3936,-105.639028,38.393472,1916.3,3,3,True,0.0191,,2.0,2,0
+-2629905,-105.2,-104.79999999999998,38.0,38.4,35,2,0.0687,0.71,0.7197,0.0236,2.6,near_known_gold,confirm,-105.1353,38.3953,-105.135417,38.395417,1585.4,4,4,True,0.0192,,3.0,2,0
+-2629904,-105.2,-104.79999999999998,38.4,38.8,13,6,0.3223,0.735,0.5119,0.0232,2.6,near_known_gold,confirm,-105.195,38.4267,-105.193194,38.429306,1614.3,4,4,False,0.35,catchment_too_large_used_cell_spots,4.0,0,0
+-2649904,-106.0,-105.6,38.4,38.8,149,16,0.0982,0.75,0.5681,0.014,1.6,near_known_gold,confirm,-105.6097,38.4125,-105.610417,38.411528,1898.6,4,4,False,0.1129,catchment_too_large_used_cell_spots,5.0,0,0
+-2639904,-105.6,-105.2,38.4,38.8,385,17,0.0527,0.75,0.3832,0.0103,1.1,near_known_gold,confirm,-105.2539,38.4383,-105.254306,38.438472,1638.5,2,2,True,0.0033,,6.0,2,0
+-2649906,-106.0,-105.6,37.6,38.0,0,0,,,,,,no_nure,skip,,,,,,0,0,False,,,,0,0
+-2639906,-105.6,-105.2,37.6,38.0,0,0,,,,,,no_nure,skip,,,,,,0,0,False,,,,0,0
+-2629906,-105.2,-104.79999999999998,37.6,38.0,0,0,,,,,,no_nure,skip,,,,,,0,0,False,,,,0,0

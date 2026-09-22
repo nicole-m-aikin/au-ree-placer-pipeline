@@ -1,0 +1,13 @@
+{
+"type": "FeatureCollection",
+"name": "task11_pour_points",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "block_id": -2649905, "name": "block_-2649905", "lon": -105.6394, "lat": 38.3936, "p_anomalous": 0.145, "elev_m": 1916.3037109375, "nearest_gold_deg": 0.0432922683628401, "spatial_flag": "near_known_gold", "campaign_class": "confirm", "walk_rank": 2 }, "geometry": { "type": "Point", "coordinates": [ -105.6394, 38.3936 ] } },
+{ "type": "Feature", "properties": { "block_id": -2649904, "name": "block_-2649904", "lon": -105.6097, "lat": 38.4125, "p_anomalous": 0.695, "elev_m": 1898.580078125, "nearest_gold_deg": 0.01401822028646911, "spatial_flag": "near_known_gold", "campaign_class": "confirm", "walk_rank": 5 }, "geometry": { "type": "Point", "coordinates": [ -105.6097, 38.4125 ] } },
+{ "type": "Feature", "properties": { "block_id": -2639905, "name": "block_-2639905", "lon": -105.2047, "lat": 38.3731, "p_anomalous": 0.09, "elev_m": 1751.4422607421875, "nearest_gold_deg": 0.061341190891603004, "spatial_flag": "near_known_gold", "campaign_class": "expedition", "walk_rank": 1 }, "geometry": { "type": "Point", "coordinates": [ -105.2047, 38.3731 ] } },
+{ "type": "Feature", "properties": { "block_id": -2639904, "name": "block_-2639904", "lon": -105.2539, "lat": 38.4383, "p_anomalous": 0.65, "elev_m": 1638.531005859375, "nearest_gold_deg": 0.010285937001559709, "spatial_flag": "near_known_gold", "campaign_class": "confirm", "walk_rank": 6 }, "geometry": { "type": "Point", "coordinates": [ -105.2539, 38.4383 ] } },
+{ "type": "Feature", "properties": { "block_id": -2629905, "name": "block_-2629905", "lon": -105.1353, "lat": 38.3953, "p_anomalous": 0.62, "elev_m": 1585.3641357421875, "nearest_gold_deg": 0.023637026039667278, "spatial_flag": "near_known_gold", "campaign_class": "confirm", "walk_rank": 3 }, "geometry": { "type": "Point", "coordinates": [ -105.1353, 38.3953 ] } },
+{ "type": "Feature", "properties": { "block_id": -2629904, "name": "block_-2629904", "lon": -105.195, "lat": 38.4267, "p_anomalous": 0.65, "elev_m": 1614.3216552734375, "nearest_gold_deg": 0.023209129669160448, "spatial_flag": "near_known_gold", "campaign_class": "confirm", "walk_rank": 4 }, "geometry": { "type": "Point", "coordinates": [ -105.195, 38.4267 ] } }
+]
+}

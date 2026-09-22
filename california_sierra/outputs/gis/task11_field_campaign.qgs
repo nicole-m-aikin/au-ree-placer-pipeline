@@ -3,7 +3,7 @@
   <title>Task 11 — ranked walk list</title>
   <projectCrs><spatialrefsys><authid>EPSG:3857</authid></spatialrefsys></projectCrs>
   <layer-tree-group>
-    <layer-tree-layer name="geology" id="t11_geology"/><layer-tree-layer name="geology_structure" id="t11_geology_structure"/><layer-tree-layer name="cells" id="t11_cells"/><layer-tree-layer name="catchments" id="t11_catchments"/><layer-tree-layer name="named_rivers" id="t11_named_rivers"/><layer-tree-layer name="streams" id="t11_streams"/><layer-tree-layer name="lidar_index" id="t11_lidar_index"/><layer-tree-layer name="nure_spots" id="t11_nure_spots"/><layer-tree-layer name="pour_points" id="t11_pour_points"/><layer-tree-layer name="pan_locations" id="t11_pan_locations"/><layer-tree-layer name="lidar_01" id="t11_lidar_01"/><layer-tree-layer name="lidar_02" id="t11_lidar_02"/><layer-tree-layer name="lidar_03" id="t11_lidar_03"/><layer-tree-layer name="lidar_05" id="t11_lidar_05"/><layer-tree-layer name="lidar_06" id="t11_lidar_06"/><layer-tree-layer name="lidar_07" id="t11_lidar_07"/><layer-tree-layer name="lidar_08" id="t11_lidar_08"/><layer-tree-layer name="lidar_09" id="t11_lidar_09"/><layer-tree-layer name="lidar_10" id="t11_lidar_10"/>
+    <layer-tree-layer name="geology" id="t11_geology"/><layer-tree-layer name="geology_structure" id="t11_geology_structure"/><layer-tree-layer name="padus_open" id="t11_padus_open"/><layer-tree-layer name="mlrs_claims" id="t11_mlrs_claims"/><layer-tree-layer name="cells" id="t11_cells"/><layer-tree-layer name="catchments" id="t11_catchments"/><layer-tree-layer name="named_rivers" id="t11_named_rivers"/><layer-tree-layer name="streams" id="t11_streams"/><layer-tree-layer name="lidar_index" id="t11_lidar_index"/><layer-tree-layer name="nure_spots" id="t11_nure_spots"/><layer-tree-layer name="pour_points" id="t11_pour_points"/><layer-tree-layer name="pan_locations" id="t11_pan_locations"/><layer-tree-layer name="hobby_reports" id="t11_hobby_reports"/><layer-tree-layer name="lidar_01" id="t11_lidar_01"/><layer-tree-layer name="lidar_02" id="t11_lidar_02"/><layer-tree-layer name="lidar_03" id="t11_lidar_03"/><layer-tree-layer name="lidar_05" id="t11_lidar_05"/><layer-tree-layer name="lidar_06" id="t11_lidar_06"/><layer-tree-layer name="lidar_07" id="t11_lidar_07"/><layer-tree-layer name="lidar_08" id="t11_lidar_08"/><layer-tree-layer name="lidar_09" id="t11_lidar_09"/><layer-tree-layer name="lidar_10" id="t11_lidar_10"/>
   </layer-tree-group>
   <mapcanvas>
     <units>meters</units>
@@ -25,6 +25,20 @@
     <layername>geology — faults / contacts</layername>
     <srs><spatialrefsys><authid>EPSG:4326</authid></spatialrefsys></srs>
     <datasource>/Users/nicoleaikin/projects/Au + REE pipeline/california_sierra/outputs/gis/task11_field_campaign.gpkg|layername=geology_structure</datasource>
+    <provider>ogr</provider>
+  </maplayer>
+  <maplayer type="vector" geometry="Polygon" hasScaleBasedVisibilityFlag="0">
+    <id>t11_padus_open</id>
+    <layername>PAD-US open public land</layername>
+    <srs><spatialrefsys><authid>EPSG:4326</authid></spatialrefsys></srs>
+    <datasource>/Users/nicoleaikin/projects/Au + REE pipeline/california_sierra/outputs/gis/task11_field_campaign.gpkg|layername=padus_open</datasource>
+    <provider>ogr</provider>
+  </maplayer>
+  <maplayer type="vector" geometry="Polygon" hasScaleBasedVisibilityFlag="0">
+    <id>t11_mlrs_claims</id>
+    <layername>MLRS mining claims (not closed)</layername>
+    <srs><spatialrefsys><authid>EPSG:4326</authid></spatialrefsys></srs>
+    <datasource>/Users/nicoleaikin/projects/Au + REE pipeline/california_sierra/outputs/gis/task11_field_campaign.gpkg|layername=mlrs_claims</datasource>
     <provider>ogr</provider>
   </maplayer>
   <maplayer type="vector" geometry="Polygon" hasScaleBasedVisibilityFlag="0">
@@ -81,6 +95,13 @@
     <layername>pan locations — trap geometry</layername>
     <srs><spatialrefsys><authid>EPSG:4326</authid></spatialrefsys></srs>
     <datasource>/Users/nicoleaikin/projects/Au + REE pipeline/california_sierra/outputs/gis/task11_field_campaign.gpkg|layername=pan_locations</datasource>
+    <provider>ogr</provider>
+  </maplayer>
+  <maplayer type="vector" geometry="Point" hasScaleBasedVisibilityFlag="0">
+    <id>t11_hobby_reports</id>
+    <layername>hobby reports — pamphlet / opt-in pans</layername>
+    <srs><spatialrefsys><authid>EPSG:4326</authid></spatialrefsys></srs>
+    <datasource>/Users/nicoleaikin/projects/Au + REE pipeline/california_sierra/outputs/gis/task11_field_campaign.gpkg|layername=hobby_reports</datasource>
     <provider>ogr</provider>
   </maplayer>
   <maplayer type="raster" hasScaleBasedVisibilityFlag="0">

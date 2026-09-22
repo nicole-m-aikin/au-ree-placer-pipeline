@@ -1,29 +1,57 @@
 FIELD CAMPAIGN WALK LIST
 California Sierra placer foothills — 0.4° cells + pour points
-P is the frozen NE Washington forest (lookalike), not a local gold model. Gold distance uses this belt's MRDS pins. Stars are NURE; circles are pans.
+This is a screen, not a gold claim. Stars are NURE; circles are pans.
 ====================================================================
 
 Cells on the map:     25  (occupied by NURE: 8)
-Expedition (high P, >5 km from a gold pin): 0
-Confirm    (high P, ≤5 km from a gold pin): 0
-Watch      (moderate P):                     8
-Skip       (low P or empty):                 17
+Expedition (high P, >5 km from a gold pin): 2
+Confirm    (high P, ≤5 km from a gold pin): 4
+Watch      (moderate P):                     0
+Skip       (low P or empty):                 19
 
-Leave-one-cell-out AUC (cells with ≥8 grabs): 0.560  (min 0.146, max 0.808, n=6 cells)
+Leave-one-cell-out AUC (cells with ≥8 grabs): 0.568  (min 0.359, max 0.881, n=6 cells)
 Same story as the 0.94 vs 0.62 folds — some cells transfer, some do not.
 
 WALK ORDER (expedition first, most isolated first)
 
-  # 1  watch        max P=0.44  31.2 km from gold  pour 38.7641, -121.671  nure=4
-  # 2  watch        max P=0.445  26.1 km from gold  pour 38.8174, -121.6703  nure=4
-  # 3  watch        max P=0.46  21.6 km from gold  pour 38.8147, -121.5508  nure=4
-  # 4  watch        max P=0.45  12.4 km from gold  pour 38.5348, -121.5668  nure=4
-  # 5  watch        max P=0.48  2.7 km from gold  pour 38.5994, -120.7802  nure=3
-  # 6  watch        max P=0.515  2.7 km from gold  pour 38.964, -120.6238  nure=2
-  # 7  watch        max P=0.47  2.0 km from gold  pour 38.6783, -121.1922  nure=4
-  # 8  watch        max P=0.49  1.2 km from gold  pour 38.8543, -121.1945  nure=3
+  # 1  confirm      max P=1.0  2.7 km from gold  pour 38.5994, -120.7802  nure=4  access=usfs/yes (PAD-US Mang=USFS type=usfs Pub_Access=OA; no MLRS claim in buffer)
+  # 2  confirm      max P=1.0  2.0 km from gold  pour 38.8258, -121.1913  nure=4  access=private/no (not in PAD-US public layer; no MLRS claim in buffer)
+  # 3  confirm      max P=1.0  1.4 km from gold  pour 38.5143, -121.0478  nure=4  access=claimed/no (active MLRS claim: Rocky Ridge)
+  # 4  confirm      max P=0.995  0.2 km from gold  pour 38.8538, -120.7886  nure=3  access=usfs/yes (PAD-US Mang=USFS type=usfs Pub_Access=UK; no MLRS claim in buffer)
+
+ACCESS-OK RANK (I can go test — BLM/USFS/state_park, claim-free)
+
+  access# 1  walk# 1  usfs  USFS  max P=1.0  pour 38.5994, -120.7802
+  access# 2  walk# 4  usfs  USFS  max P=0.995  pour 38.8538, -120.7886
+
+NURE COVERAGE
+  NURE envelope: lon -121.698–-120.401, lat 38.502–38.997  (n=596)
+  Study bbox:    lon -121.700–-120.400, lat 38.500–40.000
+  GAP: no HSSR sediment north of 38.997° (1.00° of the study box is chemistry-dark). South Yuba / Malakoff cannot be ML-ranked until another chemistry source exists — national NURE has a hole here.
+
+PAMPHLET PARK PINS (access at the pin — not the cell pour)
+
+  CA-SYR  South Yuba Recreation Area  access=blm/yes  BLM  outside NURE coverage (north of 39.00°)
+  CA-EDW  Edwards Crossing  access=state_park/yes  SPR  outside NURE coverage (north of 39.00°)
+  CA-PUR  Purdon Crossing  access=state_park/yes  SPR  outside NURE coverage (north of 39.00°)
+  CA-BRP  Bridgeport South Yuba SP  access=state_park/yes  SPR  outside NURE coverage (north of 39.00°)
+  CA-H49  Highway 49 South Yuba  access=state_park/yes  SPR  outside NURE coverage (north of 39.00°)
+  CA-MAL  Malakoff Diggins SHP  access=state_park/yes  SPR  outside NURE coverage (north of 39.00°)
+  CA-MAR  Marshall Gold Discovery SHP  access=state_park/yes  SPR  NURE 2.0 km P=0.89
+  CA-AUB  Auburn State Recreation Area  access=local_gov/no  CITY  NURE 1.9 km P=0.99
+  CA-MAM  Mammoth Bar  access=private/no    NURE 2.1 km P=0.95
+  CA-ORE  Oregon Creek  access=claimed/no  Pike City #1  outside NURE coverage (north of 39.00°)
+  CA-BUT  Forks of Butte  access=private/no    outside NURE coverage (north of 39.00°)
+  CA-HUM  Humbug Creek at North Bloomfield  access=claimed/no  THE BLACK DIGGINS  outside NURE coverage (north of 39.00°)
+  Wrote california_sierra/outputs/tables/task11_park_pin_access.csv
 
 nure_spots = NURE chemistry grabs (the forest). They say this creek.
 pan_locations = trap-geometry pins on the D8 line. They say stand here.
+hobby_reports = pamphlet / opt-in pans. Catchment hit-rate, not AUC.
+access_* = PAD-US manager + MLRS claims + hobby club/industry labels.
+This is a screen, not permission. Confirm claims and park rules on site.
 Pour point = where the water leaves. It is not automatically a pan pin.
-See task11_nure_spots.csv and task11_pan_locations.csv.
+See task11_nure_spots.csv, task11_pan_locations.csv,
+task11_hobby_reports.csv and task11_hobby_hit_rate.csv.
+
+Hobby / pamphlet overlay (not AUC): 21 reports, 0 catchment hits (0 expedition). Recoveries=0  blanks=0  gazetteer=21.

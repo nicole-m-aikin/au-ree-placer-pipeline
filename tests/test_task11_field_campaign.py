@@ -29,6 +29,8 @@ def test_utm_zone_is_11n_for_idaho_and_10n_for_sierra():
     assert utm_epsg(-115.1, 45.5) == 'EPSG:32611'
     assert utm_epsg(-121.05, 39.3) == 'EPSG:32610'
     assert utm_epsg(-111.82, 45.33) == 'EPSG:32612'
+    assert utm_epsg(-105.45, 38.13) == 'EPSG:32613'
+    assert utm_epsg(-77.79, 35.94) == 'EPSG:32618'
 
 
 def test_sgmc_state_follows_config():
@@ -36,6 +38,8 @@ def test_sgmc_state_follows_config():
     assert sgmc_state({'study_area': {'short': 'ca_sierra_placer'}}) == 'CA'
     assert sgmc_state({'study_area': {'short': 'ne_wa'}}) == 'WA'
     assert sgmc_state({'data': {'sgmc_state': 'MT'}}) == 'MT'
+    assert sgmc_state({'data': {'sgmc_state': 'CO'}}) == 'CO'
+    assert sgmc_state({'study_area': {'short': 'nc_fall_zone'}}) == 'NC'
 
 
 def test_clean_gpkg_copy_is_belt_specific():
@@ -45,6 +49,22 @@ def test_clean_gpkg_copy_is_belt_specific():
     assert 'ca_sierra_placer' in clean_gpkg_copy(
         {'study_area': {'short': 'ca_sierra_placer'}}
     )
+
+
+def test_campaign_probability_prefers_local_task9(tmp_path):
+    tables = tmp_path / 'tables'
+    tables.mkdir()
+    local = tables / 'task9_ml_nure_probability.csv'
+    local.write_text('lon,lat,p_anomalous\n-121.0,39.0,0.9\n')
+    transfer = tables / 'task12_ca_sierra_placer_transfer_scores.csv'
+    transfer.write_text('lon,lat,p_anomalous\n-121.0,39.0,0.4\n')
+    cfg = {
+        'outputs_dir': str(tmp_path),
+        'study_area': {'short': 'ca_sierra_placer'},
+    }
+    path, is_transfer = campaign_probability_path(cfg)
+    assert path == str(local)
+    assert is_transfer is False
 
 
 def test_campaign_probability_prefers_transfer_scores(tmp_path):

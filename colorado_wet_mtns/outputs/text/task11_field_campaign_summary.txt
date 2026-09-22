@@ -1,0 +1,37 @@
+FIELD CAMPAIGN WALK LIST
+Colorado Wet Mountains / Arkansas gulches — 0.4° cells + pour points
+This is a screen, not a gold claim. Stars are NURE; circles are pans.
+====================================================================
+
+Cells on the map:     9  (occupied by NURE: 6)
+Expedition (high P, >5 km from a gold pin): 1
+Confirm    (high P, ≤5 km from a gold pin): 5
+Watch      (moderate P):                     0
+Skip       (low P or empty):                 3
+
+Leave-one-cell-out AUC (cells with ≥8 grabs): 0.500  (min 0.345, max 0.720, n=6 cells)
+Same story as the 0.94 vs 0.62 folds — some cells transfer, some do not.
+
+WALK ORDER (expedition first, most isolated first)
+
+  # 1  expedition   max P=0.76  6.8 km from gold  pour 38.3731, -105.2047  nure=2
+  # 2  confirm      max P=0.71  4.8 km from gold  pour 38.3936, -105.6394  nure=3
+  # 3  confirm      max P=0.71  2.6 km from gold  pour 38.3953, -105.1353  nure=4
+  # 4  confirm      max P=0.735  2.6 km from gold  pour 38.4267, -105.195  nure=4
+  # 5  confirm      max P=0.75  1.6 km from gold  pour 38.4125, -105.6097  nure=4
+  # 6  confirm      max P=0.75  1.1 km from gold  pour 38.4383, -105.2539  nure=2
+
+NURE COVERAGE
+  NURE envelope: lon -105.900–-105.104, lat 38.050–38.699  (n=732)
+  Study bbox:    lon -105.900–-105.100, lat 38.050–38.700
+
+nure_spots = NURE chemistry grabs (the forest). They say this creek.
+pan_locations = trap-geometry pins on the D8 line. They say stand here.
+hobby_reports = pamphlet / opt-in pans. Catchment hit-rate, not AUC.
+access_* = PAD-US manager + MLRS claims + hobby club/industry labels.
+This is a screen, not permission. Confirm claims and park rules on site.
+Pour point = where the water leaves. It is not automatically a pan pin.
+See task11_nure_spots.csv, task11_pan_locations.csv,
+task11_hobby_reports.csv and task11_hobby_hit_rate.csv.
+
+Hobby / pamphlet overlay (not AUC): 0 reports, 0 catchment hits (0 expedition). Recoveries=0  blanks=0  gazetteer=0.

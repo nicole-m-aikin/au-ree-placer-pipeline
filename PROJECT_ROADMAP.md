@@ -1,9 +1,8 @@
 # Next expansions
 
 The forest stays frozen. Earth MRI picks the **next bbox**, not a new
-model. Idaho, California, and Montana already proved the doorbell does
-not travel (AUC 0.50 / 0.52 / 0.34). The next work is a publication
-upgrade, a tighter Washington product, or a walk someone can actually do.
+model. Idaho, California, Montana, Colorado, and the NC Fall Zone already
+proved the doorbell does not travel (0.50 / 0.52 / 0.34 / 0.56 / 0.50).
 
 **Do not:** national-model, retrain to hide a sag, put Task 4 tonnes on
 `/predict`, add slope/eTh to the Random Forest, or treat an award press
@@ -17,73 +16,57 @@ release as a study area.
 |-------|--------|
 | NE WA Tasks 1–11 + GeoPackage | Done |
 | Live doorbell | https://placer-lookalike.onrender.com/docs |
-| Idaho transfer + walk list | AUC 0.50; 2 expedition |
-| California Sierra transfer + walk list | AUC 0.52; **0 expedition** |
-| Montana SW gulches transfer + walk list | AUC **0.34**; Libby dropped |
+| Idaho / California / Montana transfer + walk lists | 0.50 / 0.52 / 0.34 |
+| Local sidecars (not `/predict`) | CA block **0.69**; ID dead-zone 0.67; MT 0.62; CO 0.50 |
+| Colorado Wet Mountains transfer + walk list | AUC **0.56**. Local 1 expedition / 5 confirm. |
+| NC Fall Zone other-placer transfer + walk list | AUC **0.50**; not a gold walk |
+| Cousins test (Cr Nb Hf Sc W) | Dead-zone flat. Sidecars deleted. |
 | Earth MRI watch | `EARTH_MRI_WATCH.md` |
-| In-belt east-west hold-out | `pipeline/task13_holdout.py` — does not rewrite the joblib |
+| In-belt east-west hold-out | Task 13 — joblib not rewritten |
+| Hobby / pamphlet overlay | Gazetteer + opt-in; not labels |
+| 1 m LiDAR on one CA catchment | walk-rank 1 (USFS confirm, −120.78, 38.60) |
 
 ---
 
-## Wave 0 — tidy (done)
+## Wave 3 — publications that were already on the shelf (done)
 
-1. `EARTH_MRI_WATCH.md` + this file committed with the rest of the wave.
-2. Render redeploys from `main` so `/model-info` lists Idaho, California,
-   and Montana on `transfer_belts`.
-3. Montana bbox is Confederate / Alder / Montana Bar / Elkhorn
-   (`-112.85 to -111.15, 45.20 to 46.80`). **Libby is out.**
-
----
-
-## Wave 1 — Montana (done)
-
-Same recipe as Idaho / California. No Tasks 1–10 (no public depths, no
-WGS-style waste OFR).
-
-| Step | Result |
-|------|--------|
-| Clip NURE + gold MRDS. 30 m DEM. SGMC `MT`. | 4,672 grabs; 2,039 gold pins |
-| Task 12 | AUC **0.34** (0.05° = 0.33). Mean P 0.28 near gold / 0.38 far. P and Y filled with WA medians. |
-| Task 11 | Walk list + GeoPackage. Local gold pins. `p_is_transfer: true`. |
-| Tasks 1–10 | Off. |
+| Pub | What we did | What we did not |
+|-----|-------------|-----------------|
+| CGS OF-23-07 Wet Mountains | `configs/colorado_wet_mtns/` Task 12 + 11 + local sidecar (dead-zone 0.50). Leadville left out. | Tasks 1–10. Doorbell stays WA. |
+| Grosz B2097 / OFR 92-396 Fall Zone | `configs/fall_zone_nc/` other-placer doorbell test. | Treat sand country as gold. |
+| IGS Mineral Hill / Phosphoria | Still waiting. | Did not invent a bbox from a press release. |
+| CGS tungsten-waste final report | Still promised, not released. | Did not rerun CA 1–10. |
+| MBMG / IGS waste OFR | Still waiting. | No fake Task 8. |
 
 ---
 
-## Wave 2 — Washington in-belt (hold-out shipped; maps wait)
+## Wave 4 — product, not geography (done / live deploy still pending)
 
-- Optional hold-out east vs west of the Kettle (`holdout.lon_cut: -118.50`)
-  is `python -m pipeline.task13_holdout`. Report sits next to the 0.70
-  spatial CV. The published joblib is not rewritten.
-- When WGS ships Orient / Nighthawk maps or OFR 2026-02 Part 2: rebuild
-  the NE WA walk list / site ranks. Do not change the forest.
-
-This tightens `#1`–`#10`. It is not “the next location.”
-
----
-
-## Wave 3 — triggered by a publication (do not jump the queue)
-
-| Pub lands | Do this |
-|-----------|---------|
-| IGS Mineral Hill maps or Phosphoria / Western Phosphate release | Decide: widen `idaho_batholith` or add `idaho_mineral_hill`. Task 12 first. Carbonatite ≠ gold walk unless the chemistry says so. |
-| CGS tungsten-waste OFR or eastern-Sierra geochem **inside** the foothills box | Feed Task 8 / geology on the existing CA GPKG. Do not rerun 1–10. Mountain Pass / Salton Sea stay out. |
-| VA / NC / SC Fall Zone placer maps (Grosz belt) | New config. Honest *other placer* (Ti–Zr–REE sand), still frozen gold forest as a doorbell test. Say that in the summary. |
-| CGS / MBMG / IGS mine-waste OFR | Overlay like WGS 2026-02. Never a label for Task 9. Montana waste table → Task 8 on the existing gulch box. |
+- Hobby overlay is on the GeoPackages. Own pans still missing — use
+  `data/hobby_reports/OPT_IN_FORM.txt`.
+- 1 m 3DEP clip on **one** Sierra catchment (walk #1, USFS confirm).
+  Hillshade: `california_sierra/data/lidar/lidar_r01_hs.tif`. Not all ten ranks.
+- API `transfer_belts` is in the sidecar on `main`. Live Render may still
+  show Idaho-only until Manual Deploy. Do not add ID/CA/CO gold to
+  `/predict` distance.
 
 ---
 
-## Wave 4 — product, not geography
+## Next (see [`SESSION_SUMMARY.md`](SESSION_SUMMARY.md))
 
-These do not need a new state:
+1. Manual Deploy so live `/model-info` lists the transfer belts.
+2. Walk one Sierra USFS confirm (1 m hillshade already clipped).
+3. Flip `land_access` on for NE WA / Idaho / Montana.
+4. Northern Sierra chemistry from something that is not NURE HSSR.
+5. When transfer is a coin flip, rank Task 11 geometry-first; P is a weak vote.
 
-- **Hobby / field pans** as a scored overlay, not training labels.
-  California is the belt you can walk. A dozen pans on one Sierra
-  watch-cell would be the first ground truth the forest never had.
-- **1 m LiDAR on one CA catchment** (not all ten ranks). Geometry
-  pans at 30 m are system-scale. Bar heads need lidar or a boot.
-- **API**: `transfer_belts` lists Idaho, California, and Montana after
-  Render picks up `main`. Do not add those gold pins to `/predict`
-  distance — that flag is *training* mines on purpose.
+## Still waiting
+
+- Mineral Hill maps / Phosphoria release
+- CA tungsten-waste OFR
+- Montana waste table for Task 8
+- WGS Orient / Nighthawk / Part 2
+- A dozen real pans on a Sierra watch-cell
 
 ---
 
@@ -91,23 +74,7 @@ These do not need a new state:
 
 - A continental NURE forest.
 - Putting topography or airborne eTh into the 200 trees.
-- Montana + Idaho + California as one model.
-- Full Figs 1–10 on a belt with no site depths / no waste table
-  (fake Task 4 is worse than a missing figure).
+- One model for every state we scored.
+- Full Figs 1–10 on a belt with no site depths.
 - Field-walking Washington from California.
-
----
-
-## Decision rule
-
-```
-new Earth MRI map or waste OFR
-    → is there NURE + a gold/placer story in a ~2° box?
-        yes → Task 12 (frozen) → Task 11 (walk list)
-            → Tasks 1–10 only if sites are real
-        no  → note it on EARTH_MRI_WATCH.md and wait
-```
-
-Default next keystroke: **wait for a Wave 3 publication**, or walk a
-California watch-cell. Do not open Fall Zone / Colorado until a map
-is on the shelf.
+- Utah as a study area (White Mesa is the mill, not a belt).

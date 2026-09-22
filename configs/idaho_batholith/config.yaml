@@ -1,6 +1,6 @@
-# Idaho Batholith — second-belt transfer box (Orogrande / Dixie / Warren / Florence).
-# Task 12 scores the frozen NE WA forest here. It does not retrain. It does not
-# run the full 1–11 figure factory.
+# Idaho Batholith — transfer box + optional local forest (Orogrande / Dixie / Warren / Florence).
+# Task 12 scores the frozen NE WA forest (doorbell stays WA).
+# Task 9 may write task9_rf_placer_gold.id_batholith.joblib — not /predict.
 
 study_area:
   name: "Idaho Batholith"
@@ -35,7 +35,8 @@ data:
 
 task11:
   fetch_lidar: false
-  p_is_transfer: true
+  # False once a local Task 9 forest exists (task9_ml_nure_probability.csv).
+  p_is_transfer: false
 
 sites:  # TODO: fill in real placer sites with coordinates and lidar data
   - name: "Orogrande Placer"
@@ -112,8 +113,10 @@ economics:
 
 ml:
   label_method: proximity
-  mrds_proximity_deg: 0.15
+  # 0.15° paints ~79% yes. Train at 0.03° (~3 km), same as the Sierra sidecar.
+  mrds_proximity_deg: 0.03
   mrds_commodity_filter: placer_gold
+  mrds_elev_diff_m: 200
 
 scoring:
   weights:
