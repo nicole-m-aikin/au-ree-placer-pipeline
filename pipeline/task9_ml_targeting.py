@@ -12,12 +12,17 @@ Outputs:
   {outputs_dir}/figures/fig10_ml_anomaly_probability.png
   {outputs_dir}/tables/task9_ml_feature_importance.csv
   {outputs_dir}/tables/task9_ml_cv_scores.csv
+  models/task9_rf_placer_gold.joblib          # published estimator (proximity / placer_gold)
+  models/task9_rf_placer_gold.meta.json       # feature order, log-medians, CV, sklearn pin
 """
 
 import os
+from datetime import datetime, timezone
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import sklearn
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -28,6 +33,16 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import roc_curve, auc, precision_recall_fscore_support
 
+from pipeline.ml_artifacts import persist_gold_mrds, persist_published_model
+from pipeline.ml_preprocess import FEATURES, FEATURES_BY_COMMODITY, _log_impute
+from pipeline.ml_spatial import (
+    CV_OPTIMISM_NOTE,
+    NEGATIVE_CLASS_NOTE,
+    TARGET_QUESTION,
+    block_cv_aucs,
+    deadzone_cv_aucs,
+    summarize_aucs,
+)
 from pipeline.utils import (WONG, setup_mpl, load_nure, anomaly_threshold,
                              watermark, save_fig, ensure_outputs, out, bbox,
                              map_extent, north_arrow, scale_bar,
@@ -35,29 +50,6 @@ from pipeline.utils import (WONG, setup_mpl, load_nure, anomaly_threshold,
                              topo_contours, rivers_with_arrows,
                              MAP_W, MAP_H, _FIG_LM, _FIG_RM, _FIG_TM, _FIG_BM,
                              _FIG_HGAP, _FIG_CW, _FIG_CG, _ax_rect)
-
-# Geological feature engineering: full placer heavy mineral suite.
-# REE/actinide minerals: Th, Ce, La, P (monazite — (LREE)PO4), U (uraninite/thorite)
-# Au pathfinder:        Au, As (arsenopyrite halo around placer Au)
-# Oxide heavy minerals: Ti (rutile + ilmenite — TiO2, FeTiO3), Fe (magnetite — Fe3O4)
-# Silicate heavy minerals: Zr (zircon — ZrSiO4), Y (xenotime — YPO4)
-# Ti, Fe, Zr, Y co-concentrate with monazite in placer systems through identical
-# hydraulic sorting mechanisms; their inclusion captures the full heavy-mineral
-# assemblage rather than only the REE-bearing fraction.
-# Aerial rad_K / rad_eTh / rad_eU are intentionally excluded: 1–10 km grids
-# leak spatial autocorrelation into CV. Map layer first (Task 1 Fig 1b).
-FEATURES = ['Th', 'Ce', 'La', 'P', 'U', 'Au', 'As', 'Ti', 'Fe', 'Zr', 'Y']
-
-# Per-commodity feature sets for split-model training.
-# Separating by commodity prevents feature cross-contamination: e.g. U dominates
-# a blended model because Colville U anomalies spatially overlap REE MRDS sites,
-# inflating U importance relative to Au/As for a gold-placer model.
-FEATURES_BY_COMMODITY = {
-    'placer_gold': ['Th', 'Ce', 'La', 'P', 'U', 'Au', 'As', 'Ti', 'Fe', 'Zr', 'Y'],
-    'ree':         ['Th', 'Ce', 'La', 'P', 'U', 'Ti', 'Zr', 'Y'],
-    'cu_mo':       ['Cu', 'Mo', 'Pb', 'Zn', 'Ag', 'Au', 'As'],
-    'all':         ['Th', 'Ce', 'La', 'P', 'U', 'Au', 'As', 'Ti', 'Fe', 'Zr', 'Y'],
-}
 
 
 def _pour_gdf_from_sites(cfg):
@@ -167,13 +159,16 @@ def delineate_catchments(mrds_gdf, dem_path, snap_max_m=5000, snap_percentile=99
         if key in seen:
             continue
         seen.add(key)
-        snapped.append((float(x_snap), float(y_snap), lon, lat))
+        name = None
+        if 'name' in site.index and pd.notna(site.get('name')):
+            name = str(site['name'])
+        snapped.append((float(x_snap), float(y_snap), lon, lat, name))
 
     print(f"  Delineating {len(snapped)} unique pour points "
           f"(from {len(mrds_gdf)} input sites)")
 
     rows = []
-    for i, (x_snap, y_snap, lon, lat) in enumerate(snapped, 1):
+    for i, (x_snap, y_snap, lon, lat, name) in enumerate(snapped, 1):
         print(f"  catchment {i}/{len(snapped)} at ({lon:.3f},{lat:.3f})")
         try:
             catch = grid.catchment(x=x_snap, y=y_snap, fdir=fdir, xytype='coordinate')
@@ -186,7 +181,14 @@ def delineate_catchments(mrds_gdf, dem_path, snap_max_m=5000, snap_percentile=99
             warnings.warn(f"  empty catchment polygon for ({lon:.3f},{lat:.3f}); skipping")
             continue
 
-        rows.append({'geometry': geom})
+        rows.append({
+            'geometry': geom,
+            'pour_lon': float(x_snap),
+            'pour_lat': float(y_snap),
+            'orig_lon': float(lon),
+            'orig_lat': float(lat),
+            'name': name,
+        })
 
     if not rows:
         return gpd.GeoDataFrame(geometry=[], crs=mrds_gdf.crs)
@@ -197,20 +199,7 @@ def delineate_catchments(mrds_gdf, dem_path, snap_max_m=5000, snap_percentile=99
     return result
 
 
-def _log_impute(df, cols):
-    """Log10-transform features; impute NaN and non-positive values with column median."""
-    result = pd.DataFrame(index=df.index)
-    for col in cols:
-        v = df[col].copy() if col in df.columns else pd.Series(np.nan, index=df.index)
-        v = v.where(v > 0, np.nan)
-        result[col] = np.log10(v)
-    for col in cols:
-        med = result[col].median()
-        result[col] = result[col].fillna(0.0 if pd.isna(med) else med)
-    return result
-
-
-def run(cfg):
+def run(cfg, export_only=False):
     setup_mpl()
     ensure_outputs(cfg['outputs_dir'])
 
@@ -246,11 +235,13 @@ def run(cfg):
     # Select per-commodity feature set when splitting models; fall back to full set.
     feature_set = FEATURES_BY_COMMODITY.get(commodity_filter, FEATURES)
     avail_feats = [f for f in feature_set if f in df.columns]
-    log_X = _log_impute(df, avail_feats)
+    log_X, log_medians = _log_impute(df, avail_feats)
     X = log_X.values
     elements_used = avail_feats
 
     mrds_label_used = False
+    gold_mrds_coords = None
+    nure_coords = None
     try:
         import geopandas as gpd
         mrds_gdf = gpd.read_file(cfg['data']['mrds_geojson'])
@@ -279,6 +270,9 @@ def run(cfg):
             )
 
         print(f"  MRDS label: {len(mrds_gdf)} sites after commodity_filter='{commodity_filter}'")
+        gold_mrds_coords = np.column_stack([mrds_gdf.geometry.x.values,
+                                            mrds_gdf.geometry.y.values])
+        nure_coords = np.column_stack([df['lon'].values, df['lat'].values])
 
         # Resolve DEM path once — used by both catchment and proximity (elevation) branches.
         dem_path = cfg.get('data', {}).get('dem_tif')
@@ -405,6 +399,33 @@ def run(cfg):
     std_auc  = cv_df['roc_auc'].std()
     print(f"  CV ROC-AUC: {mean_auc:.3f} ± {std_auc:.3f}")
 
+    # Spatial CV — neighbors of a test grab are dropped from training (dead zone
+    # = label radius) and a second check holds out 0.4° map cells.
+    if nure_coords is None:
+        nure_coords = np.column_stack([df['lon'].values, df['lat'].values])
+    dz_aucs, dz_dropped = deadzone_cv_aucs(X, y, nure_coords, deadzone_deg=mrds_radius)
+    dz_mean, dz_std, dz_folds = summarize_aucs(dz_aucs)
+    blk_aucs = block_cv_aucs(X, y, df['lon'].values, df['lat'].values)
+    blk_mean, blk_std, blk_folds = summarize_aucs(blk_aucs)
+    if dz_mean is not None:
+        print(f"  Spatial dead-zone CV ROC-AUC: {dz_mean:.3f} ± {dz_std:.3f} "
+              f"(dropped ~{int(np.mean(dz_dropped))} train neighbors/fold)")
+    else:
+        print("  Spatial dead-zone CV: skipped (a fold had one class)")
+    if blk_mean is not None:
+        print(f"  Spatial block CV ROC-AUC:     {blk_mean:.3f} ± {blk_std:.3f}")
+    else:
+        print("  Spatial block CV: skipped")
+    spatial_rows = []
+    for i, a in enumerate(dz_folds, 1):
+        spatial_rows.append({'scheme': 'deadzone_0.15deg', 'fold': i, 'roc_auc': a})
+    for i, a in enumerate(blk_folds, 1):
+        spatial_rows.append({'scheme': 'block_0.4deg', 'fold': i, 'roc_auc': a})
+    if spatial_rows:
+        pd.DataFrame(spatial_rows).to_csv(
+            out(cfg, 'tables', 'task9_ml_spatial_cv.csv'), index=False
+        )
+
     # ── Final model on all data ───────────────────────────────────────────────
     rf_final = RandomForestClassifier(n_estimators=200, random_state=42, class_weight='balanced')
     rf_final.fit(X, y)
@@ -414,6 +435,64 @@ def run(cfg):
                              'importance': rf_final.feature_importances_}) \
                  .sort_values('importance', ascending=False).reset_index(drop=True)
     feat_imp.to_csv(out(cfg, 'tables', 'task9_ml_feature_importance.csv'), index=False)
+
+    # Persist the published proximity / placer_gold forest for the API.
+    # Other commodity filters or label methods must not overwrite that artifact.
+    if (commodity_filter == 'placer_gold'
+            and cfg.get('ml', {}).get('label_method', 'proximity') == 'proximity'):
+        metadata = {
+            'model_id': 'task9_rf_placer_gold',
+            'feature_order': list(avail_feats),
+            'feature_units': {f: 'ppm' for f in avail_feats},
+            'log_medians': {k: float(v) for k, v in log_medians.items()},
+            'training_date': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
+            'sklearn_version': sklearn.__version__,
+            'n_estimators': 200,
+            'random_state': 42,
+            'class_weight': 'balanced',
+            'label_method': label_method,
+            'label_desc': label_desc,
+            'mrds_proximity_deg': mrds_radius,
+            'mrds_commodity_filter': commodity_filter,
+            'mrds_elev_diff_m': max_elev_diff,
+            'n_samples': int(len(y)),
+            'n_positive': int(n_anom),
+            'cv_auc_folds': [float(v) for v in cv_df['roc_auc'].tolist()],
+            'cv_auc_mean': float(mean_auc),
+            'cv_auc_std': float(std_auc) if pd.notna(std_auc) else 0.0,
+            'spatial_cv_method': (
+                'dead-zone 5-fold: drop train samples within mrds_proximity_deg '
+                'of any test sample; plus 0.4° cell StratifiedGroupKFold'
+            ),
+            'spatial_cv_auc_mean': dz_mean,
+            'spatial_cv_auc_std': dz_std,
+            'spatial_cv_auc_folds': dz_folds,
+            'spatial_block_cv_auc_mean': blk_mean,
+            'spatial_block_cv_auc_std': blk_std,
+            'spatial_block_cv_auc_folds': blk_folds,
+            'target_question': TARGET_QUESTION,
+            'negative_class_note': NEGATIVE_CLASS_NOTE,
+            'cv_optimism_note': CV_OPTIMISM_NOTE,
+            'feature_importances': {
+                row['feature']: float(row['importance']) for _, row in feat_imp.iterrows()
+            },
+            'study_area': cfg.get('study_area', {}).get('name', 'unknown'),
+            'resource_tonnage_uncertainty': (
+                'Resource-tonnage uncertainty (Task 4 Monte Carlo; P10/P50/P90 '
+                'NdPr tonnes) is a separate quantity and is not exposed by this model.'
+            ),
+        }
+        model_path, meta_path = persist_published_model(rf_final, metadata)
+        print(f"  Persisted published model: {model_path}")
+        print(f"  Persisted metadata:        {meta_path}")
+        if gold_mrds_coords is not None:
+            gold_path = persist_gold_mrds(gold_mrds_coords)
+            print(f"  Persisted gold MRDS coords: {gold_path} "
+                  f"({len(gold_mrds_coords)} sites)")
+
+    if export_only:
+        print("Task 9 export-only — skipping figure and secondary models.")
+        return
 
     # Write per-sample probability for integration scoring (Change 4a)
     df[['lat', 'lon', 'p_anomalous']].to_csv(
@@ -437,7 +516,8 @@ def run(cfg):
             _tree_cm = _cKD2(_mrds_coords_cm)
             _dist_cm, _ = _tree_cm.query(_nure_coords_cm)
             _y_cm = (_dist_cm <= mrds_radius).astype(int)
-            _X_cm = _log_impute(df, _cumo_avail).values
+            _X_cm, _ = _log_impute(df, _cumo_avail)
+            _X_cm = _X_cm.values
             _rf_cm = RandomForestClassifier(n_estimators=200, random_state=42, class_weight='balanced')
             _rf_cm.fit(_X_cm, _y_cm)
             feat_imp_cumo = (pd.DataFrame({'feature': _cumo_avail,
@@ -738,7 +818,8 @@ def run_same_basin_qa(cfg):
     both = int(((y == 1) & (y_prox == 1)).sum())
 
     avail = [f for f in FEATURES if f in df.columns]
-    X = _log_impute(df, avail).values
+    X, _ = _log_impute(df, avail)
+    X = X.values
     n_pos = int(y.sum())
     print(f"  Same-basin labels: {n_pos}/{len(y)} positive ({100*n_pos/len(y):.1f}%); "
           f"overlap with proximity positives: {both}")
@@ -789,11 +870,12 @@ if __name__ == '__main__':
     import yaml, sys
     args = sys.argv[1:]
     same_basin = '--same-basin' in args
-    args = [a for a in args if a != '--same-basin']
+    export_only = '--export-only' in args
+    args = [a for a in args if a not in ('--same-basin', '--export-only')]
     cfg_path = args[0] if args else 'configs/ne_washington/config.yaml'
     with open(cfg_path) as f:
         cfg = yaml.safe_load(f)
     if same_basin:
         run_same_basin_qa(cfg)
     else:
-        run(cfg)
+        run(cfg, export_only=export_only)

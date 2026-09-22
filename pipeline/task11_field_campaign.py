@@ -1167,7 +1167,7 @@ def _write_summary(cfg, walk, spots_df, loco):
     lines = [
         "FIELD CAMPAIGN WALK LIST",
         f"{cfg.get('study_area', {}).get('name', 'Study area')} — 0.4° cells + pour points",
-        "This is a screen, not a gold claim. Pans are still missing.",
+        "This is a screen, not a gold claim. Stars are NURE; circles are pans.",
         "=" * 68,
         "",
         f"Cells on the map:     {n_cells}  (occupied by NURE: {n_occ})",

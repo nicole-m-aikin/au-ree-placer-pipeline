@@ -40,6 +40,11 @@ data/radiometric/raw/
 # National NURE HSSR zip (clipped extracts in data/nure/*.csv are kept)
 data/nure/raw/
 
+# Regenerable Task 11 caches (rebuild with --tasks 11 / --gpkg-only)
+ne_wa_ree/outputs/geojson/task11_dem_streams.geojson
+ne_wa_ree/outputs/geojson/task11_field_campaign.gpkg
+ne_wa_ree/data/geologic/WA.zip
+
 # Editor / IDE
 .vscode/
 .idea/

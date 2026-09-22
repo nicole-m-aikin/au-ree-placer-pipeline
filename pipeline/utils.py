@@ -54,7 +54,7 @@ def setup_mpl():
 
 
 def load_nure(cfg):
-    """Load NURE CSV, apply half-MDL below-detection substitution, convert P and Ca pct→ppm."""
+    """Load NURE CSV, apply half-MDL below-detection substitution, convert wt% majors to ppm."""
     path = cfg['data']['nure_csv']
     df = pd.read_csv(path)
     COORD_COLS = {'lat', 'lon', 'lat_orig', 'long_orig', 'depth'}
@@ -68,8 +68,11 @@ def load_nure(cfg):
         df.loc[large, col] = np.nan
     # Columns whose NURE values are in wt% and need ppm conversion.
     # Each entry is (column, max-wt%-median) — the threshold discriminates wt% from ppm
-    # without hardcoding: P wt% median ~0.09 (<1), Ca wt% median ~1.5 (<100).
-    _wt_ppm = [('P', 1), ('Ca', 100)]
+    # without hardcoding: P wt% median ~0.09 (<1), Ca ~1.5 and Fe ~3 (<100).
+    # Fe was omitted historically; leaving it in wt% while converting P made the
+    # Task 9 feature matrix mixed-unit. Trees are invariant to a uniform log10
+    # shift, but a client sending Fe in ppm against a wt%-trained forest is not.
+    _wt_ppm = [('P', 1), ('Ca', 100), ('Fe', 100)]
     for _col, _thresh in _wt_ppm:
         if _col in df.columns and df[_col].notna().any() and df[_col].dropna().median() < _thresh:
             df[_col] = df[_col] * 10000
@@ -124,7 +127,7 @@ def save_fig(fig, path, dpi=300):
 
 def ensure_outputs(outputs_dir):
     """Create standard output subdirectories if they don't exist."""
-    for sub in ('figures', 'tables', 'geojson', 'text'):
+    for sub in ('figures', 'tables', 'geojson', 'text', 'gis'):
         os.makedirs(os.path.join(outputs_dir, sub), exist_ok=True)
 
 

@@ -150,6 +150,34 @@ class TestLoadNure:
         finally:
             os.unlink(fname)
 
+    def test_fe_wt_pct_to_ppm_conversion(self):
+        # NURE Fe is wt% (median ~2–5). Same heuristic as Ca: median < 100 → ×10000.
+        with tempfile.NamedTemporaryFile(suffix='.csv', mode='w', delete=False) as f:
+            fname = f.name
+        try:
+            self._make_csv({
+                'lat': [48.0, 48.1], 'lon': [-119.0, -119.1],
+                'Fe': [2.1, 3.5],
+            }, fname)
+            df = load_nure(self._cfg(fname))
+            assert df['Fe'].iloc[0] == pytest.approx(21000.0, rel=1e-4)
+            assert df['Fe'].iloc[1] == pytest.approx(35000.0, rel=1e-4)
+        finally:
+            os.unlink(fname)
+
+    def test_fe_already_ppm_is_not_converted(self):
+        with tempfile.NamedTemporaryFile(suffix='.csv', mode='w', delete=False) as f:
+            fname = f.name
+        try:
+            self._make_csv({
+                'lat': [48.0, 48.1], 'lon': [-119.0, -119.1],
+                'Fe': [21000.0, 35000.0],
+            }, fname)
+            df = load_nure(self._cfg(fname))
+            assert df['Fe'].iloc[0] == pytest.approx(21000.0, rel=1e-4)
+        finally:
+            os.unlink(fname)
+
     def test_positive_values_unchanged(self):
         with tempfile.NamedTemporaryFile(suffix='.csv', mode='w', delete=False) as f:
             fname = f.name

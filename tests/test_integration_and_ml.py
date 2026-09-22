@@ -12,7 +12,8 @@ import pytest
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from pipeline.utils import clip_gdf_to_map, map_extent
-from pipeline.task9_ml_targeting import _log_impute, delineate_catchments, unique_placer_pour_points
+from pipeline.ml_preprocess import _log_impute
+from pipeline.task9_ml_targeting import delineate_catchments, unique_placer_pour_points
 from pipeline.task1_coplacer import nearest_nure_row, site_join_radius_deg
 
 # ---------------------------------------------------------------------------
@@ -342,11 +343,11 @@ class TestMLLabelGeneration:
 
 
 class TestLogImpute:
-    """Tests for the _log_impute helper imported from task9_ml_targeting.py."""
+    """Tests for _log_impute in pipeline.ml_preprocess (shared train/serve path)."""
 
     def test_positive_values_are_log10_transformed(self):
         df     = pd.DataFrame({'Th': [1.0, 10.0, 100.0]})
-        result = _log_impute(df, ['Th'])
+        result, _ = _log_impute(df, ['Th'])
         assert result['Th'].iloc[0] == pytest.approx(0.0, abs=1e-9)   # log10(1)
         assert result['Th'].iloc[1] == pytest.approx(1.0, rel=1e-6)   # log10(10)
         assert result['Th'].iloc[2] == pytest.approx(2.0, rel=1e-6)   # log10(100)
@@ -354,29 +355,31 @@ class TestLogImpute:
     def test_nan_is_imputed_with_log_median(self):
         # log10 values of [1.0, nan, 100.0] are [0.0, nan, 2.0]; median = 1.0
         df     = pd.DataFrame({'Th': [1.0, np.nan, 100.0]})
-        result = _log_impute(df, ['Th'])
+        result, medians = _log_impute(df, ['Th'])
         assert result['Th'].iloc[1] == pytest.approx(1.0, rel=1e-6)
+        assert medians['Th'] == pytest.approx(1.0, rel=1e-6)
 
     def test_nonpositive_values_treated_as_nan_then_imputed(self):
         # 0.0 and -5.0 are masked to NaN; only log10(10)=1.0 is valid.
         # Median of [nan, nan, 1.0] = 1.0 -> imputed value.
         df     = pd.DataFrame({'Th': [0.0, -5.0, 10.0]})
-        result = _log_impute(df, ['Th'])
+        result, _ = _log_impute(df, ['Th'])
         assert result['Th'].iloc[0] == pytest.approx(1.0, rel=1e-6)
         assert result['Th'].iloc[1] == pytest.approx(1.0, rel=1e-6)
 
     def test_missing_column_is_imputed_with_zero(self):
         """When a requested column is absent from the DataFrame the result is 0.0."""
         df     = pd.DataFrame({'Th': [1.0, 10.0]})
-        result = _log_impute(df, ['Th', 'Ce'])   # Ce not present
+        result, medians = _log_impute(df, ['Th', 'Ce'])   # Ce not present
         # All Ce values are NaN -> median is NaN -> fillna(0.0)
         # Use numpy comparison to avoid pytest.approx incompatibility with Series.all()
         assert (result['Ce'].values == 0.0).all()
+        assert medians['Ce'] == pytest.approx(0.0)
 
     def test_all_nonpositive_column_imputed_with_zero(self):
         """If every value is non-positive (all masked), the median is NaN -> fill 0."""
         df     = pd.DataFrame({'Th': [0.0, -1.0, -2.0]})
-        result = _log_impute(df, ['Th'])
+        result, _ = _log_impute(df, ['Th'])
         assert (result['Th'].values == 0.0).all()
 
     def test_output_has_no_nan_values(self):
@@ -385,14 +388,21 @@ class TestLogImpute:
             'Th': [np.nan, 1.0, -5.0],
             'Ce': [10.0, np.nan, 100.0],
         })
-        result = _log_impute(df, ['Th', 'Ce'])
+        result, _ = _log_impute(df, ['Th', 'Ce'])
         assert result.isna().values.sum() == 0
 
     def test_preserves_row_index(self):
         """Output index must match the input DataFrame's index."""
         df     = pd.DataFrame({'Th': [1.0, 10.0, 100.0]}, index=[5, 10, 15])
-        result = _log_impute(df, ['Th'])
+        result, _ = _log_impute(df, ['Th'])
         assert list(result.index) == [5, 10, 15]
+
+    def test_frozen_medians_override_batch_median(self):
+        """Serve-time: a one-row NaN must fill the training median, not 0.0."""
+        df = pd.DataFrame({'Th': [np.nan]})
+        result, used = _log_impute(df, ['Th'], medians={'Th': 1.25})
+        assert result['Th'].iloc[0] == pytest.approx(1.25, rel=1e-6)
+        assert used['Th'] == pytest.approx(1.25, rel=1e-6)
 
 
 # ===========================================================================

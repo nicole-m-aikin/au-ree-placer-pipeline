@@ -1,0 +1,49 @@
+FIELD CAMPAIGN WALK LIST
+NE Washington — 0.4° cells + pour points
+This is a screen, not a gold claim. Stars are NURE; circles are pans.
+====================================================================
+
+Cells on the map:     45  (occupied by NURE: 38)
+Expedition (high P, >5 km from a gold pin): 10
+Confirm    (high P, ≤5 km from a gold pin): 18
+Watch      (moderate P):                     0
+Skip       (low P or empty):                 17
+
+Leave-one-cell-out AUC (cells with ≥8 grabs): 0.558  (min 0.250, max 1.000, n=11 cells)
+Same story as the 0.94 vs 0.62 folds — some cells transfer, some do not.
+
+WALK ORDER (expedition first, most isolated first)
+
+  # 1  expedition   max P=0.94  15.4 km from gold  pour 48.070729, -117.484115  spots=1
+  # 2  expedition   max P=0.705  14.3 km from gold  pour 47.533767, -118.127468  spots=1
+  # 3  expedition   max P=0.845  13.0 km from gold  pour 48.073225, -117.830521  spots=3
+  # 4  expedition   max P=0.925  10.4 km from gold  pour 48.355997, -118.632795  spots=3
+  # 5  expedition   max P=0.94  10.1 km from gold  pour 47.941815, -118.912229  spots=3
+  # 6  expedition   max P=0.935  8.5 km from gold  pour 48.434067, -117.828309  spots=3
+  # 7  expedition   max P=0.975  6.7 km from gold  pour 48.137675, -119.177243  spots=3
+  # 8  expedition   max P=0.95  6.6 km from gold  pour 48.70881, -117.04356  spots=4
+  # 9  expedition   max P=0.955  6.0 km from gold  pour 48.467963, -117.398565  spots=1
+  #10  expedition   max P=0.92  5.8 km from gold  pour 48.225738, -117.175766  spots=2
+  #11  confirm      max P=0.875  5.0 km from gold  pour 48.202652, -119.300871  spots=1
+  #12  confirm      max P=0.9817  4.5 km from gold  pour 48.593213, -119.175043  spots=2
+  #13  confirm      max P=0.94  4.5 km from gold  pour 48.874909, -117.965268  spots=1
+  #14  confirm      max P=0.95  4.1 km from gold  pour 48.438207, -119.549497  spots=3
+  #15  confirm      max P=0.97  3.4 km from gold  pour 48.016534, -119.656441  spots=4
+  #16  confirm      max P=0.885  3.4 km from gold  pour 48.691815, -119.762295  spots=2
+  #17  confirm      max P=0.9905  3.1 km from gold  pour 47.894879, -118.542012  spots=3
+  #18  confirm      max P=0.9634  3.1 km from gold  pour 48.856867, -117.292742  spots=4
+  #19  confirm      max P=0.73  2.3 km from gold  pour 48.851263, -119.733966  spots=2
+  #20  confirm      max P=0.9362  1.6 km from gold  pour 47.954882, -118.353003  spots=3
+  #21  confirm      max P=0.925  1.5 km from gold  pour 48.972401, -119.025597  spots=3
+  #22  confirm      max P=0.9  1.2 km from gold  pour 48.85878, -118.673919  spots=1
+  #23  confirm      max P=0.9754  1.1 km from gold  pour 48.194289, -118.193  spots=4
+  #24  confirm      max P=0.948  1.0 km from gold  pour 48.840757, -117.187739  spots=4
+  #25  confirm      max P=0.84  0.8 km from gold  pour 48.85713, -118.038882  spots=1
+  #26  confirm      max P=0.935  0.7 km from gold  pour 48.458772, -118.779193  spots=4
+  #27  confirm      max P=0.9717  0.6 km from gold  pour 48.507098, -118.181907  spots=3
+  #28  confirm      max P=0.92  0.4 km from gold  pour 48.849876, -119.517847  spots=2
+
+nure_spots = NURE chemistry grabs (the forest). They say this creek.
+pan_locations = trap-geometry pins on the D8 line. They say stand here.
+Pour point = where the water leaves. It is not automatically a pan pin.
+See task11_nure_spots.csv and task11_pan_locations.csv.
