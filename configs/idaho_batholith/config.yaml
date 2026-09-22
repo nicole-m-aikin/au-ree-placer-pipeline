@@ -1,28 +1,28 @@
-# Idaho Batholith Placer REE Study Area — STUB CONFIG
-# TODO: Replace all placeholder values with verified data before running pipeline.
-# Districts: Orogrande, Dixie, Warren, Florence (Idaho County)
+# Idaho Batholith — second-belt transfer box (Orogrande / Dixie / Warren / Florence).
+# Task 12 scores the frozen NE WA forest here. It does not retrain. It does not
+# run the full 1–11 figure factory.
 
 study_area:
   name: "Idaho Batholith"
   short: "id_batholith"
   bbox:
-    lon_min: -116.0
+    lon_min: -116.2
     lon_max: -114.0
-    lat_min:  44.0
-    lat_max:  46.0
-  map_padding: 0.08   # TODO: adjust after verifying study area coverage
-  wgs_bbox:  # TODO: refine to actual WGS data coverage
-    lon_min: -116.0
+    lat_min:  44.8
+    lat_max:  46.2
+  map_padding: 0.08
+  wgs_bbox:
+    lon_min: -116.2
     lon_max: -114.0
-    lat_min:  44.0
-    lat_max:  46.0
+    lat_min:  44.8
+    lat_max:  46.2
   crs: "EPSG:4326"
 
-outputs_dir: "outputs/id_batholith"
+outputs_dir: "idaho_batholith/outputs"
 
 data:
-  nure_csv:       "data/nure/nure_id_batholith_sediment.csv"   # TODO: generate via prep_nure.py
-  mrds_geojson:   "data/mrds/mrds_id_batholith.geojson"        # TODO: download from mrdata.usgs.gov
+  nure_csv:       "data/nure/nure_id_batholith_sediment.csv"
+  mrds_geojson:   "data/mrds/mrds_id_batholith.geojson"
   geology_geojson: null    # TODO: Idaho state geology shapefile
   aeromagnetic_tif: null   # TODO: USGS aeromagnetic survey
   radiometric_k_tif: null    # python -m pipeline.fetch_radiometric --config this file
@@ -103,6 +103,11 @@ economics:
   logistics_conc_per_tonne: 200.0   # TODO: longer haul from Idaho
   processing_cost_per_kg:   50.0
   ndpr_recovery:             0.80
+
+ml:
+  label_method: proximity
+  mrds_proximity_deg: 0.15
+  mrds_commodity_filter: placer_gold
 
 scoring:
   weights:

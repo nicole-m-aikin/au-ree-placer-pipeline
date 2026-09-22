@@ -31,8 +31,10 @@ TASKS = {
     6:  ('pipeline.task6_framework',     'Decision framework'),
     7:  ('pipeline.task7_pathfinder',    'Au/As pathfinder anomalies'),
     8:  ('pipeline.task8_mine_waste',    'Mine waste REE & critical minerals'),
-    9:  ('pipeline.task9_ml_targeting',  'ML anomaly targeting (Random Forest)'),
-    10: ('pipeline.integration',         'Integration & priority ranking'),
+    9:  ('pipeline.task9_ml_targeting',   'ML anomaly targeting (Random Forest)'),
+    10: ('pipeline.integration',          'Integration & priority ranking'),
+    11: ('pipeline.task11_field_campaign', 'Catchment walk list (NURE spots + pan pins)'),
+    12: ('pipeline.task12_second_belt', 'Second belt: frozen NE WA forest on Idaho'),
 }
 
 # Prerequisites for each task: DEPENDENCIES[n] = tasks that must complete before n
@@ -47,6 +49,8 @@ DEPENDENCIES = {
     8:  [],
     9:  [1],             # task9 uses NURE data; anomaly labels reference task1 thresholds
     10: [1, 2, 4, 5, 7],
+    11: [9],
+    12: [],
 }
 
 

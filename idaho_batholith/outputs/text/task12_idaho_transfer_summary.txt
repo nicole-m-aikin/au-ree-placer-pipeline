@@ -1,0 +1,16 @@
+SECOND BELT — FROZEN NE WA FOREST ON IDAHO BATHOLITH
+Frozen NE Washington forest scored on Idaho Batholith NURE. Transfer AUC is ~0.50 (coin flip). Tightening the gold circle to 0.05° does not rescue it. 0.15° labels most of this box because Idaho County is painted with gold MRDS pins — that is a weak negative class, not a reason to call the doorbell national. This is a transfer test, not a new model.
+====================================================================
+
+NURE grabs:     2465
+Near gold MRDS: 1942  (78.8%)
+Gold MRDS pins: 1334
+Transfer AUC (0.15°): 0.4986
+Transfer AUC (0.05°): 0.4776
+Mean P near gold / far: 0.3802 / 0.3768
+Mean P all grabs:       0.3795
+
+NE WA random CV:  0.8912799999999999
+NE WA spatial CV: 0.6988467686686458
+
+Do not retrain from this number. Do not call the doorbell national.

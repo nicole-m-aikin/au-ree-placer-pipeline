@@ -37,6 +37,9 @@ data/wgs_ofr2026/
 # National NAMRAD zip cache used only to clip study-area GeoTIFFs
 data/radiometric/raw/
 
+# National NURE HSSR zip (clipped extracts in data/nure/*.csv are kept)
+data/nure/raw/
+
 # Editor / IDE
 .vscode/
 .idea/

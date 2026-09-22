@@ -62,8 +62,52 @@ wrangling through spatial ML and economic screening — in a single reproducible
 | Study area | Config | Status |
 |-----------|--------|--------|
 | NE Washington (Okanogan/Ferry/Stevens Co.) | `configs/ne_washington/config.yaml` | Complete — Figs 1–10 + Fig 1b (airborne eTh) |
-| Idaho Batholith (Orogrande/Dixie/Warren/Florence) | `configs/idaho_batholith/config.yaml` | Stub — needs data |
-| Montana Placer (Confederate Gulch/Alder Gulch/Libby Creek) | `configs/montana_placer/config.yaml` | Stub — needs data |
+| Idaho Batholith (Orogrande/Dixie/Warren/Florence) | `configs/idaho_batholith/config.yaml` | Transfer AUC **0.50** — frozen NE WA forest does not travel |
+| Montana Placer (Confederate Gulch/Alder Gulch/Libby Creek) | `configs/montana_placer/config.yaml` | Stub — not a third belt until Idaho is digested |
+
+## Public doorbell (chemistry → P(gold-placer lookalike))
+
+A FastAPI service loads the **frozen** Task 9 forest. It is a doorbell, not a
+discovery engine: send NURE-style ppm (and `fe_unit`), get `probability`,
+`tree_vote_spread`, and — if you send lon/lat — distance to the nearest
+**training** gold mine. It does not emit Task 4 tonnes. It is not a national
+model. Idaho transfer AUC lives on `/model-info` after Task 12 has run.
+
+```bash
+# local
+pip install -r requirements-api.txt
+uvicorn api.app:app --host 0.0.0.0 --port 8000
+
+curl -s localhost:8000/health
+curl -s localhost:8000/model-info | python -m json.tool
+curl -s localhost:8000/predict -H 'Content-Type: application/json' -d '{
+  "Th": 12, "Ce": 66, "La": 38, "P": 700, "U": 3.2,
+  "Au": 0.004, "As": 1.5, "Ti": 520, "Fe": 2.7, "Zr": 96, "Y": 18,
+  "fe_unit": "wt_pct",
+  "lon": -118.21, "lat": 48.14
+}'
+```
+
+Docker (same contract; Render free tier uses `render.yaml`):
+
+```bash
+docker build -t placer-lookalike .
+docker run --rm -p 8000:8000 placer-lookalike
+```
+
+Open `https://<your-host>/docs` after you connect the repo to [Render](https://render.com).
+Commit `models/task9_rf_placer_gold.*` first — the image copies those files.
+
+## Second belt (Idaho, frozen forest)
+
+```bash
+python -m pipeline.task12_second_belt configs/idaho_batholith/config.yaml
+```
+
+Downloads Idaho-box NURE (USGS HSSR CSV) and gold MRDS, scores them with the
+NE Washington joblib, writes `models/task9_rf_placer_gold.transfer.json`.
+**Does not retrain.** A drop from 0.891 is the honest result (Airola 2018).
+Do not turn this into a continental forest.
 
 ## Quick start (NE Washington)
 
