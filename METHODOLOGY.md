@@ -29,6 +29,8 @@ Each pipeline task evaluates one or more components of this framework:
 - **Task 7** — pathfinder halos around traps (Au/As anomaly delineation as placer vectors)
 - **Task 8** — preservation context (mine waste ABA risk; WGS OFR 2026-02 field data)
 - **Task 9** — data-driven spatial targeting across all components (ML probability surface)
+- **Task 11** — trap walk list: chemistry picks the drainage; stream-geometry votes pick the pan pin
+- **Task 12** — transfer test: frozen NE WA forest on Idaho Batholith NURE (AUC 0.50; do not retrain)
 
 ---
 
@@ -45,6 +47,9 @@ Every data quality step applied in the pipeline :
   or transcription errors in the USGS NURE database, not geochemical signals.
 - P column: if median < 1 (implying values are in % rather than ppm), multiply by 10,000
   to convert to ppm. This handles the mixed-unit legacy encoding in the USGS NURE extract.
+- Fe column: same conversion when median < 100 (NURE reports Fe as wt%, median ~2–5).
+  P and Ca were already converted; Fe was not, which left Task 9 with a mixed-unit
+  feature matrix. After conversion every published feature is ppm.
 - Coordinate filtering: samples outside the study area bounding box are excluded per-run;
   no permanent removal from the master CSV.
 
@@ -288,9 +293,19 @@ at ~30m resolution, elevation range 171–2529m. After applying the elevation fi
 290 of 1045 samples (27.8%) are labelled positive, with final CV ROC-AUC = 0.891 ± 0.018.
 
 **Validation:** 5-fold stratified cross-validation; metrics reported: ROC-AUC,
-precision, recall, F1 for the anomalous class. Note: standard k-fold CV does not
-account for spatial autocorrelation; block spatial CV (e.g., via spatially separated
-folds) is the recommended upgrade for a production workflow.
+precision, recall, F1 for the anomalous class. Shuffled k-fold does not account
+for spatial autocorrelation (Airola 2018). This repo now reports both numbers
+on `/model-info` and in `models/task9_rf_placer_gold.meta.json`:
+
+| Test | ROC-AUC |
+|------|---------|
+| Shuffled 5-fold (neighbors of the same mine can leak) | **0.891 ± 0.018** |
+| Dead-zone spatial CV (drop train samples within 0.15° of a test sample) | **0.699 ± 0.055** |
+| 0.4° cell blocked CV | **0.757 ± 0.139** |
+| Frozen forest on Idaho Batholith NURE (Task 12; not retrained) | **0.50** |
+
+0.891 is “can the forest separate yes/no in this belt when neighbors are allowed.”
+0.70 is “new drainage in the same belt.” 0.50 is “new belt.” Do not quote only 0.891.
 
 **IDW interpolation:** `scipy.interpolate.griddata` with method='linear' interpolates
 point predictions to a 200×200 grid over the study area bbox. Cells > 0.5° from the
@@ -399,6 +414,38 @@ Fig 1b is skipped.
 
 ---
 
+## Public doorbell and what `/predict` is not
+
+The published forest is persisted by Task 9 (`models/task9_rf_placer_gold.joblib`
+plus metadata and training log-medians). FastAPI (`api/app.py`) loads those
+files. Live: https://placer-lookalike.onrender.com/docs
+
+`/predict` returns P(gold-placer lookalike), tree-vote spread (std of the 200
+tree probabilities), and — if lon/lat are sent — distance to the nearest
+**training** gold MRDS pin. Tree-vote spread is not a Monte Carlo interval and
+is not Task 4 NdPr P10/P50/P90. Fe requires `fe_unit`. A 0-class label means
+“not near a mapped gold mine,” not “barren.”
+
+## Task 11 walk list
+
+The decision unit is the drainage (Yousefi & Carranza 2013), not an IDW blob.
+
+- `nure_spots` — highest-P NURE grabs in the catchment (chemistry).
+- `pan_locations` — D8-stream vertices flagged for slope break, stream-power
+  drop, knickpoint foot, or tributary junction (geometry, after chemistry).
+- `pour_points` — D8 outlet. Not automatically a pan pin.
+
+Stay out of the forest: slope and stream power are not Random Forest features.
+They leak space and retrace the 200 m valley-floor label rule.
+
+## Idaho transfer (Task 12)
+
+Score the frozen NE WA forest on Idaho Batholith NURE. Do not retrain. Transfer
+AUC is 0.50. Mean P is ~0.38 next to gold and far from it. That is the
+literature failure mode, not a reason to build a national model.
+
+---
+
 ## 3D Modeling Scope and Limitations
 
 The pipeline is intentionally 2D — all analysis is performed in geographic (lat/lon)
@@ -426,6 +473,7 @@ space or at site scale using lidar-derived elevations.
 ## References
 
 - Ahrens, L.H. (1954). The lognormal distribution of the elements. *Geochimica et Cosmochimica Acta*, 5(2), 49–73.
+- Airola, A. et al. (2018). A comparison of leave-one-out and leave-pair-out cross-validation for assessing spatial prediction models. *Data Mining and Knowledge Discovery*.
 - Blakely, R.J. et al. (1999). Aeromagnetic anomalies of the Pacific Northwest. USGS OFR 99-0440.
 - Bonham-Carter, G.F. et al. (1988). Integration of geological datasets for gold exploration in Nova Scotia. *Photogrammetric Engineering & Remote Sensing*, 54(11), 1585–1592.
 - McCuaig, T.C. & Hronsky, J.M.A. (2014). The mineral system concept: the key to exploration targeting. *SEG Special Publications*, 18, 153–175.

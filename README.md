@@ -2,6 +2,8 @@
 
 [![CI](https://github.com/nicole-m-aikin/au-ree-placer-pipeline/actions/workflows/ci.yml/badge.svg)](https://github.com/nicole-m-aikin/au-ree-placer-pipeline/actions/workflows/ci.yml)
 
+**Live doorbell:** [https://placer-lookalike.onrender.com/docs](https://placer-lookalike.onrender.com/docs) — Washington gold-placer lookalike API, not a national model. Idaho transfer AUC 0.50.
+
 A reproducible, config-driven geoscience pipeline for screening placer Au and REE/monazite potential from public geochemical, geophysical, and mine-waste datasets — designed to demonstrate end-to-end applied geoscience from dataset QA/QC through ML targeting and economic screening.
 
 ## Mineral Systems Framework
@@ -29,11 +31,14 @@ wrangling through spatial ML and economic screening — in a single reproducible
 - **Mineral systems analysis**: explicit source → pathway → trap → preservation framework (McCuaig & Hronsky 2014); each pipeline task is mapped to a framework component and justified in `METHODOLOGY.md`
 - **Geochemical QA/QC of legacy public datasets**: NURE half-MDL substitution, MRDS deduplication, WGS column validation; procedures documented and reproducible
 - **Monte Carlo uncertainty quantification**: P10/P50/P90 resource endowment using log-normal grade distributions; results reported with full uncertainty bands, not point estimates
-- **ML targeting with geochemically independent ground truth**: MRDS-proximity labels avoid the circular-labeling failure mode common in geochemical classifiers; 5-fold stratified cross-validation; Random Forest with geological feature engineering across the full placer heavy-mineral suite (Th, Ce, La, P, U, Au, As, Ti, Fe, Zr, Y); CV ROC-AUC 0.891 ± 0.018
+- **ML targeting with geochemically independent ground truth**: MRDS-proximity labels avoid the circular-labeling failure mode common in geochemical classifiers; Random Forest on the placer heavy-mineral suite (Th, Ce, La, P, U, Au, As, Ti, Fe, Zr, Y); shuffled 5-fold CV ROC-AUC 0.891 ± 0.018; dead-zone spatial CV 0.699 ± 0.055
+- **Transfer test, not a national model**: the frozen NE WA forest scored on Idaho Batholith NURE at AUC **0.50**. That number is on `/model-info`. Do not retrain to hide it.
+- **Public lookalike API**: FastAPI `/predict` at [placer-lookalike.onrender.com](https://placer-lookalike.onrender.com/docs) — chemistry in, P(lookalike) + tree-vote spread + distance to a training gold mine out. Not Task 4 tonnes.
+- **Catchment walk list**: Task 11 GeoPackage with NURE grabs vs pan pins (slope break / power drop / junction). Chemistry picks the creek; geometry picks the hole.
 - **Spatial geostatistical interpolation**: IDW probability surface for continuous spatial prediction; kriging variance surface identified as production upgrade path
 - **Economic screening**: break-even NdPr price analysis, undiscounted NPV rationale, tornado-style weight-sensitivity analysis on integrated priority scores
 - **Acid-base accounting (ABA) risk classification**: median NP/AP ratio tiers per MEND 2009 thresholds; flags acid-generating sites for environmental due diligence
-- **Config-driven, multi-study-area architecture**: NE Washington complete (Figs 1–10 plus Fig 1b when radiometric TIFFs are present); Idaho Batholith and Montana Placer stubs ready to activate on data ingestion
+- **Config-driven, multi-study-area architecture**: NE Washington complete (Figs 1–11); Idaho is a transfer test; Montana stays a stub
 
 ## Output Figures
 
@@ -61,17 +66,19 @@ wrangling through spatial ML and economic screening — in a single reproducible
 
 | Study area | Config | Status |
 |-----------|--------|--------|
-| NE Washington (Okanogan/Ferry/Stevens Co.) | `configs/ne_washington/config.yaml` | Complete — Figs 1–10 + Fig 1b (airborne eTh) |
+| NE Washington (Okanogan/Ferry/Stevens Co.) | `configs/ne_washington/config.yaml` | Complete — Figs 1–11 + walk-list GeoPackage |
 | Idaho Batholith (Orogrande/Dixie/Warren/Florence) | `configs/idaho_batholith/config.yaml` | Transfer AUC **0.50** — frozen NE WA forest does not travel |
 | Montana Placer (Confederate Gulch/Alder Gulch/Libby Creek) | `configs/montana_placer/config.yaml` | Stub — not a third belt until Idaho is digested |
 
 ## Public doorbell (chemistry → P(gold-placer lookalike))
 
+**Live:** [https://placer-lookalike.onrender.com/docs](https://placer-lookalike.onrender.com/docs)
+
 A FastAPI service loads the **frozen** Task 9 forest. It is a doorbell, not a
 discovery engine: send NURE-style ppm (and `fe_unit`), get `probability`,
 `tree_vote_spread`, and — if you send lon/lat — distance to the nearest
 **training** gold mine. It does not emit Task 4 tonnes. It is not a national
-model. Idaho transfer AUC lives on `/model-info` after Task 12 has run.
+model. `/model-info` reports shuffled CV 0.891, spatial CV 0.70, and Idaho transfer 0.50.
 
 ```bash
 # local
@@ -99,7 +106,7 @@ The model files are in `models/`. One click starts the free web service from thi
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/nicole-m-aikin/au-ree-placer-pipeline)
 
-After it builds, open `https://<service>.onrender.com/docs`. First hit on the free tier is slow (cold start). This is a Washington lookalike screen, not a national model.
+Already deployed: **https://placer-lookalike.onrender.com/docs**. First hit on the free tier is slow (cold start). This is a Washington lookalike screen, not a national model.
 
 ## Second belt (Idaho, frozen forest)
 
@@ -109,8 +116,9 @@ python -m pipeline.task12_second_belt configs/idaho_batholith/config.yaml
 
 Downloads Idaho-box NURE (USGS HSSR CSV) and gold MRDS, scores them with the
 NE Washington joblib, writes `models/task9_rf_placer_gold.transfer.json`.
-**Does not retrain.** A drop from 0.891 is the honest result (Airola 2018).
-Do not turn this into a continental forest.
+**Result of record: transfer AUC 0.50** (2,465 grabs; mean P ≈ 0.38 next to
+gold and far from it). Tightening the gold circle to 0.05° does not rescue it.
+**Does not retrain.** Do not turn this into a continental forest.
 
 ## Quick start (NE Washington)
 
@@ -118,7 +126,7 @@ Do not turn this into a continental forest.
 python3 -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
 
-# Run full pipeline (all 10 tasks)
+# Run full pipeline (tasks 1–12; 12 is Idaho transfer)
 python pipeline/run_pipeline.py --config configs/ne_washington/config.yaml
 
 # Run specific tasks
@@ -142,6 +150,8 @@ python pipeline/run_pipeline.py --config configs/ne_washington/config.yaml --lis
 | 8 | `pipeline/task7_pathfinder.py` | Trap | Au/As pathfinder anomaly map |
 | 9 | `pipeline/task8_mine_waste.py` | Preservation | WGS mine waste REE + critical minerals |
 | 10 | `pipeline/task9_ml_targeting.py` | All | ML anomaly probability surface (geological feature engineering) |
+| 11 | `pipeline/task11_field_campaign.py` | Trap | Walk list: 0.4° cells, pours, NURE grabs, pan pins |
+| — | `pipeline/task12_second_belt.py` | All | Frozen-forest transfer on Idaho Batholith (AUC 0.50) |
 
 All outputs land in `{outputs_dir}` defined in the config (default: `ne_wa_ree/outputs/` for NE WA).
 
@@ -190,37 +200,29 @@ non-obvious methodological choice, including:
 - ABA risk tiers (MEND 2009 NP/AP thresholds)
 - NPV undiscounted rationale
 - Combined priority scoring weights
-- ML model and IDW interpolation approach and limitations
+- ML model, spatial CV vs shuffled CV, and IDW interpolation limitations
+- Public `/predict` doorbell (tree-vote spread ≠ Task 4 Monte Carlo)
+- Idaho transfer test (frozen forest; do not national-model)
 - 3D modeling scope and what is explicitly out of scope
 
 ## Directory structure
 
 ```
 configs/
-  ne_washington/config.yaml   # NE WA study area (comprehensive)
-  idaho_batholith/config.yaml # Idaho Batholith stub
-  montana_placer/config.yaml  # Montana Placer stub
+  ne_washington/config.yaml   # NE WA study area
+  idaho_batholith/config.yaml # Idaho transfer box (not a full pipeline)
+  montana_placer/config.yaml  # Montana stub
+api/                          # FastAPI doorbell
+models/                       # Frozen joblib + metadata + Idaho transfer sidecar
 pipeline/
-  utils.py                    # Shared utilities (WONG palette, load_nure, etc.)
-  task1_coplacer.py
-  task2_lithology.py
-  task3_geochemistry.py
-  task4_volume.py             # Monte Carlo P10/P50/P90 endowment
-  task5_economics.py
-  task6_framework.py
-  task7_pathfinder.py
-  task8_mine_waste.py
-  task9_ml_targeting.py       # Random Forest + IDW probability surface
-  integration.py              # Weight sensitivity + priority ranking
-  run_pipeline.py             # CLI entry point (10 tasks)
+  utils.py
+  task1_coplacer.py … task9_ml_targeting.py
+  task11_field_campaign.py    # Walk list + GeoPackage
+  task12_second_belt.py       # Frozen NE WA forest on Idaho
+  run_pipeline.py
 tests/
-  test_utils.py               # pytest unit tests for core utils
-  test_integration_and_ml.py  # integration scoring, ML labels, clip_gdf_to_map
-ne_wa_ree/
-  data/                       # NE WA input data (MRDS, aeromagnetic, NURE, lidar)
-  outputs/                    # Figures, tables, GeoJSONs
-data/
-  nure/                       # NURE stream sediment CSVs
+ne_wa_ree/outputs/            # Figures, tables, GeoJSON / GPKG
+data/nure/                    # NE WA + Idaho NURE extracts
 ```
 
 ## Config schema
