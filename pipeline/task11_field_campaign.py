@@ -15,8 +15,9 @@ Campaign classes (plain language):
 
 When task11.land_access is true (CA Sierra first), every pan/pour also gets
 access_type / access_ok / access_reason from PAD-US + MLRS claims, plus
-access_rank and rank_in_access_type. Chemistry ranks stay; elev gate drops
-valley-floor snaps from walk_rank.
+access_rank and rank_in_access_type. Elev gate drops valley-floor snaps
+from walk_rank. California sets task11.rank_by: geometry_access so
+walk_rank is access + trap first, P last. Other belts keep chemistry sort.
 
 Outputs:
   {outputs_dir}/figures/fig11_catchment_walk_list_map.png
@@ -152,10 +153,18 @@ def pick_pour_candidate(df):
     return high.iloc[0]
 
 
-def walk_sort_key(row):
-    """Expedition first, then high P. Used for walk_rank."""
-    return (CLASS_ORDER.get(row['campaign_class'], 9),
-            -float(row['max_p']) if pd.notna(row.get('max_p')) else 0.0)
+def walk_sort_key(row, rank_by='chemistry'):
+    """Walk-list sort key. Smaller = earlier.
+
+    chemistry (default): expedition first, then isolation, then high P.
+    geometry_access: access_ok, trap_score, catchment_ok, P last.
+    """
+    from pipeline.task11_land_access import add_walk_sort_keys, rank_by_mode
+
+    mode = rank_by_mode(rank_by=rank_by)
+    one = pd.DataFrame([row])
+    cols = add_walk_sort_keys(one, mode)
+    return tuple(float(one[c].iloc[0]) for c in cols)
 
 
 def spatial_block_polygons(xmin, xmax, ymin, ymax, cell_deg=CELL_DEG):
@@ -675,7 +684,7 @@ def write_gpkg_from_outputs(cfg):
         'catchment_ok', 'notes',
         'access_type', 'access_ok', 'access_reason', 'manager_name',
         'claim_status', 'pub_access', 'access_rank', 'rank_in_access_type',
-        'n_hobby_hit',
+        'n_hobby_hit', 'trap_score',
     ) if c in walk.columns]
     cells = cells.drop(columns=[c for c in rank_cols if c in cells.columns], errors='ignore')
     cells = cells.merge(walk[['block_id'] + rank_cols], on='block_id', how='left')
@@ -805,7 +814,7 @@ def write_gpkg_from_outputs(cfg):
             'walk_rank', 'campaign_class', 'access_type', 'access_ok',
             'access_reason', 'manager_name', 'claim_status', 'pub_access',
             'access_rank', 'rank_in_access_type', 'max_p', 'nearest_gold_km',
-            'n_hobby_hit',
+            'n_hobby_hit', 'trap_score',
         ) if c in walk.columns]
         if access_cols:
             cells = cells.drop(
@@ -1222,17 +1231,15 @@ def run(cfg):
         })
 
     walk = pd.DataFrame(walk_rows)
-    walk['_ord'] = walk['campaign_class'].map(CLASS_ORDER)
-    # Most isolated high-P drainage first inside each class.
-    walk['_iso'] = -walk['nearest_gold_deg'].fillna(-1)
+    from pipeline.task11_land_access import add_walk_sort_keys, rank_by_mode
+    sort_cols = add_walk_sort_keys(walk, rank_by_mode(cfg))
     walk = walk.sort_values(
-        ['_ord', '_iso', 'max_p'], ascending=[True, True, False],
-        na_position='last',
+        sort_cols, ascending=True, na_position='last',
     ).reset_index(drop=True)
     walkable = walk['campaign_class'].isin(['expedition', 'confirm', 'watch'])
     walk['walk_rank'] = pd.Series(pd.NA, index=walk.index, dtype='Int64')
     walk.loc[walkable, 'walk_rank'] = np.arange(1, int(walkable.sum()) + 1)
-    walk = walk.drop(columns=['_ord', '_iso'])
+    walk = walk.drop(columns=sort_cols, errors='ignore')
 
     # Rebuild spots with walk_rank (second pass, cheap)
     rank_of = dict(zip(walk['block_id'], walk['walk_rank']))
@@ -1471,7 +1478,12 @@ def _write_summary(cfg, walk, spots_df, loco, p_is_transfer=False):
             "Same story as the 0.94 vs 0.62 folds — some cells transfer, some do not.",
             "",
         ]
-    lines += ["WALK ORDER (expedition first, most isolated first)", ""]
+    from pipeline.task11_land_access import RANK_BY_GEOMETRY_ACCESS, rank_by_mode
+    if rank_by_mode(cfg) == RANK_BY_GEOMETRY_ACCESS:
+        order_line = "WALK ORDER (access + trap geometry first, P breaks ties)"
+    else:
+        order_line = "WALK ORDER (expedition first, most isolated first)"
+    lines += [order_line, ""]
     show = walk[walk['walk_rank'].notna()] if 'walk_rank' in walk.columns else walk[
         walk['campaign_class'].isin(['expedition', 'confirm', 'watch'])
     ]

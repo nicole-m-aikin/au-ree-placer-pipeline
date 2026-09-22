@@ -294,7 +294,7 @@ Do not rebuild the forest from scratch. The gold labels, the heavy-mineral featu
 5c. Montana / Colorado / Fall Zone transfer — **done** (0.34 / 0.56 / 0.50). Local sidecars on MT and CO; cousins test deleted.
 6. Hold-out sub-area inside NE WA — **done** (Task 13: published forest 0.53 east of −118.50°)
 8. Field pans — pamphlet / opt-in overlay shipped (`hobby_reports`; hit-rate, not AUC). Own pans still missing. Without those, “robust” is still a computer talking to itself.
-9. CA-only Task 11 sort (geometry + access first, P breaks ties) — **next**, not a new model.
+9. CA-only Task 11 sort (geometry + access first, P breaks ties) — **done**. Not a new model.
 
 Live doorbell: https://placer-lookalike.onrender.com/docs
 

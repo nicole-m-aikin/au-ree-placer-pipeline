@@ -36,11 +36,11 @@ wrangling through spatial ML and economic screening — in a single reproducible
 - **ML targeting with geochemically independent ground truth**: MRDS-proximity labels avoid the circular-labeling failure mode common in geochemical classifiers; Random Forest on the placer heavy-mineral suite (Th, Ce, La, P, U, Au, As, Ti, Fe, Zr, Y); shuffled 5-fold CV ROC-AUC 0.891 ± 0.018; dead-zone spatial CV 0.699 ± 0.055
 - **Transfer test, not a national model**: frozen NE WA forest on Idaho **0.50**, California **0.52**, Montana **0.34**, Colorado **0.56**, NC Fall Zone **0.50** (Airola et al. 2018: shuffled CV is not transfer). Local Sierra forest is a different file (Zr–Fe–Ti). Flat high P on Colorado is a **province** (Grosz & Schruben 1993), not a bar. Do not retrain to hide the sag.
 - **Public lookalike API**: FastAPI `/predict` at [placer-lookalike.onrender.com](https://placer-lookalike.onrender.com/docs) — chemistry in, P(lookalike) + tree-vote spread + distance to a training gold mine out. Not Task 4 tonnes.
-- **Catchment walk list**: Task 11 GeoPackage with NURE grabs vs pan pins (slope break / power drop / junction) plus a pamphlet / opt-in `hobby_reports` overlay. Chemistry picks the creek; geometry picks the hole (Yousefi & Carranza 2013; McCuaig & Hronsky 2014). Hobby rows score catchment hit-rate, not AUC. California is the only walk product: `access_type` / `access_ok` from PAD-US + MLRS; next sort is geometry + access first, P only to break ties. CA HSSR has **no sediment north of ~39°** — South Yuba / Malakoff are access-labeled at pamphlet pins (`task11_park_pin_access.csv`) but not ML-ranked.
+- **Catchment walk list**: Task 11 GeoPackage with NURE grabs vs pan pins (slope break / power drop / junction) plus a pamphlet / opt-in `hobby_reports` overlay. Chemistry picks the creek; geometry picks the hole (Yousefi & Carranza 2013; McCuaig & Hronsky 2014). Hobby rows score catchment hit-rate, not AUC. California is the only walk product: `access_type` / `access_ok` from PAD-US + MLRS; `rank_by: geometry_access` sorts access + trap first, P only to break ties. CA HSSR has **no sediment north of ~39°** — South Yuba / Malakoff are access-labeled at pamphlet pins (`task11_park_pin_access.csv`) but not ML-ranked.
 - **Spatial geostatistical interpolation**: IDW probability surface for continuous spatial prediction; kriging variance surface identified as production upgrade path
 - **Economic screening**: break-even NdPr price analysis, undiscounted NPV rationale, tornado-style weight-sensitivity analysis on integrated priority scores
 - **Acid-base accounting (ABA) risk classification**: median NP/AP ratio tiers per MEND 2009 thresholds; flags acid-generating sites for environmental due diligence
-- **Config-driven, multi-study-area architecture**: NE Washington complete (Figs 1–11); Idaho, California, Montana, Colorado, and the NC Fall Zone are transfer + walk-list boxes. Utah is the mill, not a belt.
+- **Config-driven, multi-study-area architecture**: NE Washington complete (Figs 1–11); California is the walk product; Idaho, Montana, Colorado, and the NC Fall Zone are transfer tests. Utah is the mill, not a belt.
 
 ## Output Figures
 
@@ -333,6 +333,7 @@ data:
 
 task11:                # optional; CA Sierra turns land_access on
   land_access: false   # PAD-US + MLRS labels; access_rank / rank_in_access_type
+  rank_by: chemistry   # chemistry (default) or geometry_access (CA only)
   min_pour_elev_m: null
   claim_buffer_m: 50
 

@@ -59,8 +59,8 @@ release as a study area.
 
 ## Next (see [`SESSION_SUMMARY.md`](SESSION_SUMMARY.md))
 
-1. **CA-only Task 11 sort:** geometry + access first, P only to break
-   ties. Not a new model. Do not apply that sort to the test belts.
+1. **CA-only Task 11 sort — done.** `rank_by: geometry_access`. Walk #2
+   (USFS, P=0.995) rose above hotter private/claimed cells.
 2. Manual Deploy so live `/model-info` lists the transfer belts.
 3. Walk one Sierra USFS confirm (1 m hillshade already clipped).
 4. Northern Sierra chemistry from something that is not NURE HSSR.

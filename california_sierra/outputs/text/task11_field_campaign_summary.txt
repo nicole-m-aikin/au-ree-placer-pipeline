@@ -12,17 +12,17 @@ Skip       (low P or empty):                 19
 Leave-one-cell-out AUC (cells with ≥8 grabs): 0.568  (min 0.359, max 0.881, n=6 cells)
 Same story as the 0.94 vs 0.62 folds — some cells transfer, some do not.
 
-WALK ORDER (expedition first, most isolated first)
+WALK ORDER (access + trap geometry first, P breaks ties)
 
   # 1  confirm      max P=1.0  2.7 km from gold  pour 38.5994, -120.7802  nure=4  access=usfs/yes (PAD-US Mang=USFS type=usfs Pub_Access=OA; no MLRS claim in buffer)
-  # 2  confirm      max P=1.0  2.0 km from gold  pour 38.8258, -121.1913  nure=4  access=private/no (not in PAD-US public layer; no MLRS claim in buffer)
+  # 2  confirm      max P=0.995  0.2 km from gold  pour 38.8538, -120.7886  nure=3  access=usfs/yes (PAD-US Mang=USFS type=usfs Pub_Access=UK; no MLRS claim in buffer)
   # 3  confirm      max P=1.0  1.4 km from gold  pour 38.5143, -121.0478  nure=4  access=claimed/no (active MLRS claim: Rocky Ridge)
-  # 4  confirm      max P=0.995  0.2 km from gold  pour 38.8538, -120.7886  nure=3  access=usfs/yes (PAD-US Mang=USFS type=usfs Pub_Access=UK; no MLRS claim in buffer)
+  # 4  confirm      max P=1.0  2.0 km from gold  pour 38.8258, -121.1913  nure=4  access=private/no (not in PAD-US public layer; no MLRS claim in buffer)
 
 ACCESS-OK RANK (I can go test — BLM/USFS/state_park, claim-free)
 
   access# 1  walk# 1  usfs  USFS  max P=1.0  pour 38.5994, -120.7802
-  access# 2  walk# 4  usfs  USFS  max P=0.995  pour 38.8538, -120.7886
+  access# 2  walk# 2  usfs  USFS  max P=0.995  pour 38.8538, -120.7886
 
 NURE COVERAGE
   NURE envelope: lon -121.698–-120.401, lat 38.502–38.997  (n=596)

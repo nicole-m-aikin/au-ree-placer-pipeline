@@ -119,6 +119,26 @@ def test_walk_sort_puts_expedition_ahead_of_confirm():
     assert walk_sort_key(b) < walk_sort_key(a)
 
 
+def test_walk_sort_geometry_access_puts_ok_ahead_of_hotter_private():
+    private_hot = {
+        'campaign_class': 'confirm',
+        'max_p': 1.0,
+        'access_ok': 'no',
+        'trap_score': 7.5,
+        'catchment_ok': True,
+    }
+    usfs_cooler = {
+        'campaign_class': 'confirm',
+        'max_p': 0.70,
+        'access_ok': 'yes',
+        'trap_score': 4.0,
+        'catchment_ok': True,
+    }
+    assert walk_sort_key(usfs_cooler, rank_by='geometry_access') < walk_sort_key(
+        private_hot, rank_by='geometry_access',
+    )
+
+
 def test_block_grid_covers_map_and_matches_block_ids():
     xmin, xmax, ymin, ymax = -120.08, -116.92, 47.42, 49.18
     gdf = spatial_block_polygons(xmin, xmax, ymin, ymax, cell_deg=CELL_DEG)

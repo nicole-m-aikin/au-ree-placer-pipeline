@@ -67,6 +67,8 @@ ACCESS_COLOR = {
 }
 
 CLASS_ORDER = {'expedition': 0, 'confirm': 1, 'watch': 2, 'skip': 3}
+RANK_BY_CHEMISTRY = 'chemistry'
+RANK_BY_GEOMETRY_ACCESS = 'geometry_access'
 
 
 def land_access_enabled(cfg):
@@ -106,6 +108,90 @@ def min_pour_elev_m(cfg):
         return float(raw)
     except (TypeError, ValueError):
         return None
+
+
+def rank_by_mode(cfg=None, rank_by=None):
+    """Walk-list sort. Default chemistry (expedition → isolation → P).
+
+    geometry_access: access_ok, then trap_score, then catchment_ok, P last.
+    Only California sets task11.rank_by: geometry_access. Test belts stay
+    chemistry so transfer GPKGs are not sold as walk apps.
+    """
+    if rank_by is None and cfg is not None:
+        rank_by = (cfg.get('task11') or {}).get('rank_by')
+    raw = str(rank_by or RANK_BY_CHEMISTRY).strip().lower().replace('-', '_')
+    if raw in (RANK_BY_GEOMETRY_ACCESS, 'geometry', 'access'):
+        return RANK_BY_GEOMETRY_ACCESS
+    return RANK_BY_CHEMISTRY
+
+
+def add_walk_sort_keys(df, mode=RANK_BY_CHEMISTRY):
+    """Add helper columns. Lower sorts earlier. Returns the column names."""
+    if mode == RANK_BY_GEOMETRY_ACCESS:
+        if 'access_ok' in df.columns:
+            df['_access'] = np.where(
+                df['access_ok'].astype(str).str.lower() == 'yes', 0, 1,
+            )
+        else:
+            df['_access'] = 1
+        if 'trap_score' in df.columns:
+            df['_trap'] = -pd.to_numeric(df['trap_score'], errors='coerce').fillna(0.0)
+        else:
+            df['_trap'] = 0.0
+        if 'catchment_ok' in df.columns:
+            catch = df['catchment_ok']
+            if catch.dtype == object:
+                catch = catch.fillna(False).astype(str).str.lower().isin(
+                    ('true', '1', 'yes')
+                )
+            else:
+                catch = catch.fillna(False).astype(bool)
+            df['_catch'] = np.where(catch, 0, 1)
+        else:
+            df['_catch'] = 0
+        if 'max_p' in df.columns:
+            df['_p'] = -pd.to_numeric(df['max_p'], errors='coerce').fillna(-1.0)
+        else:
+            df['_p'] = 0.0
+        return ['_access', '_trap', '_catch', '_p']
+
+    df['_ord'] = df['campaign_class'].map(CLASS_ORDER).fillna(9)
+    if 'nearest_gold_deg' in df.columns:
+        df['_iso'] = -pd.to_numeric(df['nearest_gold_deg'], errors='coerce').fillna(-1.0)
+    else:
+        df['_iso'] = 0.0
+    if 'max_p' in df.columns:
+        df['_p'] = -pd.to_numeric(df['max_p'], errors='coerce').fillna(-1.0)
+    else:
+        df['_p'] = 0.0
+    if 'n_hobby_hit' in df.columns:
+        df['_hobby'] = -(
+            pd.to_numeric(df['n_hobby_hit'], errors='coerce').fillna(0) > 0
+        ).astype(int)
+    else:
+        df['_hobby'] = 0
+    return ['_ord', '_iso', '_p', '_hobby']
+
+
+def _cell_trap_from_pans(pans):
+    """Max trap_score per block. Prefer access_ok pans when any exist."""
+    if pans is None or len(pans) == 0 or 'trap_score' not in pans.columns:
+        return pd.DataFrame(columns=['block_id', 'trap_score'])
+    if 'block_id' not in pans.columns:
+        return pd.DataFrame(columns=['block_id', 'trap_score'])
+    rows = []
+    for bid, grp in pans.groupby('block_id'):
+        src = grp
+        if 'access_ok' in grp.columns:
+            ok = grp[grp['access_ok'].astype(str).str.lower() == 'yes']
+            if len(ok):
+                src = ok
+        score = pd.to_numeric(src['trap_score'], errors='coerce').max()
+        rows.append({
+            'block_id': bid,
+            'trap_score': None if pd.isna(score) else float(score),
+        })
+    return pd.DataFrame(rows)
 
 
 def _query_arcgis(url, lon_min, lat_min, lon_max, lat_max, out_fields='*',
@@ -592,9 +678,12 @@ def _cell_access_from_pans(pans):
 def apply_access_ranks(walk, cfg):
     """Set walk_rank, access_rank, rank_in_access_type on the walk table.
 
-    walk_rank  — chemistry interesting + catchment_ok + elev gate (access labels only)
+    walk_rank  — chemistry interesting + catchment_ok + elev gate
     access_rank — same sort among access_ok=yes
     rank_in_access_type — within each access_type bucket
+
+    Sort is chemistry (expedition → isolation → P) unless
+    task11.rank_by is geometry_access (access + trap, P last).
     """
     out = walk.copy()
     for col in (
@@ -622,36 +711,24 @@ def apply_access_ranks(walk, cfg):
         elev_ok = True
     screen = chem_ok & catch_ok & elev_ok
 
-    out['_ord'] = out['campaign_class'].map(CLASS_ORDER).fillna(9)
-    out['_iso'] = -out['nearest_gold_deg'].fillna(-1) if 'nearest_gold_deg' in out.columns else 0
-    out['_p'] = -out['max_p'].fillna(-1) if 'max_p' in out.columns else 0
-    # Hobby hit bonus: hit before miss
-    if 'n_hobby_hit' in out.columns:
-        out['_hobby'] = -(out['n_hobby_hit'].fillna(0) > 0).astype(int)
-    else:
-        out['_hobby'] = 0
+    mode = rank_by_mode(cfg)
+    sort_cols = add_walk_sort_keys(out, mode)
 
     out['walk_rank'] = pd.Series(pd.NA, index=out.index, dtype='Int64')
-    ranked = out.loc[screen].sort_values(
-        ['_ord', '_iso', '_p', '_hobby'], ascending=[True, True, True, True],
-    )
+    ranked = out.loc[screen].sort_values(sort_cols, ascending=True)
     out.loc[ranked.index, 'walk_rank'] = np.arange(1, len(ranked) + 1)
 
     out['access_rank'] = pd.Series(pd.NA, index=out.index, dtype='Int64')
     access_screen = screen & (out['access_ok'] == 'yes')
-    ar = out.loc[access_screen].sort_values(
-        ['_ord', '_iso', '_p', '_hobby'], ascending=[True, True, True, True],
-    )
+    ar = out.loc[access_screen].sort_values(sort_cols, ascending=True)
     out.loc[ar.index, 'access_rank'] = np.arange(1, len(ar) + 1)
 
     out['rank_in_access_type'] = pd.Series(pd.NA, index=out.index, dtype='Int64')
     for atype, grp in out.loc[screen].groupby('access_type', dropna=False):
-        g = grp.sort_values(
-            ['_ord', '_iso', '_p', '_hobby'], ascending=[True, True, True, True],
-        )
+        g = grp.sort_values(sort_cols, ascending=True)
         out.loc[g.index, 'rank_in_access_type'] = np.arange(1, len(g) + 1)
 
-    return out.drop(columns=['_ord', '_iso', '_p', '_hobby'], errors='ignore')
+    return out.drop(columns=sort_cols, errors='ignore')
 
 
 def padus_open_layer(cfg):
@@ -751,6 +828,11 @@ def annotate_campaign(cfg, pans, pour_points, walk, hobby=None):
         walk['access_ok'] = walk['access_ok'].fillna('no')
         walk['claim_status'] = walk['claim_status'].fillna('unchecked')
         walk['access_reason'] = walk['access_reason'].fillna('no pan/pour geometry')
+        trap = _cell_trap_from_pans(pans)
+        if trap is not None and len(trap):
+            walk = walk.drop(columns=['trap_score'], errors='ignore').merge(
+                trap, on='block_id', how='left',
+            )
         walk = apply_access_ranks(walk, cfg)
     elif walk is not None and len(walk):
         walk = apply_access_ranks(walk, cfg)

@@ -29,7 +29,7 @@ Each pipeline task evaluates one or more components of this framework:
 - **Task 7** — pathfinder halos around traps (Au/As anomaly delineation as placer vectors)
 - **Task 8** — preservation context (mine waste ABA risk; WGS OFR 2026-02 field data)
 - **Task 9** — data-driven spatial targeting across all components (ML probability surface)
-- **Task 11** — trap walk list: chemistry picks the drainage; stream-geometry votes pick the pan pin (Yousefi & Carranza 2013; Slingerland & Smith 1986). California is the only walk product: next sort is geometry + access first, P only to break ties. Pamphlet / opt-in pans are a catchment hit-rate overlay (not AUC).
+- **Task 11** — trap walk list: chemistry picks the drainage; stream-geometry votes pick the pan pin (Yousefi & Carranza 2013; Slingerland & Smith 1986). California is the only walk product: `rank_by: geometry_access` sorts access + trap first, P only to break ties. Pamphlet / opt-in pans are a catchment hit-rate overlay (not AUC).
 - **Task 12** — transfer test: frozen NE WA forest on Idaho (AUC 0.50), California Sierra (0.52), Montana SW gulches (0.34), Colorado Wet Mountains (0.56), and NC Fall Zone (0.50; other placer). Do not retrain.
 - **Task 13** — in-belt east-west hold-out on NE WA (does not rewrite the published joblib)
 

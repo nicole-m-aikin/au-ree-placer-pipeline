@@ -195,3 +195,34 @@ def test_rank_in_access_type_within_blm():
     assert list(blm['rank_in_access_type'].astype(int)) == [1, 2, 3]
     # Expedition + more isolated first among BLM
     assert int(blm.iloc[0]['block_id']) == 1
+
+
+def test_geometry_access_sort_raises_ok_cell_over_hotter_private():
+    walk = pd.DataFrame({
+        'block_id': [1, 2, 3],
+        'campaign_class': ['confirm', 'confirm', 'confirm'],
+        'catchment_ok': [True, True, True],
+        'pour_elev_m': [400.0, 200.0, 180.0],
+        'max_p': [0.70, 1.0, 0.99],
+        'nearest_gold_deg': [0.02, 0.01, 0.01],
+        'n_hobby_hit': [0, 0, 0],
+        'trap_score': [4.0, 7.5, 7.5],
+        'access_type': ['usfs', 'private', 'claimed'],
+        'access_ok': ['yes', 'no', 'no'],
+        'access_reason': ['usfs ok', 'private', 'claimed'],
+        'manager_name': ['USFS', '', ''],
+        'claim_status': ['free', 'free', 'claimed'],
+        'pub_access': ['OA', '', ''],
+    })
+    cfg = _cfg()
+    cfg['task11']['rank_by'] = 'geometry_access'
+    ranked = apply_access_ranks(walk, cfg)
+    order = list(
+        ranked.loc[ranked['walk_rank'].notna()]
+        .sort_values('walk_rank')['block_id']
+        .astype(int)
+    )
+    assert order[0] == 1
+    assert order == [1, 2, 3]
+    assert int(ranked.loc[ranked['block_id'] == 1, 'access_rank'].iloc[0]) == 1
+    assert pd.isna(ranked.loc[ranked['block_id'] == 2, 'access_rank'].iloc[0])

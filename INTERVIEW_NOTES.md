@@ -11,8 +11,8 @@ Washington on other states.
 **Locked (22 Sep night):** two products only. Published doorbell = frozen WA
 forest + transfer table. Walkable product = CA Zr–Fe–Ti sidecar + 1 m lidar
 + access ranks + park pins. Idaho / Montana / Colorado / Fall Zone stay
-tests — do not sell four more walk apps. Tomorrow: CA-only Task 11 sort,
-geometry + access first, P only to break ties (not a new model). Colorado
+tests — do not sell four more walk apps. CA walk list now sorts access +
+trap first, P only to break ties (`rank_by: geometry_access`). Colorado
 flat high P is a **province** map (Grosz & Schruben 1993), not a bar.
 Lookalike-finds-a-new-bar is unknown until pans exist. Change-our-mind:
 geometry-first colors a low-P cell (P is a tiebreaker) or access-ok
@@ -216,13 +216,13 @@ Idaho, California, Montana, Colorado, and the Fall Zone now have the same layers
 
 **Wave 4 — one Sierra 1 m LiDAR clip:** walk-rank 1 (USFS confirm, −120.78, 38.60). `california_sierra/data/lidar/lidar_r01_hs.tif`. Not all ten ranks. Hobby overlay already on the GPKGs; own pans still missing.
 
-**California land access + walk list (CA first):** Task 11 now labels every pan/pour with `access_type` / `access_ok` / `access_reason` from PAD-US + MLRS claims, plus `walk_rank` (chemistry + elev ≥50 m), `access_rank` (public + claim-free), and `rank_in_access_type`. Chemistry without access was sending “go look” pins to Sacramento Valley levees (~2–8 m elev, FWS/restricted). After the gate: **4 walkable confirms** — 2× USFS `access_ok=yes`, 1× private, 1× claimed (Rocky Ridge). Valley-floor expeditions keep chemistry class but lose `walk_rank`. Open `~/projects/task11_ca_sierra_placer_field_campaign.gpkg` (layers include `padus_open`, `mlrs_claims`).
+**California land access + walk list (CA first):** Task 11 now labels every pan/pour with `access_type` / `access_ok` / `access_reason` from PAD-US + MLRS claims, plus `walk_rank` (`rank_by: geometry_access` — access + trap, P last; elev ≥50 m), `access_rank` (public + claim-free), and `rank_in_access_type`. Chemistry without access was sending “go look” pins to Sacramento Valley levees (~2–8 m elev, FWS/restricted). After the gate: **4 walkable confirms** — walk #1/#2 are the 2× USFS `access_ok=yes` (P=1.0 then 0.995); #3 claimed (Rocky Ridge); #4 private. Valley-floor expeditions keep chemistry class but lose `walk_rank`. Open `~/projects/task11_ca_sierra_placer_field_campaign.gpkg` (layers include `padus_open`, `mlrs_claims`).
 
 **Sanity checks (positive signals):** Auburn / Marshall / Chili Bar chemically hot (P≈0.9–1.0) and `confirm` where NURE exists — forest sees known placer country. Access split does real work. Hobby miss on walkable catchments is geometry (pamphlet pin ≠ cell pour), not rejection.
 
 **NURE coverage hole (hard):** national HSSR sediment has **no samples north of ~39.00°** in lon −121.7…−120.4. Re-clip does not fill it. South Yuba / Malakoff / Downieville cannot be ML-ranked. DEM/MRDS/PAD-US/MLRS cover the north. Pamphlet parks there are access-labeled at the pin (`task11_park_pin_access.csv`): South Yuba BLM/State Parks `access_ok=yes`; Marshall state_park + hot NURE; Auburn HQ pin local_gov; Mammoth Bar pin private — confirm rules on site. Filling northern chemistry needs a **different source than NURE HSSR**.
 
-**Tomorrow (see `NEXT_SESSION_PROMPT.md` top):** (1) CA-only Task 11 sort — geometry + access first, P only to break ties (not a new model; not applied to test belts); (2) Manual Deploy so `/model-info` lists ID/CA/MT/CO/NC — do not change `/predict`; (3) walk one Sierra access-ok USFS confirm (−120.78, 38.60) and write pans on the opt-in form; (4) evaluate non-NURE chemistry (NGDB / CGS / aerial radiometrics as a *map*, not an RF feature) for northern Sierra. Idaho / Montana / Colorado / Fall Zone stay tests. Do not national-model. Do not invent Mineral Hill / Phosphoria / CA waste OFR boxes.
+**Open next (see `NEXT_SESSION_PROMPT.md` top):** (1) CA-only Task 11 sort — **done**; (2) Manual Deploy so `/model-info` lists ID/CA/MT/CO/NC — do not change `/predict`; (3) walk one Sierra access-ok USFS confirm (−120.78, 38.60) and write pans on the opt-in form; (4) evaluate non-NURE chemistry (NGDB / CGS / aerial radiometrics as a *map*, not an RF feature) for northern Sierra. Idaho / Montana / Colorado / Fall Zone stay tests. Do not national-model. Do not invent Mineral Hill / Phosphoria / CA waste OFR boxes.
 
 **Walk lists (local P except Fall Zone):** Idaho 5 expedition / 12 confirm. California **2 / 4** (2 USFS `access_ok`). Montana 7 / 12. Colorado 1 / 5. Fall Zone 5 “expedition” on WA gold-P — not sand targets. Gold pins and geology are local. Open `~/projects/task11_{short}_field_campaign.gpkg` (no `+` in the path).
 
@@ -236,7 +236,7 @@ Because 0.891 is shuffled CV on one belt. Airola 2018: that number can look grea
 
 **Q: The California forest lights up Colorado. Did you find Colorado gold?**
 
-No. Grosz & Schruben 1993 already said NURE heavy-mineral chemistry outlines a **province**, not a bar. Flat high P on both sides of the gold line is “this belt has the same heavies.” McCuaig & Hronsky 2014: chemistry without a trap is not a target. The trap is topography (Slingerland & Smith 1986; Yeend PP 772). That is why slope stays out of the 200 trees and why Task 11 will sort geometry + access first.
+No. Grosz & Schruben 1993 already said NURE heavy-mineral chemistry outlines a **province**, not a bar. Flat high P on both sides of the gold line is “this belt has the same heavies.” McCuaig & Hronsky 2014: chemistry without a trap is not a target. The trap is topography (Slingerland & Smith 1986; Yeend PP 772). That is why slope stays out of the 200 trees and why Task 11 sorts geometry + access first.
 
 **Q: Does lookalike pick a new bar?**
 

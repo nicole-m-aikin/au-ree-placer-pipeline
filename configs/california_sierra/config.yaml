@@ -43,6 +43,8 @@ task11:
   p_is_transfer: false
   # PAD-US + MLRS labels + access_rank (CA first). Other belts stay off.
   land_access: true
+  # Access + trap first, P last. Do not flip on test belts.
+  rank_by: geometry_access
   min_pour_elev_m: 50
   claim_buffer_m: 50
 

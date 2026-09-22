@@ -56,8 +56,8 @@ rewrites `/predict`.
 
 ## What stalled
 
-- Live Render `/model-info` still may show Idaho-only. Sidecar on disk
-  has the belts. Needs a rebuild / Manual Deploy. Do not add foreign
+- Live Render `/model-info` still Idaho-only (checked 22 Sep morning).
+  Sidecar on disk has the belts. Needs Manual Deploy. Do not add foreign
   gold pins to `/predict` distance.
 - **No pub:** Mineral Hill / Phosphoria, CA tungsten-waste OFR, Montana
   waste table, WGS Part 2 / Orient.
@@ -88,7 +88,7 @@ These were open questions. They are not anymore.
 
 | Question | Decision |
 |----------|----------|
-| Sort Task 11 by geometry + access, P only to break ties? | **Yes.** CA-only sort change tomorrow. Not a new model. P found the factory; elev + PAD-US + MLRS found the walk (McCuaig & Hronsky 2014; Yousefi & Carranza 2013). |
+| Sort Task 11 by geometry + access, P only to break ties? | **Yes. Done (CA only).** `task11.rank_by: geometry_access`. P found the factory; elev + PAD-US + MLRS found the walk (McCuaig & Hronsky 2014; Yousefi & Carranza 2013). |
 | California walk product + Washington doorbell? | **Yes.** That is the honest portfolio. Idaho / Montana / Colorado / Fall Zone stay **tests**. Do not sell four more walk apps. |
 | Does lookalike ever pick a new bar? | **Unknown.** It re-finds the factory. Valley “expeditions” were FWS levees. Remaining high-P / far-from-mine cells are not `access_ok`. Another AUC will not answer it. Pans will. |
 | Colorado heavies + flat CA scores = province map? | **Yes. Say it out loud.** Chemistry says “this province has the same heavies.” That is Grosz & Schruben 1993 (B2097), not a bar. |
@@ -101,8 +101,9 @@ These were open questions. They are not anymore.
 
 ## Next steps
 
-1. **CA-only Task 11 sort:** geometry + access first, P only to break ties.
-   Not a new model. Do not apply that sort to the test belts.
+1. **CA-only Task 11 sort — done.** Access + trap first, P breaks ties.
+   Walk #1 USFS P=1.0; walk #2 USFS P=0.995 rose above hotter
+   private/claimed cells. Forest files did not move.
 2. **Manual Deploy** on `placer-lookalike` so `/model-info` lists the
    transfer belts. Do not change `/predict`.
 3. **Walk one Sierra access-ok cell** (USFS confirm + 1 m hillshade).
