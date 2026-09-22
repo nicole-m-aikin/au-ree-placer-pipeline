@@ -95,8 +95,11 @@ docker build -t placer-lookalike .
 docker run --rm -p 8000:8000 placer-lookalike
 ```
 
-Open `https://<your-host>/docs` after you connect the repo to [Render](https://render.com).
-Commit `models/task9_rf_placer_gold.*` first — the image copies those files.
+The model files are in `models/`. One click starts the free web service from this repo:
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/nicole-m-aikin/au-ree-placer-pipeline)
+
+After it builds, open `https://<service>.onrender.com/docs`. First hit on the free tier is slow (cold start). This is a Washington lookalike screen, not a national model.
 
 ## Second belt (Idaho, frozen forest)
 
