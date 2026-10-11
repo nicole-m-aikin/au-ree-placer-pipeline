@@ -82,3 +82,12 @@ CATCHMENT_LABELING_PROMPT.md
 
 # Personal notes
 INTERVIEW_PREP.md
+INTERVIEW_NOTES.md
+.claude/
+
+# Second virtualenv and tooling caches
+venv-ml/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+*.log
