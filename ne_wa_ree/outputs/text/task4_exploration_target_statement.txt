@@ -15,9 +15,9 @@ BASIS OF ESTIMATE:
   - Monte Carlo: 2 000 samples per site; depth ~ N(μ, σ), grade ~ LogNormal
 
 COMBINED 12-SITE EXPLORATION TARGET (Monte Carlo P10 / P50 / P90):
-  NdPr metal P10: 295 t
-  NdPr metal P50: 712 t  (headline; was 1,375 t under the old join)
-  NdPr metal P90: 1428 t
+  NdPr metal P10: 294 t
+  NdPr metal P50: 709 t  (headline; was 1,375 t under the old join)
+  NdPr metal P90: 1422 t
 
 Integration ranking is Hunters / Bossburg / Oroville. Do not treat the
 three largest metal-P50 rows as the field-program priority.

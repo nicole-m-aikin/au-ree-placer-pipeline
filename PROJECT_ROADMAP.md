@@ -22,14 +22,14 @@ release as a study area.
 | NE WA Tasks 1–11 + GeoPackage | Done |
 | Live doorbell | https://placer-lookalike.onrender.com/docs |
 | Idaho / California / Montana transfer + walk lists | 0.50 / 0.52 / 0.34 |
-| Local sidecars (not `/predict`) | CA block **0.69**; ID dead-zone 0.67; MT 0.62; CO 0.50 |
+| Local sidecars (not `/predict`) | CA block **0.65** (fixed DEM); ID dead-zone 0.67; MT 0.62; CO 0.50 |
 | Colorado Wet Mountains transfer + walk list | AUC **0.56**. Local 1 expedition / 5 confirm. |
 | NC Fall Zone other-placer transfer + walk list | AUC **0.50**; not a gold walk |
 | Cousins test (Cr Nb Hf Sc W) | Dead-zone flat. Sidecars deleted. |
 | Earth MRI watch | `EARTH_MRI_WATCH.md` |
 | In-belt east-west hold-out | Task 13 — joblib not rewritten |
 | Hobby / pamphlet overlay | Gazetteer + opt-in; not labels |
-| 1 m LiDAR on one CA catchment | walk-rank 1 (USFS confirm, −120.78, 38.60) |
+| 1 m LiDAR on one CA catchment | Pre-DEM-fix walk-rank 1. New rank-1 pans 38.5607, −120.5262 / 38.5618, −120.5336 are ~3.5 km south — re-clip |
 
 ---
 
@@ -51,6 +51,8 @@ release as a study area.
   `data/hobby_reports/OPT_IN_FORM.txt`.
 - 1 m 3DEP clip on **one** Sierra catchment (walk #1, USFS confirm).
   Hillshade: `california_sierra/data/lidar/lidar_r01_hs.tif`. Not all ten ranks.
+  Clipped before the DEM fix; walk #1 pans moved (pour now 38.6285,
+  −120.6993), so re-clip before the field day.
 - API `transfer_belts` is in the sidecar on `main`. Live Render may still
   show Idaho-only until Manual Deploy. Do not add ID/CA/CO gold to
   `/predict` distance.

@@ -7,10 +7,18 @@ overall vs inside each access bucket.
 Overlays (cached under data/):
   PAD-US 4.1 — public land / manager / Pub_Access
   BLM MLRS   — mining claims not closed
+  AIANNH     — Census TIGER/Line reservations + off-reservation trust land
   hobby CSV  — optional access_type=club|industry on gazetteer rows
 
 Priority at a point:
-  claimed > restricted > club/industry > PAD-US manager > private/unknown
+  claimed > tribal > restricted > club/industry > PAD-US manager > private
+
+Claimed stays first so the claim name is the reason shown; tribal_land /
+tribal_name are set from the AIANNH hit regardless of which label wins, so
+a claim inside a reservation is still flagged tribal. Census statistical
+areas (TDSA/SDTSA/OTSA/ANVSA, FUNCSTAT=S) are not tribal land; they only
+add a consult-the-tribe line to rules_note. Every pin also gets rules_note
+(state + manager reminders). All of it is a screen, not permission.
 """
 
 from __future__ import annotations
@@ -28,7 +36,7 @@ from pipeline.utils import bbox, resolve_data_path
 
 ACCESS_TYPES = (
     'blm', 'usfs', 'state_park', 'state_other', 'nps', 'local_gov',
-    'private', 'claimed', 'club', 'industry', 'restricted', 'unknown',
+    'private', 'claimed', 'club', 'industry', 'restricted', 'tribal', 'unknown',
 )
 # Recreational hands-and-pans candidates when claim-free and not restricted.
 ACCESS_OK_TYPES = frozenset({'blm', 'usfs', 'state_park'})
@@ -63,8 +71,47 @@ ACCESS_COLOR = {
     'club': '#F0E442',
     'industry': '#882255',
     'restricted': '#661100',
+    'tribal': '#AA4499',
     'unknown': '#CCCCCC',
 }
+
+# Per-pin columns written by annotate_points and rolled up to the walk table.
+ACCESS_COLS = (
+    'access_type', 'access_ok', 'access_reason', 'manager_name',
+    'claim_status', 'pub_access', 'tribal_land', 'tribal_name', 'rules_note',
+)
+ACCESS_DEFAULTS = {
+    'access_type': 'unknown',
+    'access_ok': 'no',
+    'claim_status': 'unchecked',
+    'tribal_land': False,
+}
+TRIBAL_REASON = 'tribal land — requires tribal permission'
+TRIBAL_NOT_LOADED = 'tribal layer not loaded'
+
+RULES_BY_ACCESS = {
+    'tribal': 'tribal permission required',
+    'usfs': 'USFS: confirm casual-use vs Notice of Intent with district ranger',
+    'blm': 'BLM: confirm casual-use vs Notice with the field office',
+    'state_park': 'state park: confirm panning rules with park staff',
+    'state_other': 'state land: confirm rules with the managing agency',
+    'nps': 'NPS: confirm collecting rules with the park',
+    'local_gov': 'local park/land: confirm rules with the managing agency',
+    'restricted': 'restricted: confirm access with the manager',
+    'claimed': 'claim-holder permission required',
+    'club': 'club membership / permission required',
+    'industry': 'owner permission required',
+    'private': 'landowner permission required',
+    'unknown': 'land status unchecked: confirm owner / manager',
+}
+RULES_BY_STATE = {
+    'CA': 'CA: confirm current motorized suction-dredge rules',
+    'WA': 'WA: follow current WDFW Gold and Fish rules / HPA',
+}
+_STATE_ABBR = frozenset({
+    'AK', 'AZ', 'CA', 'CO', 'ID', 'MT', 'NC', 'NM', 'NV', 'OR', 'SC', 'UT',
+    'VA', 'WA', 'WY',
+})
 
 CLASS_ORDER = {'expedition': 0, 'confirm': 1, 'watch': 2, 'skip': 3}
 RANK_BY_CHEMISTRY = 'chemistry'
@@ -91,6 +138,74 @@ def mlrs_path(cfg):
     if p:
         return p
     return str(REPO_ROOT / 'data' / 'mlrs' / f'mlrs_claims_{_short(cfg)}.geojson')
+
+
+def aiannh_path(cfg):
+    p = resolve_data_path(cfg, 'aiannh_geojson')
+    if p:
+        return p
+    return str(REPO_ROOT / 'data' / 'aiannh' / f'aiannh_{_short(cfg)}.geojson')
+
+
+def config_state(cfg):
+    """Two-letter state for rules_note: data.sgmc_state, study_area.state, or short."""
+    for raw in (
+        (cfg.get('data') or {}).get('sgmc_state'),
+        (cfg.get('study_area') or {}).get('state'),
+    ):
+        if raw and str(raw).strip().upper() in _STATE_ABBR:
+            return str(raw).strip().upper()
+    for tok in _short(cfg).upper().split('_'):
+        if tok in _STATE_ABBR:
+            return tok
+    return ''
+
+
+def rules_note(access_type, state='', tribal_loaded=True, tribal_stat_name=''):
+    """Agency reminders for a pin. Not legal advice — confirm with the agency."""
+    parts = []
+    base = RULES_BY_ACCESS.get(str(access_type or 'unknown'))
+    if base:
+        parts.append(base)
+    st = RULES_BY_STATE.get(str(state or '').upper())
+    if st:
+        parts.append(st)
+    if tribal_stat_name:
+        parts.append(f'in {tribal_stat_name} (statistical area): consult the tribe')
+    if not tribal_loaded:
+        parts.append(TRIBAL_NOT_LOADED)
+    return '; '.join(parts)
+
+
+def load_tribal_layers(cfg):
+    """(legal, statistical) AIANNH GeoDataFrames, or (None, None) if cache missing."""
+    path = aiannh_path(cfg)
+    if not path or not os.path.exists(path) or os.path.getsize(path) < 40:
+        return None, None
+    gdf = _load_gdf(path)
+    if len(gdf) == 0:
+        return gdf, gdf
+    stat = pd.Series(False, index=gdf.index)
+    if 'FUNCSTAT' in gdf.columns:
+        stat = gdf['FUNCSTAT'].astype(str).str.upper().eq('S')
+    return gdf.loc[~stat].copy(), gdf.loc[stat].copy()
+
+
+def _tribal_label(row):
+    for key in ('NAMELSAD', 'NAME', 'tribal_name', 'name'):
+        val = row.get(key) if hasattr(row, 'get') else None
+        if val is not None and pd.notna(val) and str(val).strip():
+            return str(val).strip()
+    return 'tribal area'
+
+
+def _tribal_hit(layer, geom):
+    if layer is None or len(layer) == 0 or geom is None or geom.is_empty:
+        return ''
+    hits = layer[layer.intersects(geom)]
+    if len(hits) == 0:
+        return ''
+    return _tribal_label(hits.iloc[0])
 
 
 def claim_buffer_m(cfg):
@@ -350,6 +465,11 @@ def ensure_land_access_data(cfg, force=False):
         if not os.path.exists(dest) or os.path.getsize(dest) < 50:
             _write_geojson(dest, {'type': 'FeatureCollection', 'features': []})
         Path(str(dest) + '.unchecked').write_text(str(exc))
+    try:
+        from pipeline.fetch_land_access import fetch_aiannh
+        fetch_aiannh(cfg, force=force)
+    except Exception as exc:
+        print(f'  AIANNH fetch failed ({exc}); tribal layer not loaded', flush=True)
     return padus, mlrs
 
 
@@ -474,13 +594,24 @@ def _hobby_access_points(hobby_gdf):
     return work
 
 
-def classify_point(claimed, padus_hit, hobby_hit, claim_status_global='free'):
-    """Apply priority stack. Returns dict of access fields."""
+def classify_point(claimed, padus_hit, hobby_hit, claim_status_global='free',
+                   tribal_hit=None):
+    """Apply priority stack. Returns dict of access fields.
+
+    tribal_hit: AIANNH area name (str) when the point is on reservation /
+    trust land, else None/''. Sets tribal_land / tribal_name on every label.
+    """
+    tribal = {
+        'tribal_land': bool(tribal_hit),
+        'tribal_name': str(tribal_hit) if tribal_hit else '',
+    }
     if claimed:
         name = ''
         if isinstance(claimed, dict):
             name = claimed.get('CSE_NAME') or claimed.get('CSE_NR') or claimed.get('ID') or ''
         reason = f'active MLRS claim{": " + str(name) if name else ""}'
+        if tribal_hit:
+            reason += f'; {TRIBAL_REASON} ({tribal_hit})'
         return {
             'access_type': 'claimed',
             'access_ok': 'no',
@@ -488,6 +619,7 @@ def classify_point(claimed, padus_hit, hobby_hit, claim_status_global='free'):
             'manager_name': str(name) if name else '',
             'claim_status': 'claimed',
             'pub_access': '',
+            **tribal,
         }
 
     if claim_status_global == 'unchecked':
@@ -497,6 +629,23 @@ def classify_point(claimed, padus_hit, hobby_hit, claim_status_global='free'):
         claim_status = 'free'
         claim_note = 'no MLRS claim in buffer'
 
+    if tribal_hit:
+        return {
+            'access_type': 'tribal',
+            'access_ok': 'no',
+            'access_reason': TRIBAL_REASON,
+            'manager_name': str(tribal_hit),
+            'claim_status': claim_status,
+            'pub_access': '',
+            **tribal,
+        }
+
+    out = _classify_non_tribal(padus_hit, hobby_hit, claim_status, claim_note)
+    out.update(tribal)
+    return out
+
+
+def _classify_non_tribal(padus_hit, hobby_hit, claim_status, claim_note):
     if hobby_hit:
         at = hobby_hit.get('_atype') or hobby_hit.get('access_type') or 'club'
         if at not in ('club', 'industry'):
@@ -564,21 +713,62 @@ def _empty_access_cols(n):
         'manager_name': [''] * n,
         'claim_status': ['unchecked'] * n,
         'pub_access': [''] * n,
+        'tribal_land': [False] * n,
+        'tribal_name': [''] * n,
+        'rules_note': [''] * n,
     }
 
 
+def _tribal_columns(out, cfg, legal, stat, states=None):
+    """tribal_land / tribal_name / rules_note for already-labelled points."""
+    loaded = legal is not None
+    default_state = config_state(cfg)
+    if states is None:
+        states = [default_state] * len(out)
+    states = [s or default_state for s in states]
+    names, stat_names = [], []
+    for geom in out.geometry:
+        names.append(_tribal_hit(legal, geom) if loaded else '')
+        stat_names.append(_tribal_hit(stat, geom) if loaded else '')
+    out['tribal_land'] = [bool(nm) for nm in names]
+    out['tribal_name'] = names
+    out['rules_note'] = [
+        rules_note(
+            'tribal' if nm else at, st,
+            tribal_loaded=loaded, tribal_stat_name=sn,
+        )
+        for at, nm, sn, st in zip(out['access_type'], names, stat_names, states)
+    ]
+    return out
+
+
+def _padus_state(padus_hit):
+    if padus_hit is None:
+        return ''
+    raw = padus_hit.get('State_Nm') if hasattr(padus_hit, 'get') else None
+    if raw is None or (not isinstance(raw, str) and pd.isna(raw)):
+        return ''
+    raw = str(raw).strip().upper()
+    return raw if raw in _STATE_ABBR else ''
+
+
 def annotate_points(points_gdf, cfg, hobby_gdf=None):
-    """Add access_* columns to a Point GeoDataFrame."""
+    """Add access_* + tribal_land / tribal_name / rules_note to a Point GeoDataFrame.
+
+    The tribal screen runs whenever the AIANNH cache exists, even with
+    land_access off (labels stay unknown/no; tribal columns are still set).
+    """
     if points_gdf is None or len(points_gdf) == 0:
         return points_gdf
 
     out = points_gdf.copy()
     n = len(out)
+    legal, stat = load_tribal_layers(cfg)
     if not land_access_enabled(cfg):
         for k, v in _empty_access_cols(n).items():
             out[k] = v
         out['access_reason'] = ['land_access disabled'] * n
-        return out
+        return _tribal_columns(out, cfg, legal, stat)
 
     padus = _load_gdf(padus_path(cfg))
     mlrs = _load_gdf(mlrs_path(cfg))
@@ -607,10 +797,12 @@ def annotate_points(points_gdf, cfg, hobby_gdf=None):
         hobby_tree = cKDTree(hobby_coords)
 
     rows = []
+    states = []
     for _, row in out.iterrows():
         geom = row.geometry
         if geom is None or geom.is_empty:
             rows.append(classify_point(False, None, None, claim_global))
+            states.append('')
             continue
 
         claim_props = False
@@ -640,20 +832,21 @@ def annotate_points(points_gdf, cfg, hobby_gdf=None):
             if float(d) <= deg:
                 hobby_hit = hobby_pts.iloc[int(i)].to_dict()
 
-        rows.append(classify_point(claim_props, padus_hit, hobby_hit, claim_global))
+        tribal_hit = _tribal_hit(legal, geom) if legal is not None else ''
+        rows.append(classify_point(
+            claim_props, padus_hit, hobby_hit, claim_global, tribal_hit=tribal_hit,
+        ))
+        states.append(_padus_state(padus_hit))
 
     ann = pd.DataFrame(rows, index=out.index)
     for col in ann.columns:
         out[col] = ann[col]
-    return out
+    return _tribal_columns(out, cfg, legal, stat, states=states)
 
 
 def _cell_access_from_pans(pans):
     """One access label per block_id from pan pins (prefer any access_ok=yes)."""
-    cols = [
-        'block_id', 'access_type', 'access_ok', 'access_reason',
-        'manager_name', 'claim_status', 'pub_access',
-    ]
+    cols = ['block_id', *ACCESS_COLS]
     if pans is None or len(pans) == 0 or 'block_id' not in pans.columns:
         return pd.DataFrame(columns=cols)
     if 'access_type' not in pans.columns:
@@ -663,15 +856,10 @@ def _cell_access_from_pans(pans):
     for bid, grp in pans.groupby('block_id'):
         ok = grp[grp['access_ok'] == 'yes'] if 'access_ok' in grp.columns else grp.iloc[0:0]
         pick = ok.iloc[0] if len(ok) else grp.iloc[0]
-        rows.append({
-            'block_id': bid,
-            'access_type': pick.get('access_type', 'unknown'),
-            'access_ok': pick.get('access_ok', 'no'),
-            'access_reason': pick.get('access_reason', ''),
-            'manager_name': pick.get('manager_name', ''),
-            'claim_status': pick.get('claim_status', 'unchecked'),
-            'pub_access': pick.get('pub_access', ''),
-        })
+        rec = {'block_id': bid}
+        for col in ACCESS_COLS:
+            rec[col] = pick.get(col, ACCESS_DEFAULTS.get(col, ''))
+        rows.append(rec)
     return pd.DataFrame(rows)
 
 
@@ -686,21 +874,12 @@ def apply_access_ranks(walk, cfg):
     task11.rank_by is geometry_access (access + trap, P last).
     """
     out = walk.copy()
-    for col in (
-        'access_type', 'access_ok', 'access_reason', 'manager_name',
-        'claim_status', 'pub_access', 'access_rank', 'rank_in_access_type',
-    ):
+    for col in (*ACCESS_COLS, 'access_rank', 'rank_in_access_type'):
         if col not in out.columns:
             if col in ('access_rank', 'rank_in_access_type'):
                 out[col] = pd.Series(pd.NA, index=out.index, dtype='Int64')
-            elif col == 'access_ok':
-                out[col] = 'no'
-            elif col == 'access_type':
-                out[col] = 'unknown'
-            elif col == 'claim_status':
-                out[col] = 'unchecked'
             else:
-                out[col] = ''
+                out[col] = ACCESS_DEFAULTS.get(col, '')
 
     elev_min = min_pour_elev_m(cfg)
     chem_ok = out['campaign_class'].isin(['expedition', 'confirm', 'watch'])
@@ -802,25 +981,23 @@ def annotate_campaign(cfg, pans, pour_points, walk, hobby=None):
     cell = _cell_access_from_pans(pans)
     if cell is not None and len(cell) and walk is not None and len(walk):
         walk = walk.drop(
-            columns=[c for c in (
-                'access_type', 'access_ok', 'access_reason', 'manager_name',
-                'claim_status', 'pub_access',
-            ) if c in walk.columns],
+            columns=[c for c in ACCESS_COLS if c in walk.columns],
             errors='ignore',
         )
         walk = walk.merge(cell, on='block_id', how='left')
+        no_pan = ~walk['block_id'].isin(cell['block_id'])
         # Fill cells with no pans from pour annotation
         if pour_points is not None and len(pour_points) and 'block_id' in pour_points.columns:
             pour_cell = pour_points.drop(columns='geometry', errors='ignore')
             pour_cell = pour_cell.drop_duplicates('block_id')
-            for col in (
-                'access_type', 'access_ok', 'access_reason',
-                'manager_name', 'claim_status', 'pub_access',
-            ):
+            for col in ACCESS_COLS:
                 if col not in walk.columns:
                     walk[col] = pd.NA
                 if col in pour_cell.columns:
-                    miss = walk[col].isna() | (walk[col].astype(str) == '')
+                    if col in ('tribal_land', 'tribal_name', 'rules_note'):
+                        miss = no_pan
+                    else:
+                        miss = walk[col].isna() | (walk[col].astype(str) == '')
                     if miss.any():
                         m = dict(zip(pour_cell['block_id'], pour_cell[col]))
                         walk.loc[miss, col] = walk.loc[miss, 'block_id'].map(m)
@@ -828,6 +1005,9 @@ def annotate_campaign(cfg, pans, pour_points, walk, hobby=None):
         walk['access_ok'] = walk['access_ok'].fillna('no')
         walk['claim_status'] = walk['claim_status'].fillna('unchecked')
         walk['access_reason'] = walk['access_reason'].fillna('no pan/pour geometry')
+        walk['tribal_land'] = walk['tribal_land'].fillna(False).astype(bool)
+        walk['tribal_name'] = walk['tribal_name'].fillna('')
+        walk['rules_note'] = walk['rules_note'].fillna('')
         trap = _cell_trap_from_pans(pans)
         if trap is not None and len(trap):
             walk = walk.drop(columns=['trap_score'], errors='ignore').merge(
@@ -837,4 +1017,16 @@ def annotate_campaign(cfg, pans, pour_points, walk, hobby=None):
     elif walk is not None and len(walk):
         walk = apply_access_ranks(walk, cfg)
 
+    pans = sync_walk_rank(pans, walk)
     return pans, pour_points, walk, padus_open_layer(cfg), mlrs_layer(cfg)
+
+
+def sync_walk_rank(points, walk):
+    """Copy the final walk_rank onto per-cell points (pans, NURE spots) by block_id."""
+    if (points is None or len(points) == 0 or walk is None or len(walk) == 0
+            or 'block_id' not in points.columns or 'walk_rank' not in walk.columns):
+        return points
+    rank = walk.drop_duplicates('block_id').set_index('block_id')['walk_rank']
+    points = points.copy()
+    points['walk_rank'] = points['block_id'].map(rank)
+    return points

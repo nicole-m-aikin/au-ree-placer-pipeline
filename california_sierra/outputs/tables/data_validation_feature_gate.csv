@@ -1,0 +1,12 @@
+feature,n_samples,n_analysed,analysed_frac,n_detected,n_censored,censored_frac,median_mdl,anomaly_threshold,keep,reason
+Th,596,592,0.9933,445,147,0.2483,2.0,21.576,True,kept
+Ce,596,592,0.9933,546,46,0.0777,10.0,76.8821,True,kept
+La,596,592,0.9933,580,12,0.0203,2.0,43.2077,True,kept
+P,596,592,0.9933,592,0,0.0,,1388.3836,True,kept
+U,596,582,0.9765,582,0,0.0,,7.3357,True,kept
+Au,596,0,0.0,0,0,,,,False,not analysed
+As,596,0,0.0,0,0,,,,False,not analysed
+Ti,596,592,0.9933,592,0,0.0,,9570.5633,True,kept
+Fe,596,592,0.9933,592,0,0.0,,89925.5637,True,kept
+Zr,596,592,0.9933,592,0,0.0,,156.7234,True,kept
+Y,596,592,0.9933,592,0,0.0,,28.2227,True,kept

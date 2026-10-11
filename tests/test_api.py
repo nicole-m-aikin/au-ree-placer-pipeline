@@ -157,6 +157,7 @@ class TestDoorbell:
         body = r.json()
         assert 'doorbell' in body['name'].lower()
         assert any('national' in str(x).lower() for x in body['not'])
+        assert body['metrics'] == '/metrics'
 
 
 class TestPredict:

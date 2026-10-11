@@ -1,0 +1,6 @@
+group,n_samples,n_positive,shuffled_auc_mean,note,shuffled_n_folds,block_auc_mean,block_n_folds
+submitter_only_predictor,287,138,0.5687,out-of-fold positive rate by submitter; no chemistry,,,
+"within:Grosz, Andrew E.",132,75,0.7794,,5.0,0.7298,5.0
+"within:Sanzolone, Richard F., and Hatcher, Jeanne L.",1,0,,not scored: minority class 0 < 5,,,
+"within:Miller, Fred K.",91,36,0.5224,,5.0,0.5264,4.0
+"within:Frisken, James G.",63,27,0.6212,,5.0,0.2538,3.0

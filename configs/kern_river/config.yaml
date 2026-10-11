@@ -1,0 +1,51 @@
+# Kern River placers — Kernville, Keysville, Havilah, Bodfish, Greenhorn Mtns,
+# lower Kern Canyon, White River (southern Tulare). First southern CA region.
+# Built for the county ranking (pipeline/county_rank.py) and the GEE bundle.
+# It does not run the 1–11 figure factory.
+#
+#   python -m pipeline.fetch_region --config configs/kern_river/config.yaml
+#   python -m pipeline.county_rank  --config configs/kern_river/config.yaml
+
+study_area:
+  name: "Kern River placers"
+  short: "ca_kern_river"
+  state: CA
+  bbox:
+    lon_min: -118.95
+    lon_max: -118.20
+    lat_min:  35.35
+    lat_max:  36.10
+  map_padding: 0.08
+  crs: "EPSG:4326"
+
+outputs_dir: "kern_river/outputs"
+
+data:
+  nure_csv:        "data/nure/nure_ca_kern_river_sediment.csv"
+  mrds_geojson:    "data/mrds/mrds_ca_kern_river.geojson"
+  sgmc_state: CA
+  dem_tif: data/dem/ca_kern_river_30m.tif
+  hobby_reports_csv: null
+  padus_geojson: "data/padus/padus_ca_kern_river.geojson"
+  mlrs_geojson: "data/mlrs/mlrs_claims_ca_kern_river.geojson"
+  aiannh_geojson: "data/aiannh/aiannh_ca_kern_river.geojson"
+
+task11:
+  land_access: true
+  claim_buffer_m: 50
+
+# Seeds = gold MRDS clustered on a grid (+ hobby pins when a CSV exists).
+# Each seed snaps to its creek and walks downstream; pans go on trap vertices.
+county_rank:
+  seed_cell_km: 3.0
+  max_seeds: 300
+  up_km: 0.5
+  down_km: 4.0
+  snap_m: 600
+  min_snap_km2: 1.0
+  pans_per_walk: 2
+  chem_radius_km: 3.0
+  chem_elements: [Au, As]
+  closed_claim_radius_m: 300
+
+sites: []

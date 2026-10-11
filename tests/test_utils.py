@@ -15,7 +15,24 @@ from pipeline.utils import (
     sample_raster_at_xy, load_radiometric_at_points, load_raster_window,
     classify_rad_concordance, linear_mean_2sd, radiometric_tif_path,
     RAD_AGREE_BOTH, RAD_AGREE_STREAM, RAD_AGREE_AIR, RAD_AGREE_NONE,
+    sites_gdf,
 )
+
+
+def test_sites_gdf_serializes_dict_cells_for_geojson(tmp_path):
+    import json
+    import geopandas as gpd
+    cfg = {'sites': [
+        {'name': 'A', 'lon': -118.0, 'lat': 48.5,
+         'mrds_review': {'decision': 'accepted', 'dep_id': '1'}},
+        {'name': 'B', 'lon': -118.1, 'lat': 48.6},
+    ]}
+    gdf = sites_gdf(cfg)
+    assert json.loads(gdf.loc[0, 'mrds_review']) == {'decision': 'accepted', 'dep_id': '1'}
+    assert pd.isna(gdf.loc[1, 'mrds_review'])
+    path = tmp_path / 'sites.geojson'
+    gdf.to_file(path, driver='GeoJSON')
+    assert len(gpd.read_file(path)) == 2
 
 
 # ── anomaly_threshold ─────────────────────────────────────────────────────────

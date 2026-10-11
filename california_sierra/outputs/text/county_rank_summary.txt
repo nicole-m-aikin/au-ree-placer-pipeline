@@ -1,0 +1,113 @@
+COUNTY RANKING — California Sierra placer foothills
+A screen, not a gold claim and not a land-status opinion.
+====================================================================
+
+Pans scored: 456   recreational-ok: 82   stakeable screen: 47
+stake_status counts: not_federal=222, claimed=165, open_screen=47, withdrawn_hint=16, mixed_manager=6
+Chemistry available on 0 of 456 pans.
+
+AMADOR COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+BUTTE COUNTY
+  Go pan here (top 5 of 7)
+    #1  39.58556, -121.17111  score 90  trap 7.5  gold 0.3 km  usfs (USFS)  near Exposition 1915, No. 1
+    #2  39.54028, -121.50972  score 86  trap 7.0  gold 0.3 km  state_park (SPR)  near Hazard
+    #3  39.57778, -121.17472  score 80  trap 6.0  gold 0.3 km  usfs (USFS)  near Exposition 1915, No. 1
+    #4  39.88278, -121.64083  score 73  trap 6.0  gold 0.8 km  blm (BLM)  near Tiger Mine
+    #5  39.90472, -121.63111  score 68  trap 5.0  gold 0.7 km  blm (BLM)  near Dix Drift Mine
+  Possibly stakeable (top 5 of 4)
+    #1  39.58556, -121.17111  score 90  USFS
+    #2  39.57778, -121.17472  score 80  USFS
+    #3  39.88278, -121.64083  score 73  BLM  caution: area of critical environmental concern
+    #4  39.90472, -121.63111  score 68  BLM  caution: area of critical environmental concern
+
+EL DORADO COUNTY
+  Go pan here (top 5 of 12)
+    #1  38.83278, -120.79250  score 89  trap 7.5  gold 0.3 km  usfs (USFS)  near Montezuma
+    #2  38.63944, -120.58444  score 87  trap 7.5  gold 0.5 km  usfs (USFS)  near Arctic Arctic Bear
+    #3  38.92611, -120.93278  score 83  trap 6.0  gold 0.0 km  state_park (SPR)  near Atlantic & Pacific Claim
+    #4  38.93889, -120.93722  score 81  trap 6.0  gold 0.2 km  state_park (SPR)  near Cherokee Flat
+    #5  38.92833, -120.98583  score 79  trap 6.0  gold 0.3 km  state_park (SPR)  near Big Kennebec
+  Possibly stakeable (top 5 of 4)
+    #1  38.83278, -120.79250  score 89  USFS
+    #2  38.63944, -120.58444  score 87  USFS
+    #3  38.76361, -120.77389  score 76  BLM
+    #4  38.98667, -120.82944  score 70  USFS
+
+NEVADA COUNTY
+  Go pan here (top 5 of 15)
+    #1  39.33250, -120.98889  score 91  trap 7.5  gold 0.1 km  state_park (SPR)  near Big Four
+    #2  39.37778, -120.50333  score 91  trap 8.5  gold 0.7 km  usfs (USFS)  near Excelsior
+    #3  39.36361, -120.91972  score 88  trap 7.5  gold 0.4 km  state_park (SPR)  near Humbug Creek at North Bloomfield
+    #4  39.34500, -120.92778  score 82  trap 6.0  gold 0.1 km  state_park (SPR)  near Malakoff Diggins SHP
+    #5  39.37583, -120.90083  score 80  trap 6.0  gold 0.2 km  state_park (SPR)  near Montreal
+  Possibly stakeable (top 5 of 6)
+    #1  39.37778, -120.50333  score 91  USFS
+    #2  39.33056, -120.98389  score 77  BLM
+    #3  39.36139, -120.53861  score 77  USFS
+    #4  39.34194, -120.96806  score 75  BLM
+    #5  39.38500, -120.50472  score 65  USFS
+
+PLACER COUNTY
+  Go pan here (top 5 of 23)
+    #1  39.08944, -120.64556  score 92  trap 7.5  gold 0.1 km  usfs (USFS)  near Pacific Slab
+    #2  39.16306, -120.52556  score 91  trap 7.5  gold 0.2 km  usfs (USFS)  near Beauty Mine
+    #3  39.09472, -120.62806  score 85  trap 7.5  gold 0.6 km  usfs (USFS)  near Home Ticket Drift Mine
+    #4  38.92028, -121.00583  score 83  trap 6.0  gold 0.0 km  state_park (SPR)  near Big Kennebec
+    #5  39.09833, -120.70250  score 82  trap 7.5  gold 0.9 km  usfs (USFS)  near Dam Claim
+  Possibly stakeable (top 5 of 11)
+    #1  39.08944, -120.64556  score 100  USFS  closed: KEN BENNETT
+    #2  39.16306, -120.52556  score 91  USFS
+    #3  39.09472, -120.62806  score 85  USFS
+    #4  39.07639, -120.66167  score 85  USFS  closed: KEN BENNETT
+    #5  39.09833, -120.70250  score 82  USFS
+
+PLUMAS COUNTY
+  Go pan here (top 5 of 14)
+    #1  39.79111, -120.98528  score 92  trap 7.5  gold 0.1 km  usfs (USFS)  near Black Star and Frost
+    #2  39.77667, -120.78806  score 90  trap 7.5  gold 0.3 km  usfs (USFS)  near Johnsville
+    #3  39.79333, -120.90944  score 83  trap 7.5  gold 0.8 km  usfs (USFS)  near Saw Pit Mine
+    #4  39.74500, -120.70444  score 78  trap 6.0  gold 0.4 km  state_park (SPR)  near Plumas Eureka Annex Mining Co
+    #5  39.95417, -121.07833  score 78  trap 6.0  gold 0.4 km  usfs (USFS)  near Quincy Mining & Water Co
+  Possibly stakeable (top 5 of 11)
+    #1  39.79111, -120.98528  score 92  USFS
+    #2  39.77667, -120.78806  score 90  USFS
+    #3  39.79333, -120.90944  score 83  USFS
+    #4  39.95417, -121.07833  score 78  USFS
+    #5  39.85417, -120.93500  score 76  USFS
+
+SACRAMENTO COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+SIERRA COUNTY
+  Go pan here (top 5 of 11)
+    #1  39.67250, -120.59250  score 88  trap 7.0  gold 0.1 km  usfs (USFS)  near Mountaineer
+    #2  39.59500, -120.73917  score 86  trap 7.5  gold 0.5 km  usfs (USFS)  near Unidentified Workings
+    #3  39.64000, -120.84167  score 81  trap 7.5  gold 1.0 km  usfs (USFS)  near Herkimer Mine
+    #4  39.42250, -120.97111  score 79  trap 6.0  gold 0.3 km  usfs (USFS)  near Blue Grouse Mine
+    #5  39.51417, -120.74806  score 78  trap 5.5  gold 0.2 km  usfs (USFS)  near Black Jack
+  Possibly stakeable (top 5 of 11)
+    #1  39.67250, -120.59250  score 88  USFS
+    #2  39.59500, -120.73917  score 86  USFS
+    #3  39.64000, -120.84167  score 81  USFS
+    #4  39.42250, -120.97111  score 79  USFS
+    #5  39.57333, -120.65889  score 78  USFS  closed: MS EXT #2
+
+YUBA COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+evidence = 45% trap geometry + 35% gold MRDS proximity + 20% NURE Au/As
+(chem weight drops out where no NURE sample is within range).
+Stakeable = BLM/USFS fee land, no active MLRS claim in the buffer, no
+PAD-US withdrawal hint, not tribal. Check the BLM master title plat
+and MLRS case records before locating anything.

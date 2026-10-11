@@ -1,0 +1,21 @@
+DEM comparison — 30 m Copernicus vs 10 m 3DEP
+A sidecar check. Neither evidence_score formula changed.
+============================================================
+
+30 m Copernicus: 10 pans   10 m 3DEP: 11 pans
+Matched within 300 m: 4 of 10 baseline pans (6 baseline pans had no close match — the finer DEM walked a visibly different reach, not noise)
+
+Of the matched pans —
+  trap_score delta: mean +0.75, median +0.75, max |delta| 1.50
+  evidence_score delta: mean +4.15, median +4.25, max |delta| 9.00
+  evidence_score rank correlation (Spearman): 0.600
+
+Surface-water occurrence (JRC, informational — not in evidence_score): 3/10 baseline pans sit on a reach wet >50% of the 1984-2021 record.
+
+Less than half the baseline pans had a close match on the other DEM: at
+~0.75 km seed spacing, 10 m resolution is changing which bend the walk
+treats as the trap, not just nudging the same bend. Before this earns a
+place in production scoring: run on more seeds, check whether the moved
+pans are the ones field-walked (if any), and decide if the extra reach
+3DEP found at Dead River Channel Prospect is real or an artifact of a
+different D8 path on a higher-res grid.

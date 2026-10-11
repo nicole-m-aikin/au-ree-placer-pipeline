@@ -20,6 +20,9 @@ name                 Short label for the map.
 creek_name           Named creek or river.
 lon, lat             Decimal degrees, WGS84. Required.
 gold_class           blank | color | flake | picker | nugget | unknown
+                     blank = you panned and saw no gold. It is a result,
+                     NOT a QA/QC blank (certified barren material inserted
+                     to catch lab contamination).
 location_precision   point | bar | reach | creek | district
                      point = you stood there with a GPS or phone waypoint.
                      creek = you named the stream, not the hole.
@@ -39,6 +42,13 @@ Join rules (already coded)
 - Point only                   →  distance to nearest geometry pan pin, metres.
 - District                     →  on the map, not a hit.
 - This never retrains Task 9.
+
+Assay-grade samples
+-------------------
+This form is for pan observations only. Samples sent to a lab go through
+docs/FIELD_PROTOCOL.md (QC inserts, chain of custody, signed certificates)
+and data/field_results/, and are used only after pipeline/field_qaqc.py
+passes their batch.
 
 Please do not post other people's secret holes. Public land, your own
 waypoints, and published pamphlet sites only.

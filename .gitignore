@@ -29,9 +29,13 @@ ne_wa_ree/data/dem/
 ne_wa_ree/data/aster_emit/
 data/dem/
 
-# PAD-US / MLRS land-access caches (python -m pipeline.fetch_land_access)
+# PAD-US / MLRS / AIANNH land-access caches (python -m pipeline.fetch_land_access)
 data/padus/
 data/mlrs/
+data/aiannh/
+
+# Census county boundaries (python -m pipeline.fetch_region)
+data/counties/
 
 # SGMC state extracts (re-download from mrdata.usgs.gov)
 data/geologic/
@@ -64,6 +68,10 @@ ne_wa_ree/data/geologic/WA.zip
 
 # Environment variables
 .env
+
+# MLflow local tracking store (regenerate with python -m pipeline.mlflow_tracking)
+mlruns/
+mlartifacts/
 
 # Internal AI tooling prompts — not relevant to project consumers
 CLAUDE.md

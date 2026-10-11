@@ -1,0 +1,3 @@
+step,n_in,n_dropped,n_out,rule
+duplicate dep_id,7872,0,7872,keep first dep_id
+duplicate coordinates (4 dp),7872,866,7006,keep first lon/lat rounded to 4 dp

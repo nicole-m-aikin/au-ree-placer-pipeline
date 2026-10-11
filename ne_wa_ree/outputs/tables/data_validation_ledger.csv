@@ -1,0 +1,83 @@
+check,field,n_in,n_flagged,n_out,rule,note
+units,P,358,358.0,358.0,"wt% → ppm (×10,000) when median below load_nure threshold",P and P_mdl scaled
+units,Ca,512,512.0,512.0,"wt% → ppm (×10,000) when median below load_nure threshold",Ca and Ca_mdl scaled
+units,Fe,515,515.0,515.0,"wt% → ppm (×10,000) when median below load_nure threshold",Fe and Fe_mdl scaled
+study_area,lat/lon,1045,0.0,1045.0,drop missing lat/lon and samples outside study_area.bbox,
+duplicate_coordinates,lat/lon (input),1045,792.0,1045.0,report groups sharing lat/lon at 4 dp; not removed,"43 groups, largest 548; size 548 x1, size 39 x1, size 28 x1, size 23 x1, size 17 x1, size 15 x1, size 12 x1, size 10 x1, size 7 x2, size 6 x2, size 5 x1, size 4 x1, size 3 x7, size 2 x22"
+coord_precision,coord_prec_est,1045,618.0,427.0,keep coord_prec_est <= 36 arc-seconds (0.01 degree); unknown excluded,excluded: 7.5 minutes: 613; 1 minute: 3; 10 minutes: 2
+sample_medium,sample_source,427,140.0,287.0,"keep sample_source in ['stream/river', 'surface']",excluded: lake: 140
+duplicate_coordinates,lat/lon (validated),287,38.0,287.0,report groups sharing lat/lon at 4 dp; not removed,"19 groups, largest 2; size 2 x19"
+censored,Ag,286,276.0,286.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)","MDLs: 0.5 x145, 2 x131; legacy load_nure sets 0 to NaN"
+censored,Al,132,0.0,132.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",no censored values
+censored,As,286,153.0,286.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)","MDLs: 200 x152, 0.6 x1; legacy load_nure sets 152 to NaN"
+censored,Au,286,278.0,286.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)","MDLs: 8 x132, 10 x72, 0.05 x47, 0.1 x17, 0.25 x4; legacy load_nure sets 0 to NaN"
+censored,B,154,2.0,154.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",MDLs: 10 x2; legacy load_nure sets 0 to NaN
+censored,Ba,286,0.0,286.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",no censored values
+censored,Be,286,26.0,286.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",MDLs: 1 x26; legacy load_nure sets 0 to NaN
+censored,Bi,286,276.0,286.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)","MDLs: 10 x145, 50 x131; legacy load_nure sets 131 to NaN"
+censored,C_crb,1,0.0,1.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",no censored values
+censored,C_org,1,0.0,1.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",no censored values
+censored,C_tot,1,0.0,1.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",no censored values
+censored,Ca,286,1.0,286.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",MDLs: 0.05 x1; legacy load_nure sets 0 to NaN
+censored,Cd,286,283.0,286.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)","MDLs: 20 x154, 2 x129; legacy load_nure sets 154 to NaN"
+censored,Ce,132,0.0,132.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",no censored values
+censored,Co,286,3.0,286.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",MDLs: 5 x3; legacy load_nure sets 0 to NaN
+censored,Cr,286,16.0,286.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",MDLs: 10 x16; legacy load_nure sets 0 to NaN
+censored,Cu,286,7.0,286.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",MDLs: 2 x7; legacy load_nure sets 0 to NaN
+censored,Eu,132,77.0,132.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",MDLs: 2 x77; legacy load_nure sets 0 to NaN
+censored,Fe,286,0.0,286.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",no censored values
+censored,Ga,132,1.0,132.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",MDLs: 4 x1; legacy load_nure sets 0 to NaN
+censored,Hg,133,60.0,133.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",MDLs: 0.02 x60; legacy load_nure sets 0 to NaN
+censored,Ho,132,112.0,132.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",MDLs: 4 x112; legacy load_nure sets 0 to NaN
+censored,K,132,0.0,132.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",no censored values
+censored,La,286,3.0,286.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",MDLs: 20 x3; legacy load_nure sets 3 to NaN
+censored,Li,132,0.0,132.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",no censored values
+censored,Mg,286,0.0,286.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",no censored values
+censored,Mn,286,0.0,286.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",no censored values
+censored,Mo,286,169.0,286.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)","MDLs: 5 x143, 2 x26; legacy load_nure sets 0 to NaN"
+censored,Na,132,0.0,132.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",no censored values
+censored,Nb,286,137.0,286.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)","MDLs: 20 x136, 4 x1; legacy load_nure sets 136 to NaN"
+censored,Nd,132,0.0,132.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",no censored values
+censored,Ni,286,2.0,286.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)","MDLs: 3 x1, 5 x1; legacy load_nure sets 0 to NaN"
+censored,P,132,0.0,132.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",no censored values
+censored,Pb,286,1.0,286.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",MDLs: 10 x1; legacy load_nure sets 0 to NaN
+censored,S,1,1.0,1.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",MDLs: 0.05 x1; legacy load_nure sets 0 to NaN
+censored,Sb,154,154.0,154.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",MDLs: 100 x154; legacy load_nure sets 154 to NaN
+censored,Sc,286,3.0,286.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)","MDLs: 5 x2, 2 x1; legacy load_nure sets 0 to NaN"
+censored,Se,133,78.0,133.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",MDLs: 0.2 x78; legacy load_nure sets 0 to NaN
+censored,Sn,286,283.0,286.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)","MDLs: 10 x151, 50 x132; legacy load_nure sets 132 to NaN"
+censored,Sr,286,32.0,286.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",MDLs: 100 x32; legacy load_nure sets 32 to NaN
+censored,Ta,132,132.0,132.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",MDLs: 40 x132; legacy load_nure sets 132 to NaN
+censored,Th,286,166.0,286.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)","MDLs: 100 x150, 6 x16; legacy load_nure sets 150 to NaN"
+censored,Ti,286,0.0,286.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",no censored values
+censored,U,158,132.0,158.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",MDLs: 100 x132; legacy load_nure sets 132 to NaN
+censored,V,286,0.0,286.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",no censored values
+censored,W,154,151.0,154.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",MDLs: 50 x151; legacy load_nure sets 151 to NaN
+censored,Y,286,1.0,286.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",MDLs: 10 x1; legacy load_nure sets 0 to NaN
+censored,Yb,132,1.0,132.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",MDLs: 1 x1; legacy load_nure sets 0 to NaN
+censored,Zn,286,142.0,286.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",MDLs: 200 x142; legacy load_nure sets 142 to NaN
+censored,Zr,154,0.0,154.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",no censored values
+feature_gate,Th,286,166.0,0.0,drop if censored_frac > 0.5 or median MDL > log mean+2SD of detected,censored fraction 0.58 > 0.5; median MDL 100 > anomaly threshold 57.9 (log mean+2SD of detected)
+feature_gate,Ce,132,0.0,132.0,drop if censored_frac > 0.5 or median MDL > log mean+2SD of detected,kept
+feature_gate,La,286,3.0,286.0,drop if censored_frac > 0.5 or median MDL > log mean+2SD of detected,kept
+feature_gate,P,132,0.0,132.0,drop if censored_frac > 0.5 or median MDL > log mean+2SD of detected,kept
+feature_gate,U,158,132.0,0.0,drop if censored_frac > 0.5 or median MDL > log mean+2SD of detected,censored fraction 0.84 > 0.5; median MDL 100 > anomaly threshold 1.33 (log mean+2SD of detected)
+feature_gate,Au,286,278.0,0.0,drop if censored_frac > 0.5 or median MDL > log mean+2SD of detected,censored fraction 0.97 > 0.5
+feature_gate,As,286,153.0,0.0,drop if censored_frac > 0.5 or median MDL > log mean+2SD of detected,censored fraction 0.53 > 0.5; median MDL 200 > anomaly threshold 25 (log mean+2SD of detected)
+feature_gate,Ti,286,0.0,286.0,drop if censored_frac > 0.5 or median MDL > log mean+2SD of detected,kept
+feature_gate,Fe,286,0.0,286.0,drop if censored_frac > 0.5 or median MDL > log mean+2SD of detected,kept
+feature_gate,Zr,154,0.0,154.0,drop if censored_frac > 0.5 or median MDL > log mean+2SD of detected,kept
+feature_gate,Y,286,1.0,286.0,drop if censored_frac > 0.5 or median MDL > log mean+2SD of detected,kept
+submitter_prediction,all_samples / all features,1031,,,"RF(200, random_state=42) stratified 5-fold balanced accuracy; submitters with >= 20 samples","balanced_accuracy=0.857 ± 0.034; chance=0.143; classes=Otton, James K. (512); Grosz, Andrew E. (132); Sanzolone, Richard F./Vanmetre, Peter C (106); Johnson, Samuel Y. (93); Miller, Fred K. (91); Frisken, James G. (63); Sanzolone, Richard F. (34); features=Th,Ce,La,P,U,Au,As,Ti,Fe,Zr,Y"
+submitter_prediction,validated / all features,286,,,"RF(200, random_state=42) stratified 5-fold balanced accuracy; submitters with >= 20 samples","balanced_accuracy=0.973 ± 0.020; chance=0.333; classes=Grosz, Andrew E. (132); Miller, Fred K. (91); Frisken, James G. (63); features=Th,Ce,La,P,U,Au,As,Ti,Fe,Zr,Y"
+submitter_prediction,validated / gated features,286,,,"RF(200, random_state=42) stratified 5-fold balanced accuracy; submitters with >= 20 samples","balanced_accuracy=0.899 ± 0.044; chance=0.333; classes=Grosz, Andrew E. (132); Miller, Fred K. (91); Frisken, James G. (63); features=Ce,La,P,Ti,Fe,Zr,Y"
+batch_median_spread,Th,1031,,,max/min median detected value across submitters with >= 20 samples; flag > 10,"FLAG ratio 12.7 (min 11.9, max 150)"
+batch_median_spread,Ce,1031,,,max/min median detected value across submitters with >= 20 samples; flag > 10,"ratio 1.14 (min 78, max 88.7)"
+batch_median_spread,La,1031,,,max/min median detected value across submitters with >= 20 samples; flag > 10,"ratio 1.84 (min 38, max 70)"
+batch_median_spread,P,1031,,,max/min median detected value across submitters with >= 20 samples; flag > 10,"ratio 3 (min 400, max 1.2e+03)"
+batch_median_spread,U,1031,,,max/min median detected value across submitters with >= 20 samples; flag > 10,"FLAG ratio 708 (min 0.4, max 283)"
+batch_median_spread,As,1031,,,max/min median detected value across submitters with >= 20 samples; flag > 10,"FLAG ratio 58.8 (min 3.4, max 200)"
+batch_median_spread,Ti,1031,,,max/min median detected value across submitters with >= 20 samples; flag > 10,"ratio 2.38 (min 0.21, max 0.5)"
+batch_median_spread,Fe,1031,,,max/min median detected value across submitters with >= 20 samples; flag > 10,"ratio 3.12 (min 1.6e+04, max 5e+04)"
+batch_median_spread,Zr,1031,,,max/min median detected value across submitters with >= 20 samples; flag > 10,"ratio 1.5 (min 200, max 300)"
+batch_median_spread,Y,1031,,,max/min median detected value across submitters with >= 20 samples; flag > 10,"ratio 2.63 (min 19, max 50)"

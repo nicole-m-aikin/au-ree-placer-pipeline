@@ -7,8 +7,15 @@ import sklearn
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
 
+from api.ops import (
+    MetricsRegistry,
+    configure_logging,
+    ops_middleware,
+    rate_limit_from_env,
+)
 from api.schemas import (
     HealthResponse,
+    MetricsResponse,
     ModelInfoResponse,
     PredictRequest,
     PredictResponse,
@@ -70,6 +77,7 @@ def _load_state(model_dir):
 def create_app(model_dir=None):
     """Build the app. ``model_dir`` is for tests; production uses models/."""
 
+    configure_logging()
     resolved_dir = Path(model_dir) if model_dir else None
 
     @asynccontextmanager
@@ -81,6 +89,8 @@ def create_app(model_dir=None):
         app.state.sklearn_version = loaded['sklearn_version']
         app.state.sklearn_match = loaded['sklearn_match']
         app.state.load_error = loaded['load_error']
+        meta = loaded['meta'] or {}
+        app.state.metrics.set_model_version(meta.get('model_id'))
         yield
 
     app = FastAPI(
@@ -90,10 +100,14 @@ def create_app(model_dir=None):
             "trained on NE Washington gold-placer proximity. Returns P(lookalike), "
             "tree-vote spread, and (if lon/lat sent) distance to the nearest "
             "training gold mine. Not a monazite/REE detector. Not a national "
-            "model. Tree-vote spread is not Monte Carlo and not Task 4 tonnes."
+            "model. Tree-vote spread is not Monte Carlo and not Task 4 tonnes. "
+            "Application logs are JSON and do not record submitted chemistry."
         ),
         lifespan=lifespan,
     )
+    app.state.metrics = MetricsRegistry()
+    app.state.rate_limiter = rate_limit_from_env()
+    app.middleware('http')(ops_middleware)
 
     @app.get('/')
     def root():
@@ -108,6 +122,7 @@ def create_app(model_dir=None):
             'health': '/health',
             'model_info': '/model-info',
             'predict': 'POST /predict',
+            'metrics': '/metrics',
             'docs': '/docs',
         }
 
@@ -135,6 +150,10 @@ def create_app(model_dir=None):
         if body.status != 'ok':
             return JSONResponse(status_code=503, content=body.model_dump())
         return body
+
+    @app.get('/metrics', response_model=MetricsResponse)
+    def metrics():
+        return MetricsResponse(**app.state.metrics.snapshot())
 
     @app.get('/model-info', response_model=ModelInfoResponse)
     def model_info():

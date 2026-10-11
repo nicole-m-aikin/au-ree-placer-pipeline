@@ -35,6 +35,7 @@ data:
   hobby_reports_csv: "data/hobby_reports/hobby_reports_ca_sierra_placer.csv"
   padus_geojson: "data/padus/padus_ca_sierra_placer.geojson"
   mlrs_geojson: "data/mlrs/mlrs_claims_ca_sierra_placer.geojson"
+  aiannh_geojson: "data/aiannh/aiannh_ca_sierra_placer.geojson"
 
 task11:
   fetch_lidar: false
@@ -47,6 +48,50 @@ task11:
   rank_by: geometry_access
   min_pour_elev_m: 50
   claim_buffer_m: 50
+  # Chemistry-dark pins north of 39.0° (no NURE HSSR). Trap geometry +
+  # access only — pipeline/task11_geometry_walk.py. Pins from hobby CSV.
+  # Pins are reach/creek precision: snap to the nearest channel big enough
+  # to be the named creek (min_snap_km2), not the biggest gully nearby.
+  geometry_walks:
+    snap_m: 300
+    walks:
+      - id: south_yuba
+        name: "South Yuba"
+        report_ids: [CA-SYR, CA-EDW, CA-PUR, CA-H49, CA-BRP]
+        snap_m: 1000
+        min_snap_km2: 300
+        up_km: 3
+        down_km: 3
+      - id: malakoff
+        name: "Malakoff Diggins"
+        report_ids: [CA-MAL]
+        snap_m: 500
+        min_snap_km2: 5
+        up_km: 1
+        down_km: 10
+        stop_above_km2: 100
+      - id: humbug
+        name: "Humbug Creek"
+        report_ids: [CA-HUM]
+        snap_m: 300
+        min_snap_km2: 0.3
+        up_km: 1
+        down_km: 10
+        stop_above_km2: 100
+
+# County ranking (pipeline/county_rank.py). 7.9k gold MRDS here, so seeds are
+# gridded coarser than Kern and capped; hobby pins always seed a walk.
+county_rank:
+  seed_cell_km: 4.0
+  max_seeds: 300
+  up_km: 0.5
+  down_km: 4.0
+  snap_m: 600
+  min_snap_km2: 1.0
+  pans_per_walk: 2
+  chem_radius_km: 3.0
+  chem_elements: [Au, As]
+  closed_claim_radius_m: 300
 
 sites:
   - name: "Malakoff Diggins"

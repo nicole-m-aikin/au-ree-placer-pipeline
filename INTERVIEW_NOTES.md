@@ -2,11 +2,31 @@
 
 Phase-by-phase decisions, tradeoffs, and answers I would actually give.
 
+**CIM data audit (27 Sep 2026) — read before quoting any Washington number.**
+The NE WA NURE extract fails basic validation: 548 of 1,045 samples share one
+7.5′ placeholder coordinate, the legacy loader drops 61% of Th as "artifacts"
+(they are high-MDL below-detection results), Au mostly records which lab ran
+it, and media are mixed. The 12 ranked sites carried placeholder MRDS IDs.
+The published 0.891 / 0.70 are what the frozen forest scored on that data,
+not evidence the data is sound. The validated re-run (287 samples,
+stream + "surface") scores 0.66 shuffled / 0.58 block, and submitter alone
+predicts the label at 0.57 — quote that, not 0.891. Tables:
+`task9_validated_cv.csv`, `task9_validated_submitter_confound.csv`; see
+*Data validation and verification* in
+`METHODOLOGY.md` and [`REPORT.md`](REPORT.md).
+
 **Session wrap (22 Sep 2026):** [`SESSION_SUMMARY.md`](SESSION_SUMMARY.md).
 The doorbell does not travel (ID 0.50 / CA 0.52 / MT 0.34 / CO 0.56 / NC 0.50).
-Only the Sierra local forest really learned (quote **0.4° block 0.69**, not
-the 3 km 0.83). Extra metals were noise. California’s forest does not beat
+Only the Sierra local forest really learned (quote **0.4° block 0.65**, not
+the 3 km 0.84). Extra metals were noise. California’s forest does not beat
 Washington on other states.
+
+**DEM header fix (29 Sep 2026):** the CA DEM header sat 0.02° (~2 km) north
+of its pixels (`fetch_dem` pad bug at the 40.0° mosaic edge). The 200 m
+valley-floor label cut read the wrong elevations. Rerun on the fixed DEM:
+22 / 596 CA labels flip (360 → 352 yes); block **0.69 → 0.65**, shuffled
+0.86 → 0.87, dead-zone 0.83 → 0.84; walk #1 moved. Other belts' DEMs were
+not affected; the WA doorbell is untouched.
 
 **Locked (22 Sep night):** two products only. Published doorbell = frozen WA
 forest + transfer table. Walkable product = CA Zr–Fe–Ti sidecar + 1 m lidar
@@ -116,6 +136,120 @@ The splits did not. Every Fe value shifted by the same +4 in log space, so Gini 
 
 ---
 
+## Phase 3 — Operations (no new ML)
+
+**Decision:** The FastAPI contract was already honest. The missing story was
+commit → test → image → registry → deploy → monitored process. I did not add
+another model, another feature, or auth theater.
+
+**CI:** one workflow. `pytest` and ruff/mypy run in parallel; the Docker image
+waits for both. The image job builds the doorbell container, hits `/health`,
+posts a valid `/predict` and a malformed one (200 / 422), reads `/metrics`,
+and fails if a structured log line contains chemistry keys. On `main` that
+same tarball is what ECR gets. Deploy is a Render hook and/or `ecs update-service`
+if those secrets exist; then `scripts/smoke_health.py` hits live `/health`.
+Without AWS secrets the registry/deploy jobs succeed as no-ops so a fork still
+has a green “we built and tested the image” signal.
+
+**Logs:** one JSON object per request.
+
+```json
+{"timestamp":"...","model_version":"task9_rf_placer_gold","endpoint":"/predict","status":200,"latency_ms":31.0,"feature_validation":"passed"}
+```
+
+I do not log Th, Ce, Au, Fe, lon/lat, or `fe_unit`. Feature validation is
+passed / failed / n/a. That is enough to debug the service and not enough to
+rebuild someone's stream-sediment grab from CloudWatch.
+
+**Metrics:** `GET /metrics` is in-process (one worker on the free tier — I am
+not pretending this is Prometheus on a sidecar). Request count, 5xx rate,
+p50/p95 latency, `/health` 503s, 422 rate, 429s, model version being served.
+`/metrics` is not counted in its own request total. `/health` and `/metrics`
+are exempt from the rate limit so Render and CI do not 429 themselves.
+
+**Rate limit:** 60 requests / 60 s per IP (`X-Forwarded-For` first hop). That
+is a public-demo bumper, not security. I did not add JWT.
+
+**Tradeoff:** in-process counters die on a cold start. Structured stdout does
+not. If this leaves free-tier Render, the next step is scrape `/metrics` or
+ship the JSON lines to CloudWatch — not a rewrite of `/predict`.
+
+### Likely questions
+
+**Q: Why not log the request body? You already validate it.**
+
+Because the body is someone's chemistry, and on a public URL that is more
+than I need to operate the service. I can see that validation failed and that
+latency was 31 ms without storing Au = 0.004. If I am debugging a 422, the
+client still has the payload.
+
+**Q: Is this monitoring or a dashboard?**
+
+It is the minimum I would ship: the process can tell you what it is serving
+and whether it is sick. A Grafana board is a subscriber of these numbers, not
+a substitute for them.
+
+**Q: You already knew Docker. What changed?**
+
+Docker was “the API runs in a container.” The workflow is “every merge to
+main is tested, boxed, and the boxed artifact is what the registry and the
+runtime get.” The smoke test is `/health` on that artifact, not `docker build`
+turning green.
+
+---
+
+## Phase 4 — MLflow (still no new ML)
+
+**Decision:** treat the files already in `models/` as the experiment store.
+Washington doorbell, California / Idaho / Montana / Colorado sidecars,
+shuffled / dead-zone / block CV, and the interstate transfer table are the
+runs. `python -m pipeline.mlflow_tracking` reads the JSON and joblib Task 9
+already wrote. It does not fit a forest.
+
+**Tags:**
+
+| model | stage | region |
+|---|---|---|
+| `task9_rf_placer_gold` | production | NE_WA |
+| `task9_rf_placer_gold.ca_sierra_placer` | experimental/local | CA_Sierra |
+| Idaho / Montana / Colorado sidecars | experimental/local | that belt |
+
+Each run stores region, label radius, feature set, n, sklearn version, seed,
+shuffled AUC, dead-zone AUC, block AUC, transfer AUC (doorbell) or
+`doorbell_transfer_auc` (sidecar), importances, and the joblib.
+
+**Why this is the registry problem MLflow is for:** California shuffled CV is
+~0.87. Washington is 0.891 shuffled / 0.70 dead-zone / 0.76 block, and it is
+the only forest whose transfer table I am willing to publish (ID 0.50, CA
+0.52, MT 0.34, CO 0.56). Promoting “largest random-CV number” would ship the
+wrong product and hide the transfer sag. The promotion rule is a tag:
+`never_promote_largest_shuffled_cv`.
+
+**Hook:** if `MLFLOW_TRACKING_URI` is set, Task 9 logs after persist. Default
+Task 9 path does not import mlflow. The doorbell image does not install it.
+
+### Likely questions
+
+**Q: Why didn't you promote the California forest? 0.87 is fine.**
+
+0.87 is shuffled on the Sierra clip. The number I would walk is the 0.4°
+block (~0.65, ± 0.15 across folds). The doorbell transfer on that same clip is 0.52. The Sierra
+forest does not beat Washington on Idaho / Montana / Colorado. It is a local
+walk-list sidecar. Living in California does not make it production.
+
+**Q: So what does “production” mean in the registry?**
+
+The frozen file `/predict` loads. Same sklearn pin, same log-medians, same
+transfer table on `/model-info`. Experimental/local means “we trained it, we
+kept it, we did not put it on the public path.”
+
+**Q: Did MLflow change the science?**
+
+No. If you delete `mlruns/` the joblibs and the API are the same. Tracking
+is a ledger for decisions I had already made.
+
+---
+
 ## Literature (does this already exist?)
 
 Full write-up: `LIT_REVIEW.md` (21 Sep 2026).
@@ -192,17 +326,17 @@ Idaho, California, Montana, Colorado, and the Fall Zone now have the same layers
 
 **California result:** Northern Sierra foothills (Feather / Yuba / American — the belt you can walk). 596 NURE grabs, 7,872 gold MRDS pins, transfer AUC **0.52**. Mean P is 0.38 next to gold and far from it. Tightening to 5 km lifts AUC to 0.61; the doorbell still does not know California. This clip has no Au or As.
 
-**California local forest (not the doorbell):** Same recipe, new file — `task9_rf_placer_gold.ca_sierra_placer.joblib`. Au/As dropped; labels at 0.03°. Shuffled CV ~0.86, 3 km dead-zone ~0.83, **0.4° block ~0.69** (quote the block). Doorbell transfer stays **0.52** on `/model-info`. Living in California does not make the Washington forest a Sierra model; this is a different model for a walk list.
+**California local forest (not the doorbell):** Same recipe, new file — `task9_rf_placer_gold.ca_sierra_placer.joblib`. Au/As dropped; labels at 0.03°. Shuffled CV ~0.87, 3 km dead-zone ~0.84, **0.4° block ~0.65** (quote the block; 0.69 before the DEM header fix). Doorbell transfer stays **0.52** on `/model-info`. Living in California does not make the Washington forest a Sierra model; this is a different model for a walk list.
 
-**Why California learned and the others did not:** Sierra valley-floor mud is Zr–Fe–Ti (magnetite, ilmenite, zircon) and the ridges are not. That is a placer factory. Idaho / Montana are gold wallpaper on one granite. Colorado is missing Zr (California’s top feature) and has only 66 valley-floor yes-class. The 3 km dead-zone on California is easier than Washington’s 0.15° dead-zone — that is why 0.83 looks heroic. The honest local number is the 0.4° block.
+**Why California learned and the others did not:** Sierra valley-floor mud is Zr–Fe–Ti (magnetite, ilmenite, zircon) and the ridges are not. That is a placer factory. Idaho / Montana are gold wallpaper on one granite. Colorado is missing Zr (California’s top feature) and has only 66 valley-floor yes-class. The 3 km dead-zone on California is easier than Washington’s 0.15° dead-zone — that is why 0.84 looks heroic. The honest local number is the 0.4° block.
 
-**California forest on other states (one-off, not persisted):** Idaho 0.43, Montana 0.42, Colorado 0.53, Fall Zone 0.54 at 0.15°. Mean P is high on both sides of the gold line (~0.66–0.83). It does not beat Washington. Lighting up Colorado is “this province has the same heavies,” not “the trees found the bar.” Topography creates the trap. Keep slope on Task 11.
+**California forest on other states (one-off, not persisted):** Idaho 0.41, Montana 0.48, Colorado 0.46, Fall Zone 0.53 at 0.15° (fixed-DEM refit; was 0.43 / 0.42 / 0.53 / 0.54). Mean P ~0.47–0.77 on both sides of the gold line. It does not beat Washington. Colorado mean P fell 0.71 → 0.47 from 22 label flips at home — high P elsewhere is “this province has the same heavies,” not “the trees found the bar.” Topography creates the trap. Keep slope on Task 11.
 
-**Idaho local forest (not the doorbell):** `task9_rf_placer_gold.id_batholith.joblib`. Same 0.03° + 200 m recipe. 726 / 2,465 yes (29.5%). Shuffled CV **0.73**, dead-zone **0.67**. Better than WA-transfer 0.50, not a Sierra-style 0.83. Walk list from local P: 5 expedition / 12 confirm (was 2 / 4 on WA P). Leave-one-cell-out 0.61.
+**Idaho local forest (not the doorbell):** `task9_rf_placer_gold.id_batholith.joblib`. Same 0.03° + 200 m recipe. 726 / 2,465 yes (29.5%). Shuffled CV **0.73**, dead-zone **0.67**. Better than WA-transfer 0.50, not a Sierra-style 0.84. Walk list from local P: 5 expedition / 12 confirm (was 2 / 4 on WA P). Leave-one-cell-out 0.61.
 
 **Montana local forest (not the doorbell):** `task9_rf_placer_gold.mt_placer.joblib`. P and Y dropped. 1,985 / 4,672 yes (42.5%). Shuffled CV **0.69**, dead-zone **0.62**. Better than WA-transfer 0.34, still weak. Walk list from local P: 7 expedition / 12 confirm (was 1 / 2 on WA P). Leave-one-cell-out 0.55. More high-P cells is in-sample scoring, not proof the forest travels.
 
-**Cousins test (not the doorbell):** same extra metals on every belt — Cr, Nb, Hf, Sc, W. Dropped if missing or <20 positives (WA: Hf/W; CA: W). Dead-zone vs the suite-only local forest: WA 0.70→0.69, Idaho 0.67→0.66, California 0.83→0.84, Montana 0.62→0.64. Shuffled CV ticked up a little everywhere. That is noise / rock type, not a better fingerprint. The `*_cousins.joblib` files were deleted. `/predict` still eleven elements.
+**Cousins test (not the doorbell):** same extra metals on every belt — Cr, Nb, Hf, Sc, W. Dropped if missing or <20 positives (WA: Hf/W; CA: W). Dead-zone vs the suite-only local forest: WA 0.70→0.69, Idaho 0.67→0.66, California 0.83→0.84 (pre-DEM-fix labels; not rerun), Montana 0.62→0.64. Shuffled CV ticked up a little everywhere. That is noise / rock type, not a better fingerprint. The `*_cousins.joblib` files were deleted. `/predict` still eleven elements.
 
 **Montana result:** SW gulches (Confederate / Alder / Montana Bar / Elkhorn; not Libby). 4,672 NURE grabs, 2,039 gold pins, transfer AUC **0.34**. Mean P is 0.28 next to gold and 0.38 far from it — inverted. P and Y are Washington medians. Tasks 1–10 stay off.
 
@@ -214,15 +348,15 @@ Idaho, California, Montana, Colorado, and the Fall Zone now have the same layers
 
 **Wave 3 — NC Fall Zone (other placer):** Grosz B2097 / OFR 92-396. 588 grabs, 8 gold pins, only 27% near gold — a fairer negative class. Transfer AUC **0.50** (0.05° = 0.59). Mean P still ~0.37 both sides. This is Ti–Zr–REE sand, not a gold walk. Five “expedition” cells are WA gold-lookalike P far from the few gold pins, not sand targets. Open `~/projects/task11_nc_fall_zone_field_campaign.gpkg`.
 
-**Wave 4 — one Sierra 1 m LiDAR clip:** walk-rank 1 (USFS confirm, −120.78, 38.60). `california_sierra/data/lidar/lidar_r01_hs.tif`. Not all ten ranks. Hobby overlay already on the GPKGs; own pans still missing.
+**Wave 4 — one Sierra 1 m LiDAR clip:** walk-rank 1 cell (USFS confirm). `california_sierra/data/lidar/lidar_r01_hs.tif` covers −120.57…−120.53, 38.59…38.63. After the DEM fix the rank-1 pans are at 38.5607, −120.5262 and 38.5618, −120.5336 (~3.5 km south of the clip) — re-clip before walking. Not all ten ranks. Hobby overlay already on the GPKGs; own pans still missing.
 
-**California land access + walk list (CA first):** Task 11 now labels every pan/pour with `access_type` / `access_ok` / `access_reason` from PAD-US + MLRS claims, plus `walk_rank` (`rank_by: geometry_access` — access + trap, P last; elev ≥50 m), `access_rank` (public + claim-free), and `rank_in_access_type`. Chemistry without access was sending “go look” pins to Sacramento Valley levees (~2–8 m elev, FWS/restricted). After the gate: **4 walkable confirms** — walk #1/#2 are the 2× USFS `access_ok=yes` (P=1.0 then 0.995); #3 claimed (Rocky Ridge); #4 private. Valley-floor expeditions keep chemistry class but lose `walk_rank`. Open `~/projects/task11_ca_sierra_placer_field_campaign.gpkg` (layers include `padus_open`, `mlrs_claims`).
+**California land access + walk list (CA first):** Task 11 now labels every pan/pour with `access_type` / `access_ok` / `access_reason` from PAD-US + MLRS claims, plus `walk_rank` (`rank_by: geometry_access` — access + trap, P last; elev ≥50 m), `access_rank` (public + claim-free), and `rank_in_access_type`. Chemistry without access was sending “go look” pins to Sacramento Valley levees (~2–8 m elev, FWS/restricted). After the gate: **4 walkable confirms** — walk #1/#2 are the 2× USFS `access_ok=yes` (both P=0.995; #1 pour 38.6285, −120.6993, #2 pour 38.8538, −120.7886); #3 and #4 private (fixed-DEM rerun; the claimed pin dropped out). Valley-floor expeditions keep chemistry class but lose `walk_rank`. Open `~/projects/task11_ca_sierra_placer_field_campaign.gpkg` (layers include `padus_open`, `mlrs_claims`).
 
 **Sanity checks (positive signals):** Auburn / Marshall / Chili Bar chemically hot (P≈0.9–1.0) and `confirm` where NURE exists — forest sees known placer country. Access split does real work. Hobby miss on walkable catchments is geometry (pamphlet pin ≠ cell pour), not rejection.
 
 **NURE coverage hole (hard):** national HSSR sediment has **no samples north of ~39.00°** in lon −121.7…−120.4. Re-clip does not fill it. South Yuba / Malakoff / Downieville cannot be ML-ranked. DEM/MRDS/PAD-US/MLRS cover the north. Pamphlet parks there are access-labeled at the pin (`task11_park_pin_access.csv`): South Yuba BLM/State Parks `access_ok=yes`; Marshall state_park + hot NURE; Auburn HQ pin local_gov; Mammoth Bar pin private — confirm rules on site. Filling northern chemistry needs a **different source than NURE HSSR**.
 
-**Open next (see `NEXT_SESSION_PROMPT.md` top):** (1) CA-only Task 11 sort — **done**; (2) Manual Deploy so `/model-info` lists ID/CA/MT/CO/NC — do not change `/predict`; (3) walk one Sierra access-ok USFS confirm (−120.78, 38.60) and write pans on the opt-in form; (4) evaluate non-NURE chemistry (NGDB / CGS / aerial radiometrics as a *map*, not an RF feature) for northern Sierra. Idaho / Montana / Colorado / Fall Zone stay tests. Do not national-model. Do not invent Mineral Hill / Phosphoria / CA waste OFR boxes.
+**Open next (see `NEXT_SESSION_PROMPT.md` top):** (1) CA-only Task 11 sort — **done**; (2) Manual Deploy so `/model-info` lists ID/CA/MT/CO/NC — do not change `/predict`; (3) walk one Sierra access-ok USFS confirm (walk #1 pans 38.5607, −120.5262 / 38.5618, −120.5336) and write pans on the opt-in form; (4) evaluate non-NURE chemistry (NGDB / CGS / aerial radiometrics as a *map*, not an RF feature) for northern Sierra. Idaho / Montana / Colorado / Fall Zone stay tests. Do not national-model. Do not invent Mineral Hill / Phosphoria / CA waste OFR boxes.
 
 **Walk lists (local P except Fall Zone):** Idaho 5 expedition / 12 confirm. California **2 / 4** (2 USFS `access_ok`). Montana 7 / 12. Colorado 1 / 5. Fall Zone 5 “expedition” on WA gold-P — not sand targets. Gold pins and geology are local. Open `~/projects/task11_{short}_field_campaign.gpkg` (no `+` in the path).
 

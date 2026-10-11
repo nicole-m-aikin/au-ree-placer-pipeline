@@ -15,6 +15,7 @@ COPY pipeline/ml_spatial.py pipeline/ml_spatial.py
 COPY models/ models/
 
 ENV PORT=8000
+ENV PYTHONUNBUFFERED=1
 EXPOSE 8000
 
 CMD ["sh", "-c", "uvicorn api.app:app --host 0.0.0.0 --port ${PORT}"]

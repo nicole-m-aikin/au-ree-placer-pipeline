@@ -1,0 +1,9 @@
+site,radius_deg,before_lab_id,before_Th,before_dist_km,before_sample_source,before_coord_prec_est,after_lab_id,after_Th,after_dist_km,after_sample_source,after_coord_prec_est,after_Th_censored,after_Th_mdl,sample_changed
+Malakoff Diggins,0.1,,,,,,,,,,,,,False
+Downieville,0.1,,,,,,,,,,,,,False
+Nevada City,0.1,,,,,,,,,,,,,False
+Grass Valley,0.1,,,,,,,,,,,,,False
+Smartsville,0.1,,,,,,,,,,,,,False
+Oroville,0.1,,,,,,,,,,,,,False
+Coloma,0.1,5190021.0,11.0,2.04,,,5190021.0,11.0,2.04,,,False,,False
+Auburn,0.1,5189935.0,1.0,2.36,,,5189935.0,1.0,2.36,,,True,2.0,False

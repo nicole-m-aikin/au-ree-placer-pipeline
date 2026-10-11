@@ -1,13 +1,18 @@
 name: CI
 
+# commit → test → lint → image → registry → deploy → smoke /health
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
   test:
+    name: pytest
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,3 +27,170 @@ jobs:
 
       - name: Run tests
         run: pytest tests/ -v
+
+  lint:
+    name: type and lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install API package plus checkers
+        run: |
+          pip install -r requirements-api.txt
+          pip install ruff mypy
+
+      - name: Ruff
+        run: ruff check api/ops.py pipeline/mlflow_tracking.py scripts/smoke_health.py
+
+      - name: Mypy
+        run: mypy api
+
+  image:
+    name: Docker image and container integration
+    runs-on: ubuntu-latest
+    needs: [test, lint]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build doorbell image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          load: true
+          tags: |
+            placer-lookalike:${{ github.sha }}
+            placer-lookalike:local
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Integration-test the container
+        run: |
+          chmod +x scripts/docker_integration.sh
+          scripts/docker_integration.sh placer-lookalike:${{ github.sha }} 18080
+
+      - name: Save image for the publish job
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: docker save placer-lookalike:${{ github.sha }} | gzip > /tmp/placer-lookalike.tar.gz
+
+      - name: Upload image tarball
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v4
+        with:
+          name: placer-lookalike-image
+          path: /tmp/placer-lookalike.tar.gz
+          retention-days: 3
+
+  publish:
+    name: Push image to ECR
+    runs-on: ubuntu-latest
+    needs: image
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+      AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
+      ECS_CLUSTER: ${{ secrets.ECS_CLUSTER }}
+      ECS_SERVICE: ${{ secrets.ECS_SERVICE }}
+    steps:
+      - name: Skip when ECR is not configured
+        if: env.AWS_ACCOUNT_ID == ''
+        run: echo "AWS_ACCOUNT_ID unset — skip registry push (set repo secrets to enable)."
+
+      - name: Download tested image
+        if: env.AWS_ACCOUNT_ID != ''
+        uses: actions/download-artifact@v4
+        with:
+          name: placer-lookalike-image
+          path: /tmp
+
+      - name: Load image
+        if: env.AWS_ACCOUNT_ID != ''
+        run: gzip -dc /tmp/placer-lookalike.tar.gz | docker load
+
+      - name: Configure AWS credentials (access keys)
+        if: env.AWS_ACCOUNT_ID != '' && env.AWS_ROLE_ARN == ''
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION || 'us-west-2' }}
+
+      - name: Configure AWS credentials (OIDC)
+        if: env.AWS_ACCOUNT_ID != '' && env.AWS_ROLE_ARN != ''
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION || 'us-west-2' }}
+
+      - name: Login to Amazon ECR
+        if: env.AWS_ACCOUNT_ID != ''
+        id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Push the tested digest
+        if: env.AWS_ACCOUNT_ID != ''
+        run: |
+          REGION="${AWS_REGION:-us-west-2}"
+          REPO="${ECR_REPOSITORY:-placer-lookalike}"
+          IMAGE="${AWS_ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/${REPO}"
+          docker tag "placer-lookalike:${GITHUB_SHA}" "${IMAGE}:${GITHUB_SHA}"
+          docker tag "placer-lookalike:${GITHUB_SHA}" "${IMAGE}:latest"
+          docker push "${IMAGE}:${GITHUB_SHA}"
+          docker push "${IMAGE}:latest"
+          echo "Pushed ${IMAGE}:${GITHUB_SHA}"
+
+      - name: Roll ECS service
+        if: env.AWS_ACCOUNT_ID != '' && env.ECS_CLUSTER != ''
+        run: |
+          aws ecs update-service \
+            --cluster "$ECS_CLUSTER" \
+            --service "$ECS_SERVICE" \
+            --force-new-deployment
+
+  deploy:
+    name: Deploy and smoke-test /health
+    runs-on: ubuntu-latest
+    needs: [image, publish]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    env:
+      RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
+      PLACER_SMOKE_URL: ${{ secrets.PLACER_SMOKE_URL }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Trigger Render deploy hook
+        if: env.RENDER_DEPLOY_HOOK != ''
+        run: |
+          curl -fsS -X POST "$RENDER_DEPLOY_HOOK"
+          echo "deploy hook accepted"
+
+      - name: Wait for the free-tier host
+        if: env.RENDER_DEPLOY_HOOK != '' || env.PLACER_SMOKE_URL != ''
+        run: sleep 45
+
+      - name: Smoke-test live /health
+        if: env.RENDER_DEPLOY_HOOK != '' || env.PLACER_SMOKE_URL != ''
+        run: |
+          URL="${PLACER_SMOKE_URL:-https://placer-lookalike.onrender.com}"
+          python scripts/smoke_health.py "$URL"
+
+      - name: Nothing to deploy
+        if: env.RENDER_DEPLOY_HOOK == '' && env.PLACER_SMOKE_URL == ''
+        run: echo "No RENDER_DEPLOY_HOOK or PLACER_SMOKE_URL — image is tested; live smoke skipped."

@@ -143,6 +143,25 @@ class HealthResponse(BaseModel):
     detail: Optional[str] = None
 
 
+class LatencySnapshot(BaseModel):
+    p50: Optional[float] = None
+    p95: Optional[float] = None
+    n: int
+
+
+class MetricsResponse(BaseModel):
+    model_version: str
+    request_count: int
+    error_count: int
+    error_rate: float
+    malformed_request_count: int
+    malformed_request_rate: float
+    health_failure_count: int
+    rate_limited_count: int
+    latency_ms: LatencySnapshot
+    endpoints: dict
+
+
 class ModelInfoResponse(BaseModel):
     model_id: str
     training_date: str

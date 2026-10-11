@@ -31,11 +31,13 @@ This pipeline was built to show the full applied geoscience stack — from raw p
 wrangling through spatial ML and economic screening — in a single reproducible codebase.
 
 - **Mineral systems analysis**: explicit source → pathway → trap → preservation framework (McCuaig & Hronsky 2014); each pipeline task is mapped to a framework component and justified in `METHODOLOGY.md`
-- **Geochemical QA/QC of legacy public datasets**: NURE half-MDL substitution, MRDS deduplication, WGS column validation; procedures documented and reproducible
+- **Legacy-data validation and verification (CIM 2018 §2.1.1.1)**: validated NURE path (coordinate precision, sample medium, censored values kept with their MDL, feature gate, lab-batch check), MRDS dedup, re-analysis-pair and airborne-eTh verification, site provenance against MRDS, and a source register (`data/VERIFICATION_REGISTER.csv`). The frozen doorbell still uses the legacy loader for reproducibility; see *Data validation and verification* in `METHODOLOGY.md` for what that changes
 - **Monte Carlo uncertainty quantification**: P10/P50/P90 resource endowment using log-normal grade distributions; results reported with full uncertainty bands, not point estimates
-- **ML targeting with geochemically independent ground truth**: MRDS-proximity labels avoid the circular-labeling failure mode common in geochemical classifiers; Random Forest on the placer heavy-mineral suite (Th, Ce, La, P, U, Au, As, Ti, Fe, Zr, Y); shuffled 5-fold CV ROC-AUC 0.891 ± 0.018; dead-zone spatial CV 0.699 ± 0.055
+- **ML targeting with geochemically independent ground truth**: MRDS-proximity labels avoid the circular-labeling failure mode common in geochemical classifiers; Random Forest on the placer heavy-mineral suite (Th, Ce, La, P, U, Au, As, Ti, Fe, Zr, Y); shuffled 5-fold CV ROC-AUC 0.891 ± 0.018; dead-zone spatial CV 0.699 ± 0.055 on the unvalidated extract (validated: 0.66 shuffled / 0.58 block, largely a submitter signal — see `task9_validated_cv.csv`)
 - **Transfer test, not a national model**: frozen NE WA forest on Idaho **0.50**, California **0.52**, Montana **0.34**, Colorado **0.56**, NC Fall Zone **0.50** (Airola et al. 2018: shuffled CV is not transfer). Local Sierra forest is a different file (Zr–Fe–Ti). Flat high P on Colorado is a **province** (Grosz & Schruben 1993), not a bar. Do not retrain to hide the sag.
 - **Public lookalike API**: FastAPI `/predict` at [placer-lookalike.onrender.com](https://placer-lookalike.onrender.com/docs) — chemistry in, P(lookalike) + tree-vote spread + distance to a training gold mine out. Not Task 4 tonnes.
+- **Production operations**: GitHub Actions runs pytest → ruff/mypy → Docker build → container `/health`+`/predict` integration → push the tested image to ECR → deploy hook → smoke `/health`. The API emits one JSON log line per request (no submitted chemistry), exposes `/metrics` (request count, error rate, p50/p95, health failures, malformed-request rate, model version), and rate-limits the public demo.
+- **MLflow experiment registry**: persisted forests (WA doorbell + CA/ID/MT/CO sidecars) are logged as runs with shuffled / dead-zone / block / transfer AUC. Production tag is NE_WA; California stays `experimental/local`. Largest shuffled CV is not a promotion rule.
 - **Catchment walk list**: Task 11 GeoPackage with NURE grabs vs pan pins (slope break / power drop / junction) plus a pamphlet / opt-in `hobby_reports` overlay. Chemistry picks the creek; geometry picks the hole (Yousefi & Carranza 2013; McCuaig & Hronsky 2014). Hobby rows score catchment hit-rate, not AUC. California is the only walk product: `access_type` / `access_ok` from PAD-US + MLRS; `rank_by: geometry_access` sorts access + trap first, P only to break ties. CA HSSR has **no sediment north of ~39°** — South Yuba / Malakoff are access-labeled at pamphlet pins (`task11_park_pin_access.csv`) but not ML-ranked.
 - **Spatial geostatistical interpolation**: IDW probability surface for continuous spatial prediction; kriging variance surface identified as production upgrade path
 - **Economic screening**: break-even NdPr price analysis, undiscounted NPV rationale, tornado-style weight-sensitivity analysis on integrated priority scores
@@ -61,8 +63,9 @@ wrangling through spatial ML and economic screening — in a single reproducible
 - **WGS ICP-MS** (OFR 2026-02): First Thought Mine has highest TREE concentration (191 ppm); Germania Mine has largest TREE endowment (~21,000 kg)
 - **6 of 10 WGS sites** have mean Au ≥ 0.1 ppm (tailings reprocessing threshold)
 - **Environmental flag**: Big Iron, Silver Bell, and Turk Mine are acid-generating (median NP/AP < 1)
-- **Top result**: After tightening the site–NURE join to 0.10° (nearest sample, not max-Th in 0.25°), Hunters remains #1 (score 8.5) on magnetics, lithology, data confidence, and ML — not monazite. Local grab is C164654 (20 ppm BACKGROUND, 5.8 km). Bossburg is #2 and the only local Th anomaly (33 ppm MONAZITE, C178928) plus the only site below the $109/kg NdPr benchmark. Oroville is #3 on volume at background grade. Combined NdPr P50 is 712 t.
-- **Airborne check (Fig 1b)**: Creek Th and NURE aerial eTh barely agree (Spearman ρ ≈ 0.05). Of 77 stream Th highs, only C165101 (26 km SSE of Hunters) is `both_high`. Do not read a stream-sediment Th anomaly as Th-rich bedrock under a ranked pile.
+- **CIM data audit (Sep 2026)**: validated NE WA NURE keeps 287 of 1,045 samples (548 sat on one 7.5′ placeholder point; lake media excluded; "surface" admitted on review). On validated data the forest scores 0.66 shuffled / 0.58 block, and submitter alone predicts the label at AUC 0.57 — the published 0.891 does not survive validation. California is unaffected. 4 of 12 ranked sites are tied to an MRDS record (Republic, Northport; Kettle Falls = Meyers Falls Placer and Meyers Creek accepted on review). See [`REPORT.md`](REPORT.md).
+- **Top result (legacy inputs, magnetics excluded as synthetic)**: Bossburg #1 (8.2), Oroville #2 (7.9), Hunters #3 (7.5; was #1 only because synthetic magnetics were scored). Bossburg is the only local Th anomaly (33 ppm MONAZITE, C178928 — a Grosz "surface" sample) and the only site below the $109/kg NdPr benchmark; its coordinate is unverified. Combined NdPr P50 is 708 t on unsourced site dimensions.
+- **Airborne check (Fig 1b)**: Creek Th and NURE aerial eTh barely agree on the legacy data (Spearman ρ ≈ 0.05, mixed media). On validated samples with Th detected, ρ = 0.27 (n = 120, p = 0.003) — modest agreement. Of 77 stream Th highs, only C165101 (26 km SSE of Hunters) is `both_high`. Do not read a stream-sediment Th anomaly as Th-rich bedrock under a ranked pile.
 
 ## Study areas
 
@@ -70,7 +73,7 @@ wrangling through spatial ML and economic screening — in a single reproducible
 |-----------|--------|--------|
 | NE Washington (Okanogan/Ferry/Stevens Co.) | `configs/ne_washington/config.yaml` | Complete — Figs 1–11 + walk-list GeoPackage |
 | Idaho Batholith (Orogrande/Dixie/Warren/Florence) | `configs/idaho_batholith/config.yaml` | Transfer AUC **0.50**. Local sidecar dead-zone **0.67**. Walk list from local P. |
-| California Sierra placer foothills (Feather/Yuba/American) | `configs/california_sierra/config.yaml` | WA transfer AUC **0.52** (doorbell). Local Sierra forest (block CV **0.69**) + access-gated walk list. |
+| California Sierra placer foothills (Feather/Yuba/American) | `configs/california_sierra/config.yaml` | WA transfer AUC **0.52** (doorbell). Local Sierra forest (block CV **0.65**) + access-gated walk list. |
 | Montana SW gold gulches (Confederate/Alder/Montana Bar; not Libby) | `configs/montana_placer/config.yaml` | Transfer AUC **0.34**. Local sidecar dead-zone **0.62**. Walk list from local P. |
 | Colorado Wet Mountains / Arkansas gulches (not Leadville) | `configs/colorado_wet_mtns/config.yaml` | Transfer AUC **0.56**. Local sidecar dead-zone **0.50** (Wave 3) |
 | North Carolina Fall Zone (Ti–Zr–REE sand; not gold) | `configs/fall_zone_nc/config.yaml` | Transfer AUC **0.50**; other-placer doorbell test (Wave 3) |
@@ -100,12 +103,31 @@ curl -s localhost:8000/predict -H 'Content-Type: application/json' -d '{
 }'
 ```
 
+`GET /metrics` is the in-process monitor (request count, error rate, p50/p95
+latency, health failures, malformed-request rate, model version). Application
+logs are one JSON object per request:
+
+```json
+{"timestamp":"...","model_version":"task9_rf_placer_gold","endpoint":"/predict","status":200,"latency_ms":31.0,"feature_validation":"passed"}
+```
+
+Submitted chemistry is not logged. Public demo rate limit is 60 requests / 60 s
+per IP (`PLACER_RATE_LIMIT`, `PLACER_RATE_WINDOW_S`); `/health` and `/metrics`
+are exempt.
+
 Docker (same contract; Render free tier uses `render.yaml`):
 
 ```bash
 docker build -t placer-lookalike .
 docker run --rm -p 8000:8000 placer-lookalike
 ```
+
+CI on `main` is commit → pytest → lint → image → container integration → ECR
+(if `AWS_ACCOUNT_ID` is set) → Render/ECS deploy → smoke `/health`. The
+workflow file is [`.github/workflows/ci.yml`](.github/workflows/ci.yml). Repo
+secrets: `AWS_ACCOUNT_ID`, `AWS_REGION`, `ECR_REPOSITORY`, plus either
+`AWS_ACCESS_KEY_ID`/`AWS_SECRET_ACCESS_KEY` or `AWS_ROLE_ARN`; optional
+`ECS_CLUSTER`/`ECS_SERVICE`, `RENDER_DEPLOY_HOOK`, `PLACER_SMOKE_URL`.
 
 The model files are in `models/`. One click starts the free web service from this repo:
 
@@ -123,12 +145,14 @@ Task 9 can train a **belt-local** forest on Sierra NURE + Sierra gold MRDS:
   doorbell filenames.
 - Drops Au and As (empty in this HSSR clip). Nine features.
 - Labels at **0.03°** (~3 km); 0.15° paints ~88% of the foothills as yes.
-- Shuffled CV ~0.86; 3 km dead-zone ~0.83; **0.4° block ~0.69** (quote the block).
+- Shuffled CV ~0.87; 3 km dead-zone ~0.84; **0.4° block ~0.65** (quote the block).
+  These are from the 29 Sep 2026 rerun after the DEM header fix (block was
+  0.69 when the header sat 0.02° north and 22 / 596 labels were wrong).
 - Task 11 walk list reads `task9_ml_nure_probability.csv` (local P), not the
   WA transfer scores. Access-gated: **2 expedition / 4 confirm** (2 USFS
   `access_ok`). Northern HSSR is empty above ~39°.
-- That forest does not beat Washington on other states (ID 0.43, MT 0.42,
-  CO 0.53, NC 0.54). High flat P is a province, not a trap.
+- That forest does not beat Washington on other states (ID 0.41, MT 0.48,
+  CO 0.46, NC 0.53). High flat P is a province, not a trap.
 
 ```bash
 python -m pipeline.task9_ml_targeting configs/california_sierra/config.yaml
@@ -256,13 +280,29 @@ multi-element approach from tasks 1, 3, 7 as a spatially explicit probability su
 - P(anomaly) 0.4–0.6: moderate interest — assess alongside Tasks 1, 3, 7
 - Use as a screening tool alongside, not instead of, the task 1/3/7 hard criteria
 
+**MLflow (no retraining):** every persisted forest is already an experiment
+run — region, label radius, feature set, n, sklearn pin, seed, shuffled /
+dead-zone / block AUC, doorbell transfer AUC, importances, joblib. Backfill:
+
+```bash
+pip install mlflow
+export MLFLOW_TRACKING_URI=mlruns
+python -m pipeline.mlflow_tracking --register
+mlflow ui
+```
+
+Tags: WA `task9_rf_placer_gold` `stage=production` `region=NE_WA`. California
+`stage=experimental/local` `region=CA_Sierra`. Task 9 also logs a run when
+`MLFLOW_TRACKING_URI` is set; it does not change the joblib or `/predict`.
+Do not promote the sidecar with the largest shuffled CV.
+
 ## Scientific Methodology
 
 See [`METHODOLOGY.md`](METHODOLOGY.md) for full scientific justification of every
 non-obvious methodological choice, including:
 
 - Mineral systems framework (source/pathway/trap/preservation) — how each task maps onto it
-- Dataset QA/QC procedures (NURE half-MDL, WGS column validation, MRDS dedup)
+- Data validation vs verification (CIM 2018): what the legacy loader does, what the validated path changes, what is verified, and what still needs field twins
 - Geochemical anomaly threshold rationale (log-normal; Ahrens 1954; Reimann & Filzmoser 2000)
 - Th source mineral discrimination (U/Th ratios; Mücke & Bhaskara Rao 1996)
 - Chondrite normalization (CI chondrite; Sun & McDonough 1989)
@@ -285,8 +325,10 @@ configs/
   montana_placer/config.yaml  # SW MT gold gulches (Libby dropped)
   colorado_wet_mtns/config.yaml # Wet Mountains / Arkansas (Leadville out)
   fall_zone_nc/config.yaml    # Ti–Zr–REE sand (other_placer)
-api/                          # FastAPI doorbell
+api/                          # FastAPI doorbell (ops: JSON logs, /metrics, rate limit)
 models/                       # Frozen joblib + metadata + transfer sidecars
+scripts/                      # smoke_health.py, docker_integration.sh
+.github/workflows/ci.yml      # pytest → lint → image → ECR → deploy → /health
 pipeline/
   utils.py
   fetch_dem.py                # Copernicus GLO-30 mosaic for a config bbox
@@ -299,6 +341,7 @@ pipeline/
   task11_pan_traps.py         # Trap-geometry pan pins
   task12_second_belt.py       # Frozen NE WA forest on ID / CA / MT / CO / NC
   task13_holdout.py           # In-belt east-west hold-out (not a new joblib)
+  mlflow_tracking.py          # Log persisted forests; does not retrain
   run_pipeline.py
 tests/
 data/hobby_reports/           # Cited gazetteer CSVs + opt-in form

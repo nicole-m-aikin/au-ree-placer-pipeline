@@ -118,12 +118,16 @@ def fetch_copernicus_dem(west, south, east, north, dest):
 def _clip_dem(path, west, south, east, north, pad=0.02):
     """Keep only the study box so Task 11 D8 does not chew unused tiles."""
     import rasterio
-    from rasterio.windows import from_bounds
+    from rasterio.windows import Window, from_bounds
 
     west, south, east, north = west - pad, south - pad, east + pad, north + pad
     with rasterio.open(path) as src:
         window = from_bounds(west, south, east, north, transform=src.transform)
         window = window.round_offsets().round_lengths()
+        # A padded edge past the mosaic (e.g. north=40.0 + pad) gives a negative
+        # offset. read() clips it but window_transform() would not, shifting the
+        # header by the pad. Clip first so pixels and transform agree.
+        window = window.intersection(Window(0, 0, src.width, src.height))
         data = src.read(1, window=window)
         transform = src.window_transform(window)
         profile = src.profile.copy()

@@ -1,0 +1,35 @@
+check,field,n_in,n_flagged,n_out,rule,note
+units,Fe,592.0,592.0,592.0,"wt% → ppm (×10,000) when median below load_nure threshold",Fe and Fe_mdl scaled
+study_area,lat/lon,596.0,0.0,596.0,drop missing lat/lon and samples outside study_area.bbox,
+duplicate_coordinates,lat/lon (input),596.0,0.0,596.0,report groups sharing lat/lon at 4 dp; not removed,"0 groups, largest 0"
+coord_precision,coord_prec_est,596.0,0.0,596.0,not assessable: column coord_prec_est absent,
+sample_medium,sample_source,596.0,0.0,596.0,not assessable: column sample_source absent,
+duplicate_coordinates,lat/lon (validated),596.0,0.0,596.0,report groups sharing lat/lon at 4 dp; not removed,"0 groups, largest 0"
+censored,Th,592.0,147.0,592.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",MDLs: 2 x147; legacy load_nure sets 0 to NaN
+censored,Ce,592.0,46.0,592.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",MDLs: 10 x46; legacy load_nure sets 0 to NaN
+censored,La,592.0,12.0,592.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",MDLs: 2 x12; legacy load_nure sets 0 to NaN
+censored,P,592.0,0.0,592.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",no censored values
+censored,U,582.0,0.0,582.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",no censored values
+censored,Ti,592.0,0.0,592.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",no censored values
+censored,Fe,592.0,0.0,592.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",no censored values
+censored,Zr,592.0,0.0,592.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",no censored values
+censored,Y,592.0,0.0,592.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",no censored values
+censored,Cr,592.0,0.0,592.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",no censored values
+censored,Nb,592.0,36.0,592.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",MDLs: 4 x36; legacy load_nure sets 0 to NaN
+censored,Hf,592.0,559.0,592.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",MDLs: 15 x559; legacy load_nure sets 559 to NaN
+censored,Sc,592.0,0.0,592.0,"negative v → |v|/2, {el}_mdl=|v|, {el}_censored=True (any magnitude)",no censored values
+feature_gate,Th,592.0,147.0,592.0,drop if censored_frac > 0.5 or median MDL > log mean+2SD of detected,kept
+feature_gate,Ce,592.0,46.0,592.0,drop if censored_frac > 0.5 or median MDL > log mean+2SD of detected,kept
+feature_gate,La,592.0,12.0,592.0,drop if censored_frac > 0.5 or median MDL > log mean+2SD of detected,kept
+feature_gate,P,592.0,0.0,592.0,drop if censored_frac > 0.5 or median MDL > log mean+2SD of detected,kept
+feature_gate,U,582.0,0.0,582.0,drop if censored_frac > 0.5 or median MDL > log mean+2SD of detected,kept
+feature_gate,Au,0.0,0.0,0.0,drop if censored_frac > 0.5 or median MDL > log mean+2SD of detected,not analysed
+feature_gate,As,0.0,0.0,0.0,drop if censored_frac > 0.5 or median MDL > log mean+2SD of detected,not analysed
+feature_gate,Ti,592.0,0.0,592.0,drop if censored_frac > 0.5 or median MDL > log mean+2SD of detected,kept
+feature_gate,Fe,592.0,0.0,592.0,drop if censored_frac > 0.5 or median MDL > log mean+2SD of detected,kept
+feature_gate,Zr,592.0,0.0,592.0,drop if censored_frac > 0.5 or median MDL > log mean+2SD of detected,kept
+feature_gate,Y,592.0,0.0,592.0,drop if censored_frac > 0.5 or median MDL > log mean+2SD of detected,kept
+submitter_prediction,all_samples / all features,,,,"RF(200, random_state=42) stratified 5-fold balanced accuracy; submitters with >= 20 samples",not assessable: column submitter absent
+submitter_prediction,validated / all features,,,,"RF(200, random_state=42) stratified 5-fold balanced accuracy; submitters with >= 20 samples",not assessable: column submitter absent
+submitter_prediction,validated / gated features,,,,"RF(200, random_state=42) stratified 5-fold balanced accuracy; submitters with >= 20 samples",not assessable: column submitter absent
+lab_batch,submitter,596.0,,,not assessable: column submitter absent,

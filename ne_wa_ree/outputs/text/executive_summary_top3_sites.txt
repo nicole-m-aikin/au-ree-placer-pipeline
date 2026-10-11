@@ -12,29 +12,12 @@ NdPr context: ~$109/kg current, $60/kg 2024 trough.
 Processor: Energy Fuels White Mesa Mill (Blanding, UT)
 ====================================================================
 
-SITE #1: HUNTERS PLACER
-============================================================
-  Coordinates:    48.1400°N, -118.2100°W
-  Combined score: 8.5
-  Th source:      None (local C164654, 20 ppm BACKGROUND, 5.8 km.
-                  Do not cite the old 40 ppm MONAZITE from C165101, 26 km SSE.)
-  Mag high:       YES
-  Source lith:    MCC_metapelite(53%) | felsic_intrusive(41%)
-  Est. tonnage:   202,500 t
-  NdPr grade:     ~205 ppm (±50%)
-  NdPr metal:     38 t
-  Break-even:     $130/kg NdPr
-  NPV (central):  $-1M (undiscounted; ESTIMATE ONLY)
-
-  NOTE: Exploration target only; not a resource estimate. No field
-  sampling conducted. Verify by auger program before any investment.
-
-SITE #2: BOSSBURG PLACER
+SITE #1: BOSSBURG PLACER
 ============================================================
   Coordinates:    48.7200°N, -117.8000°W
   Combined score: 8.2
   Th source:      MONAZITE
-  Mag high:       NO
+  Mag high:       not scored (synthetic aeromagnetic grid)
   Source lith:    felsic_intrusive(100%)
   Est. tonnage:   210,000 t
   NdPr grade:     ~338 ppm (±50%)
@@ -45,18 +28,34 @@ SITE #2: BOSSBURG PLACER
   NOTE: Exploration target only; not a resource estimate. No field
   sampling conducted. Verify by auger program before any investment.
 
-SITE #3: OROVILLE PLACER
+SITE #2: OROVILLE PLACER
 ============================================================
   Coordinates:    48.9400°N, -119.4300°W
   Combined score: 7.9
   Th source:      None
-  Mag high:       NO
+  Mag high:       not scored (synthetic aeromagnetic grid)
   Source lith:    MCC_metapelite(100%)
   Est. tonnage:   1,650,000 t
   NdPr grade:     ~82 ppm (±50%)
   NdPr metal:     130 t
   Break-even:     $248/kg NdPr
   NPV (central):  $-18M (undiscounted; ESTIMATE ONLY)
+
+  NOTE: Exploration target only; not a resource estimate. No field
+  sampling conducted. Verify by auger program before any investment.
+
+SITE #3: HUNTERS PLACER
+============================================================
+  Coordinates:    48.1400°N, -118.2100°W
+  Combined score: 7.5
+  Th source:      None (local C164654, 20 ppm BACKGROUND, 5.8 km. Do not cite the old 40 ppm MONAZITE from C165101.)
+  Mag high:       not scored (synthetic aeromagnetic grid)
+  Source lith:    MCC_metapelite(53%) | felsic_intrusive(41%)
+  Est. tonnage:   202,500 t
+  NdPr grade:     ~205 ppm (±50%)
+  NdPr metal:     38 t
+  Break-even:     $130/kg NdPr
+  NPV (central):  $-1M (undiscounted; ESTIMATE ONLY)
 
   NOTE: Exploration target only; not a resource estimate. No field
   sampling conducted. Verify by auger program before any investment.

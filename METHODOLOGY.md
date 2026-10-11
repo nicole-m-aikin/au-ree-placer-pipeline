@@ -37,15 +37,29 @@ Each pipeline task evaluates one or more components of this framework:
 
 ## Dataset QA/QC Procedures
 
-Every data quality step applied in the pipeline :
+CIM (2018) §2.1.1.1 separates **validation** (errors, overlaps, mislabels,
+mixed units) from **verification** (does the legacy data represent reasonable,
+accurate results?). This section lists what the legacy loader does. The
+section *Data validation and verification* below lists what the validated
+path changes and what has been verified.
 
-**NURE stream sediment (primary dataset — task1, task3, task7, task9)**
+**NURE stream sediment — legacy loader `utils.load_nure` (frozen doorbell path; task1, task3, task7, task9)**
 
 - Values between 0 and −10 ppm: half-MDL substitution (replaced with abs(value)/2).
   Rationale: values reported as negative by the USGS NURE protocol represent
   below-detection-limit results where the MDL is encoded as the negative of the MDL.
-- Values < −10 ppm (abs value > 10): set to NaN. These represent instrument artifacts
-  or transcription errors in the USGS NURE database, not geochemical signals.
+- Values < −10 ppm (abs value > 10): set to NaN. **This rule is wrong and is kept
+  only so the published forest reproduces.** Those values are below-detection
+  results from methods with higher detection limits (e.g. Th `<100`), not
+  artifacts. On the NE WA extract it discards 603 of 992 Th values, 135 U
+  and 152 As. `pipeline/data_validation.py` keeps them at half-MDL with an
+  `{el}_mdl` column.
+- The legacy loader does not read `coord_prec_est` or `sample_source`.
+  548 of 1,045 NE WA samples share one 7.5′ placeholder coordinate
+  (48.50 N, 117.50 W), and the extract mixes stream (652), lake (143),
+  "surface" (132), wetland (105) and auger (13) media.
+- Au is 98% below detection with MDLs of 8, 10 or 0.05–0.5 ppm depending on
+  submitter; after half-MDL it records the lab more than the drainage.
 - P column: if median < 1 (implying values are in % rather than ppm), multiply by 10,000
   to convert to ppm. This handles the mixed-unit legacy encoding in the USGS NURE extract.
 - Fe column: same conversion when median < 100 (NURE reports Fe as wt%, median ~2–5).
@@ -58,8 +72,15 @@ Every data quality step applied in the pipeline :
 
 - Filtered by commodity list from config (`mrds_commodities`): retains placer gold, gold,
   REE, monazite, magnetite entries.
-- Duplicate coordinates removed (same lat/lon to 4 decimal places).
+- Duplicate records (same `dep_id`, or same lat/lon to 4 decimal places) are removed
+  by `data_validation.dedup_mrds`. Earlier versions of this document claimed this
+  step before any code did it; the NE WA extract has 101 duplicate coordinates.
 - Bounding box clipped to study area per config bbox.
+- The 12 ranked NE WA sites previously carried placeholder IDs (`M004321`–`M004332`)
+  that are not MRDS records. `pipeline/site_provenance.py` matches each site to
+  real MRDS `dep_id`s and writes `site_verification.csv`; unmatched sites are
+  marked `location_status: unverified`. Site `area_ha` / `depth_m` are
+  unsourced assumptions (`dims_source` in config), not MRDS production records.
 
 **Aeromagnetic data (task1)**
 
@@ -69,6 +90,8 @@ Every data quality step applied in the pipeline :
   Werner/Euler deconvolution.
 - When no TIF is supplied (null in config), synthetic anomaly centers from
   Blakely et al. 1999 (Pacific NW aeromagnetic compilation) are used as a placeholder.
+  NE WA currently has no TIF. The synthetic grid is a map placeholder only;
+  integration does not score it unless `integration.score_synthetic_magnetics: true`.
 
 **Lidar DEMs (task4)**
 
@@ -85,6 +108,127 @@ Every data quality step applied in the pipeline :
 - Sites explicitly listed in `wgs.exclude_sites` (config) are removed before
   any analysis (e.g., sites with known data quality issues).
 - Coordinate filtering applied to Endowment sheet: sites outside wgs_bbox excluded.
+
+---
+
+## Data validation and verification (CIM 2018)
+
+Run order: `python -m pipeline.data_validation --config …` (validation ledger),
+`python -m pipeline.task9_ml_targeting --validated …` (impact run),
+`python -m pipeline.site_provenance --config …`, and
+`python -m pipeline.verification --config … --register`. None of these
+overwrite the frozen forest, Fig 10, or the `task9_ml_*` tables. Field
+results enter only through `pipeline/field_qaqc.py` (`docs/FIELD_PROTOCOL.md`).
+
+**Validation — NE WA NURE (`data_validation_ledger.csv`, `nure_validation` in config)**
+
+| Step | Samples left |
+|------|--------------|
+| In study bbox | 1,045 |
+| Coordinate precision ≤ 0.01° (drops 613 at 7.5′, 3 at 1′, 2 at 10′) | 427 |
+| Stream/river + "surface" media (drops 140 lake) | **287** |
+
+"Surface" samples (132, all submitted by Grosz, USGS; medium not further
+documented in the extract) were admitted on review on 27 Sep 2026. The
+stream-only filter (155 samples) is kept as a sensitivity scenario
+(`nure_validation.sensitivity_sample_sources`).
+
+The 287 survivors come from three submitters (Grosz 132, Miller 91,
+Frisken 63, plus one other). Censored values are kept at half-MDL with
+`{el}_mdl`. The feature gate (censored > 50%, or median MDL above the log
+mean+2SD threshold, or < 5 detected) keeps Ce, La, P, Ti, Fe, Zr, Y and
+drops Th (58% censored, MDL 100 > threshold 58), U (84%), Au (97%) and As
+(53%, MDL 200). Ce and P were analysed only on the Grosz samples. A forest
+names the submitting lab from the gated chemistry with balanced accuracy
+0.899 (chance 0.333; 0.857 vs 0.143 on all samples). MRDS dedup:
+1,630 → 1,529 (101 duplicate coordinates; no label changes).
+
+**Impact on Task 9 (`task9_validated_cv.csv`)**
+
+| Scenario | n / pos | Shuffled | Dead-zone | 0.4° block | Top |
+|----------|---------|----------|-----------|------------|-----|
+| Published (legacy loader) | 1,045 / 290 | 0.891 | 0.699 | 0.757 | U |
+| **Validated (result of record)** | 287 / 138 | 0.66 | 0.63 | 0.58 | La |
+| Sensitivity: stream only | 155 / 63 | 0.55 | not scorable | 0.42 | La |
+
+**Submitter confound (`task9_validated_submitter_confound.csv`).** Knowing
+only which submitter collected a sample predicts the MRDS proximity label
+with AUC 0.57 (out-of-fold positive rate per submitter; no chemistry).
+Within one submitter, the chemistry scores 0.78 shuffled / 0.73 block on
+Grosz (132, 75 positive), 0.52 / 0.53 on Miller (91), and 0.62 / 0.25 on
+Frisken (63). The validated skill is weak and sits mostly in the Grosz
+"surface" subset.
+
+Validated NE WA data does not support the published skill. The 0.891 /
+0.70 are properties of the unvalidated extract (placeholder coordinates,
+lab batches, discarded censored values), not evidence of a geochemical
+fingerprint. The published forest is not republished: a validated forest
+would take 7 features (no Th, U, Au, As), change the API schema, and still
+score 0.58 block, largely on one submitter. The doorbell stays frozen with
+this caveat; the validated table is the result of record. California (HSSR
+clip: no precision / medium / submitter columns, all Task 9 MDLs ≤ 10) is
+unchanged by validation: 0.867 / 0.843 / 0.649 (after the DEM header fix
+below; 0.859 / 0.831 / 0.694 before it).
+
+Site join (`data_validation_site_join.csv`): 7 of 12 sites had a sample
+within 0.10° under the legacy loader. After validation 4 keep the same
+sample (Bossburg, Brender, Hunters, Old Dominion — all Grosz "surface");
+3 lose theirs (Kettle Falls, Meyers Creek, Sanpoil — lake samples).
+
+**Site provenance (`site_verification.csv`, `mrds_review` in config)** —
+4 of 12 site locations are tied to an MRDS record:
+
+| Site | MRDS dep_id | Basis | Move |
+|------|-------------|-------|------|
+| Republic Gold District | 10041093 | name match | 1.6 km |
+| Northport Placer | 10204774 | name match | 0.5 km |
+| Kettle Falls Placer | 10180995 (Meyers Falls Placer) | accepted on review — Meyers Falls is the old name of Kettle Falls | 0.8 km |
+| Meyers Creek Placer | 10072470 (Myers Creek-Chewsaw-Mary Ann Creek) | accepted on review, district-level record | 57.9 km (48.32 → 48.83 N) |
+
+Brender's fuzzy name hit (Bender Custom Mill, `10131500`, 52 km NNW) was
+rejected on review. Bossburg (18.7 km), Oroville (17.4) and Sanpoil (29.6)
+match by name only far away; four sites have no name match. All eight keep
+their rounded coordinates with `location_status: unverified`. The moved
+Meyers Creek point is 39 km from the Colville Reservation (the old point
+was inside it).
+
+**Verification (`verification_*.csv`, `data/VERIFICATION_REGISTER.csv`)**
+
+- *Airborne eTh vs stream Th:* the result of record ρ = 0.046 (n = 389)
+  reproduces, but those 389 mix lake, surface and placeholder-coordinate
+  samples. On validated samples with Th detected, ρ = 0.27 (n = 120,
+  p = 0.003; 116 of them Grosz "surface"). This is modest corroboration.
+  With half-MDL values included ρ = −0.27, because 166 of 286 Th results
+  are censored and the ranks collapse into ties.
+- *Re-analysis pairs:* 6 of 106 `previous_lab_id`s resolve (lake cores,
+  one submitter): median HARD 0.014, no bias. A second source — same
+  `field_id` and coordinates, different lab — gives 22 NE WA pairs:
+  median HARD 0.081 (La 0.17, Y 0.20 with −0.18 log bias, Fe 0.04). About
+  80% of those values sit on the semi-quantitative spectrographic step
+  grid. Th, Ce, Nd, U, Au never reach 10 detected pairs.
+- *NURE vs WGS OFR 2026-02:* 3 of 13 WGS sites (Deer Trail, Germania,
+  Queen Seal) have a validated NURE sample within 5 km — the same sample,
+  C164681. Mine waste reads 0.2–1.1 log units below that stream sediment
+  for Th, La, Ce, Y. Different media, so disagreement is expected; this is
+  not a verification.
+- *Register:* 61 rows across six belts — 4 accepted-with-caveat, 2 rejected
+  (synthetic magnetics, synthetic NURE file), 55 not verified. Every row has
+  a source URL, sha256 and file date.
+
+**Integration after the gates (`fig7_integrated_priority_tier.geojson`)** —
+magnetics excluded (synthetic grid): Bossburg #1 (8.2), Oroville #2 (7.9),
+Hunters #3 (7.5, was #1 on synthetic magnetics). Top 3 now hold under
+every ±50% weight perturbation. Moving Kettle Falls and Meyers Creek did
+not change the top 3; Meyers Creek is #7, Kettle Falls #12. Bossburg's
+MONAZITE call is Grosz surface sample C178928 (admitted), but its
+coordinate is 18.7 km from both MRDS Bossburg records.
+
+**What is still not verified:** 8 of 12 site locations (all but Republic,
+Northport, Kettle Falls and Meyers Creek — the last at district level
+only); all `area_ha` / `depth_m` / bulk density (assumed); every
+stream-sediment grade used in Task 4. The verification that CIM expects at
+this stage — independent sampling of the anomalies and twin sampling of
+legacy NURE sites — has not happened. `docs/FIELD_PROTOCOL.md` defines it.
 
 ---
 
@@ -148,9 +292,11 @@ indicates feldspar involvement (positive = cumulate; negative = fractionated mel
 
 ## Volume and Grade Uncertainty
 
-**Depth uncertainty:** Treated as 1-sigma of a normal distribution, derived from the
-range of MRDS production records for each site. The standard deviation is set per-site
-in config (`depth_uncertainty_m`).
+**Depth uncertainty:** Treated as 1-sigma of a normal distribution. The standard
+deviation is set per-site in config (`depth_uncertainty_m`). Site `area_ha`, `depth_m`
+and `depth_uncertainty_m` are unsourced assumptions (`dims_source` in config), not
+MRDS production records — MRDS does not record tailings footprint or depth. Verify
+from lidar footprints or WA DNR placer reports before quoting tonnes.
 
 **Grade uncertainty (stream sediment → in-situ grade proxy):**
 
@@ -166,7 +312,8 @@ published placer REE datasets.
 
 - Depth: Normal(depth_m, depth_unc_m), clipped at 0
 - Grade: LogNormal(ln(ndpr_ppm), 0.4)
-- Tonnage: area_m² × depth_sample × bulk_density
+- Tonnage: area_m² × depth_sample × bulk_density (1.5 t/m³ assumed, not measured;
+  CIM §2.6.5 — measure at the first auger holes)
 - Endowment: tonnage × grade / 10⁶
 
 P10 / P50 / P90 percentiles reported. P50 is the headline estimate used in integration scoring.
@@ -202,7 +349,7 @@ be factored into any project economics.
 | Criterion | Score range | Weight | Rationale |
 |-----------|-------------|--------|-----------|
 | Th source (monazite) | 0–2 | 1.0 | Primary mineralogical signal |
-| Magnetic high | 0–1 | 1.0 | Proxy for magnetite/monazite concentration |
+| Magnetic high | 0–1 | 1.0 | Proxy for magnetite/monazite concentration. Excluded when the grid is synthetic (NE WA today) |
 | Source lithology | 0–3 | 1.0 | Catchment REE source rock quality |
 | Data coverage | 0–2 | 1.0 | Penalizes low-quality lidar/topo data |
 | NdPr endowment (P50) | 0–2 | **2.0** | Primary economic driver — double-weighted |
@@ -215,8 +362,10 @@ all other criteria are screening filters that confirm or reduce confidence in th
 endowment estimate.
 
 **Weight sensitivity:** One-at-a-time ±50% perturbation of each weight is performed
-in `integration.py`. After the 0.10° nearest-sample join, Hunters stays #1–#2;
-Bossburg and Oroville can leave the top 3. Do not say the top 3 are stable.
+in `integration.py`. With synthetic magnetics scored (pre-audit), Hunters was
+#1–#2 and Bossburg / Oroville could leave the top 3. With magnetics excluded
+(current default), Bossburg / Oroville / Hunters hold the top 3 under every
+perturbation — stable on legacy inputs, not verified ones.
 Results written to `integration_weight_sensitivity.csv`.
 
 ---
@@ -321,20 +470,32 @@ side of the Kettle. 0.50 / 0.34 / 0.56 is “new belt.” Do not quote only 0.89
 
 | Belt | Shuffled | ~3 km dead-zone | 0.4° block |
 |------|----------|-----------------|------------|
-| California Sierra | 0.86 | 0.83 | **0.69** |
+| California Sierra | 0.87 | 0.84 | **0.65** |
 | Idaho Batholith | 0.73 | 0.67 | 0.63 |
 | Montana SW gulches | 0.69 | 0.62 | 0.61 |
 | Colorado Wet Mountains | 0.67 | 0.50 | 0.49 |
 
-California’s forest does not beat Washington on other states (Idaho 0.43,
-Montana 0.42, Colorado 0.53, Fall Zone 0.54 at 0.15°). High flat P is a
-province (heavies present), not a trap. Keep slope out of the 200 trees;
-Task 11 ranks the bar.
+**DEM header fix (29 Sep 2026).** `fetch_dem._clip_dem` padded past the top
+of the mosaic (north = 40.0°); `read()` clipped the window but
+`window_transform()` did not, so the CA DEM header sat 0.02° north of its
+pixels. The 200 m valley-floor label cut therefore compared elevations from
+~2 km away. Fixed by intersecting the window with the raster before building
+the transform (`tests/test_fetch_dem.py`). CA rerun: 22 / 596 labels flip
+(360 → 352 yes); shuffled 0.86 → 0.87, dead-zone 0.83 → 0.84, block
+0.69 → 0.65. One block fold moved 0.84 → 0.57, so read the block number
+as ± 0.15. The other belts' DEMs do not start at a mosaic's top or left
+edge and were not affected.
+
+California’s forest does not beat Washington on other states (Idaho 0.41,
+Montana 0.48, Colorado 0.46, Fall Zone 0.53 at 0.15°; 0.43 / 0.42 / 0.53 /
+0.54 before the DEM fix). High flat P is a province (heavies present), not
+a trap. Keep slope out of the 200 trees; Task 11 ranks the bar.
 
 **Cousins test (not a product):** Cr, Nb, Hf, Sc, W were added to local forests
 on every belt (`--cousins`). Empty or <20-positive cousins were dropped
 (Washington Hf/W; California W). Dead-zone vs the suite-only local forest:
-Washington 0.70→0.69, Idaho 0.67→0.66, California 0.83→0.84, Montana 0.62→0.64.
+Washington 0.70→0.69, Idaho 0.67→0.66, California 0.83→0.84 (pre-DEM-fix
+labels; not rerun), Montana 0.62→0.64.
 Shuffled CV rose a little. That is lithology leak, not a better fingerprint.
 Those sidecar joblibs were deleted. `/predict` still uses the eleven-element suite.
 
@@ -421,7 +582,9 @@ Config `data.radiometric_*_tif` already points at the clipped NE WA GeoTIFFs.
    Panel A is airborne eTh + NURE stream-sediment Th anomalies; panel B
    is the point-level concordance scatter. Agreement is a ground-truth
    check on both datasets; disagreement flags drainage transport, cover,
-   or survey gaps. Site-table columns `rad_*` / `rad_th_agree` and
+   or survey gaps. The ρ ≈ 0.05 below is mostly lake and surface media;
+   on validated stream samples the check cannot run (150 of 154 Th are
+   `<100`). See *Data validation and verification*. Site-table columns `rad_*` / `rad_th_agree` and
    `task1_radiometric_concordance.csv` are written only when the eTh
    TIFF exists. Airborne highs use linear mean+2SD of the windowed grid
    (same convention as the magnetic placeholder, not the log-space
@@ -548,8 +711,8 @@ homework, not transfer. The Fall Zone list is WA gold-P on sand country
 on `/model-info` — do not hide it. Separately, a belt-local Sierra forest
 (`models/task9_rf_placer_gold.ca_sierra_placer.joblib`) trains on Sierra NURE
 + Sierra gold MRDS with Au/As dropped and a **0.03°** label radius (0.15°
-paints ~88% yes; 0.05° still ~68%). Shuffled CV ~0.86; 3 km dead-zone ~0.83;
-**0.4° block CV ~0.69** (quote the block). Task 11 reads the local
+paints ~88% yes; 0.05° still ~68%). Shuffled CV ~0.87; 3 km dead-zone ~0.84;
+**0.4° block CV ~0.65** (quote the block; fixed DEM). Task 11 reads the local
 `task9_ml_nure_probability.csv` plus PAD-US / MLRS: 2 expedition / 4 confirm
 (2 USFS `access_ok`). Northern HSSR is empty above ~39°. That forest is
 not the doorbell, does not travel, and is not proof the Washington model

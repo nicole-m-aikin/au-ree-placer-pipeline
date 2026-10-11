@@ -1,13 +1,13 @@
-site_name,nominal_rank,min_rank,max_rank,rank_range,stable_top3
-Hunters Placer,1,1,2,1,True
-Bossburg Placer,2,1,5,4,False
-Oroville Placer,3,2,4,2,False
-Colville Placer,4,2,5,3,False
-Old Dominion Mine,5,3,6,3,False
-Conconully Placer,6,5,8,3,False
-Brender Placer,7,5,10,5,False
-Sanpoil River Placer,8,6,9,3,False
-Kettle Falls Placer,9,6,10,4,False
-Republic Gold District,10,9,12,3,False
-Northport Placer,11,10,12,2,False
-Meyers Creek Placer,12,10,12,2,False
+site_name,nominal_rank,min_rank,max_rank,rank_range,stable_top3,magnetic_criterion
+Bossburg Placer,1,1,3,2,True,excluded: synthetic aeromagnetic grid (data.aeromagnetic_tif is null)
+Oroville Placer,2,1,2,1,True,excluded: synthetic aeromagnetic grid (data.aeromagnetic_tif is null)
+Hunters Placer,3,2,3,1,True,excluded: synthetic aeromagnetic grid (data.aeromagnetic_tif is null)
+Colville Placer,4,4,7,3,False,excluded: synthetic aeromagnetic grid (data.aeromagnetic_tif is null)
+Conconully Placer,5,4,5,1,False,excluded: synthetic aeromagnetic grid (data.aeromagnetic_tif is null)
+Sanpoil River Placer,6,4,8,4,False,excluded: synthetic aeromagnetic grid (data.aeromagnetic_tif is null)
+Meyers Creek Placer,7,6,9,3,False,excluded: synthetic aeromagnetic grid (data.aeromagnetic_tif is null)
+Old Dominion Mine,8,6,9,3,False,excluded: synthetic aeromagnetic grid (data.aeromagnetic_tif is null)
+Republic Gold District,9,8,12,4,False,excluded: synthetic aeromagnetic grid (data.aeromagnetic_tif is null)
+Brender Placer,10,7,12,5,False,excluded: synthetic aeromagnetic grid (data.aeromagnetic_tif is null)
+Northport Placer,11,9,12,3,False,excluded: synthetic aeromagnetic grid (data.aeromagnetic_tif is null)
+Kettle Falls Placer,12,10,12,2,False,excluded: synthetic aeromagnetic grid (data.aeromagnetic_tif is null)

@@ -35,8 +35,10 @@ FEATURES_BY_COMMODITY = {
     'all':         ['Th', 'Ce', 'La', 'P', 'U', 'Au', 'As', 'Ti', 'Fe', 'Zr', 'Y'],
 }
 
-# NURE encodes below-detection as the negative of the MDL. |value| > 10 is an
-# artifact, not a measurement (see load_nure / METHODOLOGY.md).
+# NURE encodes below-detection as the negative of the MDL, at any magnitude
+# (e.g. Th '<100'). The frozen-doorbell path keeps the legacy rule that
+# |value| > 10 is rejected, for reproducibility of the published forest.
+# The validated path is pipeline/data_validation.py.
 MDL_NEG_LIMIT = 10.0
 P_WT_PCT_MAX = 1.0
 FE_WT_PCT_MAX = 20.0

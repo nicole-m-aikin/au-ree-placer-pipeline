@@ -1,0 +1,55 @@
+# Kernville cluster subset of configs/kern_river/config.yaml — a small test
+# box (~11 x 11 km, 17 gold MRDS, 32 NURE samples) for comparing the 30 m
+# Copernicus DEM against a 10 m 3DEP DEM pulled from Earth Engine
+# (pipeline/fetch_gee_dem.py) before deciding whether 10 m belongs in
+# production scoring. See pipeline/compare_dem_sources.py.
+#
+# Baseline (this config): 30 m Copernicus, same as every other region.
+# Compared input: configs/kern_river_subset_3dep10m/config.yaml — identical
+# except dem_tif.
+#
+#   python -m pipeline.county_rank --config configs/kern_river_subset/config.yaml
+
+study_area:
+  name: "Kern River placers (Kernville cluster subset)"
+  short: "ca_kern_river_subset"
+  state: CA
+  bbox:
+    lon_min: -118.50
+    lon_max: -118.38
+    lat_min:  35.68
+    lat_max:  35.78
+  map_padding: 0.08
+  crs: "EPSG:4326"
+
+outputs_dir: "kern_river_subset/outputs"
+
+data:
+  nure_csv:        "data/nure/nure_ca_kern_river_subset_sediment.csv"
+  mrds_geojson:    "data/mrds/mrds_ca_kern_river_subset.geojson"
+  sgmc_state: CA
+  dem_tif: data/dem/ca_kern_river_subset_30m.tif
+  dem_3dep10m_tif: data/dem/ca_kern_river_subset_3dep10m.tif
+  gsw_occurrence_tif: data/water/ca_kern_river_subset_gsw_occurrence.tif
+  hobby_reports_csv: null
+  padus_geojson: "data/padus/padus_ca_kern_river.geojson"
+  mlrs_geojson: "data/mlrs/mlrs_claims_ca_kern_river.geojson"
+  aiannh_geojson: "data/aiannh/aiannh_ca_kern_river.geojson"
+
+task11:
+  land_access: true
+  claim_buffer_m: 50
+
+county_rank:
+  seed_cell_km: 3.0
+  max_seeds: 300
+  up_km: 0.5
+  down_km: 4.0
+  snap_m: 600
+  min_snap_km2: 1.0
+  pans_per_walk: 2
+  chem_radius_km: 3.0
+  chem_elements: [Au, As]
+  closed_claim_radius_m: 300
+
+sites: []

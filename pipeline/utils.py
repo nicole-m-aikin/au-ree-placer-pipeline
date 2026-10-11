@@ -22,6 +22,7 @@ Gut-check: zoom the figure and compare any polygon/patch layer edge to
 the hillshade edge. They must be flush. Any overhang = clipping violation.
 """
 
+import json
 import os
 import numpy as np
 import pandas as pd
@@ -54,7 +55,14 @@ def setup_mpl():
 
 
 def load_nure(cfg):
-    """Load NURE CSV, apply half-MDL below-detection substitution, convert wt% majors to ppm."""
+    """Load NURE CSV, apply half-MDL below-detection substitution, convert wt% majors to ppm.
+
+    Negative values are below-detection results with MDL = |v|. This frozen-doorbell
+    path keeps the legacy rule (|v| <= 10 → |v|/2; |v| > 10 → NaN) so the published
+    forest reproduces; the larger MDLs are real censored results, not artifacts.
+    The validated path is pipeline/data_validation.py (half-MDL at any magnitude,
+    with {el}_mdl / {el}_censored columns).
+    """
     path = cfg['data']['nure_csv']
     df = pd.read_csv(path)
     COORD_COLS = {'lat', 'lon', 'lat_orig', 'long_orig', 'depth'}
@@ -153,6 +161,11 @@ def sites_gdf(cfg):
     from shapely.geometry import Point
     sites = cfg['sites']
     df = pd.DataFrame(sites)
+    # GeoJSON / GPKG drivers cannot write dict or list cells (e.g. mrds_review).
+    for col in df.columns:
+        if df[col].map(lambda v: isinstance(v, (dict, list))).any():
+            df[col] = df[col].map(
+                lambda v: json.dumps(v) if isinstance(v, (dict, list)) else v)
     return gpd.GeoDataFrame(
         df,
         geometry=[Point(s['lon'], s['lat']) for s in sites],

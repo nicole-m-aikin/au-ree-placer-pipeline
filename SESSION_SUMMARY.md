@@ -19,7 +19,9 @@ rewrites `/predict`.
   - NC Fall Zone (Grosz Ti–Zr–REE sand): transfer **0.50**. Fairer
     negatives (27% near gold). Not a gold walk.
 - **Wave 4 product:** hobby overlay already on the GPKGs; **one** Sierra
-  1 m LiDAR clip (walk-rank 1, USFS, −120.78, 38.60).
+  1 m LiDAR clip (walk-rank 1 cell, USFS). *29 Sep: after the DEM header
+  fix the rank-1 pans are 38.5607, −120.5262 / 38.5618, −120.5336, ~3.5 km
+  south of the clip — re-clip before walking.*
 - **California access + NURE hole:** PAD-US / MLRS ranks; HSSR is empty
   north of ~39° in the foothills box. South Yuba / Malakoff cannot be
   ML-ranked.
@@ -40,14 +42,17 @@ rewrites `/predict`.
 
   | Belt | Shuffled | 3 km dead-zone | 0.4° block |
   |------|----------|----------------|------------|
-  | California | 0.86 | 0.83 | **0.69** |
+  | California | 0.87 | 0.84 | **0.65** |
   | Idaho | 0.73 | 0.67 | 0.63 |
   | Montana | 0.69 | 0.62 | 0.61 |
   | Colorado | 0.67 | 0.50 | 0.49 |
 
-  Quote the block number, not 0.83, when you say California learned.
+  Quote the block number, not 0.84, when you say California learned.
+  *California row updated 29 Sep after the DEM header fix (was 0.86 /
+  0.83 / 0.69; 22 / 596 labels flipped).*
 - **California’s forest does not beat Washington on other states.** It
-  scores foreign mud high on both sides of the gold line (mean P ~0.7).
+  scores foreign mud high on both sides of the gold line (mean P ~0.5–0.8;
+  ID 0.41 / MT 0.48 / CO 0.46 / NC 0.53 after the DEM fix).
   That is a Sierra black-sand specialist, not a better doorbell.
 - **Extra metals were noise.** Cousins ticked shuffled CV up and left
   dead-zone flat. Lithology leak.
@@ -103,7 +108,9 @@ These were open questions. They are not anymore.
 
 1. **CA-only Task 11 sort — done.** Access + trap first, P breaks ties.
    Walk #1 USFS P=1.0; walk #2 USFS P=0.995 rose above hotter
-   private/claimed cells. Forest files did not move.
+   private/claimed cells. Forest files did not move. *29 Sep, after the
+   DEM fix and CA Task 9 + Task 11 rerun: #1 and #2 are still the two USFS
+   cells (both P=0.995; #1 pour 38.6285, −120.6993), #3 / #4 private.*
 2. **Manual Deploy** on `placer-lookalike` so `/model-info` lists the
    transfer belts. Do not change `/predict`.
 3. **Walk one Sierra access-ok cell** (USFS confirm + 1 m hillshade).

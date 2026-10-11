@@ -1,0 +1,13 @@
+site,radius_deg,before_lab_id,before_Th,before_dist_km,before_sample_source,before_coord_prec_est,after_lab_id,after_Th,after_dist_km,after_sample_source,after_coord_prec_est,after_Th_censored,after_Th_mdl,sample_changed
+Brender Placer,0.1,C164832,3.0,10.77,surface,1 second,C164832,3.0,10.77,surface,1 second,True,6.0,False
+Conconully Placer,0.1,,,,,,,,,,,,,False
+Republic Gold District,0.1,,,,,,,,,,,,,False
+Oroville Placer,0.1,,,,,,,,,,,,,False
+Kettle Falls Placer,0.1,C226226,14.1,5.27,lake,1 second,,,,,,,,True
+Bossburg Placer,0.1,C178928,33.0,10.79,surface,1 second,C178928,33.0,10.79,surface,1 second,False,,False
+Old Dominion Mine,0.1,C165499,11.0,2.07,surface,1 second,C165499,11.0,2.07,surface,1 second,False,,False
+Meyers Creek Placer,0.1,C244555,10.3,6.36,lake,10 seconds,,,,,,,,True
+Sanpoil River Placer,0.1,C244552,13.8,8.53,lake,1 second,,,,,,,,True
+Colville Placer,0.1,,,,,,,,,,,,,False
+Northport Placer,0.1,,,,,,,,,,,,,False
+Hunters Placer,0.1,C164654,20.0,5.76,surface,1 second,C164654,20.0,5.76,surface,1 second,False,,False

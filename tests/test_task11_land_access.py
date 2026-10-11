@@ -11,19 +11,27 @@ from shapely.geometry import Point
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from pipeline.task11_land_access import (
+    ACCESS_COLS,
     ACCESS_OK_TYPES,
+    TRIBAL_NOT_LOADED,
+    TRIBAL_REASON,
+    _cell_access_from_pans,
     apply_access_ranks,
     annotate_points,
     classify_point,
+    config_state,
     padus_manager_type,
+    rules_note,
+    sync_walk_rank,
 )
 
 FIXTURE = os.path.join(os.path.dirname(__file__), 'fixtures', 'land_access')
 
 
-def _cfg(tmp_path=None):
+def _cfg(tmp_path=None, aiannh='aiannh_fixture.geojson'):
     padus = os.path.join(FIXTURE, 'padus_fixture.geojson')
     mlrs = os.path.join(FIXTURE, 'mlrs_fixture.geojson')
+    aiannh_p = os.path.join(FIXTURE, aiannh)
     return {
         'study_area': {
             'short': 'ca_sierra_placer',
@@ -40,6 +48,8 @@ def _cfg(tmp_path=None):
         'data': {
             'padus_geojson': padus,
             'mlrs_geojson': mlrs,
+            'aiannh_geojson': aiannh_p,
+            'sgmc_state': 'CA',
         },
     }
 
@@ -147,6 +157,133 @@ def test_annotate_points_fixture_priority():
     assert list(out.loc[out['name'] == 'blm_claimed', 'access_ok'])[0] == 'no'
 
 
+def test_tribal_beats_restricted_and_blm():
+    got = classify_point(
+        False,
+        {'Mang_Name': 'Bureau of Land Management', 'Pub_Access': 'OA'},
+        None,
+        'free',
+        tribal_hit='Fixture Rancheria',
+    )
+    assert got['access_type'] == 'tribal'
+    assert got['access_ok'] == 'no'
+    assert got['access_reason'] == TRIBAL_REASON
+    assert got['tribal_land'] is True
+    assert got['tribal_name'] == 'Fixture Rancheria'
+    restricted = classify_point(
+        False, {'Mang_Name': 'X', 'Pub_Access': 'XA'}, None, 'free',
+        tribal_hit='Fixture Rancheria',
+    )
+    assert restricted['access_type'] == 'tribal'
+
+
+def test_claimed_beats_tribal_but_keeps_tribal_flag():
+    got = classify_point(
+        {'CSE_NAME': 'TEST CLAIM'}, None, None, 'free',
+        tribal_hit='Fixture Rancheria',
+    )
+    assert got['access_type'] == 'claimed'
+    assert got['access_ok'] == 'no'
+    assert got['tribal_land'] is True
+    assert 'tribal' in got['access_reason']
+
+
+def test_non_tribal_point_has_tribal_false():
+    got = classify_point(False, None, None, 'free')
+    assert got['tribal_land'] is False
+    assert got['tribal_name'] == ''
+
+
+def test_annotate_points_tribal_fixture():
+    pts = gpd.GeoDataFrame(
+        {'name': ['blm_tribal', 'usfs_tdsa', 'private', 'blm_free']},
+        geometry=[
+            Point(-121.015, 39.345),  # BLM poly ∩ Fixture Rancheria
+            Point(-120.925, 39.42),   # USFS poly ∩ statistical TDSA
+            Point(-121.15, 39.30),    # outside everything
+            Point(-121.015, 39.335),  # BLM, outside rancheria + claim
+        ],
+        crs='EPSG:4326',
+    )
+    out = annotate_points(pts, _cfg())
+    for col in ACCESS_COLS:
+        assert col in out.columns
+    row = out.set_index('name')
+    assert row.loc['blm_tribal', 'access_type'] == 'tribal'
+    assert row.loc['blm_tribal', 'access_ok'] == 'no'
+    assert row.loc['blm_tribal', 'access_reason'] == TRIBAL_REASON
+    assert bool(row.loc['blm_tribal', 'tribal_land']) is True
+    assert row.loc['blm_tribal', 'tribal_name'] == 'Fixture Rancheria'
+    assert 'tribal permission required' in row.loc['blm_tribal', 'rules_note']
+    # Statistical areas are not tribal land — note only.
+    assert row.loc['usfs_tdsa', 'access_type'] == 'usfs'
+    assert row.loc['usfs_tdsa', 'access_ok'] == 'yes'
+    assert bool(row.loc['usfs_tdsa', 'tribal_land']) is False
+    note = row.loc['usfs_tdsa', 'rules_note']
+    assert 'Notice of Intent' in note
+    assert 'suction-dredge' in note
+    assert 'Fixture Band TDSA' in note
+    assert 'landowner permission required' in row.loc['private', 'rules_note']
+    assert row.loc['blm_free', 'access_ok'] == 'yes'
+    assert bool(row.loc['blm_free', 'tribal_land']) is False
+    assert TRIBAL_NOT_LOADED not in row.loc['blm_free', 'rules_note']
+
+
+def test_missing_tribal_layer_is_noop():
+    pts = gpd.GeoDataFrame(
+        {'name': ['blm_tribal', 'private']},
+        geometry=[Point(-121.015, 39.345), Point(-121.15, 39.30)],
+        crs='EPSG:4326',
+    )
+    out = annotate_points(pts, _cfg(aiannh='does_not_exist.geojson'))
+    assert list(out['tribal_land']) == [False, False]
+    assert list(out['tribal_name']) == ['', '']
+    assert list(out['access_type']) == ['blm', 'private']
+    assert all(TRIBAL_NOT_LOADED in n for n in out['rules_note'])
+
+
+def test_tribal_screen_runs_with_land_access_off():
+    cfg = _cfg()
+    cfg['task11']['land_access'] = False
+    pts = gpd.GeoDataFrame(
+        {'name': ['blm_tribal']}, geometry=[Point(-121.015, 39.345)], crs='EPSG:4326',
+    )
+    out = annotate_points(pts, cfg)
+    assert out['access_ok'].iloc[0] == 'no'
+    assert bool(out['tribal_land'].iloc[0]) is True
+    assert out['tribal_name'].iloc[0] == 'Fixture Rancheria'
+
+
+def test_rules_note_state_and_manager():
+    wa = rules_note('usfs', 'WA')
+    assert 'district ranger' in wa and 'WDFW Gold and Fish' in wa
+    assert 'suction-dredge' in rules_note('blm', 'CA')
+    assert rules_note('private', '') == 'landowner permission required'
+    assert TRIBAL_NOT_LOADED in rules_note('usfs', 'CA', tribal_loaded=False)
+    assert config_state({'study_area': {'short': 'ne_wa'}}) == 'WA'
+    assert config_state({'study_area': {'short': 'ca_sierra_placer'}}) == 'CA'
+
+
+def test_cell_rollup_carries_tribal_columns():
+    pans = pd.DataFrame({
+        'block_id': [1, 1, 2],
+        'access_type': ['tribal', 'usfs', 'tribal'],
+        'access_ok': ['no', 'yes', 'no'],
+        'access_reason': [TRIBAL_REASON, 'usfs ok', TRIBAL_REASON],
+        'manager_name': ['R', 'USFS', 'R'],
+        'claim_status': ['free'] * 3,
+        'pub_access': ['', 'OA', ''],
+        'tribal_land': [True, False, True],
+        'tribal_name': ['R', '', 'R'],
+        'rules_note': ['tribal permission required', 'USFS: …', 'tribal permission required'],
+    })
+    cell = _cell_access_from_pans(pans).set_index('block_id')
+    assert cell.loc[1, 'access_type'] == 'usfs'
+    assert bool(cell.loc[1, 'tribal_land']) is False
+    assert cell.loc[2, 'access_type'] == 'tribal'
+    assert bool(cell.loc[2, 'tribal_land']) is True
+
+
 def test_elev_gate_clears_walk_rank():
     walk = pd.DataFrame({
         'block_id': [1, 2, 3],
@@ -226,3 +363,16 @@ def test_geometry_access_sort_raises_ok_cell_over_hotter_private():
     assert order == [1, 2, 3]
     assert int(ranked.loc[ranked['block_id'] == 1, 'access_rank'].iloc[0]) == 1
     assert pd.isna(ranked.loc[ranked['block_id'] == 2, 'access_rank'].iloc[0])
+
+
+def test_pans_carry_the_final_walk_rank_not_the_pre_access_one():
+    # Pans are cut before the access re-rank; the CSV must show the final order.
+    pans = pd.DataFrame({'block_id': [7, 7, 9, 5], 'walk_rank': [5.0, 5.0, 1.0, 6.0]})
+    walk = pd.DataFrame({
+        'block_id': [7, 9, 5],
+        'walk_rank': pd.array([1, 2, pd.NA], dtype='Int64'),
+    })
+    out = sync_walk_rank(pans, walk)
+    assert out['walk_rank'].tolist()[:3] == [1, 1, 2]
+    assert pd.isna(out['walk_rank'].iloc[3])
+    assert pans['walk_rank'].tolist() == [5.0, 5.0, 1.0, 6.0]

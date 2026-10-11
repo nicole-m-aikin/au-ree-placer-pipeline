@@ -15,6 +15,7 @@ from pipeline.utils import clip_gdf_to_map, map_extent
 from pipeline.ml_preprocess import _log_impute
 from pipeline.task9_ml_targeting import delineate_catchments, unique_placer_pour_points
 from pipeline.task1_coplacer import nearest_nure_row, site_join_radius_deg
+from pipeline import integration
 
 # ---------------------------------------------------------------------------
 # Module-level mirror of integration.py scoring helpers.
@@ -24,6 +25,10 @@ from pipeline.task1_coplacer import nearest_nure_row, site_join_radius_deg
 # replicas reproduce the identical formulas so we can test the geoscience
 # arithmetic without invoking the full pipeline (which requires real data
 # files on disk).
+#
+# _combined_score scores the magnetic criterion, i.e. the case where a real
+# aeromagnetic TIF is configured or integration.score_synthetic_magnetics is
+# true. The gated (synthetic grid) case is tested in TestSyntheticMagneticsGate.
 # ---------------------------------------------------------------------------
 
 def _score_th(src):
@@ -268,6 +273,98 @@ class TestIntegrationScoring:
         assert _score_conf('LOW')    == 0
         assert _score_conf(None)     == 0
         assert _score_conf('NONE')   == 0
+
+
+# ===========================================================================
+# A2. Synthetic magnetics gate (integration.score_synthetic_magnetics)
+# ===========================================================================
+
+def _score_frame(sites):
+    """Score columns for site dicts, via the mirror helpers above."""
+    return pd.DataFrame([{
+        'name':       f'S{i}',
+        'score_th':   _score_th(s.get('th_source', '')),
+        'score_mag':  int(bool(s.get('mag_high', False))),
+        'score_lith': float(s['source_lith_score']) if pd.notna(s.get('source_lith_score')) else 1.0,
+        'score_conf': _score_conf(s.get('confidence', 'LOW')),
+        'score_ndpr': _score_ndpr(s.get('ndpr_tonnes', 0.0)),
+        'score_au':   _score_au(s),
+        'score_y':    int(bool(s.get('y_near', False))),
+        'score_ml':   float(s.get('score_ml', 0.0)),
+    } for i, s in enumerate(sites)])
+
+
+class TestSyntheticMagneticsGate:
+    """The magnetic criterion is not scored when data.aeromagnetic_tif is null."""
+
+    def test_null_tif_is_gated_by_default(self):
+        cfg = {'data': {'aeromagnetic_tif': None}}
+        assert integration.magnetics_synthetic(cfg)
+        assert not integration.score_magnetics(cfg)
+
+    def test_missing_data_section_is_gated(self):
+        assert not integration.score_magnetics({})
+
+    def test_flag_true_scores_synthetic(self):
+        cfg = {'data': {'aeromagnetic_tif': None},
+               'integration': {'score_synthetic_magnetics': True}}
+        assert integration.score_magnetics(cfg)
+
+    def test_real_tif_always_scored(self):
+        cfg = {'data': {'aeromagnetic_tif': 'x.tif'},
+               'integration': {'score_synthetic_magnetics': False}}
+        assert not integration.magnetics_synthetic(cfg)
+        assert integration.score_magnetics(cfg)
+
+    def test_resolve_weights_aliases_and_gate(self):
+        ne_wa_style = {'th_source': 1.0, 'mag_high': 1.0, 'source_lith': 1.0, 'confidence': 1.0,
+                       'ndpr_tonnes': 2.0, 'au_pathfinder': 1.0, 'y_xenotime': 0.5,
+                       'ml_probability': 1.0}
+        scored = integration.resolve_weights(ne_wa_style, score_mag=True)
+        assert scored == [DEFAULT_WEIGHTS[k] for k in _WEIGHT_ORDER]
+        gated = integration.resolve_weights(ne_wa_style, score_mag=False)
+        assert gated[integration.MAG_IDX] == 0.0
+        assert [g for i, g in enumerate(gated) if i != integration.MAG_IDX] == \
+               [s for i, s in enumerate(scored) if i != integration.MAG_IDX]
+
+    def test_combined_score_matches_mirror_when_scored(self):
+        """The mirror _combined_score models the scored case (real TIF or flag true)."""
+        base = TestIntegrationScoring()._base_site
+        sites = [base(), base(mag_high=False, th_source='', ndpr_tonnes=5.0, score_ml=0.4)]
+        df = _score_frame(sites)
+        got = integration.combined_score(df, integration.resolve_weights(DEFAULT_WEIGHTS, True))
+        want = [round(_combined_score(s), 2) for s in sites]
+        np.testing.assert_allclose(got.values, want)
+
+    def test_gated_score_drops_exactly_the_magnetic_weight(self):
+        base = TestIntegrationScoring()._base_site
+        site = base(mag_high=True)
+        df = _score_frame([site])
+        gated = integration.combined_score(df, integration.resolve_weights(DEFAULT_WEIGHTS, False))
+        assert gated.iloc[0] == pytest.approx(
+            _combined_score(site) - DEFAULT_WEIGHTS['magnetic_high'], abs=0.01)
+
+    def test_gate_can_reorder_sites(self):
+        """A site that led only on the synthetic magnetic high loses that lead."""
+        base = TestIntegrationScoring()._base_site
+        a = base(mag_high=True, ndpr_tonnes=100.0)
+        b = base(mag_high=False, ndpr_tonnes=200.0)
+        df = _score_frame([a, b])
+        scored = integration.combined_score(df, integration.resolve_weights(DEFAULT_WEIGHTS, True))
+        gated = integration.combined_score(df, integration.resolve_weights(DEFAULT_WEIGHTS, False))
+        assert scored.iloc[0] > scored.iloc[1]
+        assert gated.iloc[1] > gated.iloc[0]
+
+    def test_sensitivity_excludes_gated_criterion(self):
+        base = TestIntegrationScoring()._base_site
+        df = _score_frame([base(), base(mag_high=False), base(th_source='')])
+        w = integration.resolve_weights(DEFAULT_WEIGHTS, False)
+        active = [i for i in range(len(integration.CRITERIA)) if i != integration.MAG_IDX]
+        ranks = integration.perturbation_ranks(df, w, active)
+        assert all(len(r) == 2 * (len(integration.CRITERIA) - 1) for r in ranks.values())
+        full = integration.perturbation_ranks(df, integration.resolve_weights(DEFAULT_WEIGHTS, True),
+                                         range(len(integration.CRITERIA)))
+        assert all(len(r) == 2 * len(integration.CRITERIA) for r in full.values())
 
 
 # ===========================================================================

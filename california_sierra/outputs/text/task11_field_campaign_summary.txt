@@ -9,19 +9,19 @@ Confirm    (high P, ≤5 km from a gold pin): 4
 Watch      (moderate P):                     0
 Skip       (low P or empty):                 19
 
-Leave-one-cell-out AUC (cells with ≥8 grabs): 0.568  (min 0.359, max 0.881, n=6 cells)
+Leave-one-cell-out AUC (cells with ≥8 grabs): 0.518  (min 0.062, max 0.872, n=6 cells)
 Same story as the 0.94 vs 0.62 folds — some cells transfer, some do not.
 
 WALK ORDER (access + trap geometry first, P breaks ties)
 
-  # 1  confirm      max P=1.0  2.7 km from gold  pour 38.5994, -120.7802  nure=4  access=usfs/yes (PAD-US Mang=USFS type=usfs Pub_Access=OA; no MLRS claim in buffer)
-  # 2  confirm      max P=0.995  0.2 km from gold  pour 38.8538, -120.7886  nure=3  access=usfs/yes (PAD-US Mang=USFS type=usfs Pub_Access=UK; no MLRS claim in buffer)
-  # 3  confirm      max P=1.0  1.4 km from gold  pour 38.5143, -121.0478  nure=4  access=claimed/no (active MLRS claim: Rocky Ridge)
-  # 4  confirm      max P=1.0  2.0 km from gold  pour 38.8258, -121.1913  nure=4  access=private/no (not in PAD-US public layer; no MLRS claim in buffer)
+  # 1  confirm      max P=0.995  1.1 km from gold  pour 38.6285, -120.6993  nure=4  access=usfs/yes (PAD-US Mang=USFS type=usfs Pub_Access=OA; no MLRS claim in buffer)
+  # 2  confirm      max P=0.995  0.2 km from gold  pour 38.8538, -120.7886  nure=2  access=usfs/yes (PAD-US Mang=USFS type=usfs Pub_Access=UK; no MLRS claim in buffer)
+  # 3  confirm      max P=1.0  2.0 km from gold  pour 38.8258, -121.1913  nure=4  access=private/no (not in PAD-US public layer; no MLRS claim in buffer)
+  # 4  confirm      max P=1.0  1.4 km from gold  pour 38.5143, -121.0478  nure=4  access=private/no (not in PAD-US public layer; no MLRS claim in buffer)
 
 ACCESS-OK RANK (I can go test — BLM/USFS/state_park, claim-free)
 
-  access# 1  walk# 1  usfs  USFS  max P=1.0  pour 38.5994, -120.7802
+  access# 1  walk# 1  usfs  USFS  max P=0.995  pour 38.6285, -120.6993
   access# 2  walk# 2  usfs  USFS  max P=0.995  pour 38.8538, -120.7886
 
 NURE COVERAGE
@@ -37,9 +37,9 @@ PAMPHLET PARK PINS (access at the pin — not the cell pour)
   CA-BRP  Bridgeport South Yuba SP  access=state_park/yes  SPR  outside NURE coverage (north of 39.00°)
   CA-H49  Highway 49 South Yuba  access=state_park/yes  SPR  outside NURE coverage (north of 39.00°)
   CA-MAL  Malakoff Diggins SHP  access=state_park/yes  SPR  outside NURE coverage (north of 39.00°)
-  CA-MAR  Marshall Gold Discovery SHP  access=state_park/yes  SPR  NURE 2.0 km P=0.89
-  CA-AUB  Auburn State Recreation Area  access=local_gov/no  CITY  NURE 1.9 km P=0.99
-  CA-MAM  Mammoth Bar  access=private/no    NURE 2.1 km P=0.95
+  CA-MAR  Marshall Gold Discovery SHP  access=state_park/yes  SPR  NURE 2.0 km P=0.94
+  CA-AUB  Auburn State Recreation Area  access=local_gov/no  CITY  NURE 1.9 km P=1.00
+  CA-MAM  Mammoth Bar  access=private/no    NURE 2.1 km P=0.97
   CA-ORE  Oregon Creek  access=claimed/no  Pike City #1  outside NURE coverage (north of 39.00°)
   CA-BUT  Forks of Butte  access=private/no    outside NURE coverage (north of 39.00°)
   CA-HUM  Humbug Creek at North Bloomfield  access=claimed/no  THE BLACK DIGGINS  outside NURE coverage (north of 39.00°)
@@ -48,7 +48,8 @@ PAMPHLET PARK PINS (access at the pin — not the cell pour)
 nure_spots = NURE chemistry grabs (the forest). They say this creek.
 pan_locations = trap-geometry pins on the D8 line. They say stand here.
 hobby_reports = pamphlet / opt-in pans. Catchment hit-rate, not AUC.
-access_* = PAD-US manager + MLRS claims + hobby club/industry labels.
+access_* = PAD-US manager + MLRS claims + Census AIANNH tribal areas
+  + hobby club/industry labels. rules_note = agency reminders per pin.
 This is a screen, not permission. Confirm claims and park rules on site.
 Pour point = where the water leaves. It is not automatically a pan pin.
 See task11_nure_spots.csv, task11_pan_locations.csv,

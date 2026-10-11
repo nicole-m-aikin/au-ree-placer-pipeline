@@ -1,0 +1,43 @@
+GEOMETRY-ONLY WALK LIST (no chemistry)
+Chemistry-dark pins: national NURE HSSR has no sediment here.
+No P. No forest. Trap geometry on the 30 m D8 creek + land access.
+====================================================================
+
+WALKS (access-ok pans first, then best trap score)
+
+  #1  Humbug Creek at North Bloomfield (Humbug Creek)  reach 6.9 km (up 1.0 / down 5.9, stop: reached_trunk)  pans 2/3 access-ok  reach 55% access-ok, 45% claimed, 0% private
+  #2  Purdon Crossing (South Yuba River)  reach 6.0 km (up 3.0 / down 3.0, stop: length)  pans 2/3 access-ok  reach 39% access-ok, 49% claimed, 12% private
+  #3  Highway 49 South Yuba (South Yuba River)  reach 6.0 km (up 3.0 / down 3.0, stop: length)  pans 2/3 access-ok  reach 36% access-ok, 52% claimed, 12% private
+  #4  Malakoff Diggins SHP (Humbug Creek)  reach 5.4 km (up 1.0 / down 4.3, stop: reached_trunk)  pans 2/3 access-ok  reach 70% access-ok, 27% claimed, 3% private
+  #5  South Yuba Recreation Area (South Yuba River)  reach 6.0 km (up 3.0 / down 3.0, stop: length)  pans 1/3 access-ok  reach 54% access-ok, 34% claimed, 12% private
+  #6  Edwards Crossing (South Yuba River)  reach 6.0 km (up 3.0 / down 3.0, stop: length)  pans 1/3 access-ok  reach 43% access-ok, 33% claimed, 24% private
+  #7  Bridgeport South Yuba SP (South Yuba River)  reach 6.0 km (up 3.0 / down 3.0, stop: length)  pans 1/3 access-ok  reach 12% access-ok, 39% claimed, 24% private
+
+PAN PINS (access-ok first)
+
+  pan#1  walk#1  39.36222, -120.92139  902 m  2.6 km downstream of Humbug Creek at North Bloomfield  trap=7.5 (slope_break;knickpoint_foot;power_drop;tributary_junction)  access=state_park/yes (SPR)
+  pan#2  walk#1  39.37222, -120.89417  1052 m  0.8 km upstream of Humbug Creek at North Bloomfield  trap=5.5 (slope_break;power_drop;tributary_junction)  access=usfs/yes (USFS)
+  pan#3  walk#2  39.32722, -121.04167  515 m  0.6 km upstream of Purdon Crossing  trap=6.0 (slope_break;knickpoint_foot;power_drop)  access=state_park/yes (SPR)
+  pan#4  walk#2  39.32000, -121.05028  519 m  0.9 km downstream of Purdon Crossing  trap=6.0 (slope_break;knickpoint_foot;power_drop)  access=state_park/yes (SPR)
+  pan#5  walk#3  39.29833, -121.08500  375 m  0.9 km upstream of Highway 49 South Yuba  trap=6.0 (slope_break;knickpoint_foot;power_drop)  access=state_park/yes (SPR)
+  pan#6  walk#3  39.29694, -121.09194  357 m  0.2 km upstream of Highway 49 South Yuba  trap=6.0 (slope_break;knickpoint_foot;power_drop)  access=state_park/yes (SPR)
+  pan#7  walk#4  39.35528, -120.92278  890 m  1.9 km downstream of Malakoff Diggins SHP  trap=6.0 (slope_break;knickpoint_foot;power_drop)  access=state_park/yes (SPR)
+  pan#8  walk#4  39.34444, -120.92750  747 m  3.4 km downstream of Malakoff Diggins SHP  trap=6.0 (slope_break;knickpoint_foot;power_drop)  access=state_park/yes (SPR)
+  pan#9  walk#5  39.33139, -120.99278  606 m  2.4 km downstream of South Yuba Recreation Area  trap=6.0 (slope_break;knickpoint_foot;power_drop)  access=state_park/yes (SPR)
+  pan#10  walk#6  39.32639, -121.01389  554 m  3.0 km downstream of Edwards Crossing  trap=6.0 (slope_break;knickpoint_foot;power_drop)  access=blm/yes (BLM)
+  pan#11  walk#7  39.29278, -121.19528  163 m  0.0 km downstream of Bridgeport South Yuba SP  trap=6.0 (slope_break;knickpoint_foot;power_drop)  access=state_park/yes (SPR)
+  pan#12  walk#1  39.36667, -120.91333  976 m  1.6 km downstream of Humbug Creek at North Bloomfield  trap=5.0 (slope_break;knickpoint_foot;valley_opens)  access=claimed/no (NO GUTS NO GLORY)
+  pan#13  walk#2  39.31139, -121.05944  459 m  2.9 km downstream of Purdon Crossing  trap=6.0 (slope_break;knickpoint_foot;power_drop)  access=private/no ()
+  pan#14  walk#3  39.29278, -121.10139  330 m  0.9 km downstream of Highway 49 South Yuba  trap=6.0 (slope_break;knickpoint_foot;power_drop)  access=claimed/no (Lucky Boy 2)
+  pan#15  walk#4  39.35194, -120.92472  861 m  2.3 km downstream of Malakoff Diggins SHP  trap=5.5 (slope_break;knickpoint_foot;tributary_junction)  access=claimed/no (Scrooge's Vault)
+  pan#16  walk#5  39.33500, -120.96917  607 m  0.2 km upstream of South Yuba Recreation Area  trap=6.0 (slope_break;knickpoint_foot;power_drop)  access=claimed/no (GOLDIE LOX 2)
+  pan#17  walk#5  39.33111, -120.97861  605 m  0.9 km downstream of South Yuba Recreation Area  trap=6.0 (slope_break;knickpoint_foot;power_drop)  access=claimed/no (GOLDIE LOX 1)
+  pan#18  walk#6  39.33278, -120.96444  626 m  2.5 km upstream of Edwards Crossing  trap=4.0 (slope_break;power_drop)  access=claimed/no (GOLDIE LOX 2)
+  pan#19  walk#6  39.32806, -120.99472  577 m  1.0 km downstream of Edwards Crossing  trap=4.0 (slope_break;power_drop)  access=private/no ()
+  pan#20  walk#7  39.28972, -121.17583  192 m  2.2 km upstream of Bridgeport South Yuba SP  trap=6.0 (slope_break;knickpoint_foot;power_drop)  access=claimed/no (laughing little star)
+  pan#21  walk#7  39.29444, -121.18167  175 m  1.4 km upstream of Bridgeport South Yuba SP  trap=6.0 (slope_break;knickpoint_foot;power_drop)  access=claimed/no (laughing little star)
+
+Trap score = slope break 2 + knickpoint foot 2 + power drop 2 +
+tributary mouth 1.5 + valley opening 1 (max 8.5; no NURE bonus).
+Scores are relative to each reach. 30 m DEM sees system-scale traps,
+not a bar head or a bedrock crack. Confirm claims and rules on site.

@@ -463,6 +463,9 @@ SHP_NAME = {
     'pub_access': 'pub_acc',
     'access_rank': 'acc_rank',
     'rank_in_access_type': 'rank_atype',
+    'tribal_land': 'tribal',
+    'tribal_name': 'tribe_nm',
+    'rules_note': 'rules',
 }
 
 
@@ -684,6 +687,7 @@ def write_gpkg_from_outputs(cfg):
         'catchment_ok', 'notes',
         'access_type', 'access_ok', 'access_reason', 'manager_name',
         'claim_status', 'pub_access', 'access_rank', 'rank_in_access_type',
+        'tribal_land', 'tribal_name', 'rules_note',
         'n_hobby_hit', 'trap_score',
     ) if c in walk.columns]
     cells = cells.drop(columns=[c for c in rank_cols if c in cells.columns], errors='ignore')
@@ -799,12 +803,21 @@ def write_gpkg_from_outputs(cfg):
 
     padus_open = None
     mlrs_claims = None
-    from pipeline.task11_land_access import annotate_campaign, land_access_enabled
+    from pipeline.task11_land_access import (
+        annotate_campaign,
+        land_access_enabled,
+        sync_walk_rank,
+    )
     if land_access_enabled(cfg):
         pans, pour_points, walk, padus_open, mlrs_claims = annotate_campaign(
             cfg, pans, pour_points, walk, hobby=hobby,
         )
         walk.to_csv(out(cfg, 'tables', 'task11_catchment_walk_list.csv'), index=False)
+        if nure_spots is not None and len(nure_spots):
+            nure_spots = sync_walk_rank(nure_spots, walk)
+            nure_spots.drop(columns='geometry', errors='ignore').to_csv(
+                out(cfg, 'tables', 'task11_nure_spots.csv'), index=False,
+            )
         if pans is not None and len(pans):
             pans.drop(columns='geometry', errors='ignore').to_csv(
                 out(cfg, 'tables', 'task11_pan_locations.csv'), index=False,
@@ -813,7 +826,8 @@ def write_gpkg_from_outputs(cfg):
         access_cols = [c for c in (
             'walk_rank', 'campaign_class', 'access_type', 'access_ok',
             'access_reason', 'manager_name', 'claim_status', 'pub_access',
-            'access_rank', 'rank_in_access_type', 'max_p', 'nearest_gold_km',
+            'access_rank', 'rank_in_access_type', 'tribal_land', 'tribal_name',
+            'rules_note', 'max_p', 'nearest_gold_km',
             'n_hobby_hit', 'trap_score',
         ) if c in walk.columns]
         if access_cols:
@@ -1436,7 +1450,8 @@ def _nure_coverage_and_park_access(cfg):
             c for c in (
                 'report_id', 'name', 'creek_name', 'lon', 'lat', 'public_land',
                 'access_type', 'access_ok', 'claim_status', 'manager_name',
-                'pub_access', 'access_reason', 'chem_note',
+                'pub_access', 'access_reason', 'tribal_land', 'tribal_name',
+                'rules_note', 'chem_note',
             ) if c in gdf.columns
         ]
         park_df = gdf.drop(columns='geometry', errors='ignore')[keep].copy()
@@ -1548,7 +1563,8 @@ def _write_summary(cfg, walk, spots_df, loco, p_is_transfer=False):
         "nure_spots = NURE chemistry grabs (the forest). They say this creek.",
         "pan_locations = trap-geometry pins on the D8 line. They say stand here.",
         "hobby_reports = pamphlet / opt-in pans. Catchment hit-rate, not AUC.",
-        "access_* = PAD-US manager + MLRS claims + hobby club/industry labels.",
+        "access_* = PAD-US manager + MLRS claims + Census AIANNH tribal areas",
+        "  + hobby club/industry labels. rules_note = agency reminders per pin.",
         "This is a screen, not permission. Confirm claims and park rules on site.",
         "Pour point = where the water leaves. It is not automatically a pan pin.",
         "See task11_nure_spots.csv, task11_pan_locations.csv,",

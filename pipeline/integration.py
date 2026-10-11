@@ -25,6 +25,67 @@ from pipeline.utils import (WONG, setup_mpl, watermark, save_fig, ensure_outputs
                              _FIG_HGAP, _FIG_VGAP, _ax_rect)
 
 
+# (canonical weight key, legacy config alias, default, score column)
+CRITERIA = [
+    ('th_source_monazite', 'th_source',   1.0, 'score_th'),
+    ('magnetic_high',      'mag_high',    1.0, 'score_mag'),
+    ('source_lith',        None,          1.0, 'score_lith'),
+    ('coverage',           'confidence',  1.0, 'score_conf'),
+    ('ndpr_volume',        'ndpr_tonnes', 2.0, 'score_ndpr'),
+    ('au_pathfinder',      None,          1.0, 'score_au'),
+    ('y_xenotime',         None,          0.5, 'score_y'),
+    ('ml_probability',     None,          1.0, 'score_ml'),
+]
+SCORE_COLS = [c[3] for c in CRITERIA]
+MAG_IDX = SCORE_COLS.index('score_mag')
+MAG_SCORED = 'scored'
+MAG_EXCLUDED = 'excluded: synthetic aeromagnetic grid (data.aeromagnetic_tif is null)'
+
+
+def magnetics_synthetic(cfg):
+    """True when no aeromagnetic TIF is configured (Task 1 falls back to synthetic centers)."""
+    return not (cfg.get('data') or {}).get('aeromagnetic_tif')
+
+
+def score_magnetics(cfg):
+    """Score the magnetic criterion? Real TIF: yes. Synthetic: only if integration.score_synthetic_magnetics."""
+    if not magnetics_synthetic(cfg):
+        return True
+    return bool((cfg.get('integration') or {}).get('score_synthetic_magnetics', False))
+
+
+def resolve_weights(w, score_mag=True):
+    """Weights aligned with CRITERIA (canonical key, then alias, then default); magnetic 0 when gated."""
+    out_w = []
+    for key, alias, default, col in CRITERIA:
+        val = w.get(key, w.get(alias, default)) if alias else w.get(key, default)
+        out_w.append(0.0 if (col == 'score_mag' and not score_mag) else float(val))
+    return out_w
+
+
+def combined_score(df, weights):
+    """Weighted sum of the CRITERIA score columns, rounded to 2 dp."""
+    return sum(df[col] * wt for col, wt in zip(SCORE_COLS, weights)).round(2)
+
+
+def perturbation_ranks(df, weights, active, factors=(0.5, 1.5), name_col='name'):
+    """One-at-a-time weight perturbation over the `active` criterion indices.
+
+    Returns {site name: [rank under each perturbation]}; excluded criteria are
+    not perturbed.
+    """
+    ranks = {n: [] for n in df[name_col]}
+    for wi in active:
+        for factor in factors:
+            pw = list(weights)
+            pw[wi] = weights[wi] * factor
+            perturbed = sum(df[sc].values * pw[i] for i, sc in enumerate(SCORE_COLS))
+            order = np.argsort(perturbed)[::-1]
+            for rank_pos, idx in enumerate(order, 1):
+                ranks[df.iloc[idx][name_col]].append(rank_pos)
+    return ranks
+
+
 def run(cfg):
     setup_mpl()
     ensure_outputs(cfg['outputs_dir'])
@@ -104,8 +165,13 @@ def run(cfg):
     merged['has_th_anomaly']    = merged['has_th_anomaly'].fillna(False)
 
     # ── Compute combined score ────────────────────────────────────────────────
+    mag_on = score_magnetics(cfg)
     merged['score_th']   = merged['th_source'].apply(score_th)
-    merged['score_mag']  = merged['mag_high'].astype(int)
+    merged['score_mag']  = merged['mag_high'].astype(int) if mag_on else 0
+    merged['mag_scored'] = mag_on
+    merged['mag_criterion'] = MAG_SCORED if mag_on else MAG_EXCLUDED
+    if not mag_on:
+        print(f"  Magnetic criterion {MAG_EXCLUDED}; set integration.score_synthetic_magnetics: true to score it")
     merged['score_lith'] = merged['source_lith_score'].fillna(1.0)
     merged['score_conf'] = merged['confidence'].apply(score_conf)
     merged['score_ndpr'] = merged['ndpr_tonnes'].apply(score_ndpr)
@@ -126,16 +192,8 @@ def run(cfg):
     else:
         merged['score_ml'] = 0.0
 
-    merged['combined_score'] = (
-        merged['score_th']   * w.get('th_source_monazite', w.get('th_source', 1.0)) +
-        merged['score_mag']  * w.get('magnetic_high',      w.get('mag_high', 1.0)) +
-        merged['score_lith'] * w.get('source_lith',         1.0) +
-        merged['score_conf'] * w.get('coverage',            w.get('confidence', 1.0)) +
-        merged['score_ndpr'] * w.get('ndpr_volume',         w.get('ndpr_tonnes', 2.0)) +
-        merged['score_au']   * w.get('au_pathfinder',       1.0) +
-        merged['score_y']    * w.get('y_xenotime',          0.5) +
-        merged['score_ml']   * w.get('ml_probability',      1.0)
-    ).round(2)
+    base_w = resolve_weights(w, score_mag=mag_on)
+    merged['combined_score'] = combined_score(merged, base_w)
 
     merged_sorted = merged.sort_values('combined_score', ascending=False).reset_index(drop=True)
     merged_sorted['rank'] = merged_sorted.index + 1
@@ -298,7 +356,8 @@ def run(cfg):
 
     # Panel B: radar chart
     ax2 = fig.add_axes(_ax_rect(_col2_left, _row1_bottom, _RADAR_W, MAP_H, figW, figH), polar=True)
-    categories = ['Th Source\n(0-2)', 'Mag High\n(0-1)', 'Source\nLith (0-3)',
+    categories = ['Th Source\n(0-2)', 'Mag High\n(0-1)' if mag_on else 'Mag High\n(excluded)',
+                  'Source\nLith (0-3)',
                   'Coverage\n(0-2)', 'NdPr\nVolume (0-2)', 'Au/As\nPathfinder (0-2)',
                   'Y Xenotime\nHREE (0-1)', 'ML\nProbability']
     N      = len(categories)
@@ -327,7 +386,9 @@ def run(cfg):
     # Panel C: ranked stacked bar
     ax3 = fig.add_axes(_ax_rect(_col1_left, _row2_bottom, MAP_W, _BAR_H, figW, figH))
     score_comps  = ['score_th','score_mag','score_lith','score_conf','score_ndpr','score_au','score_y','score_ml']
-    comp_labels  = ['Th source (monazite)','Magnetic high','Source lithology',
+    comp_labels  = ['Th source (monazite)',
+                    'Magnetic high' if mag_on else 'Magnetic high (excluded: synthetic grid)',
+                    'Source lithology',
                     'Data coverage','NdPr P50 (Monte Carlo)','Au/As pathfinder',
                     'Y xenotime (HREE co-product)', 'ML probability']
     comp_colors  = [WONG['green'], WONG['blue'], WONG['sky'], WONG['pink'],
@@ -442,7 +503,8 @@ def run(cfg):
             f"  Coordinates:    {site.lat:.4f}°N, {site.lon:.4f}°W",
             f"  Combined score: {site.combined_score:.1f}",
             f"  Th source:      {th_txt}",
-            f"  Mag high:       {'YES' if site.get('mag_high') else 'NO'}",
+            (f"  Mag high:       {'YES' if site.get('mag_high') else 'NO'}" if mag_on
+             else "  Mag high:       not scored (synthetic aeromagnetic grid)"),
             f"  Source lith:    {site.get('source_lith_desc','N/A')}",
             f"  Est. tonnage:   {int(t4.get('tonnage_t', 0)):,} t" if len(t4) else "  Est. tonnage:   N/A",
             f"  NdPr grade:     ~{int(t4.get('ndpr_ppm', 0))} ppm (±50%)" if len(t4) else "  NdPr grade:     N/A",
@@ -475,28 +537,13 @@ def run(cfg):
         f.write('\n'.join(hdr + body + footer))
 
     # ── Weight sensitivity (one-at-a-time ±50%) ──────────────────────────────
-    _WEIGHT_KEYS  = ['th_source_monazite', 'magnetic_high', 'source_lith',
-                     'coverage', 'ndpr_volume', 'au_pathfinder', 'y_xenotime', 'ml_probability']
-    _SCORE_COLS   = ['score_th', 'score_mag', 'score_lith',
-                     'score_conf', 'score_ndpr', 'score_au', 'score_y', 'score_ml']
-    _DEFAULTS     = [1.0, 1.0, 1.0, 1.0, 2.0, 1.0, 0.5, 1.0]
-    base_w        = [w.get(k, d) for k, d in zip(_WEIGHT_KEYS, _DEFAULTS)]
-
-    # Collect rank for each site under every perturbation
+    # A gated criterion has weight 0; perturbing it would only repeat the nominal ranks.
+    active = [i for i in range(len(CRITERIA)) if mag_on or i != MAG_IDX]
     site_names   = list(merged_sorted['name'])
     all_ranks    = {n: [int(merged_sorted.loc[merged_sorted['name'] == n, 'rank'].iloc[0])]
                     for n in site_names}
-
-    for wi in range(len(_WEIGHT_KEYS)):
-        for factor in (0.5, 1.5):
-            pw = list(base_w)
-            pw[wi] = base_w[wi] * factor
-            perturbed_score = sum(
-                merged[sc].values * pw[i] for i, sc in enumerate(_SCORE_COLS)
-            )
-            order = np.argsort(perturbed_score)[::-1]
-            for rank_pos, idx in enumerate(order, 1):
-                all_ranks[merged.iloc[idx]['name']].append(rank_pos)
+    for n, ranks in perturbation_ranks(merged, base_w, active).items():
+        all_ranks[n].extend(ranks)
 
     sens_rows = []
     for _, row in merged_sorted.iterrows():
@@ -508,6 +555,7 @@ def run(cfg):
             'max_rank':    int(max(ranks)),
             'rank_range':  int(max(ranks) - min(ranks)),
             'stable_top3': bool(max(ranks) <= 3),
+            'magnetic_criterion': MAG_SCORED if mag_on else MAG_EXCLUDED,
         })
 
     sens_df = pd.DataFrame(sens_rows)

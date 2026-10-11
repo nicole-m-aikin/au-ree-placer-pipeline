@@ -42,6 +42,18 @@ data:
   # Cited recreational gazetteer + opt-in form rows. Not a scrape. Not labels.
   hobby_reports_csv: "data/hobby_reports/hobby_reports_ne_wa.csv"
 
+# ── NURE validation (pipeline/data_validation.py; CIM 2018 §2.1.1.1) ─────────
+# Validated path only. The frozen doorbell keeps utils.load_nure for
+# reproducibility. 7.5′ samples (548 at one point) and non-stream media are
+# excluded; censored values are kept at half-MDL with their MDL.
+# "surface" (Grosz, USGS; medium not further documented) admitted on review
+# 27 Sep 2026. Sensitivity scenario keeps the stream-only result on record.
+nure_validation:
+  max_coord_prec: "0.01 degree"
+  sample_sources: ["stream/river", "surface"]
+  max_censored_frac: 0.5
+  sensitivity_sample_sources: ["stream/river"]
+
 # ── MRDS commodity filter ─────────────────────────────────────────────────────
 mrds_commodities: ["placer gold", "gold", "REE", "monazite", "magnetite"]
 
@@ -69,14 +81,31 @@ ml:
   catchment_snap_max_m: 5000
   anomaly_top_pct: 0.10
 
-# ── Mine sites (from MRDS; 12 NE WA priority placer sites) ───────────────────
-# Each site carries all per-site parameters needed by tasks 1, 4, 5
+# ── Mine sites (12 NE WA priority placer sites) ──────────────────────────────
+# Each site carries all per-site parameters needed by tasks 1, 4, 5.
+# Provenance (CIM 2018 legacy-data check): the former mrds_id values
+# M004321–M004332 did not exist in the MRDS extract and were removed. Every
+# site was checked against ne_wa_ree/data/mrds/mrds_ne_wa.geojson with
+#   python -m pipeline.site_provenance --config configs/ne_washington/config.yaml
+# (-> ne_wa_ree/outputs/tables/site_verification.csv). mrds_match classes:
+#   matched_name_near — name match ≤5 km; coordinates moved to the MRDS record
+#   matched_name_far  — name match >5 km; config coordinate kept, candidate
+#                       MRDS coordinate recorded for human review
+#   nearest_only      — no MRDS name match; coordinate kept, unverified
+# Coordinates not moved are the original rounded (0.01–0.05°) config values.
 sites:
   - name: "Brender Placer"
     lon: -119.42
     lat: 48.51
     commodity: "placer_gold"
-    mrds_id: "M004321"
+    mrds_id: null
+    mrds_match: "no_match"
+    mrds_review:
+      decision: "rejected"
+      dep_id: "10131500"
+      note: "Fuzzy name hit (Bender Custom Mill) is a mill 52 km NNW, not this placer. No MRDS record named Brender."
+    location_source: "unverified"
+    location_status: "unverified"
     # Lidar coverage (lidar.wa.gov)
     lidar_year: 2016
     lidar_res_m: 1.0
@@ -85,16 +114,22 @@ sites:
     topo_year: 1969
     topo_contour_ft: 40
     topo_available: true
-    # Tailings volume estimate (from MRDS production records)
+    # Tailings footprint/depth: working assumptions with no cited source (MRDS
+    # carries no area or depth for these sites). Task 4/5 tonnage inherits this.
     area_ha: 3.2
     depth_m: 3.5
     depth_uncertainty_m: 1.5
+    dims_source: "unsourced assumption — verify (lidar footprint / WA DNR placer reports)"
 
   - name: "Conconully Placer"
     lon: -119.75
     lat: 48.55
     commodity: "placer_gold"
-    mrds_id: "M004322"
+    mrds_id: null
+    mrds_match: "nearest_only"
+    # Nearest MRDS: Arizona (10009032, lode occurrence) 0.64 km — not a placer.
+    location_source: "unverified"
+    location_status: "unverified"
     lidar_year: 2016
     lidar_res_m: 1.0
     lidar_quality: "MEDIUM"
@@ -104,12 +139,19 @@ sites:
     area_ha: 8.5
     depth_m: 4.0
     depth_uncertainty_m: 1.5
+    dims_source: "unsourced assumption — verify (lidar footprint / WA DNR placer reports)"
 
   - name: "Republic Gold District"
-    lon: -118.73
-    lat: 48.65
+    # Was lon -118.73, lat 48.65 (rounded config value); moved 1.59 km.
+    lon: -118.74392
+    lat: 48.63901
     commodity: "gold_lode"
-    mrds_id: "M004323"
+    mrds_id: "10041093"
+    mrds_match: "matched_name_near"
+    mrds_site_name: "Republic"
+    mrds_url: "https://mrdata.usgs.gov/mrds/show-mrds.php?dep_id=10041093"
+    location_source: "config (rounded); MRDS dep_id 10041093 (Republic, past producer)"
+    location_status: "mrds_name_match"
     lidar_year: 2013
     lidar_res_m: 2.0
     lidar_quality: "LOW"
@@ -119,12 +161,23 @@ sites:
     area_ha: 15.0
     depth_m: 6.0
     depth_uncertainty_m: 2.0
+    dims_source: "unsourced assumption — verify (lidar footprint / WA DNR placer reports)"
 
   - name: "Oroville Placer"
     lon: -119.43
     lat: 48.94
     commodity: "placer_gold"
-    mrds_id: "M004324"
+    mrds_id: null
+    mrds_match: "matched_name_far"
+    # Nearest MRDS is Similkameen Placers (10095927, gold) 1.03 km — plausibly
+    # the intended record (Oroville sits on the Similkameen) but no name match.
+    mrds_candidate_dep_id: "10067187"
+    mrds_candidate_site_name: "Oroville - Nighthawk"
+    mrds_candidate_dist_km: 17.40
+    mrds_candidate_lon: -119.66785
+    mrds_candidate_lat: 48.94984
+    location_source: "unverified"
+    location_status: "unverified"
     lidar_year: 2021
     lidar_res_m: 0.5
     lidar_quality: "HIGH"
@@ -134,12 +187,23 @@ sites:
     area_ha: 22.0
     depth_m: 5.0
     depth_uncertainty_m: 2.0
+    dims_source: "unsourced assumption — verify (lidar footprint / WA DNR placer reports)"
 
   - name: "Kettle Falls Placer"
-    lon: -118.06
-    lat: 48.60
+    # Was lon -118.06, lat 48.60 (rounded config value); moved 0.83 km.
+    lon: -118.06692
+    lat: 48.59405
     commodity: "placer_gold"
-    mrds_id: "M004325"
+    mrds_id: "10180995"
+    mrds_match: "accepted_on_review"
+    mrds_site_name: "Meyers Falls Placer"
+    mrds_url: "https://mrdata.usgs.gov/mrds/show-mrds.php?dep_id=10180995"
+    mrds_review:
+      decision: "accepted"
+      dep_id: "10180995"
+      note: "Meyers Falls is the pre-1940 name of the Kettle Falls townsite; nearest MRDS gold record, 0.83 km."
+    location_source: "MRDS dep_id 10180995 (Meyers Falls Placer, prospect); accepted on review 27 Sep 2026"
+    location_status: "mrds_accepted_review"
     lidar_year: 2020
     lidar_res_m: 0.5
     lidar_quality: "HIGH"
@@ -149,12 +213,23 @@ sites:
     area_ha: 5.5
     depth_m: 3.0
     depth_uncertainty_m: 1.5
+    dims_source: "unsourced assumption — verify (lidar footprint / WA DNR placer reports)"
 
   - name: "Bossburg Placer"
     lon: -117.80
     lat: 48.72
     commodity: "placer_gold"
-    mrds_id: "M004326"
+    mrds_id: null
+    mrds_match: "matched_name_far"
+    # Also Bossburg Bar Placer (10180695) 19.2 km. Both lie ~18 km W of the
+    # config point, near the Bossburg townsite on the Columbia.
+    mrds_candidate_dep_id: "10041472"
+    mrds_candidate_site_name: "Bossburg Bar"
+    mrds_candidate_dist_km: 18.67
+    mrds_candidate_lon: -118.04862
+    mrds_candidate_lat: 48.75624
+    location_source: "unverified"
+    location_status: "unverified"
     lidar_year: 2019
     lidar_res_m: 1.0
     lidar_quality: "MEDIUM"
@@ -164,12 +239,18 @@ sites:
     area_ha: 4.0
     depth_m: 3.5
     depth_uncertainty_m: 1.5
+    dims_source: "unsourced assumption — verify (lidar footprint / WA DNR placer reports)"
 
   - name: "Old Dominion Mine"
     lon: -118.25
     lat: 48.43
     commodity: "gold_lode"
-    mrds_id: "M004327"
+    mrds_id: null
+    mrds_match: "nearest_only"
+    # Lode mine, not a placer. No 'Old Dominion' record in the bbox-clipped
+    # extract; nearest is Juliet Little Tom (10009008) 1.50 km.
+    location_source: "unverified"
+    location_status: "unverified"
     lidar_year: 2013
     lidar_res_m: 2.0
     lidar_quality: "LOW"
@@ -179,12 +260,24 @@ sites:
     area_ha: 12.0
     depth_m: 8.0
     depth_uncertainty_m: 3.0
+    dims_source: "unsourced assumption — verify (lidar footprint / WA DNR placer reports)"
 
   - name: "Meyers Creek Placer"
-    lon: -119.10
-    lat: 48.32
+    # Was lon -119.10, lat 48.32 (wrong latitude; 57.9 km from the district).
+    # MRDS point is a district-level occurrence, not a single placer working.
+    lon: -118.96782
+    lat: 48.83317
     commodity: "placer_gold"
-    mrds_id: "M004328"
+    mrds_id: "10072470"
+    mrds_match: "accepted_on_review"
+    mrds_site_name: "Myers Creek-Chewsaw-Mary Ann Creek"
+    mrds_url: "https://mrdata.usgs.gov/mrds/show-mrds.php?dep_id=10072470"
+    mrds_review:
+      decision: "accepted"
+      dep_id: "10072470"
+      note: "Config latitude 48.32 was wrong; Myers Creek / Chesaw district is near 48.83 N. District-level point."
+    location_source: "MRDS dep_id 10072470 (district occurrence); accepted on review 27 Sep 2026"
+    location_status: "mrds_accepted_review_district"
     lidar_year: 2016
     lidar_res_m: 1.0
     lidar_quality: "MEDIUM"
@@ -194,12 +287,22 @@ sites:
     area_ha: 2.8
     depth_m: 2.5
     depth_uncertainty_m: 1.0
+    dims_source: "unsourced assumption — verify (lidar footprint / WA DNR placer reports)"
 
   - name: "Sanpoil River Placer"
     lon: -118.85
     lat: 48.20
     commodity: "placer_gold"
-    mrds_id: "M004329"
+    mrds_id: null
+    mrds_match: "matched_name_far"
+    # Also 'Sandpoil River, West Fla.' (10041144) 29.2 km — same reach.
+    mrds_candidate_dep_id: "10130830"
+    mrds_candidate_site_name: "Sanpoil River, West Fork Placers"
+    mrds_candidate_dist_km: 29.56
+    mrds_candidate_lon: -118.74614
+    mrds_candidate_lat: 48.45674
+    location_source: "unverified"
+    location_status: "unverified"
     lidar_year: 2013
     lidar_res_m: 2.0
     lidar_quality: "LOW"
@@ -209,12 +312,17 @@ sites:
     area_ha: 9.0
     depth_m: 4.5
     depth_uncertainty_m: 2.0
+    dims_source: "unsourced assumption — verify (lidar footprint / WA DNR placer reports)"
 
   - name: "Colville Placer"
     lon: -117.90
     lat: 48.55
     commodity: "placer_gold"
-    mrds_id: "M004330"
+    mrds_id: null
+    mrds_match: "nearest_only"
+    # Nearest MRDS: Rocky Lake (10008501, lode occurrence) 6.06 km.
+    location_source: "unverified"
+    location_status: "unverified"
     lidar_year: 2020
     lidar_res_m: 0.5
     lidar_quality: "HIGH"
@@ -224,12 +332,19 @@ sites:
     area_ha: 7.0
     depth_m: 3.5
     depth_uncertainty_m: 1.5
+    dims_source: "unsourced assumption — verify (lidar footprint / WA DNR placer reports)"
 
   - name: "Northport Placer"
-    lon: -117.78
-    lat: 48.92
+    # Was lon -117.78, lat 48.92 (rounded config value); moved 0.46 km.
+    lon: -117.78581
+    lat: 48.92155
     commodity: "placer_gold"
-    mrds_id: "M004331"
+    mrds_id: "10204774"
+    mrds_match: "matched_name_near"
+    mrds_site_name: "Northport Bar Placer"
+    mrds_url: "https://mrdata.usgs.gov/mrds/show-mrds.php?dep_id=10204774"
+    location_source: "config (rounded); MRDS dep_id 10204774 (Northport Bar Placer, prospect)"
+    location_status: "mrds_name_match"
     lidar_year: 2019
     lidar_res_m: 1.0
     lidar_quality: "MEDIUM"
@@ -239,12 +354,18 @@ sites:
     area_ha: 3.5
     depth_m: 3.0
     depth_uncertainty_m: 1.0
+    dims_source: "unsourced assumption — verify (lidar footprint / WA DNR placer reports)"
 
   - name: "Hunters Placer"
     lon: -118.21
     lat: 48.14
     commodity: "placer_gold"
-    mrds_id: "M004332"
+    mrds_id: null
+    mrds_match: "nearest_only"
+    # Nearest MRDS: Blue Bar Placer (10056138, gold) 3.70 km — a placer, but
+    # no name match; accepting it is a human call.
+    location_source: "unverified"
+    location_status: "unverified"
     lidar_year: 2020
     lidar_res_m: 0.5
     lidar_quality: "HIGH"
@@ -254,6 +375,7 @@ sites:
     area_ha: 4.5
     depth_m: 3.0
     depth_uncertainty_m: 1.5
+    dims_source: "unsourced assumption — verify (lidar footprint / WA DNR placer reports)"
 
 # ── Synthetic aeromagnetic anomaly centers (task1) ────────────────────────────
 # Used when aeromagnetic_tif is null; based on Blakely et al. 1999 Pacific NW

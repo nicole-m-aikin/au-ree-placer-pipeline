@@ -1,0 +1,7 @@
+# Copy certified values and 1 SD from the CRM certificate, one row per element.
+# element must match a results column (Au_ppm, Th_ppm, Ce_ppm, La_ppm, Nd_ppm,
+# Pr_ppm, Y_ppm, Zr_ppm, Ti_ppm, Fe_pct) in the SAME units and for the SAME
+# method family (e.g. fire assay Au, fusion ICP-MS REE). Lines starting with #
+# are ignored. Do not invent values; leave a CRM out until the certificate is in hand.
+# example: OREAS-XXX,Au_ppm,<certified value>,<1 SD>
+crm_id,element,certified_value,sd

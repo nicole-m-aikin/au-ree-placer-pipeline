@@ -27,10 +27,32 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=7.4"]
+dev = ["pytest>=7.4", "ruff>=0.6", "mypy>=1.11"]
+tracking = ["mlflow>=2.10"]
+gee = ["earthengine-api>=1.0"]
 
 [tool.setuptools.packages.find]
 include = ["pipeline*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+src = ["api", "pipeline", "scripts"]
+include = [
+    "api/ops.py",
+    "pipeline/mlflow_tracking.py",
+    "scripts/smoke_health.py",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["UP017"]
+
+[tool.mypy]
+python_version = "3.11"
+files = ["api"]
+ignore_missing_imports = true
+warn_unused_ignores = true

@@ -212,6 +212,67 @@ def delineate_catchments(mrds_gdf, dem_path, snap_max_m=5000, snap_percentile=99
     return result
 
 
+def filter_mrds_commodity(mrds_gdf, commodity_filter):
+    """MRDS rows for 'placer_gold' | 'ree' | 'cu_mo'; 'all' → unchanged."""
+    if commodity_filter == 'placer_gold':
+        mrds_gdf = mrds_gdf[
+            mrds_gdf['target_commodity'].str.contains('Gold', na=False) &
+            ~mrds_gdf['target_commodity'].str.contains('Rare Earth', na=False)
+        ]
+    elif commodity_filter == 'ree':
+        mrds_gdf = mrds_gdf[
+            mrds_gdf['target_commodity'].str.contains('Rare Earth', na=False)
+        ]
+    elif commodity_filter == 'cu_mo':
+        mrds_gdf = mrds_gdf[
+            mrds_gdf['code_list'].str.contains(r'\bCU\b|\bMO\b', na=False, regex=True)
+        ]
+    return mrds_gdf
+
+
+def proximity_labels(df, mrds_gdf, dem_path, mrds_radius, max_elev_diff, commodity_filter):
+    """Published label: within mrds_radius of a target MRDS site, plus the DEM
+    valley-floor elevation check when dem_path exists. Returns (y, label_desc)."""
+    mrds_coords  = np.column_stack([mrds_gdf.geometry.x.values,
+                                    mrds_gdf.geometry.y.values])
+    nure_coords  = np.column_stack([df['lon'].values, df['lat'].values])
+
+    mrds_tree = cKDTree(mrds_coords)
+    dist_to_mrds, nearest_mrds_idx = mrds_tree.query(nure_coords)
+    in_radius = dist_to_mrds <= mrds_radius
+
+    # Elevation filter: stream sediment placers are hydraulically sorted on
+    # valley floors. A NURE sample taken on a steep hillside within 3 km of a
+    # placer mine is in the source-rock terrain, not the deposit zone — its
+    # geochemistry reflects bedrock weathering, not placer concentration.
+    # Require the NURE sample and its nearest MRDS site to be within
+    # `max_elev_diff` metres of each other (both on the valley floor).
+    if dem_path and os.path.exists(dem_path):
+        import rasterio as _rio
+        with _rio.open(dem_path) as src:
+            nodata = src.nodata
+            nure_elevs = np.array([
+                v[0] if (v[0] != nodata and not np.isnan(v[0])) else np.nan
+                for v in src.sample(zip(df['lon'], df['lat']))
+            ])
+            mrds_elevs = np.array([
+                v[0] if (v[0] != nodata and not np.isnan(v[0])) else np.nan
+                for v in src.sample(zip(mrds_gdf.geometry.x,
+                                        mrds_gdf.geometry.y))
+            ])
+        nearest_mrds_elev = mrds_elevs[nearest_mrds_idx]
+        elev_diff = np.abs(nure_elevs - nearest_mrds_elev)
+        on_valley_floor = (elev_diff <= max_elev_diff) | np.isnan(elev_diff)
+        y = (in_radius & on_valley_floor).astype(int)
+        label_desc = (f"MRDS proximity ≤{mrds_radius}° [{commodity_filter}] + "
+                      f"elevation within {max_elev_diff} m")
+        return y, label_desc
+    y = in_radius.astype(int)
+    label_desc = (f"MRDS proximity ≤{mrds_radius}° [{commodity_filter}] "
+                  f"(no DEM elevation filter)")
+    return y, label_desc
+
+
 def run(cfg, export_only=False):
     setup_mpl()
     ensure_outputs(cfg['outputs_dir'])
@@ -280,20 +341,7 @@ def run(cfg, export_only=False):
 
         # Filter MRDS to the target commodity before labeling so the model learns
         # the geochemical signature of that specific deposit type.
-        if commodity_filter == 'placer_gold':
-            mrds_gdf = mrds_gdf[
-                mrds_gdf['target_commodity'].str.contains('Gold', na=False) &
-                ~mrds_gdf['target_commodity'].str.contains('Rare Earth', na=False)
-            ]
-        elif commodity_filter == 'ree':
-            mrds_gdf = mrds_gdf[
-                mrds_gdf['target_commodity'].str.contains('Rare Earth', na=False)
-            ]
-        elif commodity_filter == 'cu_mo':
-            mrds_gdf = mrds_gdf[
-                mrds_gdf['code_list'].str.contains(r'\bCU\b|\bMO\b', na=False, regex=True)
-            ]
-        # 'all' → no filter
+        mrds_gdf = filter_mrds_commodity(mrds_gdf, commodity_filter)
 
         if len(mrds_gdf) < 3:
             raise ValueError(
@@ -338,47 +386,9 @@ def run(cfg, export_only=False):
                           f"{len(catchment_gdf)} catchments")
             mrds_label_used = True
         else:
-            mrds_coords  = np.column_stack([mrds_gdf.geometry.x.values,
-                                            mrds_gdf.geometry.y.values])
-            nure_coords  = np.column_stack([df['lon'].values, df['lat'].values])
-
-            from scipy.spatial import cKDTree as _cKDTree
-            mrds_tree = _cKDTree(mrds_coords)
-            dist_to_mrds, nearest_mrds_idx = mrds_tree.query(nure_coords)
-            in_radius = dist_to_mrds <= mrds_radius
-
-            # Elevation filter: stream sediment placers are hydraulically sorted on
-            # valley floors. A NURE sample taken on a steep hillside within 3 km of a
-            # placer mine is in the source-rock terrain, not the deposit zone — its
-            # geochemistry reflects bedrock weathering, not placer concentration.
-            # Require the NURE sample and its nearest MRDS site to be within
-            # `max_elev_diff` metres of each other (both on the valley floor).
-            elev_filter_applied = False
-            if dem_path and os.path.exists(dem_path):
-                import rasterio as _rio
-                with _rio.open(dem_path) as src:
-                    nodata = src.nodata
-                    nure_elevs = np.array([
-                        v[0] if (v[0] != nodata and not np.isnan(v[0])) else np.nan
-                        for v in src.sample(zip(df['lon'], df['lat']))
-                    ])
-                    mrds_elevs = np.array([
-                        v[0] if (v[0] != nodata and not np.isnan(v[0])) else np.nan
-                        for v in src.sample(zip(mrds_gdf.geometry.x,
-                                                mrds_gdf.geometry.y))
-                    ])
-                nearest_mrds_elev = mrds_elevs[nearest_mrds_idx]
-                elev_diff = np.abs(nure_elevs - nearest_mrds_elev)
-                on_valley_floor = (elev_diff <= max_elev_diff) | np.isnan(elev_diff)
-                y = (in_radius & on_valley_floor).astype(int)
-                elev_filter_applied = True
-                label_desc = (f"MRDS proximity ≤{mrds_radius}° [{commodity_filter}] + "
-                              f"elevation within {max_elev_diff} m")
-            if not elev_filter_applied:
-                y = in_radius.astype(int)
-                label_desc = (f"MRDS proximity ≤{mrds_radius}° [{commodity_filter}] "
-                              f"(no DEM elevation filter)")
-
+            y, label_desc = proximity_labels(
+                df, mrds_gdf, dem_path, mrds_radius, max_elev_diff, commodity_filter,
+            )
             mrds_label_used = True
     except Exception as _e:
         print(f"  MRDS label unavailable ({_e}); falling back to top-{top_pct*100:.0f}% index")
@@ -549,6 +559,8 @@ def run(cfg, export_only=False):
             )
             print(f"  Persisted gold MRDS coords: {gold_path} "
                   f"({len(gold_mrds_coords)} sites)")
+        from pipeline.mlflow_tracking import maybe_log_after_persist
+        maybe_log_after_persist(meta_path, model_path)
 
     if include_cousins:
         df[['lat', 'lon', 'p_anomalous']].to_csv(
@@ -938,13 +950,18 @@ if __name__ == '__main__':
     same_basin = '--same-basin' in args
     export_only = '--export-only' in args
     include_cousins = '--cousins' in args
-    args = [a for a in args if a not in ('--same-basin', '--export-only', '--cousins')]
+    validated = '--validated' in args
+    args = [a for a in args
+            if a not in ('--same-basin', '--export-only', '--cousins', '--validated')]
     cfg_path = args[0] if args else 'configs/ne_washington/config.yaml'
     with open(cfg_path) as f:
         cfg = yaml.safe_load(f)
     if include_cousins:
         cfg.setdefault('ml', {})['include_cousins'] = True
-    if same_basin:
+    if validated:
+        from pipeline.validation_impact import run_validated_impact
+        run_validated_impact(cfg)
+    elif same_basin:
         run_same_basin_qa(cfg)
     else:
         run(cfg, export_only=export_only)

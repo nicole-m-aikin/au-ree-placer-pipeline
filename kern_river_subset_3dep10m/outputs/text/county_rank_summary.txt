@@ -1,0 +1,27 @@
+COUNTY RANKING — Kern River placers (Kernville cluster subset, 3DEP 10 m)
+A screen, not a gold claim and not a land-status opinion.
+====================================================================
+
+Pans scored: 11   recreational-ok: 10   stakeable screen: 10
+stake_status counts: open_screen=10, not_federal=1
+Chemistry available on 10 of 11 pans.
+
+KERN COUNTY
+  Go pan here (top 5 of 10)
+    #1  35.72488, -118.42989  score 85  trap 7.0  gold 0.6 km  usfs (USFS)  near Lady Belle
+    #2  35.71032, -118.42683  score 76  trap 7.0  gold 1.7 km  usfs (USFS)  near Cove
+    #3  35.71643, -118.43259  score 76  trap 6.0  gold 1.0 km  usfs (USFS)  near Lady Belle
+    #4  35.66514, -118.46205  score 75  trap 5.5  gold 0.8 km  usfs (USFS)  near Dead River Channel Prospect
+    #5  35.66154, -118.49376  score 73  trap 5.0  gold 0.7 km  blm (BLM)  near Rock Cabin
+  Possibly stakeable (top 5 of 10)
+    #1  35.72488, -118.42989  score 85  USFS
+    #2  35.71032, -118.42683  score 76  USFS
+    #3  35.71643, -118.43259  score 76  USFS
+    #4  35.66514, -118.46205  score 75  USFS
+    #5  35.66154, -118.49376  score 73  BLM
+
+evidence = 45% trap geometry + 35% gold MRDS proximity + 20% NURE Au/As
+(chem weight drops out where no NURE sample is within range).
+Stakeable = BLM/USFS fee land, no active MLRS claim in the buffer, no
+PAD-US withdrawal hint, not tribal. Check the BLM master title plat
+and MLRS case records before locating anything.

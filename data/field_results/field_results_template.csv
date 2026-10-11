@@ -1,0 +1,1 @@
+sample_id,parent_id,qc_type,crm_id,site_id,block_id,lon,lat,gps_accuracy_m,sample_medium,collected_by,date_collected,lab,certificate_id,method,batch_id,Au_ppm,Th_ppm,Ce_ppm,La_ppm,Nd_ppm,Pr_ppm,Y_ppm,Zr_ppm,Ti_ppm,Fe_pct
