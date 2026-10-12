@@ -34,8 +34,18 @@ LogEvent = dict[str, object]
 
 
 def configure_logging() -> None:
-    """Ensure the ops logger emits INFO. Uvicorn owns the root handlers."""
+    """Write one bare JSON object per request to stderr.
+
+    Uvicorn does not attach a handler to this logger. The stdlib last-resort
+    handler only prints WARNING and above, and it prefixes the line, so
+    ``docker logs`` would miss the JSON object the integration check reads.
+    """
     LOGGER.setLevel(logging.INFO)
+    if not LOGGER.handlers:
+        handler = logging.StreamHandler()
+        handler.setLevel(logging.INFO)
+        handler.setFormatter(logging.Formatter('%(message)s'))
+        LOGGER.addHandler(handler)
 
 
 def client_ip(request: Request) -> str:
