@@ -125,12 +125,15 @@ def fetch_mlrs_closed(cfg, force=False):
     return dest
 
 
-def run(cfg, force=False):
-    from pipeline import fetch_dem
+def run(cfg, force=False, skip_dem=False):
     from pipeline.task12_second_belt import fetch_mrds_gold, fetch_nure_hssr
 
     lon_min, lon_max, lat_min, lat_max = bbox(cfg)
-    fetch_dem.run(cfg, force=force)
+    if skip_dem:
+        print('  Skipping DEM (ee_trace / local D8 not needed for this fetch)', flush=True)
+    else:
+        from pipeline import fetch_dem
+        fetch_dem.run(cfg, force=force)
 
     nure = resolve_data_path(cfg, 'nure_csv')
     if nure and (force or not os.path.exists(nure)):
@@ -149,16 +152,26 @@ def run(cfg, force=False):
     except Exception as exc:
         print(f'  Closed MLRS fetch failed ({exc}); no re-stake hints', flush=True)
     fetch_counties(state_fips(cfg), force=force)
+    try:
+        from pipeline.placer_layers import ensure_placer_layers
+        ensure_placer_layers(force=force)
+    except Exception as exc:
+        print(f'  Placer layers failed ({exc}); ranking continues without them',
+              flush=True)
 
 
 def main():
     parser = argparse.ArgumentParser(description='Fetch all county-ranking inputs for a region')
     parser.add_argument('--config', required=True)
     parser.add_argument('--force', action='store_true')
+    parser.add_argument(
+        '--skip-dem', action='store_true',
+        help='Skip Copernicus DEM (ok when county_rank.ee_trace uses MERIT Hydro)',
+    )
     args = parser.parse_args()
     with open(args.config) as f:
         cfg = yaml.safe_load(f)
-    run(cfg, force=args.force)
+    run(cfg, force=args.force, skip_dem=args.skip_dem)
     print(json.dumps({'region': _short(cfg), 'status': 'fetched'}))
 
 

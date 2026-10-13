@@ -21,6 +21,9 @@ study_area:
 
 outputs_dir: "california_sierra/outputs"
 
+gee:
+  project: placer-picker-511303
+
 data:
   nure_csv:        "data/nure/nure_ca_sierra_sediment.csv"
   mrds_geojson:    "data/mrds/mrds_ca_sierra.geojson"
@@ -92,6 +95,8 @@ county_rank:
   chem_radius_km: 3.0
   chem_elements: [Au, As]
   closed_claim_radius_m: 300
+  gee_sample: true
+  ee_trace: true
 
 sites:
   - name: "Malakoff Diggins"

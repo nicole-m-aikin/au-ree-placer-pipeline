@@ -1,0 +1,123 @@
+COUNTY RANKING — Modoc and Lassen
+A screen, not a gold claim and not a land-status opinion.
+====================================================================
+
+Pans scored: 457   recreational-ok: 130   stakeable screen: 97
+stake_status counts: not_federal=194, claimed=120, open_screen=98, withdrawn_hint=37, mixed_manager=8
+Chemistry available on 2 of 457 pans.
+Mined ground (score halved): 0.
+Within 2 km of Eocene gravel: 8.
+EE flags: land_drop=39  dry=430  seasonal=10  year_round=17  burned=326  lidar1m=457
+
+BUTTE COUNTY
+  Go pan here (top 5 of 26)
+    #1  39.88376, -121.63088  score 84  trap 6.0  gold 0.7 km  blm (BLM)  near Tiger Mine
+    #2  39.89950, -121.62425  score 84  trap 6.0  gold 0.6 km  blm (BLM)  near Tiger Mine
+    #3  39.89602, -121.62586  score 84  trap 6.0  gold 0.2 km  blm (BLM)  near Unnamed
+    #4  39.88939, -121.62834  score 84  trap 6.0  gold 0.7 km  blm (BLM)  near Unnamed
+    #5  39.66448, -121.42385  score 84  trap 6.0  gold 1.1 km  state_park (SPR)  near Mcclung Prospect
+  Possibly stakeable (top 5 of 10)
+    #1  39.73327, -121.40425  score 84  USFS
+    #2  39.73947, -121.33455  score 84  USFS
+    #3  39.79863, -121.42943  score 84  USFS
+    #4  39.80277, -121.43689  score 84  USFS
+    #5  39.72930, -121.41596  score 84  USFS
+
+GLENN COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+LASSEN COUNTY
+  Go pan here (top 5 of 10)
+    #1  40.42022, -120.83277  score 85  trap 6.0  gold 0.8 km  usfs (USFS)  near Unknown
+    #2  40.29610, -120.59510  score 85  trap 6.0  gold 2.0 km  usfs (USFS)  near Unknown
+    #3  40.42188, -120.83774  score 85  trap 6.0  gold 0.5 km  usfs (USFS)  near Unknown
+    #4  40.34785, -120.19363  score 84  trap 6.0  gold 0.9 km  blm (BLM)  near Lost Cave
+    #5  40.30297, -120.11283  score 84  trap 6.0  gold 2.6 km  blm (BLM)  near Unnamed Prospect
+  Possibly stakeable (top 5 of 10)
+    #1  40.42022, -120.83277  score 85  USFS
+    #2  40.29610, -120.59510  score 85  USFS
+    #3  40.42188, -120.83774  score 85  USFS
+    #4  40.34785, -120.19363  score 84  BLM
+    #5  40.30297, -120.11283  score 84  BLM
+
+MODOC COUNTY
+  Go pan here (top 5 of 5)
+    #1  41.97584, -120.21692  score 84  trap 6.0  gold 0.8 km  usfs (USFS)  near Blue Bell Group
+    #2  41.38540, -120.95615  score 84  trap 6.0  gold 3.1 km  usfs (USFS)  near Modoc-Mammoth
+    #3  41.93371, -120.11574  score 84  trap 6.0  gold 1.4 km  usfs (USFS)  near Sweeney Prospect
+    #4  41.92957, -120.11326  score 79  trap 6.0  gold 1.7 km  usfs (USFS)  near Sweeney Prospect
+    #5  41.97915, -120.23101  score 70  trap 4.0  gold 1.1 km  usfs (USFS)  near Blue Bell Group
+  Possibly stakeable (top 5 of 6)
+    #1  41.97584, -120.21692  score 84  USFS
+    #2  41.37739, -120.95502  score 84  USFS
+    #3  41.38540, -120.95615  score 84  USFS
+    #4  41.93371, -120.11574  score 84  USFS
+    #5  41.92957, -120.11326  score 79  USFS
+
+PLUMAS COUNTY
+  Go pan here (top 5 of 62)
+    #1  39.78861, -120.70300  score 84  trap 6.0  gold 0.9 km  state_park (SPR)  near Golden Hind
+    #2  39.77152, -120.68459  score 84  trap 6.0  gold 0.6 km  state_park (SDNR)  near Carnation
+    #3  39.76407, -120.68791  score 84  trap 6.0  gold 0.9 km  state_park (SDNR)  near Carnation
+    #4  39.76913, -120.70563  score 84  trap 6.0  gold 1.1 km  state_park (SPR)  near Plumas Eureka Mine
+    #5  39.76581, -120.70812  score 84  trap 6.0  gold 0.9 km  state_park (SPR)  near Plumas Eureka Mine
+  Possibly stakeable (top 5 of 44)
+    #1  39.82205, -121.19112  score 94  USFS  closed: HARRYS
+    #2  40.04124, -121.08731  score 84  USFS
+    #3  39.79362, -120.90908  score 84  USFS
+    #4  39.76832, -120.78864  score 84  USFS
+    #5  39.96145, -121.26098  score 84  USFS
+
+SHASTA COUNTY
+  Go pan here (top 5 of 17)
+    #1  40.70159, -122.08698  score 84  trap 6.0  gold 3.4 km  blm (BLM)  near Cortez
+    #2  40.74552, -122.10565  score 84  trap 6.0  gold 0.6 km  usfs (USFS)  near Old Indian
+    #3  40.62966, -121.35064  score 77  trap 6.0  gold 1.1 km  usfs (USFS)  near Alice Consolidated Group
+    #4  40.63463, -121.36141  score 71  trap 6.0  gold 1.9 km  usfs (USFS)  near Alice Consolidated Group
+    #5  40.87201, -122.11809  score 70  trap 4.0  gold 1.9 km  usfs (USFS)  near Davidson
+  Possibly stakeable (top 5 of 17)
+    #1  40.70159, -122.08698  score 84  BLM
+    #2  40.74552, -122.10565  score 84  USFS
+    #3  40.62966, -121.35064  score 77  USFS
+    #4  40.63463, -121.36141  score 71  USFS
+    #5  40.87201, -122.11809  score 70  USFS
+
+SIERRA COUNTY
+  Go pan here (top 5 of 10)
+    #1  39.62989, -120.72325  score 84  trap 6.0  gold 2.6 km  usfs (USFS)  near Willoughby
+    #2  39.64463, -120.59641  score 84  trap 6.0  gold 1.3 km  usfs (USFS)  near Hughes and Westfall Hydraulic
+    #3  39.63551, -120.59476  score 84  trap 6.0  gold 2.2 km  usfs (USFS)  near Hughes and Westfall Hydraulic
+    #4  39.69440, -120.64036  score 84  trap 6.0  gold 1.3 km  usfs (USFS)  near Forest Queen
+    #5  39.69854, -120.64202  score 84  trap 6.0  gold 1.7 km  usfs (USFS)  near Forest Queen
+  Possibly stakeable (top 5 of 10)
+    #1  39.64463, -120.59641  score 94  USFS  closed: Liam Callan Placer Mine
+    #2  39.62989, -120.72325  score 84  USFS
+    #3  39.63551, -120.59476  score 84  USFS
+    #4  39.69440, -120.64036  score 84  USFS
+    #5  39.69854, -120.64202  score 84  USFS
+
+SISKIYOU COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+TEHAMA COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+evidence = 45% trap + 35% gold upstream on the creek + 20% NURE Au/As.
+Chem drops out with no sample in range. Eocene gravel adds up to 10
+points within 5 km and nothing beyond that. A pin inside a hydraulic
+pit or dredge field is then halved.
+EE flags (filters only): NLCD developed/cropland drops recreational pins;
+water_regime / best_months / fire_year / lith_favor / road_m are recorded,
+not weighted. Creek walks use MERIT Hydro in Earth Engine when ee_trace.
+Stakeable = BLM/USFS fee land, no active MLRS claim in the buffer, no
+PAD-US withdrawal hint, not tribal. Check the BLM master title plat
+and MLRS case records before locating anything.

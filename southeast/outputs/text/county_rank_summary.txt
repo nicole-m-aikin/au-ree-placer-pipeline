@@ -1,0 +1,91 @@
+COUNTY RANKING — Southeast California
+A screen, not a gold claim and not a land-status opinion.
+====================================================================
+
+Pans scored: 441   recreational-ok: 128   stakeable screen: 106
+stake_status counts: not_federal=164, withdrawn_hint=116, open_screen=109, claimed=38, tribal=13, mixed_manager=1
+Chemistry available on 192 of 441 pans.
+Mined ground (score halved): 0.
+Within 2 km of Eocene gravel: 0.
+EE flags: land_drop=48  dry=432  seasonal=0  year_round=9  burned=141  lidar1m=425
+
+IMPERIAL COUNTY
+  Go pan here (top 5 of 38)
+    #1  33.08640, -114.94873  score 87  trap 6.0  gold 1.5 km  blm (BLM)  near Mesquite Mine
+    #2  32.82089, -114.80286  score 84  trap 6.0  gold 0.9 km  blm (BLM)  near Blossom Mine
+    #3  32.83083, -114.79789  score 84  trap 6.0  gold 0.2 km  blm (BLM)  near Blossom Mine
+    #4  32.88023, -114.83554  score 84  trap 6.0  gold 1.1 km  blm (BLM)  near Good Luck and Gunsight
+    #5  32.86863, -114.85045  score 84  trap 6.0  gold 2.2 km  blm (BLM)  near Good Luck and Gunsight
+  Possibly stakeable (top 5 of 32)
+    #1  33.08640, -114.94873  score 87  BLM  caution: area of critical environmental concern
+    #2  32.82089, -114.80286  score 84  BLM  caution: area of critical environmental concern
+    #3  32.83083, -114.79789  score 84  BLM  caution: area of critical environmental concern
+    #4  32.88023, -114.83554  score 84  BLM  caution: area of critical environmental concern
+    #5  32.86863, -114.85045  score 84  BLM
+
+LOS ANGELES COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+ORANGE COUNTY
+  Go pan here (top 5 of 2)
+    #1  33.63611, -117.49638  score 84  trap 6.0  gold 3.3 km  usfs (USFS)  near Los Pinos
+    #2  33.64026, -117.48732  score 69  trap 6.0  gold 2.4 km  usfs (USFS)  near Los Pinos
+  Possibly stakeable (top 5 of 2)
+    #1  33.63611, -117.49638  score 84  USFS
+    #2  33.64026, -117.48732  score 69  USFS
+
+RIVERSIDE COUNTY
+  Go pan here (top 5 of 52)
+    #1  33.52725, -115.42283  score 87  trap 6.0  gold 1.5 km  blm (BLM)  near Unnamed Prospect
+    #2  33.63126, -115.50132  score 87  trap 6.0  gold 3.1 km  blm (BLM)  near Lost Pony Mine
+    #3  33.66963, -115.54462  score 84  trap 6.0  gold 2.8 km  blm (BLM)  near Sterling Mine
+    #4  33.97388, -115.70673  score 84  trap 6.0  gold 1.4 km  blm (BLM)  near Summit Group of Mines
+    #5  33.53824, -116.50311  score 84  trap 6.0  gold 1.6 km  usfs (USFS)  near Garnet Queen Mine
+  Possibly stakeable (top 5 of 44)
+    #1  33.52725, -115.42283  score 87  BLM  caution: area of critical environmental concern
+    #2  33.63126, -115.50132  score 87  BLM  caution: area of critical environmental concern
+    #3  33.61015, -114.81847  score 86  BLM
+    #4  33.66963, -115.54462  score 84  BLM  caution: area of critical environmental concern
+    #5  33.97388, -115.70673  score 84  BLM  caution: area of critical environmental concern
+
+SAN BERNARDINO COUNTY
+  Go pan here (top 5 of 13)
+    #1  34.05151, -115.73947  score 87  trap 6.0  gold 0.3 km  blm (BLM)  near Unnamed Prospect
+    #2  34.05317, -115.75190  score 87  trap 6.0  gold 1.0 km  blm (BLM)  near Unnamed Prospect
+    #3  34.07758, -115.77300  score 87  trap 6.0  gold 1.4 km  blm (BLM)  near Unnamed Prospect
+    #4  34.04235, -115.78271  score 87  trap 6.0  gold 0.7 km  blm (BLM)  near Cow Bell Mine
+    #5  34.08845, -114.49349  score 76  trap 6.0  gold 2.3 km  blm (BLM)  near Vidal Lime Claim
+  Possibly stakeable (top 5 of 11)
+    #1  34.05151, -115.73947  score 87  BLM  caution: area of critical environmental concern
+    #2  34.05317, -115.75190  score 87  BLM  caution: area of critical environmental concern
+    #3  34.07758, -115.77300  score 87  BLM  caution: area of critical environmental concern
+    #4  34.08845, -114.49349  score 76  BLM  caution: area of critical environmental concern
+    #5  34.07980, -114.54830  score 76  BLM  caution: area of critical environmental concern
+
+SAN DIEGO COUNTY
+  Go pan here (top 5 of 23)
+    #1  32.77945, -116.52013  score 84  trap 6.0  gold 1.5 km  usfs (USFS)  near Rose Quartz Group
+    #2  32.96553, -116.65570  score 84  trap 6.0  gold 0.4 km  usfs (USFS)  near Summit and Summit Extension
+    #3  32.99075, -116.69223  score 84  trap 6.0  gold 0.1 km  usfs (USFS)  near Last Chance Mine
+    #4  32.99573, -116.70963  score 84  trap 6.0  gold 1.6 km  usfs (USFS)  near Last Chance Mine
+    #5  32.96905, -116.68578  score 84  trap 6.0  gold 1.6 km  usfs (USFS)  near Boulder Creek Group
+  Possibly stakeable (top 5 of 17)
+    #1  33.20774, -116.83233  score 86  USFS  closed: Santa Fe Rose Quartz Mine
+    #2  32.86398, -116.51922  score 84  USFS
+    #3  32.77945, -116.52013  score 84  USFS
+    #4  32.96553, -116.65570  score 84  USFS
+    #5  32.99075, -116.69223  score 84  USFS
+
+evidence = 45% trap + 35% gold upstream on the creek + 20% NURE Au/As.
+Chem drops out with no sample in range. Eocene gravel adds up to 10
+points within 5 km and nothing beyond that. A pin inside a hydraulic
+pit or dredge field is then halved.
+EE flags (filters only): NLCD developed/cropland drops recreational pins;
+water_regime / best_months / fire_year / lith_favor / road_m are recorded,
+not weighted. Creek walks use MERIT Hydro in Earth Engine when ee_trace.
+Stakeable = BLM/USFS fee land, no active MLRS claim in the buffer, no
+PAD-US withdrawal hint, not tribal. Check the BLM master title plat
+and MLRS case records before locating anything.

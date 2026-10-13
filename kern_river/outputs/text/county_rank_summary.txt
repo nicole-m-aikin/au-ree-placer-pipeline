@@ -2,33 +2,40 @@ COUNTY RANKING — Kern River placers
 A screen, not a gold claim and not a land-status opinion.
 ====================================================================
 
-Pans scored: 136   recreational-ok: 50   stakeable screen: 48
-stake_status counts: not_federal=75, open_screen=48, claimed=9, withdrawn_hint=4
-Chemistry available on 79 of 136 pans.
+Pans scored: 156   recreational-ok: 38   stakeable screen: 39
+stake_status counts: not_federal=95, open_screen=39, claimed=15, withdrawn_hint=4, tribal=2, mixed_manager=1
+Chemistry available on 88 of 156 pans.
+Mined ground (score halved): 0.
+Within 2 km of Eocene gravel: 0.
+EE flags: land_drop=10  dry=149  seasonal=0  year_round=7  burned=118  lidar1m=156
 
 KERN COUNTY
-  Go pan here (top 5 of 48)
-    #1  35.44778, -118.35167  score 89  trap 7.5  gold 0.3 km  usfs (USFS)  near Gold State Group
-    #2  35.42917, -118.30806  score 88  trap 7.5  gold 0.4 km  usfs (USFS)  near Grubstake Lode
-    #3  35.45250, -118.32111  score 88  trap 8.5  gold 1.0 km  usfs (USFS)  near French
-    #4  35.50333, -118.37750  score 87  trap 7.5  gold 0.1 km  usfs (USFS)  near Gold Standard Mine
-    #5  35.72139, -118.53056  score 84  trap 7.5  gold 0.8 km  usfs (USFS)  near Black Mtn. King Mine
-  Possibly stakeable (top 5 of 48)
-    #1  35.58889, -118.60694  score 93  USFS  closed: CURLY
-    #2  35.44778, -118.35167  score 89  USFS
-    #3  35.42917, -118.30806  score 88  USFS
-    #4  35.45250, -118.32111  score 88  USFS
-    #5  35.50333, -118.37750  score 87  USFS
+  Go pan here (top 5 of 37)
+    #1  35.66706, -118.50815  score 86  trap 6.0  gold 1.4 km  blm (BLM)  near Keyes
+    #2  35.72141, -118.53038  score 85  trap 6.0  gold 0.8 km  usfs (USFS)  near Shirley Creek Quartz
+    #3  35.51702, -118.44396  score 85  trap 6.0  gold 1.2 km  usfs (USFS)  near Drunkards Dream Mine
+    #4  35.52199, -118.45970  score 85  trap 6.0  gold 1.9 km  usfs (USFS)  near Drunkards Dream Mine
+    #5  35.49845, -118.50257  score 84  trap 6.0  gold 0.9 km  blm (BLM)  near King Solomon Mine
+  Possibly stakeable (top 5 of 39)
+    #1  35.58211, -118.59916  score 90  USFS  closed: CURLY
+    #2  35.66706, -118.50815  score 86  BLM
+    #3  35.72141, -118.53038  score 85  USFS
+    #4  35.51702, -118.44396  score 85  USFS
+    #5  35.52199, -118.45970  score 85  USFS
 
 TULARE COUNTY
-  Go pan here (top 5 of 2)
-    #1  35.88528, -118.46083  score 72  trap 6.0  gold 1.3 km  usfs (USFS)  near Rainbow Lode Claim
-    #2  35.88417, -118.45500  score 71  trap 6.0  gold 1.5 km  usfs (USFS)  near Rainbow Lode Claim
+  Go pan here (top 5 of 1)
+    #1  35.88184, -118.45549  score 76  trap 6.0  gold 1.7 km  usfs (USFS)  near Rainbow Lode Claim
   Possibly stakeable (top 5 of 0)
     (none)
 
-evidence = 45% trap geometry + 35% gold MRDS proximity + 20% NURE Au/As
-(chem weight drops out where no NURE sample is within range).
+evidence = 45% trap + 35% gold upstream on the creek + 20% NURE Au/As.
+Chem drops out with no sample in range. Eocene gravel adds up to 10
+points within 5 km and nothing beyond that. A pin inside a hydraulic
+pit or dredge field is then halved.
+EE flags (filters only): NLCD developed/cropland drops recreational pins;
+water_regime / best_months / fire_year / lith_favor / road_m are recorded,
+not weighted. Creek walks use MERIT Hydro in Earth Engine when ee_trace.
 Stakeable = BLM/USFS fee land, no active MLRS claim in the buffer, no
 PAD-US withdrawal hint, not tribal. Check the BLM master title plat
 and MLRS case records before locating anything.

@@ -1,0 +1,35 @@
+COUNTY RANKING — Piute Tehachapi placers
+A screen, not a gold claim and not a land-status opinion.
+====================================================================
+
+Pans scored: 126   recreational-ok: 23   stakeable screen: 24
+stake_status counts: not_federal=90, open_screen=24, claimed=7, withdrawn_hint=4, mixed_manager=1
+Chemistry available on 20 of 126 pans.
+Mined ground (score halved): 0.
+Within 2 km of Eocene gravel: 0.
+EE flags: land_drop=7  dry=126  seasonal=0  year_round=0  burned=75  lidar1m=126
+
+KERN COUNTY
+  Go pan here (top 5 of 23)
+    #1  35.44764, -118.34582  score 84  trap 6.0  gold 0.3 km  usfs (USFS)  near Gold State Group
+    #2  35.49265, -118.48351  score 84  trap 6.0  gold 0.8 km  blm (BLM)  near King Solomon Mine
+    #3  35.45437, -118.33364  score 84  trap 6.0  gold 0.9 km  usfs (USFS)  near French
+    #4  35.52264, -118.19733  score 84  trap 6.0  gold 1.6 km  blm (BLM)  near Monarch Prospect
+    #5  35.57133, -118.45045  score 84  trap 6.0  gold 3.5 km  blm (BLM)  near Glen Olive
+  Possibly stakeable (top 5 of 24)
+    #1  35.44764, -118.34582  score 84  USFS
+    #2  35.49265, -118.48351  score 84  BLM
+    #3  35.45437, -118.33364  score 84  USFS
+    #4  35.52264, -118.19733  score 84  BLM  caution: area of critical environmental concern
+    #5  35.57133, -118.45045  score 84  BLM  caution: wilderness study area (non-impairment rules); area of critical environmental concern
+
+evidence = 45% trap + 35% gold upstream on the creek + 20% NURE Au/As.
+Chem drops out with no sample in range. Eocene gravel adds up to 10
+points within 5 km and nothing beyond that. A pin inside a hydraulic
+pit or dredge field is then halved.
+EE flags (filters only): NLCD developed/cropland drops recreational pins;
+water_regime / best_months / fire_year / lith_favor / road_m are recorded,
+not weighted. Creek walks use MERIT Hydro in Earth Engine when ee_trace.
+Stakeable = BLM/USFS fee land, no active MLRS claim in the buffer, no
+PAD-US withdrawal hint, not tribal. Check the BLM master title plat
+and MLRS case records before locating anything.

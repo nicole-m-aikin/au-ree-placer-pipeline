@@ -40,6 +40,9 @@ data/counties/
 # SGMC state extracts (re-download from mrdata.usgs.gov)
 data/geologic/
 
+# Hydraulic-pit and USMIN zip/shapefile caches (derived geojson is kept)
+data/placer_layers/raw/
+
 # Historical topo PDFs (re-download from USGS TopoView)
 ne_wa_ree/data/lidar/*.pdf
 

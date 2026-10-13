@@ -1,0 +1,52 @@
+# Bay Area — Marin, San Francisco, San Mateo, Alameda, Contra Costa, Santa Clara, and Santa Cruz.
+# Fills California counties the earlier district boxes did not walk.
+#
+#   python -m pipeline.fetch_region --config configs/bay_area/config.yaml --skip-dem
+#   python -m pipeline.county_rank  --config configs/bay_area/config.yaml
+
+study_area:
+  name: "Bay Area"
+  short: "ca_bay_area"
+  state: CA
+  bbox:
+    lon_min: -123.10
+    lon_max: -121.15
+    lat_min:  36.80
+    lat_max:  38.40
+  map_padding: 0.08
+  crs: "EPSG:4326"
+
+outputs_dir: "bay_area/outputs"
+
+gee:
+  project: placer-picker-511303
+
+data:
+  nure_csv:        "data/nure/nure_ca_bay_area_sediment.csv"
+  mrds_geojson:    "data/mrds/mrds_ca_bay_area.geojson"
+  sgmc_state: CA
+  dem_tif: data/dem/ca_bay_area_30m.tif
+  hobby_reports_csv: null
+  padus_geojson: "data/padus/padus_ca_bay_area.geojson"
+  mlrs_geojson: "data/mlrs/mlrs_claims_ca_bay_area.geojson"
+  aiannh_geojson: "data/aiannh/aiannh_ca_bay_area.geojson"
+
+task11:
+  land_access: true
+  claim_buffer_m: 50
+
+county_rank:
+  seed_cell_km: 4.0
+  max_seeds: 300
+  up_km: 0.5
+  down_km: 4.0
+  snap_m: 600
+  min_snap_km2: 1.0
+  pans_per_walk: 2
+  chem_radius_km: 3.0
+  chem_elements: [Au, As]
+  closed_claim_radius_m: 300
+  gee_sample: true
+  ee_trace: true
+
+sites: []

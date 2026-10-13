@@ -11,9 +11,9 @@ is national and a fair, like-for-like upgrade over the 30 m Copernicus
 mosaic fetch_dem.py uses today.
 
 Usage:
-  python -m pipeline.fetch_gee_dem --config configs/kern_river_subset/config.yaml \
+  python -m pipeline.fetch_gee_dem --config configs/_tests/kern_river_subset/config.yaml \
       --project placer-picker-511303 --layer 3dep_10m
-  python -m pipeline.fetch_gee_dem --config configs/kern_river_subset/config.yaml \
+  python -m pipeline.fetch_gee_dem --config configs/_tests/kern_river_subset/config.yaml \
       --project placer-picker-511303 --layer surface_water \
       --out data/water/ca_kern_river_subset_gsw_occurrence.tif
 

@@ -1,0 +1,85 @@
+COUNTY RANKING — North Coast Ranges
+A screen, not a gold claim and not a land-status opinion.
+====================================================================
+
+Pans scored: 49   recreational-ok: 4   stakeable screen: 4
+stake_status counts: not_federal=43, open_screen=4, claimed=2
+Chemistry available on 0 of 49 pans.
+Mined ground (score halved): 0.
+Within 2 km of Eocene gravel: 0.
+EE flags: land_drop=13  dry=47  seasonal=2  year_round=0  burned=24  lidar1m=49
+
+COLUSA COUNTY
+  Go pan here (top 5 of 2)
+    #1  39.21863, -122.50747  score 84  trap 6.0  gold 2.2 km  blm (BLM)  near Pacific
+    #2  39.21531, -122.50084  score 67  trap 6.0  gold 2.8 km  blm (BLM)  near Pacific
+  Possibly stakeable (top 5 of 2)
+    #1  39.21863, -122.50747  score 84  BLM
+    #2  39.21531, -122.50084  score 67  BLM
+
+GLENN COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+HUMBOLDT COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+LAKE COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+MARIN COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+MENDOCINO COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+NAPA COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+SONOMA COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+TEHAMA COUNTY
+  Go pan here (top 5 of 2)
+    #1  39.83492, -122.66803  score 72  trap 6.0  gold 1.8 km  usfs (USFS)  near Bowers Creek
+    #2  39.83906, -122.65809  score 68  trap 6.0  gold 2.8 km  usfs (USFS)  near Bowers Creek
+  Possibly stakeable (top 5 of 2)
+    #1  39.83492, -122.66803  score 72  USFS
+    #2  39.83906, -122.65809  score 68  USFS
+
+TRINITY COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+evidence = 45% trap + 35% gold upstream on the creek + 20% NURE Au/As.
+Chem drops out with no sample in range. Eocene gravel adds up to 10
+points within 5 km and nothing beyond that. A pin inside a hydraulic
+pit or dredge field is then halved.
+EE flags (filters only): NLCD developed/cropland drops recreational pins;
+water_regime / best_months / fire_year / lith_favor / road_m are recorded,
+not weighted. Creek walks use MERIT Hydro in Earth Engine when ee_trace.
+Stakeable = BLM/USFS fee land, no active MLRS claim in the buffer, no
+PAD-US withdrawal hint, not tribal. Check the BLM master title plat
+and MLRS case records before locating anything.

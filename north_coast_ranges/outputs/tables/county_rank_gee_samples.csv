@@ -1,0 +1,50 @@
+pin_id,elev10_m,slope10_deg,water_pct,water_regime,lith_code,lith_name,lith_favor,landform_code,nlcd,nlcd_name,land_filter,road_m,fire_year,has_lidar_1m,best_months
+ca_north_coast_ranges:00001,382.7,0.11,,dry,5,acid_plutonic,True,42,52,shrub,ok,55.0,2012.0,True,Apr–Sep
+ca_north_coast_ranges:00002,422.8,0.11,,dry,5,acid_plutonic,True,42,71,grassland,ok,93.0,2012.0,True,Apr–Sep
+ca_north_coast_ranges:00003,29.8,,,dry,3,non_carb_sed,False,41,71,grassland,ok,338.0,,True,Apr–Sep
+ca_north_coast_ranges:00004,39.8,,,dry,3,non_carb_sed,False,41,71,grassland,ok,203.0,,True,Apr–Sep
+ca_north_coast_ranges:00005,120.2,,,dry,19,,False,34,71,grassland,ok,43.0,2020.0,True,Apr–Sep
+ca_north_coast_ranges:00006,134.1,,,dry,19,,False,41,71,grassland,ok,176.0,2020.0,True,Apr–Sep
+ca_north_coast_ranges:00007,478.9,0.11,,dry,5,acid_plutonic,True,42,21,developed_open,drop,11.0,2018.0,True,May–Oct
+ca_north_coast_ranges:00008,458.6,0.11,,dry,5,acid_plutonic,True,42,21,developed_open,drop,7.0,2018.0,True,May–Oct
+ca_north_coast_ranges:00009,550.3,0.11,,dry,5,acid_plutonic,True,42,52,shrub,ok,2125.0,2018.0,True,Apr–Sep
+ca_north_coast_ranges:00010,526.0,0.11,,dry,5,acid_plutonic,True,42,71,grassland,ok,2235.0,2018.0,True,Apr–Sep
+ca_north_coast_ranges:00011,382.8,0.11,,dry,5,acid_plutonic,True,41,52,shrub,ok,129.0,2018.0,True,Apr–Sep
+ca_north_coast_ranges:00012,390.5,0.11,,dry,5,acid_plutonic,True,41,52,shrub,ok,150.0,2018.0,True,Apr–Sep
+ca_north_coast_ranges:00013,165.3,,,dry,19,,False,34,82,cropland,drop,163.0,,True,Apr–Sep
+ca_north_coast_ranges:00014,169.9,,,dry,3,non_carb_sed,False,41,81,pasture,drop,222.0,,True,Apr–Sep
+ca_north_coast_ranges:00015,246.2,0.08,,dry,3,non_carb_sed,False,41,43,mixed_forest,ok,1057.0,2020.0,True,May–Oct
+ca_north_coast_ranges:00016,139.0,0.08,19.0,seasonal,3,non_carb_sed,False,42,31,barren,ok,272.0,1990.0,True,May–Oct
+ca_north_coast_ranges:00017,34.0,,,dry,19,,False,34,82,cropland,drop,336.0,,True,Apr–Sep
+ca_north_coast_ranges:00018,36.3,,,dry,19,,False,34,82,cropland,drop,560.0,,True,Apr–Sep
+ca_north_coast_ranges:00019,203.5,0.11,,dry,5,acid_plutonic,True,42,71,grassland,ok,209.0,,True,"Apr, Jun–Oct"
+ca_north_coast_ranges:00020,198.9,0.11,,dry,5,acid_plutonic,True,41,52,shrub,ok,353.0,,True,"Apr, Jun–Oct"
+ca_north_coast_ranges:00021,320.5,0.11,,dry,5,acid_plutonic,True,41,71,grassland,ok,776.0,2000.0,True,"Apr, Jun–Oct"
+ca_north_coast_ranges:00022,271.3,0.11,,dry,5,acid_plutonic,True,42,71,grassland,ok,462.0,2000.0,True,"Apr, Jun–Oct"
+ca_north_coast_ranges:00023,474.8,0.11,,dry,5,acid_plutonic,True,42,52,shrub,ok,62.0,2008.0,True,Apr–Sep
+ca_north_coast_ranges:00024,509.7,0.11,,dry,5,acid_plutonic,True,42,52,shrub,ok,565.0,2008.0,True,Apr–Sep
+ca_north_coast_ranges:00025,498.4,,,dry,3,non_carb_sed,False,42,42,evergreen,ok,58.0,1985.0,True,Apr–Sep
+ca_north_coast_ranges:00026,575.5,,,dry,3,non_carb_sed,False,41,52,shrub,ok,280.0,1985.0,True,May–Oct
+ca_north_coast_ranges:00027,232.1,,,dry,3,non_carb_sed,False,42,52,shrub,ok,58.0,,True,May–Oct
+ca_north_coast_ranges:00028,332.7,,,dry,3,non_carb_sed,False,42,52,shrub,ok,52.0,,True,May–Oct
+ca_north_coast_ranges:00029,264.6,0.11,,dry,5,acid_plutonic,True,41,71,grassland,ok,53.0,2020.0,True,Apr–Sep
+ca_north_coast_ranges:00030,233.9,0.11,,dry,5,acid_plutonic,True,41,71,grassland,ok,625.0,2020.0,True,Apr–Sep
+ca_north_coast_ranges:00031,417.7,0.11,,dry,19,,False,34,42,evergreen,ok,228.0,2018.0,True,Apr–Sep
+ca_north_coast_ranges:00032,423.5,0.11,,dry,19,,False,31,81,pasture,drop,138.0,2018.0,True,Apr–Sep
+ca_north_coast_ranges:00033,193.3,,,dry,19,,False,41,23,developed_med,drop,66.0,,True,Apr–Sep
+ca_north_coast_ranges:00034,192.7,,,dry,19,,False,42,71,grassland,ok,152.0,,True,Apr–Sep
+ca_north_coast_ranges:00035,127.3,0.11,,dry,3,non_carb_sed,False,41,71,grassland,ok,129.0,,True,Apr–Sep
+ca_north_coast_ranges:00036,133.3,0.11,,dry,3,non_carb_sed,False,41,71,grassland,ok,86.0,,True,Apr–Sep
+ca_north_coast_ranges:00037,51.5,,,dry,5,acid_plutonic,True,41,90,woody_wetland,ok,257.0,,True,Apr–Sep
+ca_north_coast_ranges:00038,26.8,,,dry,5,acid_plutonic,True,42,21,developed_open,drop,2.0,,True,Apr–Sep
+ca_north_coast_ranges:00039,238.5,,,dry,19,,False,32,21,developed_open,drop,21.0,,True,Apr–Sep
+ca_north_coast_ranges:00040,190.4,,,dry,19,,False,41,22,developed_low,drop,109.0,,True,Apr–Sep
+ca_north_coast_ranges:00041,15.9,,,dry,19,,False,41,82,cropland,drop,124.0,,True,Apr–Sep
+ca_north_coast_ranges:00042,131.7,0.08,,dry,3,non_carb_sed,False,41,11,open_water,ok,93.0,,True,May–Oct
+ca_north_coast_ranges:00043,133.1,0.08,2.0,seasonal,3,non_carb_sed,False,41,95,herb_wetland,ok,233.0,,True,May–Oct
+ca_north_coast_ranges:00044,125.8,0.08,,dry,3,non_carb_sed,False,31,23,developed_med,drop,8.0,,True,May–Oct
+ca_north_coast_ranges:00045,130.6,0.08,,dry,3,non_carb_sed,False,42,42,evergreen,ok,212.0,,True,May–Oct
+ca_north_coast_ranges:00046,574.7,0.11,,dry,5,acid_plutonic,True,41,71,grassland,ok,384.0,2020.0,True,"Apr, Jun–Oct"
+ca_north_coast_ranges:00047,461.6,0.11,,dry,5,acid_plutonic,True,32,71,grassland,ok,549.0,2020.0,True,"Apr, Jun–Oct"
+ca_north_coast_ranges:00048,61.9,,,dry,19,,False,41,42,evergreen,ok,160.0,,True,May–Oct
+ca_north_coast_ranges:00049,49.1,,,dry,19,,False,41,90,woody_wetland,ok,231.0,,True,May–Oct

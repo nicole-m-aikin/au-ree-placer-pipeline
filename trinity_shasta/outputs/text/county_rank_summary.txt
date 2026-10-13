@@ -1,0 +1,80 @@
+COUNTY RANKING — Trinity and Shasta
+A screen, not a gold claim and not a land-status opinion.
+====================================================================
+
+Pans scored: 451   recreational-ok: 155   stakeable screen: 114
+stake_status counts: not_federal=144, open_screen=115, claimed=104, withdrawn_hint=81, tribal=7
+Chemistry available on 0 of 451 pans.
+Mined ground (score halved): 7.
+Within 2 km of Eocene gravel: 0.
+EE flags: land_drop=53  dry=398  seasonal=17  year_round=36  burned=323  lidar1m=449
+
+HUMBOLDT COUNTY
+  Go pan here (top 5 of 11)
+    #1  41.25748, -123.61786  score 70  trap 4.0  gold 0.4 km  usfs (USFS)  near Allen Mine
+    #2  41.35943, -123.49987  score 70  trap 4.0  gold 0.4 km  usfs (USFS)  near Murray
+    #3  41.34452, -123.50401  score 70  trap 4.0  gold 0.2 km  usfs (USFS)  near Murray
+    #4  41.29833, -123.51232  score 70  trap 4.0  gold 0.6 km  usfs (USFS)  near Perch Creek Prospect
+    #5  41.29495, -123.56737  score 70  trap 4.0  gold 0.5 km  usfs (USFS)  near Salstrom Mine
+  Possibly stakeable (top 5 of 2)
+    #1  41.29833, -123.51232  score 70  USFS
+    #2  41.30182, -123.53562  score 70  USFS
+
+SHASTA COUNTY
+  Go pan here (top 5 of 18)
+    #1  40.74552, -122.10565  score 84  trap 6.0  gold 0.6 km  usfs (USFS)  near Old Indian
+    #2  40.49359, -122.46411  score 84  trap 6.0  gold 1.1 km  blm (BLM)  near Black Jack
+    #3  40.49442, -122.44671  score 84  trap 6.0  gold 0.9 km  blm (BLM)  near Black Jack
+    #4  40.74108, -122.46666  score 84  trap 6.0  gold 0.2 km  usfs (USFS)  near Black & Brown Bear
+    #5  40.74025, -122.46086  score 84  trap 6.0  gold 0.7 km  usfs (USFS)  near Black & Brown Bear
+  Possibly stakeable (top 5 of 19)
+    #1  40.92883, -122.48250  score 84  USFS
+    #2  40.74552, -122.10565  score 84  USFS
+    #3  40.49359, -122.46411  score 84  BLM
+    #4  40.49442, -122.44671  score 84  BLM
+    #5  40.74108, -122.46666  score 84  USFS
+
+SISKIYOU COUNTY
+  Go pan here (top 5 of 69)
+    #1  41.86308, -122.73087  score 84  trap 6.0  gold 0.3 km  usfs (USFS)  near Unnamed
+    #2  41.86640, -122.74081  score 84  trap 6.0  gold 0.0 km  usfs (USFS)  near Unnamed
+    #3  41.90792, -122.75625  score 84  trap 6.0  gold 0.3 km  usfs (USFS)  near McKenzie
+    #4  41.89963, -122.74962  score 84  trap 6.0  gold 0.8 km  usfs (USFS)  near McKenzie
+    #5  41.25077, -123.30480  score 84  trap 6.0  gold 0.4 km  usfs (USFS)  near Michigan Salmon
+  Possibly stakeable (top 5 of 43)
+    #1  41.82323, -122.81943  score 94  USFS  closed: DeNucci One
+    #2  41.27327, -123.07513  score 84  USFS
+    #3  41.90792, -122.75625  score 84  USFS
+    #4  41.89963, -122.74962  score 84  USFS
+    #5  41.23648, -123.18257  score 84  USFS
+
+TEHAMA COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+TRINITY COUNTY
+  Go pan here (top 5 of 57)
+    #1  40.73339, -122.96152  score 84  trap 6.0  gold 0.6 km  blm (BLM)  near Minaret
+    #2  40.72511, -122.94827  score 84  trap 6.0  gold 0.2 km  blm (BLM)  near Minaret
+    #3  40.71900, -122.94008  score 84  trap 6.0  gold 0.6 km  blm (BLM)  near Gifford Mine
+    #4  40.73060, -122.95831  score 84  trap 6.0  gold 0.4 km  blm (BLM)  near Gifford Mine
+    #5  40.75637, -122.77004  score 84  trap 6.0  gold 0.2 km  usfs (USFS)  near Jacoby
+  Possibly stakeable (top 5 of 50)
+    #1  41.12225, -122.81678  score 94  USFS  closed: Less Cowbell #1
+    #2  40.73339, -122.96152  score 84  BLM
+    #3  40.72511, -122.94827  score 84  BLM
+    #4  40.71900, -122.94008  score 84  BLM
+    #5  40.73060, -122.95831  score 84  BLM
+
+evidence = 45% trap + 35% gold upstream on the creek + 20% NURE Au/As.
+Chem drops out with no sample in range. Eocene gravel adds up to 10
+points within 5 km and nothing beyond that. A pin inside a hydraulic
+pit or dredge field is then halved.
+EE flags (filters only): NLCD developed/cropland drops recreational pins;
+water_regime / best_months / fire_year / lith_favor / road_m are recorded,
+not weighted. Creek walks use MERIT Hydro in Earth Engine when ee_trace.
+Stakeable = BLM/USFS fee land, no active MLRS claim in the buffer, no
+PAD-US withdrawal hint, not tribal. Check the BLM master title plat
+and MLRS case records before locating anything.

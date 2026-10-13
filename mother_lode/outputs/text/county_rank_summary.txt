@@ -1,0 +1,101 @@
+COUNTY RANKING — Mother Lode placers
+A screen, not a gold claim and not a land-status opinion.
+====================================================================
+
+Pans scored: 422   recreational-ok: 37   stakeable screen: 30
+stake_status counts: not_federal=311, claimed=69, open_screen=30, withdrawn_hint=7, mixed_manager=4, tribal=1
+Chemistry available on 0 of 422 pans.
+Mined ground (score halved): 4.
+Within 2 km of Eocene gravel: 18.
+EE flags: land_drop=31  dry=384  seasonal=12  year_round=26  burned=195  lidar1m=422
+
+AMADOR COUNTY
+  Go pan here (top 5 of 2)
+    #1  38.46061, -120.73074  score 84  trap 6.0  gold 0.9 km  blm (BLM)  near Rancheria
+    #2  38.46144, -120.73819  score 70  trap 4.0  gold 1.4 km  blm (BLM)  near Rancheria
+  Possibly stakeable (top 5 of 2)
+    #1  38.46061, -120.73074  score 84  BLM
+    #2  38.46144, -120.73819  score 70  BLM
+
+CALAVERAS COUNTY
+  Go pan here (top 5 of 8)
+    #1  38.38811, -120.56749  score 84  trap 6.0  gold 0.1 km  blm (BLM)  near Gold Valley
+    #2  38.17538, -120.48930  score 84  trap 6.0  gold 0.2 km  blm (BLM)  near Great Western Or Right Bower
+    #3  38.29785, -120.54322  score 84  trap 6.0  gold 0.4 km  blm (BLM)  near Chapman Mine
+    #4  38.17704, -120.58697  score 84  trap 6.0  gold 0.4 km  blm (BLM)  near Washington
+    #5  38.27410, -120.62795  score 84  trap 6.0  gold 0.5 km  blm (BLM)  near Montana
+  Possibly stakeable (top 5 of 8)
+    #1  38.38811, -120.56749  score 84  BLM
+    #2  38.17538, -120.48930  score 84  BLM
+    #3  38.29785, -120.54322  score 84  BLM
+    #4  38.17704, -120.58697  score 84  BLM
+    #5  38.27410, -120.62795  score 84  BLM
+
+EL DORADO COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+MARIPOSA COUNTY
+  Go pan here (top 5 of 13)
+    #1  37.74328, -120.02574  score 84  trap 6.0  gold 1.0 km  usfs (USFS)  near Gold King Group
+    #2  37.74494, -120.03485  score 84  trap 6.0  gold 0.3 km  usfs (USFS)  near Gold King Group
+    #3  37.60659, -120.06215  score 84  trap 6.0  gold 0.7 km  blm (BLM)  near Alice L.
+    #4  37.66046, -120.07229  score 84  trap 6.0  gold 0.2 km  blm (BLM)  near Last Chance I
+    #5  37.62410, -119.92872  score 84  trap 6.0  gold 0.9 km  blm (BLM)  near Mexican Diggins
+  Possibly stakeable (top 5 of 10)
+    #1  37.74328, -120.02574  score 84  USFS
+    #2  37.74494, -120.03485  score 84  USFS
+    #3  37.60659, -120.06215  score 84  BLM  caution: area of critical environmental concern; wilderness study area (non-impairment rules)
+    #4  37.66046, -120.07229  score 84  BLM
+    #5  37.62410, -119.92872  score 84  BLM
+
+MERCED COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+SACRAMENTO COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+SAN JOAQUIN COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+STANISLAUS COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+TUOLUMNE COUNTY
+  Go pan here (top 5 of 14)
+    #1  37.80132, -120.26556  score 84  trap 6.0  gold 0.6 km  blm (BLM)  near Big Oak Flat No. 1
+    #2  37.99335, -120.16907  score 84  trap 6.0  gold 1.0 km  usfs (USFS)  near Independent
+    #3  37.89992, -120.44034  score 84  trap 6.0  gold 1.6 km  blm (BLM)  near Mackey Ranch
+    #4  37.89247, -120.42543  score 84  trap 6.0  gold 0.7 km  blm (BLM)  near Mackey Ranch
+    #5  38.10168, -120.39044  score 84  trap 6.0  gold 1.6 km  blm (BLM)  near Snow Storm
+  Possibly stakeable (top 5 of 10)
+    #1  37.80132, -120.26556  score 84  BLM
+    #2  37.99335, -120.16907  score 84  USFS
+    #3  37.89992, -120.44034  score 84  BLM
+    #4  37.89247, -120.42543  score 84  BLM
+    #5  38.10168, -120.39044  score 84  BLM
+
+evidence = 45% trap + 35% gold upstream on the creek + 20% NURE Au/As.
+Chem drops out with no sample in range. Eocene gravel adds up to 10
+points within 5 km and nothing beyond that. A pin inside a hydraulic
+pit or dredge field is then halved.
+EE flags (filters only): NLCD developed/cropland drops recreational pins;
+water_regime / best_months / fire_year / lith_favor / road_m are recorded,
+not weighted. Creek walks use MERIT Hydro in Earth Engine when ee_trace.
+Stakeable = BLM/USFS fee land, no active MLRS claim in the buffer, no
+PAD-US withdrawal hint, not tribal. Check the BLM master title plat
+and MLRS case records before locating anything.

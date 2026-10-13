@@ -1,0 +1,84 @@
+COUNTY RANKING — Bay Area
+A screen, not a gold claim and not a land-status opinion.
+====================================================================
+
+Pans scored: 40   recreational-ok: 5   stakeable screen: 0
+stake_status counts: not_federal=40
+Chemistry available on 2 of 40 pans.
+Mined ground (score halved): 0.
+Within 2 km of Eocene gravel: 0.
+EE flags: land_drop=17  dry=40  seasonal=0  year_round=0  burned=8  lidar1m=40
+
+ALAMEDA COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+CONTRA COSTA COUNTY
+  Go pan here (top 5 of 1)
+    #1  37.91222, -121.92982  score 84  trap 6.0  gold 0.7 km  state_park (SPR)  near La Felis Claim
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+MARIN COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+SACRAMENTO COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+SAN BENITO COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+SAN JOAQUIN COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+SAN MATEO COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+SANTA CLARA COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+SANTA CRUZ COUNTY
+  Go pan here (top 5 of 4)
+    #1  36.98855, -122.13029  score 84  trap 6.0  gold 2.4 km  state_park (SPR)  near Majors Creek
+    #2  37.05188, -122.08529  score 84  trap 6.0  gold 2.5 km  state_park (SPR)  near Unnamed Location
+    #3  37.01672, -122.04730  score 70  trap 4.0  gold 0.5 km  state_park (SPR)  near Stribling Mine
+    #4  37.06431, -122.09689  score 69  trap 6.0  gold 2.5 km  state_park (SPR)  near Unnamed Location
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+SONOMA COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+evidence = 45% trap + 35% gold upstream on the creek + 20% NURE Au/As.
+Chem drops out with no sample in range. Eocene gravel adds up to 10
+points within 5 km and nothing beyond that. A pin inside a hydraulic
+pit or dredge field is then halved.
+EE flags (filters only): NLCD developed/cropland drops recreational pins;
+water_regime / best_months / fire_year / lith_favor / road_m are recorded,
+not weighted. Creek walks use MERIT Hydro in Earth Engine when ee_trace.
+Stakeable = BLM/USFS fee land, no active MLRS claim in the buffer, no
+PAD-US withdrawal hint, not tribal. Check the BLM master title plat
+and MLRS case records before locating anything.

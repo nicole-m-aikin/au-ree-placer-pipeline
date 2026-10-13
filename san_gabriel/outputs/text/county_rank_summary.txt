@@ -1,0 +1,37 @@
+COUNTY RANKING — San Gabriel placers
+A screen, not a gold claim and not a land-status opinion.
+====================================================================
+
+Pans scored: 106   recreational-ok: 41   stakeable screen: 1
+stake_status counts: withdrawn_hint=64, not_federal=41, open_screen=1
+Chemistry available on 14 of 106 pans.
+Mined ground (score halved): 0.
+Within 2 km of Eocene gravel: 0.
+EE flags: land_drop=20  dry=104  seasonal=0  year_round=2  burned=95  lidar1m=106
+
+LOS ANGELES COUNTY
+  Go pan here (top 5 of 41)
+    #1  34.34354, -118.09793  score 84  trap 6.0  gold 0.5 km  usfs (USFS)  near Monte Cristo
+    #2  34.33111, -118.11532  score 84  trap 6.0  gold 2.0 km  usfs (USFS)  near Monte Cristo
+    #3  34.36161, -118.10757  score 84  trap 6.0  gold 1.5 km  usfs (USFS)  near Falcon
+    #4  34.25360, -117.75918  score 84  trap 6.0  gold 0.9 km  usfs (USFS)  near Allison
+    #5  34.45933, -118.03282  score 84  trap 6.0  gold 1.7 km  usfs (USFS)  near Black Cat
+  Possibly stakeable (top 5 of 1)
+    #1  34.48405, -118.50675  score 84  USFS
+
+SAN BERNARDINO COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+evidence = 45% trap + 35% gold upstream on the creek + 20% NURE Au/As.
+Chem drops out with no sample in range. Eocene gravel adds up to 10
+points within 5 km and nothing beyond that. A pin inside a hydraulic
+pit or dredge field is then halved.
+EE flags (filters only): NLCD developed/cropland drops recreational pins;
+water_regime / best_months / fire_year / lith_favor / road_m are recorded,
+not weighted. Creek walks use MERIT Hydro in Earth Engine when ee_trace.
+Stakeable = BLM/USFS fee land, no active MLRS claim in the buffer, no
+PAD-US withdrawal hint, not tribal. Check the BLM master title plat
+and MLRS case records before locating anything.

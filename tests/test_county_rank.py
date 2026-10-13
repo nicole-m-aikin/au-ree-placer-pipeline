@@ -10,22 +10,30 @@ import pytest
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from pipeline.county_rank import (
+    CHANNEL_BONUS,
     CLOSED_CLAIM_BONUS,
+    MINED_FACTOR,
     assign_counties,
+    bearing_upstream_deg,
+    channel_bonus,
+    channel_component,
     chem_component,
     closed_claim_hits,
+    corridor_alongs,
     evidence_score,
     grid_seeds,
     hobby_seeds,
     padus_overlap_flags,
     rank_within_county,
+    score_pans,
     seed_specs,
     source_component,
     stake_status,
+    upstream_source_component,
 )
 
 gpd = pytest.importorskip('geopandas')
-from shapely.geometry import Point, box  # noqa: E402
+from shapely.geometry import LineString, Point, box  # noqa: E402
 
 
 def _pts(xy):
@@ -103,6 +111,47 @@ def test_chem_component_uses_best_sample_in_radius():
                          nure, ['Au', 'As'], radius_km=1.0, lat0=35.5)
     assert np.isfinite(got[0]) and got[0] > 0.5
     assert np.isnan(got[1])
+
+
+def test_upstream_corridor_ignores_the_next_ridge():
+    lat0 = 35.5
+    # Creek runs south; upstream is north.
+    line = LineString([( -118.5, 35.55), (-118.5, 35.45)])
+    bearing = bearing_upstream_deg(line, -118.5, 35.50, lat0)
+    assert bearing == pytest.approx(0.0, abs=5.0)
+    north = 35.50 + 5.0 / 111.32
+    east = -118.5 + 5.0 / (111.32 * np.cos(np.radians(lat0)))
+    along_up = corridor_alongs(-118.5, 35.50, bearing, [ -118.5], [north], lat0)
+    along_side = corridor_alongs(-118.5, 35.50, bearing, [east], [35.50], lat0)
+    assert len(along_up) == 1 and along_up[0] == pytest.approx(5.0, abs=0.2)
+    assert len(along_side) == 0
+    assert upstream_source_component(along_up) == pytest.approx(np.exp(-5.0 / 6.0), abs=0.02)
+    assert upstream_source_component([]) == 0.0
+    assert upstream_source_component([0.0, 0.0]) == 1.0
+
+
+def test_channel_bonus_does_not_penalise_distant_creeks():
+    assert channel_component([0.0, 2.0, np.nan])[0] == pytest.approx(1.0)
+    assert channel_bonus([0.0])[0] == pytest.approx(CHANNEL_BONUS)
+    assert channel_bonus([2.0])[0] == pytest.approx(CHANNEL_BONUS * np.exp(-1.0))
+    assert channel_bonus([180.0])[0] == 0.0
+    assert channel_bonus([np.nan])[0] == 0.0
+    pans = pd.DataFrame({
+        'lon': [-118.5, -118.5, -118.5],
+        'lat': [35.5, 35.5, 35.5],
+        'trap_score': [6.0, 6.0, 6.0],
+    })
+    rc = {'chem_elements': ['As'], 'chem_radius_km': 3.0}
+    scored = score_pans(
+        pans, None, np.array([[-118.5, 35.5]]), rc, 35.5,
+        upstream_alongs=[np.array([0.0]), np.array([0.0]), np.array([0.0])],
+        channel_km=[0.0, 180.0, 0.0],
+        on_mined=[False, False, True],
+    )
+    on_gravel, far, mined = scored['evidence_score']
+    assert far == pytest.approx(83.5)
+    assert on_gravel == pytest.approx(min(100.0, far + CHANNEL_BONUS))
+    assert mined == pytest.approx(round(min(100.0, far + CHANNEL_BONUS) * MINED_FACTOR, 1))
 
 
 def test_chem_component_nan_without_nure():

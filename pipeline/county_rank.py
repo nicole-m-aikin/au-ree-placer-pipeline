@@ -12,10 +12,15 @@ Seeds
   already walked are merged, not re-walked.
 
 Evidence per pan, each 0–1
-  trap    trap_score / 8.5
-  source  exp(-nearest gold MRDS km / 3)
-  chem    best NURE Au/As percentile within chem_radius_km (NaN without NURE)
+  trap     trap_score / 8.5
+  source   gold sites in the upstream corridor of the creek (not the nearest
+           dot on the next ridge). MRDS bbox extracts have no deposit type, so
+           every gold site counts; side-ridge mines fall outside the corridor.
+  chem     best NURE Au/As percentile within chem_radius_km (NaN without NURE)
   Weights renormalise when chem is missing. evidence_score is 0–100.
+  Eocene gravel is a bonus of up to 10 points, and only within 5 km. A creek
+  in Kern or the desert is not punished for being far from the Sierra channels.
+  A pin inside a hydraulic pit or dredge-tailings polygon is then halved.
 
 Two lists, ranked inside each county
   recreational  access_ok == yes (BLM / USFS / state park, claim-free, open)
@@ -45,6 +50,13 @@ TRAP_MAX = 8.5
 SOURCE_SCALE_KM = 3.0
 W_TRAP, W_SOURCE, W_CHEM = 0.45, 0.35, 0.20
 CLOSED_CLAIM_BONUS = 10.0
+CHANNEL_BONUS = 10.0
+CHANNEL_NEAR_KM = 5.0
+MINED_FACTOR = 0.5
+UPSTREAM_SCALE_KM = 6.0
+UPSTREAM_HALF_WIDTH_KM = 2.5
+UPSTREAM_MAX_KM = 12.0
+CHANNEL_SCALE_KM = 2.0
 KM_PER_DEG = 111.32
 
 DEFAULTS = {
@@ -58,6 +70,10 @@ DEFAULTS = {
     'chem_radius_km': 3.0,
     'chem_elements': ['Au', 'As'],
     'closed_claim_radius_m': 300.0,
+    # Sample EE catalog layers at each pin (filters/flags; no score weights yet).
+    'gee_sample': True,
+    # Creek walks on MERIT Hydro in Earth Engine (no local pysheds D8).
+    'ee_trace': True,
 }
 
 # PAD-US designation types that usually mean the ground is withdrawn from
@@ -190,6 +206,72 @@ def seed_specs(seeds, rc, short):
 def source_component(nearest_km, scale_km=SOURCE_SCALE_KM):
     d = np.asarray(nearest_km, dtype=float)
     return np.where(np.isfinite(d), np.exp(-np.maximum(d, 0.0) / scale_km), 0.0)
+
+
+def bearing_upstream_deg(line, lon, lat, lat0):
+    """Degrees clockwise from north, toward the upstream end of a reach.
+
+    Reach lines are ordered upstream-end to downstream. The bearing is from
+    the vertex nearest the pin toward the vertex upstream of it.
+    """
+    coords = np.asarray(line.coords, dtype=float)
+    if len(coords) < 2:
+        return np.nan
+    xy = to_km_xy(coords[:, 0], coords[:, 1], lat0)
+    p = to_km_xy([lon], [lat], lat0)[0]
+    i = int(np.argmin(np.hypot(xy[:, 0] - p[0], xy[:, 1] - p[1])))
+    j = i - 1 if i > 0 else 1
+    vec = xy[j] - xy[i] if i > 0 else xy[0] - xy[1]
+    norm = float(np.hypot(vec[0], vec[1]))
+    if norm < 1e-9:
+        return np.nan
+    return float(np.degrees(np.arctan2(vec[0], vec[1])) % 360.0)
+
+
+def corridor_alongs(pan_lon, pan_lat, bearing_deg, site_lon, site_lat, lat0,
+                    half_width_km=UPSTREAM_HALF_WIDTH_KM, max_km=UPSTREAM_MAX_KM):
+    """Along-track km of sites upstream of one pin, inside the creek corridor."""
+    if not np.isfinite(bearing_deg):
+        return np.array([])
+    site_lon = np.asarray(site_lon, dtype=float)
+    site_lat = np.asarray(site_lat, dtype=float)
+    if len(site_lon) == 0:
+        return np.array([])
+    dx = (site_lon - pan_lon) * KM_PER_DEG * math.cos(math.radians(lat0))
+    dy = (site_lat - pan_lat) * KM_PER_DEG
+    brad = math.radians(float(bearing_deg))
+    ux, uy = math.sin(brad), math.cos(brad)
+    along = dx * ux + dy * uy
+    cross = dx * (-uy) + dy * ux
+    keep = (along >= 0.0) & (along <= max_km) & (np.abs(cross) <= half_width_km)
+    return along[keep]
+
+
+def upstream_source_component(alongs_km, scale_km=UPSTREAM_SCALE_KM):
+    """0–1. Nearest upstream site dominates; more sites saturate at 1."""
+    alongs = np.asarray(alongs_km, dtype=float)
+    alongs = alongs[np.isfinite(alongs)]
+    if len(alongs) == 0:
+        return 0.0
+    return float(np.clip(np.exp(-alongs / scale_km).sum(), 0.0, 1.0))
+
+
+def channel_component(dist_km, scale_km=CHANNEL_SCALE_KM):
+    """1 on the Eocene gravel, decaying with distance. NaN where unknown."""
+    d = np.asarray(dist_km, dtype=float)
+    return np.where(np.isfinite(d), np.exp(-np.maximum(d, 0.0) / scale_km), np.nan)
+
+
+def channel_bonus(dist_km, near_km=CHANNEL_NEAR_KM, points=CHANNEL_BONUS):
+    """Up to `points` added when the creek is near the Eocene gravel.
+
+    Farther than near_km the bonus is 0. The base score is unchanged, so a
+    desert or Kern pin is not penalised for missing a Sierra unit.
+    """
+    d = np.asarray(dist_km, dtype=float)
+    comp = channel_component(d)
+    near = np.isfinite(d) & (d <= near_km)
+    return np.where(near, points * comp, 0.0)
 
 
 def nure_sample_scores(nure, elements):
@@ -337,6 +419,13 @@ def assign_counties(points, counties):
     return name, geoid
 
 
+def _text(value):
+    if value is None or (isinstance(value, float) and not np.isfinite(value)):
+        return ''
+    text = str(value).strip()
+    return '' if text.lower() in ('', 'nan', 'none') else text
+
+
 def rank_within_county(df, eligible, score_col, rank_col):
     df[rank_col] = pd.Series(pd.NA, index=df.index, dtype='Int64')
     pool = df[eligible & (df['county'] != '')]
@@ -346,8 +435,14 @@ def rank_within_county(df, eligible, score_col, rank_col):
     return df
 
 
-def score_pans(pans, nure, gold_xy, rc, lat0):
-    """Add nearest_gold_km, n_gold_2km, source/chem components and evidence_score."""
+def score_pans(pans, nure, gold_xy, rc, lat0, upstream_alongs=None,
+               channel_km=None, on_mined=None):
+    """Add gold distance, source/channel/chem components, and evidence_score.
+
+    upstream_alongs: list of along-track km arrays, one per pan. When given,
+    source_c is the upstream corridor. Otherwise source_c is nearest-dot decay.
+    on_mined halves the score. None means the mined layer was not checked.
+    """
     from scipy.spatial import cKDTree
 
     lon, lat = pans['lon'].to_numpy(), pans['lat'].to_numpy()
@@ -361,11 +456,67 @@ def score_pans(pans, nure, gold_xy, rc, lat0):
         n2 = np.zeros(len(pans), dtype=int)
     pans['nearest_gold_km'] = np.round(d, 2)
     pans['n_gold_mrds_2km'] = n2
-    pans['source_c'] = np.round(source_component(d), 3)
+    if upstream_alongs is None:
+        pans['source_c'] = np.round(source_component(d), 3)
+        pans['upstream_gold_km'] = np.nan
+        pans['n_upstream_gold'] = 0
+    else:
+        src, up_km, n_up = [], [], []
+        for alongs in upstream_alongs:
+            alongs = np.asarray(alongs, dtype=float)
+            src.append(upstream_source_component(alongs))
+            n_up.append(int(np.isfinite(alongs).sum()) if len(alongs) else 0)
+            up_km.append(float(np.min(alongs)) if len(alongs) else np.nan)
+        pans['source_c'] = np.round(src, 3)
+        pans['upstream_gold_km'] = np.round(up_km, 2)
+        pans['n_upstream_gold'] = n_up
     chem = chem_component(lon, lat, nure, rc['chem_elements'], float(rc['chem_radius_km']), lat0)
     pans['chem_c'] = np.round(chem, 3)
-    pans['evidence_score'] = evidence_score(pans['trap_score'], pans['source_c'], chem)
+    if channel_km is None:
+        channel_km = np.full(len(pans), np.nan)
+    pans['channel_km'] = np.round(np.asarray(channel_km, dtype=float), 2)
+    channel = channel_component(pans['channel_km'])
+    pans['channel_c'] = np.round(channel, 3)
+    evidence = evidence_score(pans['trap_score'], pans['source_c'], chem)
+    evidence = np.minimum(100.0, evidence + channel_bonus(pans['channel_km']))
+    if on_mined is None:
+        pans['on_mined'] = False
+        pans['evidence_score'] = np.round(evidence, 1)
+    else:
+        mined = np.asarray(on_mined, dtype=bool)
+        pans['on_mined'] = mined
+        pans['evidence_score'] = np.round(
+            np.where(mined, evidence * MINED_FACTOR, evidence), 1)
     return pans
+
+
+def upstream_alongs_for_pans(pans, reaches, gold, lat0):
+    """Along-track km of gold sites in each pin's upstream corridor.
+
+    reaches is a list of dicts or a GeoDataFrame with walk_id and geometry.
+    gold is a DataFrame with lon, lat. Missing bearings yield an empty corridor
+    so that pin falls back to a zero source rather than a side-ridge dot.
+    """
+    if hasattr(reaches, 'iterrows'):
+        by_id = {row.walk_id: row.geometry for row in reaches.itertuples(index=False)}
+    else:
+        by_id = {r['walk_id']: r['geometry'] for r in reaches}
+    if gold is None or len(gold) == 0:
+        site_lon = np.array([])
+        site_lat = np.array([])
+    else:
+        site_lon = gold['lon'].to_numpy(dtype=float)
+        site_lat = gold['lat'].to_numpy(dtype=float)
+    alongs = []
+    for p in pans.itertuples(index=False):
+        geom = by_id.get(p.walk_id)
+        if geom is None:
+            alongs.append(np.array([]))
+            continue
+        bearing = bearing_upstream_deg(geom, float(p.lon), float(p.lat), lat0)
+        alongs.append(corridor_alongs(
+            float(p.lon), float(p.lat), bearing, site_lon, site_lat, lat0))
+    return alongs
 
 
 # ── Run ──────────────────────────────────────────────────────────────────────
@@ -444,14 +595,84 @@ def walk_seeds(specs, fdir_path, acc_path, dem_path, pans_per_walk):
 PAN_COLS = [
     'pin_id', 'region', 'county', 'county_geoid', 'lon', 'lat', 'elev_m',
     'creek_name', 'seed_kind', 'seed_name', 'walk_id', 'along_km', 'upstream_km2',
-    'trap_score', 'why', 'nearest_gold_km', 'n_gold_mrds_2km', 'source_c', 'chem_c',
+    'trap_score', 'why', 'nearest_gold_km', 'n_gold_mrds_2km',
+    'upstream_gold_km', 'n_upstream_gold', 'source_c',
+    'channel_km', 'channel_c', 'on_mined', 'mined_name', 'chem_c',
     'evidence_score',
     'access_type', 'access_ok', 'access_reason', 'manager_name', 'claim_status',
     'pub_access', 'tribal_land', 'tribal_name', 'rules_note', 'on_fee_land',
     'rec_score', 'rec_rank_in_county',
     'federal_manager', 'withdrawal_hint', 'caution_note', 'recent_closed_claim',
     'stake_status', 'stake_score', 'stake_rank_in_county',
+    'elev10_m', 'slope10_deg', 'water_pct', 'water_regime',
+    'lith_code', 'lith_name', 'lith_favor', 'landform_code',
+    'nlcd', 'nlcd_name', 'land_filter', 'road_m', 'fire_year', 'has_lidar_1m',
+    'best_months',
 ]
+
+
+def _score_with_layers(pans, reaches, mrds, gold_xy, cfg, rc, lat0):
+    """Upstream gold, Eocene gravel, mined-ground penalty, then evidence."""
+    import geopandas as gpd
+
+    from pipeline.placer_layers import ensure_placer_layers, pin_flags
+
+    alongs = upstream_alongs_for_pans(pans, reaches, mrds, lat0)
+    try:
+        ensure_placer_layers()
+    except Exception as exc:
+        warnings.warn(f'  Placer layers unavailable ({exc}); scoring without them',
+                      stacklevel=2)
+    pts = gpd.GeoDataFrame(
+        geometry=gpd.points_from_xy(pans['lon'], pans['lat']), crs='EPSG:4326')
+    flags = pin_flags(pts)
+    channel = flags['channel_km'].to_numpy() if flags['channel_checked'].iloc[0] else None
+    mined = flags['on_mined'].to_numpy() if flags['mined_checked'].iloc[0] else None
+    pans = score_pans(
+        pans, _load_nure(cfg), gold_xy, rc, lat0,
+        upstream_alongs=alongs, channel_km=channel, on_mined=mined,
+    )
+    pans['mined_name'] = flags['mined_name'].to_numpy()
+    if flags['mined_checked'].iloc[0]:
+        print(f'  Mined ground: {int(pans["on_mined"].sum())} pins', flush=True)
+    if flags['channel_checked'].iloc[0]:
+        print(
+            f'  Eocene gravel within 2 km: {(pans["channel_km"] <= 2).sum()} pins',
+            flush=True,
+        )
+    return pans
+
+
+def rescore(cfg):
+    """Recompute evidence on pans already walked. Does not retrace creeks."""
+    import geopandas as gpd
+
+    rc = rank_cfg(cfg)
+    lat0 = float(np.mean([cfg['study_area']['bbox']['lat_min'],
+                          cfg['study_area']['bbox']['lat_max']]))
+    csv_path = out(cfg, 'tables', 'county_rank_pans.csv')
+    walk_path = out(cfg, 'geojson', 'county_rank_walks.geojson')
+    if not os.path.exists(csv_path):
+        raise FileNotFoundError(csv_path)
+    pans = pd.read_csv(csv_path)
+    walks = gpd.read_file(walk_path) if os.path.exists(walk_path) else []
+    mrds = _load_mrds(cfg)
+    gold_xy = mrds[['lon', 'lat']].to_numpy() if len(mrds) else None
+    was_rec = pans['rec_score'].notna() if 'rec_score' in pans.columns else False
+    was_stake = pans['stake_score'].notna() if 'stake_score' in pans.columns else False
+    pans = _score_with_layers(pans, walks, mrds, gold_xy, cfg, rc, lat0)
+    pans['rec_score'] = np.where(was_rec, pans['evidence_score'], np.nan)
+    closed = pans['recent_closed_claim'].fillna('').astype(str).str.len().gt(0) \
+        if 'recent_closed_claim' in pans.columns else False
+    bonus = np.where(closed, CLOSED_CLAIM_BONUS, 0.0)
+    pans['stake_score'] = np.where(
+        was_stake, np.minimum(100.0, pans['evidence_score'] + bonus), np.nan)
+    gdf = gpd.GeoDataFrame(
+        pans, geometry=gpd.points_from_xy(pans['lon'], pans['lat']), crs='EPSG:4326')
+    gdf = rank_within_county(gdf, was_rec, 'rec_score', 'rec_rank_in_county')
+    gdf = rank_within_county(gdf, was_stake, 'stake_score', 'stake_rank_in_county')
+    _write_outputs(cfg, gdf, None)
+    return gdf
 
 
 def run(cfg):
@@ -465,12 +686,6 @@ def run(cfg):
     ensure_outputs(cfg['outputs_dir'])
     rc = rank_cfg(cfg)
     short = _short(cfg)
-    dem_path = resolve_data_path(cfg, 'dem_tif')
-    if not dem_path or not os.path.exists(dem_path):
-        raise FileNotFoundError(
-            f'No DEM at {dem_path}. Run: python -m pipeline.fetch_region --config <config>')
-    acc_path = ensure_accumulation_tif(dem_path, out(cfg, 'geojson', 'task11_d8_accumulation.tif'))
-    fdir_path = ensure_flowdir_tif(dem_path, out(cfg, 'geojson', 'task11_d8_flowdir.tif'))
 
     mrds = _load_mrds(cfg)
     hobby = _load_hobby(cfg)
@@ -488,7 +703,28 @@ def run(cfg):
           f'{(seeds["seed_kind"] == "mrds").sum()} MRDS cells from {len(mrds)} gold sites)',
           flush=True)
 
-    reaches, pan_rows = walk_seeds(specs, fdir_path, acc_path, dem_path, rc['pans_per_walk'])
+    from pipeline.gee_creek_trace import ee_trace_enabled, gee_project as _gee_proj, walk_seeds_ee
+    if ee_trace_enabled(cfg):
+        print('  Creek walks: Earth Engine MERIT Hydro', flush=True)
+        reaches, pan_rows = walk_seeds_ee(
+            specs, project=_gee_proj(cfg),
+            pans_per_walk=int(rc['pans_per_walk']),
+            up_km=float(rc['up_km']), down_km=float(rc['down_km']),
+            snap_m=float(rc['snap_m']), min_snap_km2=float(rc['min_snap_km2']),
+        )
+    else:
+        dem_path = resolve_data_path(cfg, 'dem_tif')
+        if not dem_path or not os.path.exists(dem_path):
+            raise FileNotFoundError(
+                f'No DEM at {dem_path}. Run: python -m pipeline.fetch_region '
+                f'--config <config> (or set county_rank.ee_trace: true)')
+        print('  Creek walks: local pysheds D8', flush=True)
+        acc_path = ensure_accumulation_tif(
+            dem_path, out(cfg, 'geojson', 'task11_d8_accumulation.tif'))
+        fdir_path = ensure_flowdir_tif(
+            dem_path, out(cfg, 'geojson', 'task11_d8_flowdir.tif'))
+        reaches, pan_rows = walk_seeds(
+            specs, fdir_path, acc_path, dem_path, rc['pans_per_walk'])
     if not pan_rows:
         print('  No pans picked — every seed missed a channel.')
         return None
@@ -497,7 +733,7 @@ def run(cfg):
     pans.insert(0, 'pin_id', [f'{short}:{i:05d}' for i in range(1, len(pans) + 1)])
 
     gold_xy = mrds[['lon', 'lat']].to_numpy() if len(mrds) else None
-    pans = score_pans(pans, _load_nure(cfg), gold_xy, rc, lat0)
+    pans = _score_with_layers(pans, reaches, mrds, gold_xy, cfg, rc, lat0)
 
     gdf = gpd.GeoDataFrame(pans, geometry=gpd.points_from_xy(pans['lon'], pans['lat']),
                            crs='EPSG:4326')
@@ -521,7 +757,35 @@ def run(cfg):
     counties = _load_gdf(counties_path(state_fips(cfg)))
     gdf['county'], gdf['county_geoid'] = assign_counties(gdf, counties)
 
-    rec_ok = gdf['access_ok'].astype(str).str.lower().eq('yes') & gdf['on_fee_land']
+    from pipeline.gee_sample import (
+        apply_sample_flags, gee_project, gee_sample_enabled, sample_pins,
+    )
+    if gee_sample_enabled(cfg):
+        try:
+            samples = sample_pins(gdf[['pin_id', 'lon', 'lat']], project=gee_project(cfg))
+            samples.to_csv(out(cfg, 'tables', 'county_rank_gee_samples.csv'), index=False)
+            gdf = apply_sample_flags(gdf, samples)
+            print(
+                f'  EE samples: land_drop='
+                f'{(gdf["land_filter"] == "drop").sum()} '
+                f'dry={(gdf["water_regime"] == "dry").sum()} '
+                f'burned={gdf["fire_year"].notna().sum()} '
+                f'lidar1m={gdf["has_lidar_1m"].sum()}',
+                flush=True,
+            )
+        except Exception as exc:
+            warnings.warn(f'  EE sample failed ({exc}); ranking without EE flags',
+                          stacklevel=2)
+
+    land_ok = (
+        gdf['land_filter'].fillna('ok').astype(str).ne('drop')
+        if 'land_filter' in gdf.columns else True
+    )
+    rec_ok = (
+        gdf['access_ok'].astype(str).str.lower().eq('yes')
+        & gdf['on_fee_land']
+        & land_ok
+    )
     gdf['rec_score'] = np.where(rec_ok, gdf['evidence_score'], np.nan)
     stake_ok = gdf['stake_status'].eq('open_screen')
     bonus = np.where(gdf['recent_closed_claim'].astype(bool), CLOSED_CLAIM_BONUS, 0.0)
@@ -567,8 +831,23 @@ def _write_summary(cfg, gdf, rec, stake, top=5):
         'stake_status counts: ' + ', '.join(
             f'{k}={v}' for k, v in gdf['stake_status'].value_counts().items()),
         f'Chemistry available on {int(gdf["chem_c"].notna().sum())} of {len(gdf)} pans.',
-        '',
     ]
+    if 'on_mined' in gdf.columns:
+        lines.append(f'Mined ground (score halved): {int(gdf["on_mined"].astype(bool).sum())}.')
+    if 'channel_km' in gdf.columns:
+        near = int((pd.to_numeric(gdf['channel_km'], errors='coerce') <= 2).sum())
+        lines.append(f'Within 2 km of Eocene gravel: {near}.')
+    if 'land_filter' in gdf.columns:
+        lines.append(
+            'EE flags: land_drop='
+            f'{int((gdf["land_filter"] == "drop").sum())}  '
+            f'dry={int((gdf["water_regime"] == "dry").sum())}  '
+            f'seasonal={int((gdf["water_regime"] == "seasonal").sum())}  '
+            f'year_round={int((gdf["water_regime"] == "year_round").sum())}  '
+            f'burned={int(gdf["fire_year"].notna().sum())}  '
+            f'lidar1m={int(gdf["has_lidar_1m"].sum())}'
+        )
+    lines.append('')
     for county in sorted(c for c in gdf['county'].unique() if c):
         lines.append(f'{county.upper()} COUNTY')
         r = rec[rec['county'] == county].head(top)
@@ -586,17 +865,25 @@ def _write_summary(cfg, gdf, rec, stake, top=5):
             lines.append('    (none — no claim-free open public land on a walked reach)')
         lines.append(f'  Possibly stakeable (top {top} of {n_stake})')
         for _, p in s.iterrows():
-            extra = f"  closed: {p['recent_closed_claim']}" if p['recent_closed_claim'] else ''
+            closed = _text(p.get('recent_closed_claim'))
+            caution = _text(p.get('caution_note'))
+            extra = f'  closed: {closed}' if closed else ''
+            caution_bit = f'  caution: {caution}' if caution else ''
             lines.append(
                 f"    #{int(p['stake_rank_in_county'])}  {p['lat']:.5f}, {p['lon']:.5f}  "
                 f"score {p['stake_score']:.0f}  {p['federal_manager']}"
-                f"{'  caution: ' + p['caution_note'] if p['caution_note'] else ''}{extra}")
+                f"{caution_bit}{extra}")
         if s.empty:
             lines.append('    (none)')
         lines.append('')
     lines += [
-        'evidence = 45% trap geometry + 35% gold MRDS proximity + 20% NURE Au/As',
-        '(chem weight drops out where no NURE sample is within range).',
+        'evidence = 45% trap + 35% gold upstream on the creek + 20% NURE Au/As.',
+        'Chem drops out with no sample in range. Eocene gravel adds up to 10',
+        'points within 5 km and nothing beyond that. A pin inside a hydraulic',
+        'pit or dredge field is then halved.',
+        'EE flags (filters only): NLCD developed/cropland drops recreational pins;',
+        'water_regime / best_months / fire_year / lith_favor / road_m are recorded,',
+        'not weighted. Creek walks use MERIT Hydro in Earth Engine when ee_trace.',
         'Stakeable = BLM/USFS fee land, no active MLRS claim in the buffer, no',
         'PAD-US withdrawal hint, not tribal. Check the BLM master title plat',
         'and MLRS case records before locating anything.',
@@ -610,13 +897,17 @@ def _write_summary(cfg, gdf, rec, stake, top=5):
 def main():
     parser = argparse.ArgumentParser(description='Per-county panning + stakeable ranking')
     parser.add_argument('--config', required=True)
+    parser.add_argument(
+        '--rescore', action='store_true',
+        help='Recompute evidence on existing pans (no creek retrace)',
+    )
     args = parser.parse_args()
     with open(args.config) as f:
         cfg = yaml.safe_load(f)
     with warnings.catch_warnings():
         warnings.simplefilter('ignore', category=RuntimeWarning)
         warnings.filterwarnings('ignore', message='Geometry is in a geographic CRS')
-        run(cfg)
+        rescore(cfg) if args.rescore else run(cfg)
 
 
 if __name__ == '__main__':

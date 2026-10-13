@@ -1,0 +1,49 @@
+COUNTY RANKING — Rand district dry placers
+A screen, not a gold claim and not a land-status opinion.
+====================================================================
+
+Pans scored: 180   recreational-ok: 95   stakeable screen: 80
+stake_status counts: open_screen=80, not_federal=51, claimed=37, withdrawn_hint=12
+Chemistry available on 174 of 180 pans.
+Mined ground (score halved): 0.
+Within 2 km of Eocene gravel: 0.
+EE flags: land_drop=6  dry=180  seasonal=0  year_round=0  burned=7  lidar1m=144
+
+KERN COUNTY
+  Go pan here (top 5 of 75)
+    #1  35.33178, -117.66610  score 87  trap 6.0  gold 0.2 km  blm (BLM)  near Rainbow Prospect
+    #2  35.33386, -117.95642  score 86  trap 6.0  gold 1.7 km  state_park (SPR)  near Richardo Placer
+    #3  35.33966, -117.96470  score 86  trap 6.0  gold 1.4 km  state_park (SPR)  near Richardo Placer
+    #4  35.34546, -117.93804  score 86  trap 6.0  gold 0.9 km  state_park (SPR)  near Klondike Group
+    #5  35.35971, -117.92834  score 86  trap 6.0  gold 1.4 km  blm (BLM)  near Great Unknown Group
+  Possibly stakeable (top 5 of 61)
+    #1  35.33178, -117.66610  score 87  BLM
+    #2  35.35971, -117.92834  score 86  BLM  caution: area of critical environmental concern
+    #3  35.40353, -117.81554  score 86  BLM  caution: area of critical environmental concern
+    #4  35.39938, -117.81803  score 86  BLM  caution: area of critical environmental concern
+    #5  35.36686, -117.77895  score 86  BLM  caution: area of critical environmental concern
+
+SAN BERNARDINO COUNTY
+  Go pan here (top 5 of 20)
+    #1  35.14579, -117.56252  score 86  trap 6.0  gold 1.8 km  blm (BLM)  near Unnamed Shaft
+    #2  35.24261, -117.60696  score 83  trap 6.0  gold 2.8 km  blm (BLM)  near Unnamed Shaft
+    #3  35.15112, -117.44648  score 76  trap 6.0  gold 2.8 km  blm (BLM)  near Silver Dome
+    #4  35.38971, -117.59148  score 76  trap 6.0  gold 2.1 km  blm (BLM)  near Pioneer
+    #5  35.38226, -117.60639  score 76  trap 6.0  gold 1.4 km  blm (BLM)  near Pioneer
+  Possibly stakeable (top 5 of 19)
+    #1  35.14579, -117.56252  score 86  BLM  caution: area of critical environmental concern
+    #2  35.24261, -117.60696  score 83  BLM  caution: area of critical environmental concern
+    #3  35.15112, -117.44648  score 76  BLM  caution: area of critical environmental concern
+    #4  35.38971, -117.59148  score 76  BLM  caution: area of critical environmental concern
+    #5  35.38226, -117.60639  score 76  BLM  caution: area of critical environmental concern
+
+evidence = 45% trap + 35% gold upstream on the creek + 20% NURE Au/As.
+Chem drops out with no sample in range. Eocene gravel adds up to 10
+points within 5 km and nothing beyond that. A pin inside a hydraulic
+pit or dredge field is then halved.
+EE flags (filters only): NLCD developed/cropland drops recreational pins;
+water_regime / best_months / fire_year / lith_favor / road_m are recorded,
+not weighted. Creek walks use MERIT Hydro in Earth Engine when ee_trace.
+Stakeable = BLM/USFS fee land, no active MLRS claim in the buffer, no
+PAD-US withdrawal hint, not tribal. Check the BLM master title plat
+and MLRS case records before locating anything.

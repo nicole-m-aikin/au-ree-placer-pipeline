@@ -1,0 +1,52 @@
+# Mother Lode foothills — Mariposa, Tuolumne, Calaveras, Amador (and edges of
+# El Dorado / Mariposa). Wet placer belt south of the Sierra transfer box.
+#
+#   python -m pipeline.fetch_region --config configs/mother_lode/config.yaml
+#   python -m pipeline.county_rank  --config configs/mother_lode/config.yaml
+
+study_area:
+  name: "Mother Lode placers"
+  short: "ca_mother_lode"
+  state: CA
+  bbox:
+    lon_min: -121.05
+    lon_max: -119.85
+    lat_min:  37.35
+    lat_max:  38.55
+  map_padding: 0.08
+  crs: "EPSG:4326"
+
+outputs_dir: "mother_lode/outputs"
+
+gee:
+  project: placer-picker-511303
+
+data:
+  nure_csv:        "data/nure/nure_ca_mother_lode_sediment.csv"
+  mrds_geojson:    "data/mrds/mrds_ca_mother_lode.geojson"
+  sgmc_state: CA
+  dem_tif: data/dem/ca_mother_lode_30m.tif
+  hobby_reports_csv: null
+  padus_geojson: "data/padus/padus_ca_mother_lode.geojson"
+  mlrs_geojson: "data/mlrs/mlrs_claims_ca_mother_lode.geojson"
+  aiannh_geojson: "data/aiannh/aiannh_ca_mother_lode.geojson"
+
+task11:
+  land_access: true
+  claim_buffer_m: 50
+
+county_rank:
+  seed_cell_km: 4.0
+  max_seeds: 300
+  up_km: 0.5
+  down_km: 4.0
+  snap_m: 600
+  min_snap_km2: 1.0
+  pans_per_walk: 2
+  chem_radius_km: 3.0
+  chem_elements: [Au, As]
+  closed_claim_radius_m: 300
+  gee_sample: true
+  ee_trace: true
+
+sites: []

@@ -1,0 +1,69 @@
+COUNTY RANKING — Central Coast
+A screen, not a gold claim and not a land-status opinion.
+====================================================================
+
+Pans scored: 82   recreational-ok: 4   stakeable screen: 4
+stake_status counts: not_federal=55, withdrawn_hint=17, claimed=6, open_screen=4
+Chemistry available on 9 of 82 pans.
+Mined ground (score halved): 0.
+Within 2 km of Eocene gravel: 2.
+EE flags: land_drop=8  dry=77  seasonal=4  year_round=1  burned=50  lidar1m=82
+
+FRESNO COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+MADERA COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+MERCED COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+MONTEREY COUNTY
+  Go pan here (top 5 of 4)
+    #1  35.89458, -121.45514  score 84  trap 6.0  gold 2.7 km  usfs (USFS)  near Humbug
+    #2  35.91894, -121.46470  score 84  trap 6.0  gold 0.7 km  usfs (USFS)  near Plaskette Mine
+    #3  35.87756, -121.43391  score 70  trap 4.0  gold 0.6 km  usfs (USFS)  near Spruce Creek Placer Deposits
+    #4  35.87342, -121.43971  score 70  trap 4.0  gold 1.2 km  usfs (USFS)  near Spruce Creek Placer Deposits
+  Possibly stakeable (top 5 of 4)
+    #1  35.89458, -121.45514  score 84  USFS
+    #2  35.91894, -121.46470  score 84  USFS
+    #3  35.87756, -121.43391  score 70  USFS
+    #4  35.87342, -121.43971  score 70  USFS
+
+SAN BENITO COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+SAN LUIS OBISPO COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+SANTA BARBARA COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+evidence = 45% trap + 35% gold upstream on the creek + 20% NURE Au/As.
+Chem drops out with no sample in range. Eocene gravel adds up to 10
+points within 5 km and nothing beyond that. A pin inside a hydraulic
+pit or dredge field is then halved.
+EE flags (filters only): NLCD developed/cropland drops recreational pins;
+water_regime / best_months / fire_year / lith_favor / road_m are recorded,
+not weighted. Creek walks use MERIT Hydro in Earth Engine when ee_trace.
+Stakeable = BLM/USFS fee land, no active MLRS claim in the buffer, no
+PAD-US withdrawal hint, not tribal. Check the BLM master title plat
+and MLRS case records before locating anything.

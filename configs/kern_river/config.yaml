@@ -20,6 +20,9 @@ study_area:
 
 outputs_dir: "kern_river/outputs"
 
+gee:
+  project: placer-picker-511303
+
 data:
   nure_csv:        "data/nure/nure_ca_kern_river_sediment.csv"
   mrds_geojson:    "data/mrds/mrds_ca_kern_river.geojson"
@@ -47,5 +50,7 @@ county_rank:
   chem_radius_km: 3.0
   chem_elements: [Au, As]
   closed_claim_radius_m: 300
+  gee_sample: true
+  ee_trace: true
 
 sites: []

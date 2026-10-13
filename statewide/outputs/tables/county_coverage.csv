@@ -1,59 +1,59 @@
-county,county_geoid,status,regions,n_pins,n_recreational,n_stakeable,n_with_nure
-Alameda,06001,not_built,,0,0,0,0
-Alpine,06003,not_built,,0,0,0,0
-Amador,06005,built,ca_sierra_placer,5,0,0,0
-Butte,06007,built,ca_sierra_placer,39,7,4,0
-Calaveras,06009,not_built,,0,0,0,0
-Colusa,06011,not_built,,0,0,0,0
-Contra Costa,06013,not_built,,0,0,0,0
-Del Norte,06015,not_built,,0,0,0,0
-El Dorado,06017,built,ca_sierra_placer,91,12,4,0
-Fresno,06019,not_built,,0,0,0,0
-Glenn,06021,not_built,,0,0,0,0
-Humboldt,06023,not_built,,0,0,0,0
-Imperial,06025,not_built,,0,0,0,0
-Inyo,06027,not_built,,0,0,0,0
-Kern,06029,built,ca_kern_river,118,48,48,69
-Kings,06031,not_built,,0,0,0,0
-Lake,06033,not_built,,0,0,0,0
-Lassen,06035,not_built,,0,0,0,0
-Los Angeles,06037,not_built,,0,0,0,0
-Madera,06039,not_built,,0,0,0,0
-Marin,06041,not_built,,0,0,0,0
-Mariposa,06043,not_built,,0,0,0,0
-Mendocino,06045,not_built,,0,0,0,0
-Merced,06047,not_built,,0,0,0,0
-Modoc,06049,not_built,,0,0,0,0
-Mono,06051,not_built,,0,0,0,0
-Monterey,06053,not_built,,0,0,0,0
-Napa,06055,not_built,,0,0,0,0
-Nevada,06057,built,ca_sierra_placer,100,15,6,0
-Orange,06059,not_built,,0,0,0,0
-Placer,06061,built,ca_sierra_placer,75,23,11,0
-Plumas,06063,built,ca_sierra_placer,29,14,11,0
-Riverside,06065,not_built,,0,0,0,0
-Sacramento,06067,built,ca_sierra_placer,12,0,0,0
-San Benito,06069,not_built,,0,0,0,0
-San Bernardino,06071,not_built,,0,0,0,0
-San Diego,06073,not_built,,0,0,0,0
-San Francisco,06075,not_built,,0,0,0,0
-San Joaquin,06077,not_built,,0,0,0,0
-San Luis Obispo,06079,not_built,,0,0,0,0
-San Mateo,06081,not_built,,0,0,0,0
-Santa Barbara,06083,not_built,,0,0,0,0
-Santa Clara,06085,not_built,,0,0,0,0
-Santa Cruz,06087,not_built,,0,0,0,0
-Shasta,06089,not_built,,0,0,0,0
-Sierra,06091,built,ca_sierra_placer,93,11,11,0
-Siskiyou,06093,not_built,,0,0,0,0
-Solano,06095,not_built,,0,0,0,0
-Sonoma,06097,not_built,,0,0,0,0
-Stanislaus,06099,not_built,,0,0,0,0
-Sutter,06101,not_built,,0,0,0,0
-Tehama,06103,not_built,,0,0,0,0
-Trinity,06105,not_built,,0,0,0,0
-Tulare,06107,built,ca_kern_river,18,2,0,10
-Tuolumne,06109,not_built,,0,0,0,0
-Ventura,06111,not_built,,0,0,0,0
-Yolo,06113,not_built,,0,0,0,0
-Yuba,06115,built,ca_sierra_placer,12,0,0,0
+county,county_geoid,status,regions,n_pins,n_recreational,n_stakeable,n_with_nure,n_land_drop
+Alameda,06001,built,ca_bay_area,2,0,0,0,2
+Alpine,06003,built,ca_mono_alpine,32,11,10,22,0
+Amador,06005,built,ca_mother_lode;ca_sierra_placer,68,2,2,0,8
+Butte,06007,built,ca_modoc_lassen;ca_sacramento_valley;ca_sierra_placer,204,51,23,0,18
+Calaveras,06009,built,ca_mother_lode,135,8,8,0,8
+Colusa,06011,built,ca_north_coast_ranges;ca_sacramento_valley,16,3,3,0,2
+Contra Costa,06013,built,ca_bay_area,4,1,0,0,3
+Del Norte,06015,built,ca_klamath_coast,53,38,4,0,3
+El Dorado,06017,built,ca_mother_lode;ca_sierra_placer,95,12,3,0,4
+Fresno,06019,built,ca_central_coast;ca_southern_sierra,46,10,7,0,3
+Glenn,06021,built,ca_modoc_lassen;ca_north_coast_ranges;ca_sacramento_valley,14,0,0,0,6
+Humboldt,06023,built,ca_klamath_coast;ca_north_coast_ranges,106,41,27,0,4
+Imperial,06025,built,ca_southeast,80,38,32,44,0
+Inyo,06027,built,ca_inyo;ca_mono_alpine,242,68,70,104,8
+Kern,06029,built,ca_inyo;ca_kern_river;ca_piute_tehachapi;ca_rand;ca_transverse,338,122,110,197,17
+Kings,06031,not_built,,0,0,0,0,0
+Lake,06033,built,ca_north_coast_ranges,6,0,0,0,3
+Lassen,06035,built,ca_modoc_lassen,40,10,10,0,5
+Los Angeles,06037,built,ca_san_gabriel;ca_southeast;ca_transverse,125,44,4,19,24
+Madera,06039,built,ca_central_coast;ca_mono_alpine;ca_southern_sierra,79,9,5,0,4
+Marin,06041,built,ca_bay_area;ca_north_coast_ranges,8,0,0,0,3
+Mariposa,06043,built,ca_mono_alpine;ca_mother_lode;ca_southern_sierra,212,44,30,0,9
+Mendocino,06045,built,ca_north_coast_ranges,10,0,0,0,5
+Merced,06047,built,ca_central_coast;ca_mother_lode;ca_southern_sierra,21,0,0,0,4
+Modoc,06049,built,ca_modoc_lassen,22,5,6,0,8
+Mono,06051,built,ca_inyo;ca_mono_alpine;ca_southern_sierra,98,63,57,31,2
+Monterey,06053,built,ca_central_coast,21,4,4,3,0
+Napa,06055,built,ca_north_coast_ranges,4,0,0,0,2
+Nevada,06057,built,ca_sacramento_valley;ca_sierra_placer,103,16,9,0,6
+Orange,06059,built,ca_southeast,12,2,2,0,4
+Placer,06061,built,ca_sacramento_valley;ca_sierra_placer,88,24,14,0,11
+Plumas,06063,built,ca_modoc_lassen;ca_sacramento_valley;ca_sierra_placer,236,66,46,0,19
+Riverside,06065,built,ca_southeast,187,52,44,99,15
+Sacramento,06067,built,ca_bay_area;ca_mother_lode;ca_sacramento_valley;ca_sierra_placer,25,0,0,0,8
+San Benito,06069,built,ca_bay_area;ca_central_coast,6,0,0,6,2
+San Bernardino,06071,built,ca_inyo;ca_rand;ca_san_gabriel;ca_southeast,103,34,31,94,4
+San Diego,06073,built,ca_southeast,87,23,17,0,17
+San Francisco,06075,not_built,,0,0,0,0,0
+San Joaquin,06077,built,ca_bay_area;ca_mother_lode,5,0,0,0,1
+San Luis Obispo,06079,built,ca_central_coast,26,0,0,0,3
+San Mateo,06081,built,ca_bay_area,6,0,0,0,3
+Santa Barbara,06083,built,ca_central_coast;ca_transverse,7,1,1,0,0
+Santa Clara,06085,built,ca_bay_area,4,0,0,0,3
+Santa Cruz,06087,built,ca_bay_area,8,4,0,0,1
+Shasta,06089,built,ca_modoc_lassen;ca_trinity_shasta,90,33,34,0,7
+Sierra,06091,built,ca_modoc_lassen;ca_sierra_placer,112,17,17,0,5
+Siskiyou,06093,built,ca_klamath_coast;ca_modoc_lassen;ca_trinity_shasta,274,105,64,0,32
+Solano,06095,not_built,,0,0,0,0,0
+Sonoma,06097,built,ca_bay_area;ca_north_coast_ranges,3,0,0,0,1
+Stanislaus,06099,built,ca_mother_lode;ca_southern_sierra,19,0,0,0,2
+Sutter,06101,built,ca_sacramento_valley,6,0,0,0,6
+Tehama,06103,built,ca_modoc_lassen;ca_north_coast_ranges;ca_trinity_shasta,13,2,2,0,0
+Trinity,06105,built,ca_klamath_coast;ca_trinity_shasta,175,80,56,0,17
+Tulare,06107,built,ca_inyo;ca_kern_river;ca_southern_sierra,33,3,0,12,6
+Tuolumne,06109,built,ca_mono_alpine;ca_mother_lode;ca_southern_sierra,108,27,23,0,4
+Ventura,06111,built,ca_transverse,25,17,18,0,1
+Yolo,06113,built,ca_sacramento_valley,2,0,0,0,1
+Yuba,06115,built,ca_sacramento_valley;ca_sierra_placer,59,4,4,0,7

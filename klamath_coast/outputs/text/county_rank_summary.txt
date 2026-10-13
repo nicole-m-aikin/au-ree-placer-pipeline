@@ -1,0 +1,76 @@
+COUNTY RANKING — Klamath coast
+A screen, not a gold claim and not a land-status opinion.
+====================================================================
+
+Pans scored: 308   recreational-ok: 159   stakeable screen: 60
+stake_status counts: withdrawn_hint=127, open_screen=67, claimed=41, not_federal=41, tribal=32
+Chemistry available on 0 of 308 pans.
+Mined ground (score halved): 0.
+Within 2 km of Eocene gravel: 0.
+EE flags: land_drop=16  dry=260  seasonal=16  year_round=32  burned=224  lidar1m=300
+
+DEL NORTE COUNTY
+  Go pan here (top 5 of 38)
+    #1  41.80103, -123.98338  score 84  trap 6.0  gold 0.8 km  usfs (USFS)  near Antone Kaus
+    #2  41.79772, -123.96764  score 84  trap 6.0  gold 0.7 km  usfs (USFS)  near Antone Kaus
+    #3  41.86355, -123.85648  score 84  trap 6.0  gold 1.3 km  usfs (USFS)  near George Washington
+    #4  41.87432, -123.84156  score 84  trap 6.0  gold 0.6 km  usfs (USFS)  near George Washington
+    #5  41.98113, -123.79849  score 84  trap 6.0  gold 0.8 km  usfs (USFS)  near Monumental Consolidated Quartz Mine
+  Possibly stakeable (top 5 of 4)
+    #1  41.92183, -124.03600  score 84  USFS
+    #2  41.93675, -124.04428  score 84  USFS
+    #3  41.96411, -123.63351  score 84  USFS
+    #4  41.98399, -123.62771  score 79  USFS
+
+HUMBOLDT COUNTY
+  Go pan here (top 5 of 41)
+    #1  40.92348, -123.69358  score 84  trap 6.0  gold 2.0 km  usfs (USFS)  near Unknown
+    #2  41.21135, -123.51801  score 84  trap 6.0  gold 1.0 km  usfs (USFS)  near Little Klondike
+    #3  41.21384, -123.49067  score 84  trap 6.0  gold 0.9 km  usfs (USFS)  near Little Klondike
+    #4  41.36179, -123.49124  score 84  trap 6.0  gold 0.5 km  usfs (USFS)  near Rosalina
+    #5  41.25571, -123.55810  score 84  trap 6.0  gold 0.8 km  usfs (USFS)  near Twilight
+  Possibly stakeable (top 5 of 27)
+    #1  40.92348, -123.69358  score 84  USFS
+    #2  41.21135, -123.51801  score 84  USFS
+    #3  41.21384, -123.49067  score 84  USFS
+    #4  41.36179, -123.49124  score 84  USFS
+    #5  41.25571, -123.55810  score 84  USFS
+
+SISKIYOU COUNTY
+  Go pan here (top 5 of 49)
+    #1  41.87727, -123.42189  score 84  trap 6.0  gold 0.7 km  usfs (USFS)  near David Hughes
+    #2  41.61099, -123.48334  score 84  trap 6.0  gold 1.6 km  usfs (USFS)  near Roosevelt Mine
+    #3  41.60353, -123.47008  score 84  trap 6.0  gold 0.7 km  usfs (USFS)  near Roosevelt Mine
+    #4  41.96453, -123.41140  score 84  trap 6.0  gold 1.5 km  usfs (USFS)  near Snowbrush Mine
+    #5  41.95293, -123.40643  score 84  trap 6.0  gold 0.6 km  usfs (USFS)  near Snowbrush Mine
+  Possibly stakeable (top 5 of 22)
+    #1  41.87727, -123.42189  score 84  USFS
+    #2  41.61099, -123.48334  score 84  USFS
+    #3  41.60353, -123.47008  score 84  USFS
+    #4  41.96453, -123.41140  score 84  USFS
+    #5  41.95293, -123.40643  score 84  USFS
+
+TRINITY COUNTY
+  Go pan here (top 5 of 31)
+    #1  40.98360, -123.35969  score 84  trap 6.0  gold 1.2 km  usfs (USFS)  near Brown's Bar
+    #2  40.97448, -123.34395  score 84  trap 6.0  gold 1.8 km  usfs (USFS)  near Brown's Bar
+    #3  40.42076, -123.40949  score 84  trap 6.0  gold 1.8 km  usfs (USFS)  near Little Klondyke
+    #4  40.84641, -123.47370  score 84  trap 6.0  gold 0.6 km  usfs (USFS)  near Betty Lou
+    #5  40.85221, -123.48116  score 84  trap 6.0  gold 0.7 km  usfs (USFS)  near Betty Lou
+  Possibly stakeable (top 5 of 7)
+    #1  40.98360, -123.35969  score 84  USFS
+    #2  40.86523, -123.37711  score 84  USFS
+    #3  40.69427, -123.45870  score 81  USFS
+    #4  40.63945, -123.36223  score 80  USFS
+    #5  40.85611, -123.39368  score 77  USFS
+
+evidence = 45% trap + 35% gold upstream on the creek + 20% NURE Au/As.
+Chem drops out with no sample in range. Eocene gravel adds up to 10
+points within 5 km and nothing beyond that. A pin inside a hydraulic
+pit or dredge field is then halved.
+EE flags (filters only): NLCD developed/cropland drops recreational pins;
+water_regime / best_months / fire_year / lith_favor / road_m are recorded,
+not weighted. Creek walks use MERIT Hydro in Earth Engine when ee_trace.
+Stakeable = BLM/USFS fee land, no active MLRS claim in the buffer, no
+PAD-US withdrawal hint, not tribal. Check the BLM master title plat
+and MLRS case records before locating anything.

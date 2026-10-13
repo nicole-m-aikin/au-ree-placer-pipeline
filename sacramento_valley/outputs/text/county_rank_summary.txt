@@ -1,0 +1,131 @@
+COUNTY RANKING — Sacramento Valley
+A screen, not a gold claim and not a land-status opinion.
+====================================================================
+
+Pans scored: 313   recreational-ok: 52   stakeable screen: 28
+stake_status counts: not_federal=245, open_screen=28, claimed=21, withdrawn_hint=14, mixed_manager=5
+Chemistry available on 0 of 313 pans.
+Mined ground (score halved): 11.
+Within 2 km of Eocene gravel: 31.
+EE flags: land_drop=54  dry=257  seasonal=24  year_round=32  burned=196  lidar1m=313
+
+BUTTE COUNTY
+  Go pan here (top 5 of 42)
+    #1  39.54991, -121.27840  score 84  trap 6.0  gold 0.7 km  usfs (USFS)  near Rattlesnake Quartz
+    #2  39.53500, -121.26929  score 84  trap 6.0  gold 0.0 km  usfs (USFS)  near Rattlesnake Quartz
+    #3  39.88376, -121.63088  score 84  trap 6.0  gold 0.7 km  blm (BLM)  near Tiger Mine
+    #4  39.89950, -121.62425  score 84  trap 6.0  gold 0.6 km  blm (BLM)  near Tiger Mine
+    #5  39.89602, -121.62586  score 84  trap 6.0  gold 0.3 km  blm (BLM)  near Unnamed
+  Possibly stakeable (top 5 of 18)
+    #1  39.54991, -121.27840  score 84  USFS
+    #2  39.53500, -121.26929  score 84  USFS
+    #3  39.84821, -121.57781  score 84  USFS
+    #4  39.83578, -121.58195  score 84  USFS
+    #5  39.73327, -121.40425  score 84  USFS
+
+COLUSA COUNTY
+  Go pan here (top 5 of 3)
+    #1  39.21863, -122.50747  score 84  trap 6.0  gold 2.2 km  blm (BLM)  near Pacific
+    #2  39.06944, -122.46906  score 84  trap 6.0  gold 0.9 km  blm (BLM)  near Clyde Mine
+    #3  39.21531, -122.50084  score 67  trap 6.0  gold 2.8 km  blm (BLM)  near Pacific
+  Possibly stakeable (top 5 of 3)
+    #1  39.21863, -122.50747  score 84  BLM
+    #2  39.06944, -122.46906  score 84  BLM  caution: area of critical environmental concern
+    #3  39.21531, -122.50084  score 67  BLM
+
+GLENN COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+LAKE COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+MARIN COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+NAPA COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+NEVADA COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+PLACER COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+PLUMAS COUNTY
+  Go pan here (top 5 of 2)
+    #1  39.81004, -121.25658  score 84  trap 6.0  gold 0.1 km  usfs (USFS)  near Unnamed
+    #2  39.94239, -121.30629  score 47  trap 4.0  gold 3.4 km  usfs (USFS)  near Heney
+  Possibly stakeable (top 5 of 2)
+    #1  39.81004, -121.25658  score 84  USFS
+    #2  39.94239, -121.30629  score 47  USFS
+
+SACRAMENTO COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+SONOMA COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+SUTTER COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+TEHAMA COUNTY
+  Go pan here (top 5 of 2)
+    #1  39.83492, -122.66803  score 72  trap 6.0  gold 1.8 km  usfs (USFS)  near Bowers Creek
+    #2  39.83906, -122.65809  score 68  trap 6.0  gold 2.8 km  usfs (USFS)  near Bowers Creek
+  Possibly stakeable (top 5 of 2)
+    #1  39.83492, -122.66803  score 72  USFS
+    #2  39.83906, -122.65809  score 68  USFS
+
+YOLO COUNTY
+  Go pan here (top 5 of 0)
+    (none — no claim-free open public land on a walked reach)
+  Possibly stakeable (top 5 of 0)
+    (none)
+
+YUBA COUNTY
+  Go pan here (top 5 of 3)
+    #1  39.23218, -121.31388  score 70  trap 4.0  gold 0.1 km  blm (BLM)  near Mammoth
+    #2  39.23052, -121.30974  score 70  trap 4.0  gold 0.3 km  blm (BLM)  near Mammoth
+    #3  39.46516, -121.32891  score 70  trap 4.0  gold 0.7 km  blm (BLM)  near Resumption
+  Possibly stakeable (top 5 of 3)
+    #1  39.23218, -121.31388  score 70  BLM
+    #2  39.23052, -121.30974  score 70  BLM
+    #3  39.46516, -121.32891  score 70  BLM
+
+evidence = 45% trap + 35% gold upstream on the creek + 20% NURE Au/As.
+Chem drops out with no sample in range. Eocene gravel adds up to 10
+points within 5 km and nothing beyond that. A pin inside a hydraulic
+pit or dredge field is then halved.
+EE flags (filters only): NLCD developed/cropland drops recreational pins;
+water_regime / best_months / fire_year / lith_favor / road_m are recorded,
+not weighted. Creek walks use MERIT Hydro in Earth Engine when ee_trace.
+Stakeable = BLM/USFS fee land, no active MLRS claim in the buffer, no
+PAD-US withdrawal hint, not tribal. Check the BLM master title plat
+and MLRS case records before locating anything.

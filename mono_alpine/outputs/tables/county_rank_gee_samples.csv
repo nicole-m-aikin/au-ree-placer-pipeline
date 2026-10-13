@@ -1,0 +1,406 @@
+pin_id,elev10_m,slope10_deg,water_pct,water_regime,lith_code,lith_name,lith_favor,landform_code,nlcd,nlcd_name,land_filter,road_m,fire_year,has_lidar_1m,best_months
+ca_mono_alpine:00001,413.9,0.57,,dry,5,acid_plutonic,True,42,52,shrub,ok,542.0,2008.0,True,May–Oct
+ca_mono_alpine:00002,518.4,0.57,,dry,5,acid_plutonic,True,42,52,shrub,ok,50.0,2008.0,True,May–Oct
+ca_mono_alpine:00003,2139.6,0.11,,dry,5,acid_plutonic,True,42,42,evergreen,ok,213.0,,True,"Jun–Jul, Sep–Oct"
+ca_mono_alpine:00004,2198.7,0.11,,dry,5,acid_plutonic,True,41,42,evergreen,ok,52.0,,True,"Jun–Jul, Sep–Oct"
+ca_mono_alpine:00005,591.0,0.66,,dry,5,acid_plutonic,True,42,42,evergreen,ok,531.0,2004.0,True,May–Oct
+ca_mono_alpine:00006,715.3,0.66,,dry,5,acid_plutonic,True,41,43,mixed_forest,ok,216.0,2004.0,True,May–Oct
+ca_mono_alpine:00007,761.3,0.66,,dry,5,acid_plutonic,True,32,42,evergreen,ok,28.0,2008.0,True,May–Oct
+ca_mono_alpine:00008,870.2,0.66,,dry,5,acid_plutonic,True,32,42,evergreen,ok,293.0,2008.0,True,May–Oct
+ca_mono_alpine:00009,1527.9,0.11,,dry,19,,False,41,52,shrub,ok,14.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00010,1499.1,0.11,,dry,19,,False,41,52,shrub,ok,12.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00011,445.3,0.57,,dry,5,acid_plutonic,True,42,52,shrub,ok,117.0,2008.0,True,May–Oct
+ca_mono_alpine:00012,574.4,0.57,,dry,5,acid_plutonic,True,41,52,shrub,ok,342.0,2008.0,True,May–Oct
+ca_mono_alpine:00013,587.0,0.57,,dry,5,acid_plutonic,True,41,71,grassland,ok,799.0,2017.0,True,May–Oct
+ca_mono_alpine:00014,292.3,0.57,,dry,5,acid_plutonic,True,41,71,grassland,ok,161.0,2017.0,True,May–Oct
+ca_mono_alpine:00015,1846.5,0.2,,dry,5,acid_plutonic,True,33,42,evergreen,ok,580.0,2021.0,True,Jun–Sep
+ca_mono_alpine:00016,2052.5,0.2,,dry,5,acid_plutonic,True,31,52,shrub,ok,239.0,2021.0,True,Jun–Sep
+ca_mono_alpine:00017,452.9,0.57,,dry,1,unconsolidated,False,42,52,shrub,ok,802.0,2017.0,True,May–Oct
+ca_mono_alpine:00018,455.0,0.57,,dry,1,unconsolidated,False,42,52,shrub,ok,931.0,2017.0,True,May–Oct
+ca_mono_alpine:00019,2096.9,0.2,,dry,5,acid_plutonic,True,41,42,evergreen,ok,452.0,,True,"Apr, Jun–Jul, Sep"
+ca_mono_alpine:00020,2147.7,0.2,,dry,5,acid_plutonic,True,31,42,evergreen,ok,38.0,,True,"Apr, Jun–Jul, Sep"
+ca_mono_alpine:00021,604.8,0.57,,dry,5,acid_plutonic,True,42,71,grassland,ok,120.0,2017.0,True,May–Oct
+ca_mono_alpine:00022,638.2,0.57,,dry,5,acid_plutonic,True,31,52,shrub,ok,33.0,2017.0,True,May–Oct
+ca_mono_alpine:00023,435.3,0.66,,dry,1,unconsolidated,False,42,42,evergreen,ok,18.0,2018.0,True,May–Oct
+ca_mono_alpine:00024,446.0,0.66,,dry,1,unconsolidated,False,42,22,developed_low,drop,1.0,2018.0,True,May–Oct
+ca_mono_alpine:00025,2558.6,0.66,,dry,7,silicic_residual,False,41,42,evergreen,ok,142.0,,True,"Jun–Jul, Sep"
+ca_mono_alpine:00026,2622.4,0.66,,dry,7,silicic_residual,False,42,42,evergreen,ok,86.0,,True,"Jun–Jul, Sep"
+ca_mono_alpine:00027,1817.6,0.2,,dry,5,acid_plutonic,True,42,71,grassland,ok,39.0,2021.0,True,Jun–Sep
+ca_mono_alpine:00028,1750.2,0.2,,dry,5,acid_plutonic,True,42,71,grassland,ok,1.0,2021.0,True,Jun–Sep
+ca_mono_alpine:00029,384.4,0.66,,dry,1,unconsolidated,False,42,71,grassland,ok,62.0,2019.0,True,May–Oct
+ca_mono_alpine:00030,426.0,0.66,,dry,1,unconsolidated,False,42,42,evergreen,ok,265.0,2019.0,True,May–Oct
+ca_mono_alpine:00031,993.8,0.66,,dry,1,unconsolidated,False,42,42,evergreen,ok,530.0,2022.0,True,May–Oct
+ca_mono_alpine:00032,1027.7,0.66,,dry,1,unconsolidated,False,41,52,shrub,ok,532.0,2022.0,True,May–Oct
+ca_mono_alpine:00033,494.8,0.57,,dry,5,acid_plutonic,True,41,42,evergreen,ok,60.0,2017.0,True,May–Oct
+ca_mono_alpine:00034,535.1,0.57,,dry,5,acid_plutonic,True,41,71,grassland,ok,386.0,2017.0,True,May–Oct
+ca_mono_alpine:00035,1828.4,0.11,,dry,19,,False,32,52,shrub,ok,116.0,,True,"Apr, Jun, Sep–Nov"
+ca_mono_alpine:00036,1769.9,0.11,,dry,19,,False,32,52,shrub,ok,71.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00037,2389.1,0.2,,dry,5,acid_plutonic,True,42,42,evergreen,ok,140.0,,True,"Jun–Jul, Sep"
+ca_mono_alpine:00038,2535.6,0.2,,dry,5,acid_plutonic,True,41,71,grassland,ok,266.0,,True,"Jun–Jul, Sep"
+ca_mono_alpine:00039,2472.2,0.11,,dry,5,acid_plutonic,True,42,52,shrub,ok,53.0,,True,"Jun–Jul, Sep–Oct"
+ca_mono_alpine:00040,2522.5,0.2,,dry,5,acid_plutonic,True,42,52,shrub,ok,61.0,,True,"Jun–Jul, Sep–Oct"
+ca_mono_alpine:00041,2068.6,0.15,,dry,5,acid_plutonic,True,41,42,evergreen,ok,59.0,2002.0,True,"Apr, Jun, Sep, Nov"
+ca_mono_alpine:00042,2114.3,0.15,,dry,5,acid_plutonic,True,32,42,evergreen,ok,94.0,2002.0,True,"Apr, Jun, Sep, Nov"
+ca_mono_alpine:00043,591.6,0.57,,dry,5,acid_plutonic,True,41,52,shrub,ok,47.0,2019.0,True,May–Oct
+ca_mono_alpine:00044,587.2,0.57,,dry,5,acid_plutonic,True,41,71,grassland,ok,212.0,2019.0,True,May–Oct
+ca_mono_alpine:00045,1812.9,0.2,,dry,3,non_carb_sed,False,32,52,shrub,ok,37.0,,True,"Apr, Jun–Sep, Nov"
+ca_mono_alpine:00046,1775.2,0.2,,dry,3,non_carb_sed,False,32,52,shrub,ok,286.0,,True,"Apr, Jun–Sep, Nov"
+ca_mono_alpine:00047,1555.3,0.11,,dry,19,,False,41,52,shrub,ok,5.0,,True,"Feb, Apr, Jun–Jul, Sep, Nov"
+ca_mono_alpine:00048,1517.1,0.11,,dry,19,,False,42,52,shrub,ok,29.0,,True,"Feb, Apr, Jun–Jul, Sep, Nov"
+ca_mono_alpine:00049,255.9,0.57,10.0,seasonal,5,acid_plutonic,True,42,52,shrub,ok,16.0,2017.0,True,May–Oct
+ca_mono_alpine:00050,314.3,0.57,,dry,5,acid_plutonic,True,41,52,shrub,ok,93.0,2017.0,True,May–Oct
+ca_mono_alpine:00051,471.0,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,67.0,,True,May–Oct
+ca_mono_alpine:00052,512.9,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,132.0,,True,May–Oct
+ca_mono_alpine:00053,524.5,0.66,,dry,5,acid_plutonic,True,42,42,evergreen,ok,51.0,2004.0,True,May–Oct
+ca_mono_alpine:00054,568.9,0.66,,dry,5,acid_plutonic,True,42,41,deciduous,ok,503.0,2004.0,True,May–Oct
+ca_mono_alpine:00055,261.7,0.57,,dry,5,acid_plutonic,True,42,41,deciduous,ok,702.0,2017.0,True,May–Oct
+ca_mono_alpine:00056,420.0,0.57,,dry,5,acid_plutonic,True,33,52,shrub,ok,394.0,2017.0,True,May–Oct
+ca_mono_alpine:00057,271.5,0.57,6.0,seasonal,5,acid_plutonic,True,42,52,shrub,ok,1281.0,2017.0,True,May–Oct
+ca_mono_alpine:00058,417.5,0.57,,dry,5,acid_plutonic,True,41,52,shrub,ok,898.0,2017.0,True,May–Oct
+ca_mono_alpine:00059,334.5,0.57,,dry,5,acid_plutonic,True,41,41,deciduous,ok,661.0,2017.0,True,May–Oct
+ca_mono_alpine:00060,256.3,0.57,,dry,5,acid_plutonic,True,42,41,deciduous,ok,203.0,,True,May–Oct
+ca_mono_alpine:00061,2025.1,0.34,,dry,4,metamorphic,True,41,52,shrub,ok,28.0,,True,"Apr, Jun–Jul, Sep"
+ca_mono_alpine:00062,2053.6,0.34,,dry,4,metamorphic,True,42,52,shrub,ok,4.0,,True,"Apr, Jun–Jul, Sep"
+ca_mono_alpine:00063,425.5,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,695.0,,True,May–Oct
+ca_mono_alpine:00064,456.1,0.66,,dry,5,acid_plutonic,True,31,42,evergreen,ok,22.0,2017.0,True,May–Oct
+ca_mono_alpine:00065,518.0,0.66,11.0,seasonal,1,unconsolidated,False,42,52,shrub,ok,5.0,2018.0,True,May–Oct
+ca_mono_alpine:00066,625.1,0.66,,dry,1,unconsolidated,False,41,42,evergreen,ok,75.0,2018.0,True,May–Oct
+ca_mono_alpine:00067,2008.0,0.2,,dry,5,acid_plutonic,True,41,42,evergreen,ok,424.0,2021.0,True,Jun–Sep
+ca_mono_alpine:00068,1888.8,0.2,,dry,5,acid_plutonic,True,42,42,evergreen,ok,102.0,2021.0,True,Jun–Sep
+ca_mono_alpine:00069,1523.9,0.11,,dry,3,non_carb_sed,False,32,52,shrub,ok,454.0,,True,"Feb, Apr, Jun–Jul, Sep, Nov"
+ca_mono_alpine:00070,1390.0,0.11,,dry,19,,False,34,52,shrub,ok,50.0,,True,"Feb, Apr, Jun–Jul, Sep, Nov"
+ca_mono_alpine:00071,1489.2,0.2,,dry,3,non_carb_sed,False,32,52,shrub,ok,534.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00072,1358.1,0.2,,dry,19,,False,32,52,shrub,ok,111.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00073,323.5,0.57,,dry,1,unconsolidated,False,42,52,shrub,ok,45.0,2008.0,True,May–Oct
+ca_mono_alpine:00074,326.3,0.57,,dry,1,unconsolidated,False,42,52,shrub,ok,84.0,2008.0,True,May–Oct
+ca_mono_alpine:00075,2459.3,0.11,,dry,5,acid_plutonic,True,42,52,shrub,ok,136.0,,True,"Jun–Jul, Sep–Oct"
+ca_mono_alpine:00076,2457.3,0.11,,dry,5,acid_plutonic,True,42,52,shrub,ok,60.0,2013.0,True,"Jun–Jul, Sep–Oct"
+ca_mono_alpine:00077,1887.6,0.34,,dry,19,,False,32,52,shrub,ok,88.0,,True,"Apr, Jun–Jul, Sep–Oct"
+ca_mono_alpine:00078,1772.7,0.34,,dry,19,,False,32,52,shrub,ok,276.0,,True,"Apr, Jun–Oct"
+ca_mono_alpine:00079,464.1,0.66,,dry,1,unconsolidated,False,41,52,shrub,ok,62.0,2018.0,True,May–Oct
+ca_mono_alpine:00080,429.0,0.66,,dry,1,unconsolidated,False,42,52,shrub,ok,18.0,2018.0,True,May–Oct
+ca_mono_alpine:00081,2399.7,0.2,,dry,19,,False,31,42,evergreen,ok,223.0,,True,Jun–Sep
+ca_mono_alpine:00082,2445.3,0.2,,dry,5,acid_plutonic,True,41,52,shrub,ok,655.0,,True,Jun–Sep
+ca_mono_alpine:00083,452.7,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,168.0,2017.0,True,May–Oct
+ca_mono_alpine:00084,468.4,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,6.0,2017.0,True,May–Oct
+ca_mono_alpine:00085,1845.7,0.15,,dry,3,non_carb_sed,False,32,52,shrub,ok,429.0,,True,"Feb, Apr, Jun, Sep, Nov"
+ca_mono_alpine:00086,1792.1,0.15,,dry,3,non_carb_sed,False,32,52,shrub,ok,152.0,,True,"Feb, Apr, Jun, Sep, Nov"
+ca_mono_alpine:00087,2573.6,0.2,,dry,11,water,False,32,52,shrub,ok,181.0,,True,"Jun–Jul, Sep"
+ca_mono_alpine:00088,2346.1,0.2,,dry,11,water,False,42,52,shrub,ok,469.0,,True,Jun–Sep
+ca_mono_alpine:00089,1704.2,0.11,,dry,3,non_carb_sed,False,33,42,evergreen,ok,214.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00090,1595.2,0.11,,dry,19,,False,32,52,shrub,ok,112.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00091,399.4,0.66,,dry,1,unconsolidated,False,42,71,grassland,ok,13.0,2018.0,True,May–Oct
+ca_mono_alpine:00092,422.2,0.66,,dry,1,unconsolidated,False,42,52,shrub,ok,9.0,2018.0,True,May–Oct
+ca_mono_alpine:00093,292.6,0.57,,dry,5,acid_plutonic,True,42,52,shrub,ok,136.0,2017.0,True,May–Oct
+ca_mono_alpine:00094,276.7,0.57,15.0,seasonal,5,acid_plutonic,True,42,42,evergreen,ok,416.0,2017.0,True,May–Oct
+ca_mono_alpine:00095,2151.0,0.34,,dry,4,metamorphic,True,41,52,shrub,ok,32.0,,True,"Apr, Jun–Jul, Sep"
+ca_mono_alpine:00096,2075.2,0.34,,dry,1,unconsolidated,False,42,52,shrub,ok,56.0,,True,"Apr, Jun–Jul, Sep"
+ca_mono_alpine:00097,522.9,0.66,,dry,1,unconsolidated,False,42,42,evergreen,ok,340.0,2018.0,True,May–Oct
+ca_mono_alpine:00098,550.6,0.66,,dry,1,unconsolidated,False,42,52,shrub,ok,276.0,2018.0,True,May–Oct
+ca_mono_alpine:00099,2106.7,0.2,,dry,18,,False,31,52,shrub,ok,5.0,,True,Jun–Sep
+ca_mono_alpine:00100,2162.1,0.2,,dry,18,,False,31,52,shrub,ok,157.0,,True,Jun–Sep
+ca_mono_alpine:00101,2045.3,0.2,,dry,5,acid_plutonic,True,42,42,evergreen,ok,991.0,,True,"Apr, Jun–Jul, Sep"
+ca_mono_alpine:00102,2101.3,0.2,,dry,5,acid_plutonic,True,41,42,evergreen,ok,935.0,,True,"Apr, Jun–Jul, Sep"
+ca_mono_alpine:00103,820.7,0.66,,dry,1,unconsolidated,False,42,52,shrub,ok,146.0,1987.0,True,May–Oct
+ca_mono_alpine:00104,872.6,0.66,,dry,1,unconsolidated,False,41,42,evergreen,ok,115.0,2008.0,True,May–Oct
+ca_mono_alpine:00105,1278.4,0.34,,dry,19,,False,31,52,shrub,ok,11.0,,False,"Apr, Jun–Oct"
+ca_mono_alpine:00106,1267.2,0.34,,dry,19,,False,34,52,shrub,ok,100.0,,False,"Apr, Jun–Oct"
+ca_mono_alpine:00107,2244.7,0.2,,dry,5,acid_plutonic,True,41,52,shrub,ok,298.0,,True,Jun–Sep
+ca_mono_alpine:00108,2292.1,0.2,,dry,5,acid_plutonic,True,41,90,woody_wetland,ok,727.0,,True,Jun–Sep
+ca_mono_alpine:00109,1635.7,0.2,,dry,19,,False,31,52,shrub,ok,265.0,2020.0,True,"Apr, Jun–Sep"
+ca_mono_alpine:00110,1777.1,0.2,,dry,19,,False,32,52,shrub,ok,601.0,2020.0,True,"Apr, Jun–Jul, Sep"
+ca_mono_alpine:00111,1705.5,0.11,,dry,5,acid_plutonic,True,32,52,shrub,ok,1.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00112,1793.4,0.11,,dry,5,acid_plutonic,True,31,52,shrub,ok,621.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00113,2108.5,0.34,,dry,5,acid_plutonic,True,41,52,shrub,ok,174.0,,True,"Apr, Jun–Jul, Sep"
+ca_mono_alpine:00114,2040.6,0.34,,dry,5,acid_plutonic,True,41,52,shrub,ok,321.0,,True,"Apr, Jun–Jul, Sep–Oct"
+ca_mono_alpine:00115,1824.2,0.15,,dry,5,acid_plutonic,True,31,52,shrub,ok,24.0,,True,"Feb, Apr, Jun–Jul, Nov"
+ca_mono_alpine:00116,1684.2,0.15,,dry,5,acid_plutonic,True,42,52,shrub,ok,32.0,,True,"Feb, Apr, Jun–Jul, Sep, Nov"
+ca_mono_alpine:00117,449.0,0.57,,dry,5,acid_plutonic,True,42,42,evergreen,ok,337.0,2017.0,True,May–Oct
+ca_mono_alpine:00118,525.3,0.57,,dry,5,acid_plutonic,True,41,52,shrub,ok,493.0,2017.0,True,May–Oct
+ca_mono_alpine:00119,1850.4,0.34,,dry,19,,False,32,52,shrub,ok,42.0,,True,"Apr, Jun–Oct"
+ca_mono_alpine:00120,1753.7,0.34,,dry,19,,False,31,52,shrub,ok,156.0,,True,"Apr, Jun–Oct"
+ca_mono_alpine:00121,1829.9,0.2,,dry,5,acid_plutonic,True,42,52,shrub,ok,165.0,2015.0,True,Jun–Sep
+ca_mono_alpine:00122,1851.6,0.2,,dry,5,acid_plutonic,True,42,71,grassland,ok,256.0,2015.0,True,Jun–Sep
+ca_mono_alpine:00123,767.0,0.57,,dry,1,unconsolidated,False,42,42,evergreen,ok,99.0,1987.0,True,May–Oct
+ca_mono_alpine:00124,720.2,0.57,,dry,1,unconsolidated,False,42,42,evergreen,ok,64.0,1987.0,True,May–Oct
+ca_mono_alpine:00125,742.8,0.66,,dry,5,acid_plutonic,True,42,21,developed_open,drop,24.0,2022.0,True,May–Oct
+ca_mono_alpine:00126,756.7,0.66,,dry,5,acid_plutonic,True,42,42,evergreen,ok,64.0,2022.0,True,May–Oct
+ca_mono_alpine:00127,2218.5,0.11,,dry,5,acid_plutonic,True,41,42,evergreen,ok,68.0,,True,"Jun–Jul, Sep–Oct"
+ca_mono_alpine:00128,2314.8,0.11,,dry,5,acid_plutonic,True,42,42,evergreen,ok,59.0,,True,"Jun–Jul, Sep–Oct"
+ca_mono_alpine:00129,342.9,0.57,,dry,5,acid_plutonic,True,41,21,developed_open,drop,7.0,,True,May–Oct
+ca_mono_alpine:00130,296.0,0.57,,dry,5,acid_plutonic,True,41,21,developed_open,drop,10.0,,True,May–Oct
+ca_mono_alpine:00131,1679.7,0.11,,dry,19,,False,41,52,shrub,ok,26.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00132,1676.5,0.11,,dry,19,,False,41,52,shrub,ok,43.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00133,1414.0,0.34,,dry,19,,False,31,52,shrub,ok,233.0,,False,"Apr–Jul, Sep–Oct"
+ca_mono_alpine:00134,1353.6,0.34,,dry,19,,False,31,52,shrub,ok,84.0,,False,"Apr–Jul, Sep–Oct"
+ca_mono_alpine:00135,615.6,0.66,,dry,1,unconsolidated,False,41,71,grassland,ok,1133.0,2019.0,True,May–Oct
+ca_mono_alpine:00136,524.0,0.66,,dry,1,unconsolidated,False,41,42,evergreen,ok,520.0,2019.0,True,May–Oct
+ca_mono_alpine:00137,1682.0,0.11,,dry,7,silicic_residual,False,41,52,shrub,ok,61.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00138,1614.3,0.11,,dry,19,,False,41,31,barren,ok,49.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00139,1452.4,0.11,,dry,19,,False,31,52,shrub,ok,318.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00140,1467.4,0.11,,dry,19,,False,31,52,shrub,ok,201.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00141,825.6,0.57,,dry,1,unconsolidated,False,41,42,evergreen,ok,131.0,1987.0,True,May–Oct
+ca_mono_alpine:00142,811.1,0.57,,dry,1,unconsolidated,False,42,42,evergreen,ok,126.0,1987.0,True,May–Oct
+ca_mono_alpine:00143,1167.0,0.79,,dry,5,acid_plutonic,True,42,42,evergreen,ok,57.0,,True,May–Oct
+ca_mono_alpine:00144,1190.3,0.79,,dry,5,acid_plutonic,True,42,42,evergreen,ok,789.0,,True,May–Oct
+ca_mono_alpine:00145,2087.7,0.11,,dry,19,,False,41,52,shrub,ok,813.0,,True,"Apr, Jun, Sep–Nov"
+ca_mono_alpine:00146,2116.6,0.11,,dry,19,,False,41,52,shrub,ok,732.0,,True,"Apr, Jun, Sep–Nov"
+ca_mono_alpine:00147,1384.2,0.11,,dry,19,,False,31,52,shrub,ok,257.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00148,1493.2,0.11,,dry,1,unconsolidated,False,31,52,shrub,ok,23.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00149,1462.2,0.15,,dry,19,,False,31,52,shrub,ok,106.0,,True,"Feb, Apr, Jun–Jul, Sep, Nov"
+ca_mono_alpine:00150,1522.0,0.15,,dry,5,acid_plutonic,True,31,52,shrub,ok,62.0,,True,"Feb, Apr, Jun–Jul, Sep, Nov"
+ca_mono_alpine:00151,655.2,0.57,,dry,1,unconsolidated,False,42,42,evergreen,ok,876.0,1987.0,True,May–Oct
+ca_mono_alpine:00152,569.8,0.57,,dry,1,unconsolidated,False,42,42,evergreen,ok,840.0,2017.0,True,May–Oct
+ca_mono_alpine:00153,1915.4,0.2,,dry,3,non_carb_sed,False,32,52,shrub,ok,14.0,,True,"Apr, Jun–Jul, Sep–Oct"
+ca_mono_alpine:00154,2139.3,0.2,,dry,5,acid_plutonic,True,32,42,evergreen,ok,50.0,,True,"Apr, Jun–Jul, Sep"
+ca_mono_alpine:00155,2079.7,0.2,,dry,5,acid_plutonic,True,42,21,developed_open,drop,35.0,,True,Jun–Sep
+ca_mono_alpine:00156,2109.0,0.2,,dry,5,acid_plutonic,True,42,52,shrub,ok,158.0,,True,Jun–Sep
+ca_mono_alpine:00157,1947.9,0.66,93.0,year_round,18,,False,31,11,open_water,ok,182.0,,True,"May–Jun, Aug–Sep"
+ca_mono_alpine:00158,2279.7,0.66,,dry,1,unconsolidated,False,32,52,shrub,ok,1114.0,,True,Jun–Sep
+ca_mono_alpine:00159,319.0,0.57,,dry,1,unconsolidated,False,42,71,grassland,ok,1341.0,2017.0,True,May–Oct
+ca_mono_alpine:00160,632.0,0.57,,dry,1,unconsolidated,False,32,52,shrub,ok,829.0,2017.0,True,May–Oct
+ca_mono_alpine:00161,1412.8,0.34,,dry,19,,False,21,52,shrub,ok,25.0,,False,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00162,1305.4,0.34,,dry,19,,False,31,52,shrub,ok,58.0,,False,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00163,2852.4,0.2,,dry,5,acid_plutonic,True,42,41,deciduous,ok,937.0,,True,"Jun–Jul, Sep"
+ca_mono_alpine:00164,2680.2,0.2,,dry,5,acid_plutonic,True,41,52,shrub,ok,760.0,,True,Jun–Sep
+ca_mono_alpine:00165,657.2,0.57,,dry,1,unconsolidated,False,42,42,evergreen,ok,480.0,1987.0,True,May–Oct
+ca_mono_alpine:00166,693.4,0.57,,dry,1,unconsolidated,False,42,42,evergreen,ok,569.0,1987.0,True,May–Oct
+ca_mono_alpine:00167,988.0,0.66,,dry,1,unconsolidated,False,41,42,evergreen,ok,1575.0,2018.0,True,May–Oct
+ca_mono_alpine:00168,826.1,0.66,,dry,1,unconsolidated,False,41,42,evergreen,ok,711.0,2018.0,True,May–Oct
+ca_mono_alpine:00169,277.5,0.57,,dry,5,acid_plutonic,True,41,71,grassland,ok,382.0,2017.0,True,May–Oct
+ca_mono_alpine:00170,471.9,0.66,,dry,1,unconsolidated,False,42,42,evergreen,ok,46.0,2018.0,True,May–Oct
+ca_mono_alpine:00171,463.2,0.66,,dry,1,unconsolidated,False,42,11,open_water,ok,36.0,2018.0,True,May–Oct
+ca_mono_alpine:00172,1411.3,0.34,,dry,19,,False,31,52,shrub,ok,59.0,,False,"Apr–Jul, Sep–Oct"
+ca_mono_alpine:00173,1329.0,0.34,,dry,19,,False,31,52,shrub,ok,17.0,,False,"Apr–Jul, Sep–Oct"
+ca_mono_alpine:00174,1999.3,0.2,,dry,5,acid_plutonic,True,42,42,evergreen,ok,80.0,,True,Jun–Aug
+ca_mono_alpine:00175,2136.3,0.2,,dry,5,acid_plutonic,True,41,52,shrub,ok,134.0,,True,Jun–Aug
+ca_mono_alpine:00176,2217.7,0.2,,dry,5,acid_plutonic,True,31,42,evergreen,ok,783.0,,True,"Apr, Jun–Jul, Sep"
+ca_mono_alpine:00177,1999.0,0.2,,dry,0,,False,41,42,evergreen,ok,449.0,,True,"Apr, Jun–Jul, Sep"
+ca_mono_alpine:00178,833.9,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,290.0,2022.0,True,May–Oct
+ca_mono_alpine:00179,697.0,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,59.0,2022.0,True,May–Oct
+ca_mono_alpine:00180,1889.2,0.2,,dry,5,acid_plutonic,True,42,71,grassland,ok,34.0,2015.0,True,Jun–Sep
+ca_mono_alpine:00181,1827.1,0.2,,dry,5,acid_plutonic,True,42,71,grassland,ok,34.0,2015.0,True,Jun–Sep
+ca_mono_alpine:00182,1846.7,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,4195.0,2022.0,True,Jun–Sep
+ca_mono_alpine:00183,2108.3,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,3155.0,2022.0,True,Jun–Sep
+ca_mono_alpine:00184,1829.6,0.2,,dry,19,,False,41,71,grassland,ok,11.0,2020.0,True,"Apr, Jun–Sep"
+ca_mono_alpine:00185,1780.4,0.2,,dry,19,,False,32,71,grassland,ok,14.0,2020.0,True,"Apr, Jun–Sep"
+ca_mono_alpine:00186,1590.9,0.2,,dry,3,non_carb_sed,False,34,52,shrub,ok,1.0,,True,"Apr, Jun–Sep"
+ca_mono_alpine:00187,1627.6,0.2,,dry,3,non_carb_sed,False,41,52,shrub,ok,80.0,,True,"Apr, Jun–Sep"
+ca_mono_alpine:00188,2358.7,0.34,,dry,3,non_carb_sed,False,41,42,evergreen,ok,39.0,,False,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00189,2219.9,0.34,,dry,3,non_carb_sed,False,41,52,shrub,ok,4.0,,False,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00190,2479.7,0.2,,dry,5,acid_plutonic,True,41,52,shrub,ok,868.0,,True,Jun–Sep
+ca_mono_alpine:00191,2440.4,0.2,,dry,5,acid_plutonic,True,34,52,shrub,ok,96.0,,True,Jun–Sep
+ca_mono_alpine:00192,1536.1,0.2,,dry,3,non_carb_sed,False,31,52,shrub,ok,50.0,2017.0,True,"Apr, Jun, Aug–Sep"
+ca_mono_alpine:00193,1601.2,0.2,,dry,3,non_carb_sed,False,32,71,grassland,ok,324.0,2017.0,True,"Apr, Jun–Sep"
+ca_mono_alpine:00194,2037.8,0.66,,dry,5,acid_plutonic,True,42,52,shrub,ok,367.0,2020.0,True,Jun–Sep
+ca_mono_alpine:00195,1953.7,0.66,,dry,5,acid_plutonic,True,41,71,grassland,ok,1225.0,2020.0,True,Jun–Sep
+ca_mono_alpine:00196,1620.5,0.11,,dry,3,non_carb_sed,False,31,52,shrub,ok,26.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00197,1672.2,0.11,,dry,3,non_carb_sed,False,41,52,shrub,ok,33.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00198,1541.6,0.15,,dry,5,acid_plutonic,True,41,52,shrub,ok,1065.0,,True,"Feb, Apr, Jun–Jul, Sep, Nov"
+ca_mono_alpine:00199,1505.7,0.15,,dry,5,acid_plutonic,True,31,22,developed_low,drop,168.0,,True,"Feb, Apr, Jun–Jul, Sep, Nov"
+ca_mono_alpine:00200,1913.1,0.08,,dry,5,acid_plutonic,True,31,52,shrub,ok,553.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00201,1957.8,0.08,,dry,5,acid_plutonic,True,41,52,shrub,ok,102.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00202,1530.5,0.11,,dry,19,,False,31,31,barren,ok,93.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00203,1678.8,0.11,,dry,5,acid_plutonic,True,41,52,shrub,ok,76.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00204,2206.0,0.2,,dry,5,acid_plutonic,True,32,42,evergreen,ok,299.0,,True,Jun–Aug
+ca_mono_alpine:00205,2226.9,0.2,,dry,5,acid_plutonic,True,32,42,evergreen,ok,591.0,,True,Jun–Aug
+ca_mono_alpine:00206,2488.2,0.79,,dry,5,acid_plutonic,True,41,42,evergreen,ok,97.0,,True,Jun–Aug
+ca_mono_alpine:00207,2471.8,0.79,,dry,5,acid_plutonic,True,41,42,evergreen,ok,73.0,2021.0,True,Jun–Aug
+ca_mono_alpine:00208,1877.3,0.2,,dry,5,acid_plutonic,True,42,42,evergreen,ok,868.0,2021.0,True,Jun–Sep
+ca_mono_alpine:00209,1750.7,0.2,,dry,5,acid_plutonic,True,41,71,grassland,ok,33.0,2021.0,True,Jun–Sep
+ca_mono_alpine:00210,1269.5,0.34,,dry,19,,False,34,52,shrub,ok,71.0,,False,"Apr, Jun–Oct"
+ca_mono_alpine:00211,1403.9,0.34,,dry,19,,False,31,52,shrub,ok,12.0,,False,"Apr, Jun–Oct"
+ca_mono_alpine:00212,822.0,0.57,,dry,5,acid_plutonic,True,42,42,evergreen,ok,128.0,1990.0,True,May–Oct
+ca_mono_alpine:00213,862.1,0.57,,dry,5,acid_plutonic,True,41,42,evergreen,ok,138.0,1990.0,True,May–Oct
+ca_mono_alpine:00214,1591.2,0.11,,dry,1,unconsolidated,False,41,52,shrub,ok,70.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00215,1620.6,0.11,,dry,1,unconsolidated,False,41,52,shrub,ok,58.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00216,1911.4,0.2,,dry,5,acid_plutonic,True,41,52,shrub,ok,991.0,2018.0,True,"Apr, Jun–Oct"
+ca_mono_alpine:00217,1656.5,0.2,,dry,5,acid_plutonic,True,31,52,shrub,ok,434.0,2018.0,True,"Apr, Jun–Oct"
+ca_mono_alpine:00218,1761.4,0.11,,dry,3,non_carb_sed,False,41,52,shrub,ok,49.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00219,2024.8,0.11,,dry,3,non_carb_sed,False,41,52,shrub,ok,18.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00220,1383.2,0.15,,dry,19,,False,34,31,barren,ok,508.0,,True,"Jan, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00221,1386.8,0.15,,dry,19,,False,34,31,barren,ok,22.0,,True,"Jan, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00222,1854.4,0.08,,dry,5,acid_plutonic,True,31,52,shrub,ok,118.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00223,1600.6,0.08,,dry,19,,False,31,52,shrub,ok,450.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00224,1587.9,0.34,,dry,4,metamorphic,True,31,52,shrub,ok,954.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00225,1670.7,0.34,,dry,4,metamorphic,True,31,31,barren,ok,500.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00226,2377.0,0.66,,dry,1,unconsolidated,False,41,42,evergreen,ok,1197.0,,True,Jun–Sep
+ca_mono_alpine:00227,2130.9,0.66,,dry,1,unconsolidated,False,32,52,shrub,ok,580.0,,True,Jun–Sep
+ca_mono_alpine:00228,1254.4,0.11,,dry,19,,False,34,52,shrub,ok,484.0,,True,"Apr, Jun–Sep, Nov"
+ca_mono_alpine:00229,1259.2,0.11,,dry,19,,False,34,52,shrub,ok,275.0,,True,"Apr, Jun–Sep, Nov"
+ca_mono_alpine:00230,1747.0,0.11,,dry,1,unconsolidated,False,32,52,shrub,ok,14.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00231,1872.6,0.11,,dry,1,unconsolidated,False,32,52,shrub,ok,14.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00232,1376.6,0.11,,dry,19,,False,31,52,shrub,ok,323.0,,True,"Feb, Apr, Jun–Jul, Sep, Nov"
+ca_mono_alpine:00233,1341.2,0.11,,dry,19,,False,34,52,shrub,ok,192.0,,True,"Feb, Apr, Jun–Jul, Sep, Nov"
+ca_mono_alpine:00234,1630.3,0.11,,dry,3,non_carb_sed,False,41,52,shrub,ok,30.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00235,1490.6,0.11,,dry,19,,False,41,52,shrub,ok,75.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00236,2149.3,0.15,,dry,5,acid_plutonic,True,41,42,evergreen,ok,23.0,2002.0,True,"Apr, Jun, Sep, Nov"
+ca_mono_alpine:00237,2120.6,0.15,,dry,5,acid_plutonic,True,41,42,evergreen,ok,11.0,2002.0,True,"Apr, Jun, Sep, Nov"
+ca_mono_alpine:00238,788.6,0.66,,dry,1,unconsolidated,False,42,42,evergreen,ok,603.0,1987.0,True,May–Oct
+ca_mono_alpine:00239,793.7,0.66,,dry,1,unconsolidated,False,42,52,shrub,ok,490.0,1987.0,True,May–Oct
+ca_mono_alpine:00240,1539.2,0.15,,dry,19,,False,31,52,shrub,ok,249.0,,True,"Feb, Apr, Jun–Jul, Sep, Nov"
+ca_mono_alpine:00241,1465.4,0.15,,dry,19,,False,41,52,shrub,ok,46.0,,True,"Feb, Apr, Jun–Jul, Sep, Nov"
+ca_mono_alpine:00242,1840.5,0.2,,dry,3,non_carb_sed,False,41,52,shrub,ok,28.0,2020.0,True,Apr–Sep
+ca_mono_alpine:00243,1758.0,0.2,,dry,3,non_carb_sed,False,31,52,shrub,ok,24.0,,True,Apr–Sep
+ca_mono_alpine:00244,1668.8,0.2,,dry,5,acid_plutonic,True,42,52,shrub,ok,35.0,2021.0,True,Jun–Sep
+ca_mono_alpine:00245,1646.5,0.2,,dry,5,acid_plutonic,True,42,52,shrub,ok,149.0,2021.0,True,Jun–Sep
+ca_mono_alpine:00246,2243.5,0.2,,dry,5,acid_plutonic,True,42,52,shrub,ok,30.0,,True,"Jun–Jul, Sep–Oct"
+ca_mono_alpine:00247,2279.0,0.2,,dry,5,acid_plutonic,True,41,52,shrub,ok,5.0,,True,"Jun–Jul, Sep–Oct"
+ca_mono_alpine:00248,1399.3,0.15,,dry,19,,False,34,52,shrub,ok,131.0,,True,"Jan, Apr, Jun–Jul, Sep, Nov"
+ca_mono_alpine:00249,1404.1,0.15,,dry,18,,False,34,52,shrub,ok,708.0,,True,"Jan, Apr, Jun–Jul, Sep, Nov"
+ca_mono_alpine:00250,1616.3,0.15,,dry,1,unconsolidated,False,32,52,shrub,ok,80.0,,True,"Feb, Apr, Jun–Jul, Sep, Nov"
+ca_mono_alpine:00251,1683.1,0.15,,dry,3,non_carb_sed,False,32,52,shrub,ok,89.0,,True,"Feb, Apr, Jun–Jul, Sep, Nov"
+ca_mono_alpine:00252,2270.6,0.2,,dry,5,acid_plutonic,True,41,42,evergreen,ok,1165.0,2021.0,True,"Jun, Aug–Sep"
+ca_mono_alpine:00253,2414.6,0.2,,dry,5,acid_plutonic,True,32,52,shrub,ok,19.0,2021.0,True,"Jun–Jul, Sep"
+ca_mono_alpine:00254,2086.2,0.2,,dry,18,,False,34,90,woody_wetland,ok,224.0,,True,Jun–Sep
+ca_mono_alpine:00255,2069.5,0.2,,dry,18,,False,41,52,shrub,ok,97.0,,True,Jun–Sep
+ca_mono_alpine:00256,672.0,0.66,,dry,1,unconsolidated,False,42,52,shrub,ok,1128.0,2018.0,True,May–Oct
+ca_mono_alpine:00257,695.7,0.66,,dry,1,unconsolidated,False,42,52,shrub,ok,294.0,2018.0,True,May–Oct
+ca_mono_alpine:00258,2095.3,0.2,,dry,5,acid_plutonic,True,42,42,evergreen,ok,3167.0,2020.0,True,Jun–Sep
+ca_mono_alpine:00259,2011.8,0.2,,dry,5,acid_plutonic,True,41,42,evergreen,ok,3645.0,2020.0,True,Jun–Sep
+ca_mono_alpine:00260,1933.1,0.11,,dry,19,,False,32,52,shrub,ok,722.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00261,1888.1,0.11,,dry,19,,False,31,52,shrub,ok,678.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00262,1981.1,0.2,,dry,19,,False,41,52,shrub,ok,5.0,2013.0,True,Jun–Sep
+ca_mono_alpine:00263,2020.9,0.2,,dry,19,,False,41,71,grassland,ok,63.0,2013.0,True,Jun–Sep
+ca_mono_alpine:00264,1623.5,0.2,,dry,3,non_carb_sed,False,41,52,shrub,ok,738.0,2020.0,True,"Apr, Jun–Sep"
+ca_mono_alpine:00265,1603.3,0.2,,dry,3,non_carb_sed,False,32,52,shrub,ok,689.0,2020.0,True,Apr–Sep
+ca_mono_alpine:00266,1549.6,0.11,,dry,3,non_carb_sed,False,31,52,shrub,ok,5.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00267,1467.6,0.15,,dry,19,,False,31,52,shrub,ok,28.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00268,2067.7,0.2,,dry,5,acid_plutonic,True,41,42,evergreen,ok,1578.0,,True,"Apr, Jun–Jul, Sep"
+ca_mono_alpine:00269,1956.6,0.2,,dry,5,acid_plutonic,True,31,90,woody_wetland,ok,1685.0,,True,"Apr, Jun–Jul, Sep"
+ca_mono_alpine:00270,2001.2,0.34,,dry,4,metamorphic,True,42,52,shrub,ok,61.0,,True,"Apr, Jun–Jul, Sep"
+ca_mono_alpine:00271,1992.6,0.34,,dry,4,metamorphic,True,41,52,shrub,ok,124.0,,True,"Apr, Jun–Jul, Sep"
+ca_mono_alpine:00272,1532.1,0.08,,dry,19,,False,34,52,shrub,ok,34.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00273,1521.6,0.08,,dry,19,,False,34,52,shrub,ok,6.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00274,1456.1,0.2,,dry,19,,False,34,81,pasture,drop,105.0,1986.0,True,Apr–Sep
+ca_mono_alpine:00275,1464.2,0.2,,dry,19,,False,34,81,pasture,drop,349.0,1986.0,True,Apr–Sep
+ca_mono_alpine:00276,312.1,0.57,,dry,5,acid_plutonic,True,42,41,deciduous,ok,727.0,2017.0,True,May–Oct
+ca_mono_alpine:00277,348.1,0.57,,dry,5,acid_plutonic,True,42,41,deciduous,ok,344.0,2017.0,True,May–Oct
+ca_mono_alpine:00278,988.9,0.66,,dry,1,unconsolidated,False,42,52,shrub,ok,328.0,2018.0,True,May–Oct
+ca_mono_alpine:00279,612.9,0.66,,dry,1,unconsolidated,False,41,52,shrub,ok,644.0,2018.0,True,May–Oct
+ca_mono_alpine:00280,617.5,0.66,,dry,1,unconsolidated,False,42,42,evergreen,ok,1402.0,2022.0,True,May–Oct
+ca_mono_alpine:00281,562.9,0.66,,dry,1,unconsolidated,False,42,42,evergreen,ok,45.0,2022.0,True,May–Oct
+ca_mono_alpine:00282,1422.4,0.11,,dry,19,,False,31,31,barren,ok,2087.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00283,1349.8,0.11,,dry,19,,False,34,31,barren,ok,472.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00284,2561.7,0.11,,dry,5,acid_plutonic,True,42,42,evergreen,ok,777.0,,True,"Jun–Jul, Sep–Oct"
+ca_mono_alpine:00285,2458.2,0.11,,dry,5,acid_plutonic,True,42,42,evergreen,ok,216.0,,True,"Jun–Jul, Sep–Oct"
+ca_mono_alpine:00286,1613.7,0.11,,dry,1,unconsolidated,False,31,52,shrub,ok,4.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00287,1507.7,0.11,,dry,1,unconsolidated,False,31,52,shrub,ok,126.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00288,1796.0,0.2,,dry,19,,False,31,52,shrub,ok,2072.0,,True,"Apr, Jun–Sep, Nov"
+ca_mono_alpine:00289,1609.6,0.2,,dry,19,,False,31,52,shrub,ok,1798.0,,True,"Apr, Jun–Sep, Nov"
+ca_mono_alpine:00290,2327.2,0.08,,dry,5,acid_plutonic,True,41,42,evergreen,ok,33.0,,True,"Jun, Sep–Nov"
+ca_mono_alpine:00291,2278.9,0.08,,dry,5,acid_plutonic,True,42,52,shrub,ok,16.0,,True,"Jun, Sep–Nov"
+ca_mono_alpine:00292,2794.3,0.66,,dry,5,acid_plutonic,True,42,42,evergreen,ok,967.0,,True,"Jun–Jul, Sep"
+ca_mono_alpine:00293,2879.4,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,1551.0,,True,"Jun–Jul, Sep"
+ca_mono_alpine:00294,1497.4,0.11,,dry,18,,False,34,90,woody_wetland,ok,658.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00295,1501.7,0.11,,dry,19,,False,34,52,shrub,ok,29.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00296,2504.5,0.79,,dry,5,acid_plutonic,True,41,42,evergreen,ok,315.0,,True,Jul–Aug
+ca_mono_alpine:00297,2442.5,0.79,,dry,5,acid_plutonic,True,41,42,evergreen,ok,335.0,2021.0,True,Jun–Aug
+ca_mono_alpine:00298,2181.6,0.34,,dry,4,metamorphic,True,41,52,shrub,ok,33.0,,True,"Apr, Jun–Jul, Sep"
+ca_mono_alpine:00299,2282.7,0.34,,dry,5,acid_plutonic,True,41,52,shrub,ok,12.0,,True,"Apr, Jun–Jul, Sep"
+ca_mono_alpine:00300,1360.2,0.66,,dry,5,acid_plutonic,True,31,52,shrub,ok,410.0,2018.0,True,Jun–Oct
+ca_mono_alpine:00301,1421.1,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,417.0,2018.0,True,Jun–Oct
+ca_mono_alpine:00302,1497.4,0.11,,dry,18,,False,34,31,barren,ok,384.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00303,1499.2,0.11,,dry,19,,False,34,31,barren,ok,472.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00304,436.2,0.57,,dry,5,acid_plutonic,True,42,52,shrub,ok,87.0,2013.0,True,May–Oct
+ca_mono_alpine:00305,411.9,0.57,,dry,5,acid_plutonic,True,42,52,shrub,ok,232.0,2013.0,True,May–Oct
+ca_mono_alpine:00306,2214.1,0.2,,dry,19,,False,32,42,evergreen,ok,59.0,,True,Jun–Sep
+ca_mono_alpine:00307,2392.4,0.2,,dry,5,acid_plutonic,True,31,42,evergreen,ok,593.0,,True,Jun–Sep
+ca_mono_alpine:00308,1404.4,0.11,,dry,19,,False,32,52,shrub,ok,107.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00309,1375.7,0.11,,dry,19,,False,41,52,shrub,ok,149.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00310,2909.6,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,232.0,,True,"Jun–Jul, Sep"
+ca_mono_alpine:00311,2452.2,0.66,,dry,5,acid_plutonic,True,42,52,shrub,ok,435.0,,True,"Jun–Jul, Sep"
+ca_mono_alpine:00312,1550.6,0.34,,dry,5,acid_plutonic,True,31,52,shrub,ok,1627.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00313,1458.7,0.08,,dry,19,,False,31,52,shrub,ok,937.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00314,2126.5,0.34,,dry,5,acid_plutonic,True,41,52,shrub,ok,259.0,,True,"Apr, Jun–Jul, Sep"
+ca_mono_alpine:00315,2020.7,0.34,,dry,5,acid_plutonic,True,41,52,shrub,ok,227.0,,True,"Apr, Jun–Jul, Sep"
+ca_mono_alpine:00316,1987.6,0.2,,dry,5,acid_plutonic,True,42,42,evergreen,ok,71.0,2021.0,True,Jun–Sep
+ca_mono_alpine:00317,2003.1,0.2,,dry,5,acid_plutonic,True,42,42,evergreen,ok,67.0,2021.0,True,Jun–Sep
+ca_mono_alpine:00318,1505.7,0.79,,dry,1,unconsolidated,False,42,52,shrub,ok,721.0,2013.0,True,Jun–Sep
+ca_mono_alpine:00319,1545.7,0.79,,dry,5,acid_plutonic,True,42,42,evergreen,ok,66.0,2013.0,True,Jun–Sep
+ca_mono_alpine:00320,333.1,0.57,,dry,1,unconsolidated,False,42,52,shrub,ok,1328.0,2013.0,True,May–Oct
+ca_mono_alpine:00321,402.1,0.57,,dry,1,unconsolidated,False,42,52,shrub,ok,1110.0,2013.0,True,May–Oct
+ca_mono_alpine:00322,600.9,0.66,,dry,5,acid_plutonic,True,42,42,evergreen,ok,42.0,2018.0,True,May–Oct
+ca_mono_alpine:00323,787.8,0.66,,dry,5,acid_plutonic,True,41,52,shrub,ok,373.0,2018.0,True,May–Oct
+ca_mono_alpine:00324,1462.6,0.11,,dry,19,,False,31,52,shrub,ok,392.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00325,1490.7,0.11,,dry,19,,False,32,52,shrub,ok,242.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00326,2333.6,0.11,,dry,5,acid_plutonic,True,41,42,evergreen,ok,22.0,2013.0,True,"Jun–Jul, Sep–Oct"
+ca_mono_alpine:00327,2292.7,0.11,,dry,5,acid_plutonic,True,32,52,shrub,ok,40.0,2013.0,True,"Jun–Jul, Sep–Oct"
+ca_mono_alpine:00328,1392.0,0.2,,dry,19,,False,31,52,shrub,ok,32.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00329,1536.6,0.2,,dry,19,,False,32,52,shrub,ok,103.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00330,1460.6,0.11,,dry,19,,False,41,52,shrub,ok,110.0,,True,"Feb, Apr, Jun–Jul, Sep, Nov"
+ca_mono_alpine:00331,1446.8,0.11,,dry,19,,False,41,52,shrub,ok,341.0,,True,"Feb, Apr, Jun–Jul, Sep, Nov"
+ca_mono_alpine:00332,1539.7,0.11,,dry,19,,False,32,52,shrub,ok,14.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00333,1411.6,0.11,,dry,19,,False,31,31,barren,ok,410.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00334,1682.0,0.08,,dry,19,,False,31,52,shrub,ok,413.0,,True,"Apr–Jun, Sep–Nov"
+ca_mono_alpine:00335,1644.7,0.08,,dry,19,,False,31,52,shrub,ok,864.0,,True,"Apr–Jun, Sep–Nov"
+ca_mono_alpine:00336,2340.0,0.08,,dry,5,acid_plutonic,True,41,42,evergreen,ok,346.0,,True,"Jun, Sep–Nov"
+ca_mono_alpine:00337,2260.4,0.08,,dry,5,acid_plutonic,True,42,52,shrub,ok,28.0,,True,"Jun, Sep–Nov"
+ca_mono_alpine:00338,1811.1,0.15,,dry,5,acid_plutonic,True,41,52,shrub,ok,23.0,,True,"Apr, Jun, Sep–Nov"
+ca_mono_alpine:00339,1833.7,0.15,,dry,5,acid_plutonic,True,41,52,shrub,ok,7.0,,True,"Apr, Jun, Sep–Nov"
+ca_mono_alpine:00340,1590.7,0.11,,dry,19,,False,31,52,shrub,ok,424.0,,True,"Feb, Apr, Jun–Jul, Sep, Nov"
+ca_mono_alpine:00341,1572.9,0.11,,dry,19,,False,41,52,shrub,ok,161.0,,True,"Feb, Apr, Jun–Jul, Sep, Nov"
+ca_mono_alpine:00342,1555.2,0.2,,dry,19,,False,31,52,shrub,ok,78.0,,True,"Apr, Jun–Sep, Nov"
+ca_mono_alpine:00343,1597.8,0.2,,dry,19,,False,32,52,shrub,ok,928.0,,True,"Apr, Jun–Sep, Nov"
+ca_mono_alpine:00344,1351.5,0.79,,dry,5,acid_plutonic,True,41,42,evergreen,ok,154.0,,True,May–Oct
+ca_mono_alpine:00345,1374.4,0.79,,dry,5,acid_plutonic,True,42,42,evergreen,ok,114.0,,True,May–Oct
+ca_mono_alpine:00346,1105.6,0.57,,dry,1,unconsolidated,False,42,42,evergreen,ok,558.0,2013.0,True,May–Oct
+ca_mono_alpine:00347,1232.0,0.79,,dry,5,acid_plutonic,True,42,42,evergreen,ok,919.0,2013.0,True,Jun–Oct
+ca_mono_alpine:00348,1291.6,0.34,,dry,19,,False,34,52,shrub,ok,237.0,,False,"Apr–Jul, Sep–Oct"
+ca_mono_alpine:00349,1299.2,0.34,,dry,19,,False,34,52,shrub,ok,69.0,,False,"Apr–Jul, Sep–Oct"
+ca_mono_alpine:00350,1821.8,0.34,,dry,19,,False,41,52,shrub,ok,819.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00351,1843.2,0.34,,dry,19,,False,41,52,shrub,ok,338.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00352,1639.1,0.11,,dry,3,non_carb_sed,False,41,52,shrub,ok,178.0,,True,"Feb, Apr, Jun–Jul, Sep, Nov"
+ca_mono_alpine:00353,1540.2,0.11,,dry,3,non_carb_sed,False,41,52,shrub,ok,1510.0,,True,"Feb, Apr, Jun–Jul, Sep, Nov"
+ca_mono_alpine:00354,2365.9,0.79,21.0,seasonal,5,acid_plutonic,True,41,11,open_water,ok,101.0,2021.0,True,Jun–Aug
+ca_mono_alpine:00355,2341.2,0.79,,dry,5,acid_plutonic,True,42,42,evergreen,ok,372.0,2021.0,True,Jun–Aug
+ca_mono_alpine:00356,2438.7,0.2,,dry,5,acid_plutonic,True,41,42,evergreen,ok,89.0,,True,Jun–Aug
+ca_mono_alpine:00357,2181.3,0.2,,dry,5,acid_plutonic,True,41,90,woody_wetland,ok,605.0,,True,Jun–Aug
+ca_mono_alpine:00358,1108.9,0.57,,dry,5,acid_plutonic,True,41,52,shrub,ok,67.0,2013.0,True,May–Oct
+ca_mono_alpine:00359,937.2,0.57,,dry,5,acid_plutonic,True,41,52,shrub,ok,83.0,2013.0,True,May–Oct
+ca_mono_alpine:00360,2322.6,0.66,,dry,11,water,False,32,42,evergreen,ok,,2022.0,True,Jun–Sep
+ca_mono_alpine:00361,2154.2,0.66,,dry,11,water,False,41,52,shrub,ok,,2022.0,True,Jun–Sep
+ca_mono_alpine:00362,552.3,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,163.0,1996.0,True,May–Oct
+ca_mono_alpine:00363,472.0,0.66,,dry,5,acid_plutonic,True,42,41,deciduous,ok,252.0,,True,"Apr, Jun–Oct"
+ca_mono_alpine:00364,1720.8,0.15,,dry,19,,False,41,52,shrub,ok,685.0,,True,"Feb, Apr, Jun–Jul, Sep, Nov"
+ca_mono_alpine:00365,1688.8,0.15,,dry,19,,False,31,52,shrub,ok,164.0,,True,"Feb, Apr, Jun–Jul, Sep, Nov"
+ca_mono_alpine:00366,1727.1,0.34,,dry,5,acid_plutonic,True,41,52,shrub,ok,1080.0,,False,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00367,1566.1,0.34,,dry,5,acid_plutonic,True,31,52,shrub,ok,31.0,,False,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00368,1540.6,0.34,,dry,4,metamorphic,True,41,52,shrub,ok,118.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00369,1657.3,0.34,,dry,4,metamorphic,True,41,52,shrub,ok,335.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00370,1846.2,0.11,,dry,19,,False,31,52,shrub,ok,194.0,,True,"Jun–Jul, Sep–Nov"
+ca_mono_alpine:00371,1810.0,0.11,,dry,5,acid_plutonic,True,31,52,shrub,ok,300.0,,True,"Jun–Jul, Sep–Nov"
+ca_mono_alpine:00372,1558.3,0.11,,dry,3,non_carb_sed,False,41,52,shrub,ok,12.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00373,1576.6,0.11,,dry,3,non_carb_sed,False,41,52,shrub,ok,68.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00374,2176.5,0.34,,dry,5,acid_plutonic,True,41,42,evergreen,ok,96.0,,True,"Jun–Jul, Sep, Nov"
+ca_mono_alpine:00375,2246.4,0.34,,dry,5,acid_plutonic,True,42,52,shrub,ok,22.0,,True,"Jun–Jul, Sep, Nov"
+ca_mono_alpine:00376,1700.2,0.08,,dry,19,,False,41,23,developed_med,drop,15.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00377,1667.8,0.08,,dry,19,,False,41,21,developed_open,drop,29.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00378,1045.1,0.79,,dry,5,acid_plutonic,True,42,42,evergreen,ok,416.0,2023.0,True,May–Oct
+ca_mono_alpine:00379,1248.6,0.79,,dry,5,acid_plutonic,True,31,42,evergreen,ok,258.0,2023.0,True,May–Oct
+ca_mono_alpine:00380,1229.2,0.11,,dry,18,,False,34,71,grassland,ok,225.0,,True,"Apr, Jun–Sep, Nov"
+ca_mono_alpine:00381,1222.3,0.11,,dry,18,,False,34,90,woody_wetland,ok,640.0,,True,"Apr, Jun–Sep, Nov"
+ca_mono_alpine:00382,1207.6,0.11,8.0,seasonal,18,,False,41,71,grassland,ok,1369.0,,True,"Apr, Jun–Sep, Nov"
+ca_mono_alpine:00383,1260.6,0.11,,dry,18,,False,31,52,shrub,ok,81.0,,True,"Apr, Jun–Sep, Nov"
+ca_mono_alpine:00384,1251.6,0.11,,dry,18,,False,41,31,barren,ok,30.0,,True,"Apr, Jun–Sep, Nov"
+ca_mono_alpine:00385,1251.9,0.11,,dry,18,,False,34,31,barren,ok,406.0,,True,"Apr, Jun–Sep, Nov"
+ca_mono_alpine:00386,1504.2,0.11,,dry,19,,False,41,52,shrub,ok,415.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00387,1473.7,0.11,,dry,19,,False,41,31,barren,ok,67.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00388,1750.3,0.11,,dry,19,,False,31,52,shrub,ok,494.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00389,1807.7,0.11,,dry,19,,False,31,52,shrub,ok,1372.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00390,1344.4,0.11,,dry,19,,False,34,52,shrub,ok,263.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00391,1401.3,0.11,,dry,19,,False,31,52,shrub,ok,452.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00392,1690.7,0.15,,dry,3,non_carb_sed,False,32,52,shrub,ok,1543.0,,True,"Feb, Apr, Jun–Jul, Sep, Nov"
+ca_mono_alpine:00393,1675.8,0.15,,dry,3,non_carb_sed,False,32,52,shrub,ok,1761.0,,True,"Feb, Apr, Jun–Jul, Sep, Nov"
+ca_mono_alpine:00394,1895.4,0.34,,dry,19,,False,32,52,shrub,ok,50.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00395,1966.3,0.34,,dry,19,,False,32,52,shrub,ok,107.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00396,1268.6,0.11,,dry,19,,False,34,31,barren,ok,136.0,,True,"Apr, Jun–Sep, Nov"
+ca_mono_alpine:00397,1261.4,0.11,,dry,19,,False,34,52,shrub,ok,79.0,,True,"Apr, Jun–Sep, Nov"
+ca_mono_alpine:00398,1295.9,0.11,,dry,19,,False,31,31,barren,ok,466.0,,True,"Apr, Jun–Sep, Nov"
+ca_mono_alpine:00399,1313.4,0.11,,dry,19,,False,21,31,barren,ok,1149.0,,True,"Apr, Jun–Sep, Nov"
+ca_mono_alpine:00400,1541.9,0.11,,dry,19,,False,41,52,shrub,ok,88.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00401,1516.3,0.11,,dry,5,acid_plutonic,True,41,52,shrub,ok,101.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00402,1778.6,0.11,,dry,1,unconsolidated,False,41,52,shrub,ok,1190.0,,True,"Feb, Jun–Jul, Sep–Nov"
+ca_mono_alpine:00403,1554.6,0.11,,dry,1,unconsolidated,False,31,52,shrub,ok,65.0,,True,"Feb, Apr, Jun, Sep–Nov"
+ca_mono_alpine:00404,1431.0,0.11,,dry,19,,False,31,31,barren,ok,2507.0,,True,"Feb, Jun–Sep, Nov"
+ca_mono_alpine:00405,1351.2,0.11,,dry,19,,False,21,31,barren,ok,1670.0,,True,"Apr, Jun–Sep, Nov"

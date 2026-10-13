@@ -1,0 +1,442 @@
+pin_id,elev10_m,slope10_deg,water_pct,water_regime,lith_code,lith_name,lith_favor,landform_code,nlcd,nlcd_name,land_filter,road_m,fire_year,has_lidar_1m,best_months
+ca_southeast:00001,749.4,,,dry,19.0,,False,34,90.0,woody_wetland,ok,643.0,2013.0,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00002,770.5,,,dry,19.0,,False,31,71.0,grassland,ok,42.0,2013.0,True,May–Oct
+ca_southeast:00003,574.6,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,47.0,,True,May–Oct
+ca_southeast:00004,481.2,,,dry,5.0,acid_plutonic,True,41,71.0,grassland,ok,125.0,,True,May–Oct
+ca_southeast:00005,1139.7,,,dry,5.0,acid_plutonic,True,42,21.0,developed_open,drop,22.0,2003.0,True,May–Oct
+ca_southeast:00006,1212.9,,,dry,5.0,acid_plutonic,True,42,52.0,shrub,ok,73.0,2003.0,True,May–Oct
+ca_southeast:00007,481.5,,,dry,19.0,,False,34,52.0,shrub,ok,534.0,,True,"Feb, Apr–Jun, Sep, Nov"
+ca_southeast:00008,607.4,0.21,,dry,5.0,acid_plutonic,True,31,52.0,shrub,ok,30.0,,True,"Feb, Apr–Jun, Sep, Nov"
+ca_southeast:00009,168.7,,,dry,19.0,,False,34,52.0,shrub,ok,156.0,,True,"Apr–Jul, Sep, Nov"
+ca_southeast:00010,207.4,,,dry,5.0,acid_plutonic,True,41,31.0,barren,ok,80.0,,True,"Apr–Jul, Sep, Nov"
+ca_southeast:00011,131.7,,,dry,19.0,,False,34,31.0,barren,ok,60.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00012,148.6,,,dry,19.0,,False,34,71.0,grassland,ok,342.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00013,323.7,0.09,,dry,16.0,,False,34,31.0,barren,ok,1623.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00014,351.0,0.38,,dry,16.0,,False,31,52.0,shrub,ok,1366.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00015,430.6,,,dry,19.0,,False,34,52.0,shrub,ok,340.0,,True,"Feb, Apr–Jun, Sep, Nov"
+ca_southeast:00016,425.1,,,dry,19.0,,False,34,52.0,shrub,ok,597.0,,True,"Feb, Apr–Jun, Sep, Nov"
+ca_southeast:00017,177.1,,,dry,19.0,,False,31,52.0,shrub,ok,138.0,,True,"Apr–Jul, Sep, Nov"
+ca_southeast:00018,150.2,,,dry,19.0,,False,24,52.0,shrub,ok,653.0,,True,"Apr–Jul, Sep, Nov"
+ca_southeast:00019,1200.2,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,747.0,2007.0,True,May–Oct
+ca_southeast:00020,1271.8,,,dry,5.0,acid_plutonic,True,31,52.0,shrub,ok,175.0,2007.0,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00021,43.9,,,dry,19.0,,False,41,90.0,woody_wetland,ok,107.0,1989.0,False,"Apr–Jul, Sep, Nov"
+ca_southeast:00022,51.9,,89.0,year_round,19.0,,False,34,11.0,open_water,ok,53.0,1989.0,True,"Apr–Jul, Sep, Nov"
+ca_southeast:00023,464.5,,,dry,5.0,acid_plutonic,True,41,71.0,grassland,ok,107.0,,True,May–Oct
+ca_southeast:00024,553.3,,,dry,5.0,acid_plutonic,True,32,21.0,developed_open,drop,43.0,,True,May–Oct
+ca_southeast:00025,1051.4,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,203.0,2007.0,True,May–Oct
+ca_southeast:00026,921.6,,,dry,5.0,acid_plutonic,True,32,52.0,shrub,ok,253.0,2007.0,True,May–Oct
+ca_southeast:00027,550.8,,,dry,5.0,acid_plutonic,True,42,52.0,shrub,ok,1093.0,,True,"Feb, Apr–Jun, Sep, Nov"
+ca_southeast:00028,485.4,,,dry,5.0,acid_plutonic,True,32,52.0,shrub,ok,1448.0,,True,"Feb, Apr–Jun, Sep, Nov"
+ca_southeast:00029,477.5,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,96.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00030,455.2,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,66.0,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00031,1007.9,,,dry,19.0,,False,41,52.0,shrub,ok,188.0,2004.0,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00032,1050.9,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,146.0,2004.0,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00033,426.1,,,dry,19.0,,False,21,52.0,shrub,ok,386.0,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00034,410.4,,,dry,19.0,,False,31,52.0,shrub,ok,500.0,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00035,864.6,,,dry,5.0,acid_plutonic,True,42,52.0,shrub,ok,421.0,2003.0,True,May–Oct
+ca_southeast:00036,758.9,,,dry,5.0,acid_plutonic,True,42,90.0,woody_wetland,ok,128.0,2007.0,True,May–Oct
+ca_southeast:00037,715.1,,,dry,19.0,,False,31,52.0,shrub,ok,278.0,,True,"Apr–Jun, Sep–Nov"
+ca_southeast:00038,659.6,,,dry,19.0,,False,31,52.0,shrub,ok,870.0,,True,"Jan, Apr–Jun, Sep, Nov"
+ca_southeast:00039,553.5,,,dry,5.0,acid_plutonic,True,32,52.0,shrub,ok,626.0,,True,"Feb, Apr–Jun, Sep, Nov"
+ca_southeast:00040,562.0,,,dry,5.0,acid_plutonic,True,32,52.0,shrub,ok,221.0,,True,"Feb, Apr–Jun, Sep, Nov"
+ca_southeast:00041,697.0,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,74.0,2007.0,True,May–Oct
+ca_southeast:00042,523.4,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,391.0,2007.0,True,May–Oct
+ca_southeast:00043,182.0,,,dry,19.0,,False,24,52.0,shrub,ok,687.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00044,172.3,,,dry,19.0,,False,34,52.0,shrub,ok,828.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00045,57.7,0.09,95.0,year_round,5.0,acid_plutonic,True,41,11.0,open_water,ok,1273.0,1989.0,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00046,116.8,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,44.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00047,106.2,,,dry,5.0,acid_plutonic,True,42,52.0,shrub,ok,17.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00048,339.2,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,338.0,2007.0,True,May–Oct
+ca_southeast:00049,203.0,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,778.0,2007.0,True,May–Oct
+ca_southeast:00050,142.9,0.09,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,1916.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00051,118.8,0.09,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,1176.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00052,92.0,0.09,,dry,19.0,,False,34,81.0,pasture,drop,37.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00053,133.9,0.09,,dry,3.0,non_carb_sed,False,31,52.0,shrub,ok,1151.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00054,710.0,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,714.0,2007.0,True,May–Oct
+ca_southeast:00055,621.5,,,dry,5.0,acid_plutonic,True,42,52.0,shrub,ok,828.0,2007.0,True,May–Oct
+ca_southeast:00056,413.1,0.21,,dry,16.0,,False,34,52.0,shrub,ok,348.0,,False,"Feb, Apr–Jun, Sep, Nov"
+ca_southeast:00057,397.7,0.21,,dry,16.0,,False,34,52.0,shrub,ok,259.0,,False,"Feb, Apr–Jun, Sep, Nov"
+ca_southeast:00058,634.4,,,dry,3.0,non_carb_sed,False,31,52.0,shrub,ok,801.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00059,688.9,,,dry,3.0,non_carb_sed,False,32,52.0,shrub,ok,61.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00060,1384.4,,,dry,19.0,,False,41,71.0,grassland,ok,120.0,2023.0,True,May–Oct
+ca_southeast:00061,1412.3,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,390.0,,True,May–Oct
+ca_southeast:00062,329.6,0.09,,dry,5.0,acid_plutonic,True,31,52.0,shrub,ok,210.0,,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00063,296.2,0.09,,dry,19.0,,False,21,52.0,shrub,ok,408.0,,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00064,567.4,0.21,,dry,19.0,,False,34,52.0,shrub,ok,222.0,,True,"Feb, Apr–Jun, Sep, Nov"
+ca_southeast:00065,547.3,0.21,,dry,19.0,,False,34,52.0,shrub,ok,695.0,,True,"Feb, Apr–Jun, Sep, Nov"
+ca_southeast:00066,138.4,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,70.0,2007.0,True,May–Oct
+ca_southeast:00067,125.8,,,dry,5.0,acid_plutonic,True,41,21.0,developed_open,drop,57.0,2007.0,True,May–Oct
+ca_southeast:00068,1010.5,,,dry,5.0,acid_plutonic,True,42,90.0,woody_wetland,ok,130.0,2003.0,True,May–Oct
+ca_southeast:00069,1001.0,,,dry,5.0,acid_plutonic,True,41,90.0,woody_wetland,ok,72.0,2003.0,True,May–Oct
+ca_southeast:00070,970.5,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,298.0,2021.0,True,May–Oct
+ca_southeast:00071,859.2,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,168.0,2021.0,True,May–Oct
+ca_southeast:00072,450.6,0.09,,dry,3.0,non_carb_sed,False,31,52.0,shrub,ok,2314.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00073,424.3,0.09,,dry,3.0,non_carb_sed,False,41,52.0,shrub,ok,3282.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00074,884.0,0.26,,dry,19.0,,False,31,52.0,shrub,ok,92.0,,True,"Apr–Jun, Sep–Nov"
+ca_southeast:00075,904.7,0.26,,dry,19.0,,False,31,52.0,shrub,ok,335.0,,True,"Apr–Jun, Sep–Nov"
+ca_southeast:00076,992.1,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,2647.0,,True,"Apr–Jun, Sep–Nov"
+ca_southeast:00077,864.0,,,dry,5.0,acid_plutonic,True,31,52.0,shrub,ok,3284.0,,True,"Apr–Jun, Sep–Nov"
+ca_southeast:00078,872.1,,,dry,5.0,acid_plutonic,True,42,52.0,shrub,ok,33.0,2012.0,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00079,828.8,,,dry,5.0,acid_plutonic,True,42,21.0,developed_open,drop,35.0,2012.0,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00080,840.8,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,158.0,,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00081,830.8,,,dry,5.0,acid_plutonic,True,41,90.0,woody_wetland,ok,195.0,,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00082,154.9,,,dry,5.0,acid_plutonic,True,31,22.0,developed_low,drop,53.0,,True,May–Oct
+ca_southeast:00083,144.1,,,dry,19.0,,False,34,23.0,developed_med,drop,23.0,,True,May–Oct
+ca_southeast:00084,128.8,0.09,,dry,19.0,,False,34,52.0,shrub,ok,453.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00085,123.5,0.09,,dry,19.0,,False,34,52.0,shrub,ok,178.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00086,196.8,,,dry,19.0,,False,34,52.0,shrub,ok,873.0,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00087,247.2,,,dry,19.0,,False,31,52.0,shrub,ok,249.0,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00088,1208.3,,,dry,5.0,acid_plutonic,True,42,52.0,shrub,ok,417.0,2003.0,True,May–Oct
+ca_southeast:00089,1372.8,,,dry,5.0,acid_plutonic,True,42,52.0,shrub,ok,201.0,2003.0,True,May–Oct
+ca_southeast:00090,183.7,,,dry,5.0,acid_plutonic,True,41,21.0,developed_open,drop,233.0,2014.0,True,May–Oct
+ca_southeast:00091,191.6,,,dry,5.0,acid_plutonic,True,41,24.0,developed_high,drop,42.0,2014.0,True,May–Oct
+ca_southeast:00092,173.3,0.09,,dry,3.0,non_carb_sed,False,31,52.0,shrub,ok,1359.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00093,197.0,0.09,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,1502.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00094,143.1,0.14,,dry,19.0,,False,34,23.0,developed_med,drop,9.0,,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00095,151.8,0.14,,dry,19.0,,False,41,23.0,developed_med,drop,19.0,,True,May–Oct
+ca_southeast:00096,259.1,0.09,,dry,19.0,,False,34,52.0,shrub,ok,2790.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00097,270.8,0.09,,dry,19.0,,False,34,52.0,shrub,ok,2134.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00098,611.9,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,460.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00099,585.6,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,195.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00100,548.0,,,dry,19.0,,False,31,52.0,shrub,ok,299.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00101,588.3,,,dry,19.0,,False,34,52.0,shrub,ok,369.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00102,373.1,,,dry,19.0,,False,31,52.0,shrub,ok,293.0,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00103,396.7,,,dry,19.0,,False,32,52.0,shrub,ok,254.0,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00104,552.7,,,dry,19.0,,False,34,52.0,shrub,ok,184.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00105,543.1,,,dry,19.0,,False,34,52.0,shrub,ok,170.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00106,1195.4,,,dry,5.0,acid_plutonic,True,42,52.0,shrub,ok,622.0,2003.0,True,May–Oct
+ca_southeast:00107,1222.2,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,207.0,2003.0,True,May–Oct
+ca_southeast:00108,662.2,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,174.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00109,642.6,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,20.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00110,98.4,0.38,,dry,19.0,,False,41,90.0,woody_wetland,ok,247.0,2022.0,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00111,153.8,0.38,,dry,19.0,,False,31,52.0,shrub,ok,281.0,2022.0,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00112,171.4,,,dry,19.0,,False,34,52.0,shrub,ok,48.0,,True,"Apr–Jul, Sep, Nov"
+ca_southeast:00113,183.7,,,dry,19.0,,False,34,31.0,barren,ok,24.0,,True,"Apr–Jul, Sep, Nov"
+ca_southeast:00114,890.7,,,dry,5.0,acid_plutonic,True,42,52.0,shrub,ok,155.0,2003.0,True,May–Oct
+ca_southeast:00115,1179.9,,,dry,5.0,acid_plutonic,True,32,52.0,shrub,ok,697.0,2003.0,True,May–Oct
+ca_southeast:00116,1411.0,,,dry,5.0,acid_plutonic,True,42,21.0,developed_open,drop,8.0,2003.0,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00117,1435.3,,,dry,5.0,acid_plutonic,True,41,95.0,herb_wetland,ok,122.0,2013.0,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00118,819.0,,,dry,5.0,acid_plutonic,True,42,52.0,shrub,ok,,,True,"Apr–Jun, Sep–Nov"
+ca_southeast:00119,1073.7,,,dry,3.0,non_carb_sed,False,32,52.0,shrub,ok,,,True,"Apr–Jun, Sep–Nov"
+ca_southeast:00120,1223.2,0.26,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,1590.0,,True,"Apr–Jun, Sep–Nov"
+ca_southeast:00121,1194.3,0.26,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,1383.0,,True,"Apr–Jun, Sep–Nov"
+ca_southeast:00122,227.7,,,dry,19.0,,False,34,52.0,shrub,ok,799.0,,True,"Apr–Jul, Sep, Nov"
+ca_southeast:00123,222.4,,,dry,19.0,,False,34,52.0,shrub,ok,562.0,,True,"Apr–Jul, Sep, Nov"
+ca_southeast:00124,170.9,0.14,,dry,19.0,,False,32,71.0,grassland,ok,48.0,2016.0,True,May–Oct
+ca_southeast:00125,358.6,,,dry,19.0,,False,41,23.0,developed_med,drop,20.0,2018.0,True,May–Oct
+ca_southeast:00126,362.8,,,dry,19.0,,False,41,21.0,developed_open,drop,54.0,2018.0,True,May–Oct
+ca_southeast:00127,91.0,,,dry,5.0,acid_plutonic,True,42,90.0,woody_wetland,ok,115.0,2003.0,True,May–Oct
+ca_southeast:00128,103.2,,,dry,5.0,acid_plutonic,True,42,52.0,shrub,ok,132.0,2003.0,True,May–Oct
+ca_southeast:00129,583.8,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,530.0,,True,"Apr–Jul, Sep, Nov"
+ca_southeast:00130,521.3,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,149.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00131,153.0,0.09,,dry,19.0,,False,34,52.0,shrub,ok,87.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00132,164.3,0.09,,dry,19.0,,False,31,22.0,developed_low,drop,14.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00133,773.7,,,dry,19.0,,False,41,71.0,grassland,ok,201.0,2012.0,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00134,779.7,,,dry,19.0,,False,41,71.0,grassland,ok,178.0,,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00135,131.7,,,dry,3.0,non_carb_sed,False,31,71.0,grassland,ok,95.0,2014.0,True,May–Oct
+ca_southeast:00136,158.1,,,dry,3.0,non_carb_sed,False,41,23.0,developed_med,drop,28.0,2014.0,True,May–Oct
+ca_southeast:00137,894.7,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,359.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00138,809.9,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,60.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00139,594.2,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,1320.0,,True,"Apr–Jul, Sep, Nov"
+ca_southeast:00140,535.5,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,1772.0,,True,"Apr–Jul, Sep, Nov"
+ca_southeast:00141,14.2,,,dry,3.0,non_carb_sed,False,42,21.0,developed_open,drop,132.0,2014.0,True,May–Oct
+ca_southeast:00142,16.0,,,dry,19.0,,False,41,22.0,developed_low,drop,61.0,2014.0,True,May–Oct
+ca_southeast:00143,305.8,,,dry,19.0,,False,34,52.0,shrub,ok,3156.0,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00144,315.4,,,dry,19.0,,False,34,52.0,shrub,ok,2855.0,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00145,270.4,0.09,,dry,19.0,,False,31,52.0,shrub,ok,171.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00146,240.5,0.09,,dry,19.0,,False,24,52.0,shrub,ok,203.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00147,450.9,,,dry,5.0,acid_plutonic,True,42,21.0,developed_open,drop,6.0,2020.0,True,May–Oct
+ca_southeast:00148,499.1,,,dry,5.0,acid_plutonic,True,42,21.0,developed_open,drop,52.0,2020.0,True,May–Oct
+ca_southeast:00149,167.8,0.09,,dry,19.0,,False,34,52.0,shrub,ok,146.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00150,135.4,0.09,,dry,19.0,,False,31,52.0,shrub,ok,401.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00151,416.2,,,dry,19.0,,False,34,31.0,barren,ok,1247.0,,True,"Feb, Apr–Jun, Sep, Nov"
+ca_southeast:00152,425.6,,,dry,19.0,,False,24,31.0,barren,ok,1731.0,,True,"Feb, Apr–Jun, Sep, Nov"
+ca_southeast:00153,318.9,0.09,,dry,16.0,,False,34,52.0,shrub,ok,165.0,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00154,415.5,0.09,,dry,3.0,non_carb_sed,False,31,52.0,shrub,ok,1248.0,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00155,438.6,,,dry,19.0,,False,31,71.0,grassland,ok,358.0,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00156,427.2,,,dry,19.0,,False,34,52.0,shrub,ok,225.0,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00157,400.9,,,dry,5.0,acid_plutonic,True,42,52.0,shrub,ok,312.0,,True,May–Oct
+ca_southeast:00158,418.1,,,dry,5.0,acid_plutonic,True,41,71.0,grassland,ok,35.0,1993.0,True,May–Oct
+ca_southeast:00159,301.3,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,1037.0,2007.0,True,May–Oct
+ca_southeast:00160,291.8,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,1092.0,2007.0,True,May–Oct
+ca_southeast:00161,777.0,0.26,,dry,19.0,,False,31,52.0,shrub,ok,17.0,,True,"Apr–Jun, Sep–Nov"
+ca_southeast:00162,862.9,0.26,,dry,19.0,,False,31,52.0,shrub,ok,648.0,,True,"Apr–Jun, Sep–Nov"
+ca_southeast:00163,1107.1,,,dry,19.0,,False,31,71.0,grassland,ok,1178.0,,True,"Apr–Jun, Sep–Nov"
+ca_southeast:00164,1142.0,,,dry,19.0,,False,31,52.0,shrub,ok,1444.0,,True,"Apr–Jun, Sep–Nov"
+ca_southeast:00165,59.1,0.09,98.0,year_round,0.0,,False,34,11.0,open_water,ok,1745.0,2013.0,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00166,58.9,0.09,95.0,year_round,0.0,,False,34,11.0,open_water,ok,1411.0,2013.0,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00167,185.8,0.09,,dry,3.0,non_carb_sed,False,31,52.0,shrub,ok,204.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00168,95.1,0.09,,dry,19.0,,False,34,52.0,shrub,ok,201.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00169,179.5,,,dry,19.0,,False,34,52.0,shrub,ok,583.0,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00170,153.8,,,dry,19.0,,False,34,52.0,shrub,ok,877.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00171,119.5,0.09,,dry,19.0,,False,34,31.0,barren,ok,2088.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00172,125.1,0.09,,dry,19.0,,False,34,31.0,barren,ok,2636.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00173,524.1,,,dry,5.0,acid_plutonic,True,42,52.0,shrub,ok,1091.0,,True,"Apr–Jul, Sep, Nov"
+ca_southeast:00174,497.5,,,dry,5.0,acid_plutonic,True,42,52.0,shrub,ok,210.0,,True,"Apr–Jul, Sep, Nov"
+ca_southeast:00175,209.6,,,dry,19.0,,False,31,52.0,shrub,ok,,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00176,229.2,,,dry,19.0,,False,31,52.0,shrub,ok,,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00177,683.8,,,dry,5.0,acid_plutonic,True,42,90.0,woody_wetland,ok,47.0,2007.0,True,May–Oct
+ca_southeast:00178,661.9,,,dry,5.0,acid_plutonic,True,31,52.0,shrub,ok,1065.0,2007.0,True,May–Oct
+ca_southeast:00179,41.3,,,dry,16.0,,False,34,23.0,developed_med,drop,4.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00180,44.4,,,dry,16.0,,False,41,24.0,developed_high,drop,51.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00181,719.9,0.26,,dry,19.0,,False,31,52.0,shrub,ok,11.0,,True,"Apr–Jun, Sep–Nov"
+ca_southeast:00182,755.5,0.26,,dry,19.0,,False,31,52.0,shrub,ok,48.0,,True,"Apr–Jun, Sep–Nov"
+ca_southeast:00183,666.1,,,dry,19.0,,False,24,52.0,shrub,ok,288.0,,True,"Apr–Jun, Sep–Nov"
+ca_southeast:00184,605.4,,,dry,19.0,,False,24,52.0,shrub,ok,714.0,,True,"Apr–Jun, Sep–Nov"
+ca_southeast:00185,60.4,,,dry,3.0,non_carb_sed,False,34,31.0,barren,ok,378.0,2019.0,True,"Apr–Jul, Sep, Nov"
+ca_southeast:00186,87.8,,,dry,3.0,non_carb_sed,False,34,31.0,barren,ok,47.0,,True,"Apr–Jul, Sep, Nov"
+ca_southeast:00187,433.4,,,dry,5.0,acid_plutonic,True,34,82.0,cropland,drop,61.0,1993.0,True,May–Oct
+ca_southeast:00188,430.5,,,dry,5.0,acid_plutonic,True,34,82.0,cropland,drop,90.0,1993.0,True,May–Oct
+ca_southeast:00189,732.6,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,11.0,,True,"Apr–Jun, Sep–Nov"
+ca_southeast:00190,903.8,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,7.0,,True,"Apr–Jun, Sep–Nov"
+ca_southeast:00191,312.8,,,dry,5.0,acid_plutonic,True,41,21.0,developed_open,drop,913.0,1993.0,True,May–Oct
+ca_southeast:00192,331.0,,,dry,5.0,acid_plutonic,True,42,52.0,shrub,ok,1010.0,1993.0,True,May–Oct
+ca_southeast:00193,347.3,,,dry,19.0,,False,31,52.0,shrub,ok,709.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00194,456.0,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,1112.0,,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00195,936.0,,,dry,5.0,acid_plutonic,True,41,90.0,woody_wetland,ok,69.0,,True,May–Oct
+ca_southeast:00196,958.4,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,115.0,,True,May–Oct
+ca_southeast:00197,265.4,,,dry,19.0,,False,31,52.0,shrub,ok,,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00198,279.0,,,dry,19.0,,False,31,52.0,shrub,ok,,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00199,224.5,,,dry,19.0,,False,34,52.0,shrub,ok,4.0,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00200,261.9,,,dry,19.0,,False,34,52.0,shrub,ok,1360.0,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00201,566.2,0.26,,dry,19.0,,False,34,52.0,shrub,ok,75.0,,True,"Feb, Apr–Jun, Sep, Nov"
+ca_southeast:00202,601.4,0.26,,dry,19.0,,False,24,52.0,shrub,ok,6.0,,True,"Feb, Apr–Jun, Sep, Nov"
+ca_southeast:00203,1674.7,,,dry,5.0,acid_plutonic,True,31,42.0,evergreen,ok,244.0,,True,May–Oct
+ca_southeast:00204,1492.8,,,dry,19.0,,False,41,52.0,shrub,ok,727.0,,True,May–Oct
+ca_southeast:00205,159.2,0.38,,dry,19.0,,False,34,52.0,shrub,ok,5.0,,False,"Feb, Apr–Jul, Oct"
+ca_southeast:00206,176.7,0.38,,dry,19.0,,False,31,52.0,shrub,ok,394.0,,False,"Feb, Apr–Jul, Oct"
+ca_southeast:00207,435.1,,,dry,19.0,,False,34,23.0,developed_med,drop,30.0,,True,May–Oct
+ca_southeast:00208,435.5,,,dry,19.0,,False,34,71.0,grassland,ok,129.0,,True,May–Oct
+ca_southeast:00209,368.7,0.14,,dry,19.0,,False,34,23.0,developed_med,drop,25.0,,True,May–Oct
+ca_southeast:00210,349.7,0.14,,dry,19.0,,False,34,23.0,developed_med,drop,13.0,,True,May–Oct
+ca_southeast:00211,215.2,0.14,,dry,19.0,,False,34,24.0,developed_high,drop,57.0,,True,May–Oct
+ca_southeast:00212,198.1,,,dry,19.0,,False,34,24.0,developed_high,drop,74.0,,True,May–Oct
+ca_southeast:00213,500.4,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,93.0,2007.0,True,May–Oct
+ca_southeast:00214,465.5,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,193.0,2007.0,True,May–Oct
+ca_southeast:00215,433.2,,,dry,19.0,,False,34,52.0,shrub,ok,431.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00216,418.0,,,dry,19.0,,False,34,52.0,shrub,ok,28.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00217,386.0,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,148.0,2007.0,True,May–Oct
+ca_southeast:00218,369.9,,,dry,5.0,acid_plutonic,True,42,52.0,shrub,ok,182.0,2003.0,True,May–Oct
+ca_southeast:00219,1117.8,,,dry,5.0,acid_plutonic,True,31,52.0,shrub,ok,1410.0,1994.0,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00220,996.6,,,dry,5.0,acid_plutonic,True,42,52.0,shrub,ok,1126.0,1994.0,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00221,438.8,,,dry,19.0,,False,31,52.0,shrub,ok,660.0,,True,"Feb, Apr–Jun, Sep, Nov"
+ca_southeast:00222,389.9,,,dry,19.0,,False,34,52.0,shrub,ok,813.0,,True,"Feb, Apr–Jul, Nov"
+ca_southeast:00223,1016.2,,,dry,19.0,,False,34,52.0,shrub,ok,782.0,2023.0,True,"Apr–Jun, Sep–Nov"
+ca_southeast:00224,1007.0,,,dry,19.0,,False,34,52.0,shrub,ok,661.0,2023.0,True,"Apr–Jun, Sep–Nov"
+ca_southeast:00225,259.6,0.38,,dry,19.0,,False,24,52.0,shrub,ok,2.0,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00226,248.0,0.38,,dry,19.0,,False,24,52.0,shrub,ok,186.0,,False,"Feb, Apr–Jul, Oct"
+ca_southeast:00227,129.9,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,128.0,1997.0,True,May–Oct
+ca_southeast:00228,128.4,,,dry,5.0,acid_plutonic,True,41,90.0,woody_wetland,ok,90.0,1997.0,True,May–Oct
+ca_southeast:00229,83.2,0.09,,dry,19.0,,False,34,82.0,cropland,drop,82.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00230,94.2,0.09,,dry,19.0,,False,34,31.0,barren,ok,71.0,2005.0,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00231,69.3,0.32,28.0,year_round,19.0,,False,41,71.0,grassland,ok,264.0,,True,May–Oct
+ca_southeast:00232,54.0,0.14,98.0,year_round,19.0,,False,21,11.0,open_water,ok,324.0,,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00233,115.4,0.14,,dry,19.0,,False,41,52.0,shrub,ok,75.0,,True,May–Oct
+ca_southeast:00234,123.4,0.14,,dry,19.0,,False,24,22.0,developed_low,drop,176.0,,True,May–Oct
+ca_southeast:00235,309.9,,,dry,19.0,,False,31,52.0,shrub,ok,123.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00236,379.4,,,dry,19.0,,False,31,52.0,shrub,ok,327.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00237,412.3,,,dry,3.0,non_carb_sed,False,41,95.0,herb_wetland,ok,25.0,2020.0,True,May–Oct
+ca_southeast:00238,390.7,,,dry,3.0,non_carb_sed,False,42,21.0,developed_open,drop,3.0,2020.0,True,May–Oct
+ca_southeast:00239,828.8,,,dry,5.0,acid_plutonic,True,42,52.0,shrub,ok,326.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00240,815.1,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,104.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00241,265.6,0.09,,dry,19.0,,False,31,52.0,shrub,ok,703.0,,True,"Feb, Apr–Jun, Sep–Oct"
+ca_southeast:00242,229.4,0.09,,dry,19.0,,False,34,52.0,shrub,ok,489.0,,True,"Feb, Apr–Jun, Sep–Oct"
+ca_southeast:00243,399.2,,,dry,19.0,,False,24,52.0,shrub,ok,1344.0,,True,"Feb, Apr–Jul, Nov"
+ca_southeast:00244,406.5,,,dry,19.0,,False,24,52.0,shrub,ok,1706.0,,True,"Feb, Apr–Jul, Nov"
+ca_southeast:00245,439.1,,,dry,19.0,,False,31,52.0,shrub,ok,742.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00246,420.5,,,dry,19.0,,False,34,52.0,shrub,ok,55.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00247,379.7,,,dry,19.0,,False,34,71.0,grassland,ok,717.0,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00248,462.8,,,dry,19.0,,False,41,52.0,shrub,ok,1000.0,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00249,733.3,,,dry,3.0,non_carb_sed,False,42,52.0,shrub,ok,23.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00250,707.6,,,dry,3.0,non_carb_sed,False,41,52.0,shrub,ok,25.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00251,998.7,0.26,,dry,19.0,,False,31,52.0,shrub,ok,573.0,,True,"Apr–Jun, Sep–Nov"
+ca_southeast:00252,1022.3,0.26,,dry,19.0,,False,31,52.0,shrub,ok,167.0,,True,"Apr–Jun, Sep–Nov"
+ca_southeast:00253,980.3,0.21,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,56.0,,True,"Apr–Jun, Sep–Nov"
+ca_southeast:00254,893.5,0.21,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,17.0,,True,"Apr–Jun, Sep–Nov"
+ca_southeast:00255,150.6,,,dry,5.0,acid_plutonic,True,32,52.0,shrub,ok,412.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00256,95.4,0.09,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,25.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00257,58.5,0.09,98.0,year_round,5.0,acid_plutonic,True,41,11.0,open_water,ok,375.0,2013.0,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00258,58.5,0.09,98.0,year_round,5.0,acid_plutonic,True,41,11.0,open_water,ok,236.0,2013.0,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00259,143.4,0.09,,dry,3.0,non_carb_sed,False,42,31.0,barren,ok,2075.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00260,163.1,,,dry,3.0,non_carb_sed,False,42,52.0,shrub,ok,1744.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00261,519.0,0.21,,dry,19.0,,False,41,52.0,shrub,ok,109.0,,True,"Feb, Apr–Jun, Sep, Nov"
+ca_southeast:00262,490.6,0.21,,dry,19.0,,False,34,52.0,shrub,ok,488.0,,True,"Feb, Apr–Jun, Sep, Nov"
+ca_southeast:00263,651.4,,,dry,19.0,,False,34,52.0,shrub,ok,638.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00264,658.4,,,dry,19.0,,False,34,52.0,shrub,ok,528.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00265,98.3,0.09,,dry,19.0,,False,34,90.0,woody_wetland,ok,226.0,2022.0,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00266,145.7,0.09,,dry,19.0,,False,31,52.0,shrub,ok,577.0,2022.0,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00267,431.0,,,dry,19.0,,False,34,52.0,shrub,ok,559.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00268,422.7,,,dry,19.0,,False,34,52.0,shrub,ok,12.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00269,415.2,,,dry,19.0,,False,31,52.0,shrub,ok,895.0,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00270,349.7,,,dry,19.0,,False,34,52.0,shrub,ok,181.0,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00271,217.4,0.09,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,78.0,,True,"Feb, Apr–Jun, Sep, Nov"
+ca_southeast:00272,186.1,0.09,,dry,5.0,acid_plutonic,True,32,52.0,shrub,ok,78.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00273,244.2,,,dry,5.0,acid_plutonic,True,32,52.0,shrub,ok,663.0,,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00274,180.3,,,dry,5.0,acid_plutonic,True,31,52.0,shrub,ok,114.0,,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00275,211.8,,,dry,19.0,,False,34,52.0,shrub,ok,233.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00276,201.7,,,dry,19.0,,False,34,52.0,shrub,ok,155.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00277,120.6,0.09,,dry,19.0,,False,31,52.0,shrub,ok,172.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00278,188.6,0.09,,dry,19.0,,False,34,52.0,shrub,ok,188.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00279,1332.1,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,762.0,2003.0,True,May–Oct
+ca_southeast:00280,1240.9,,,dry,5.0,acid_plutonic,True,42,52.0,shrub,ok,15.0,2003.0,True,May–Oct
+ca_southeast:00281,728.8,,,dry,19.0,,False,31,52.0,shrub,ok,108.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00282,685.8,,,dry,19.0,,False,34,52.0,shrub,ok,1029.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00283,401.4,,,dry,5.0,acid_plutonic,True,42,90.0,woody_wetland,ok,39.0,,True,May–Oct
+ca_southeast:00284,393.1,,,dry,5.0,acid_plutonic,True,41,71.0,grassland,ok,77.0,,True,May–Oct
+ca_southeast:00285,569.7,0.21,,dry,19.0,,False,31,52.0,shrub,ok,762.0,,True,"Feb, Apr–Jun, Sep, Nov"
+ca_southeast:00286,558.1,0.21,,dry,19.0,,False,31,52.0,shrub,ok,653.0,,True,"Feb, Apr–Jun, Sep, Nov"
+ca_southeast:00287,123.4,,,dry,19.0,,False,34,52.0,shrub,ok,590.0,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00288,108.0,,,dry,19.0,,False,34,52.0,shrub,ok,246.0,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00289,1911.1,,,dry,5.0,acid_plutonic,True,31,42.0,evergreen,ok,68.0,,True,May–Oct
+ca_southeast:00290,1836.9,,,dry,5.0,acid_plutonic,True,31,21.0,developed_open,drop,55.0,,True,May–Oct
+ca_southeast:00291,329.8,0.09,,dry,19.0,,False,34,52.0,shrub,ok,113.0,,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00292,347.4,0.09,,dry,5.0,acid_plutonic,True,31,71.0,grassland,ok,620.0,,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00293,307.2,0.09,,dry,19.0,,False,41,52.0,shrub,ok,265.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00294,292.2,0.09,,dry,19.0,,False,34,52.0,shrub,ok,330.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00295,111.5,,,dry,19.0,,False,42,52.0,shrub,ok,498.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00296,145.7,,,dry,5.0,acid_plutonic,True,31,52.0,shrub,ok,1124.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00297,385.7,,,dry,19.0,,False,41,31.0,barren,ok,2200.0,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00298,420.9,,,dry,5.0,acid_plutonic,True,31,52.0,shrub,ok,3288.0,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00299,,,,dry,,,False,33,,,unknown,,,False,Jan–Dec
+ca_southeast:00300,,,,dry,,,False,41,,,unknown,,,False,Jan–Dec
+ca_southeast:00301,503.8,,,dry,5.0,acid_plutonic,True,31,71.0,grassland,ok,58.0,2004.0,True,May–Oct
+ca_southeast:00302,474.3,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,39.0,,True,May–Oct
+ca_southeast:00303,156.7,0.09,,dry,19.0,,False,31,52.0,shrub,ok,2419.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00304,102.5,0.09,,dry,19.0,,False,31,52.0,shrub,ok,507.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00305,524.0,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,403.0,2004.0,True,May–Oct
+ca_southeast:00306,375.9,,,dry,19.0,,False,31,23.0,developed_med,drop,23.0,2018.0,True,May–Oct
+ca_southeast:00307,956.0,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,1345.0,,True,"Apr–Jun, Sep–Nov"
+ca_southeast:00308,883.5,,,dry,5.0,acid_plutonic,True,31,52.0,shrub,ok,2436.0,,True,"Apr–Jun, Sep–Nov"
+ca_southeast:00309,663.8,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,,,True,"Apr–Jul, Sep, Nov"
+ca_southeast:00310,675.9,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,,,True,"Apr–Jul, Sep, Nov"
+ca_southeast:00311,276.7,0.09,,dry,5.0,acid_plutonic,True,42,52.0,shrub,ok,1492.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00312,258.2,0.09,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,614.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00313,390.8,,,dry,19.0,,False,41,23.0,developed_med,drop,72.0,,True,May–Oct
+ca_southeast:00314,385.0,,,dry,19.0,,False,34,22.0,developed_low,drop,166.0,,True,May–Oct
+ca_southeast:00315,386.8,,,dry,19.0,,False,31,24.0,developed_high,drop,150.0,2004.0,True,May–Oct
+ca_southeast:00316,502.2,0.21,,dry,16.0,,False,31,52.0,shrub,ok,120.0,,False,"Feb, Apr–Jun, Sep, Nov"
+ca_southeast:00317,523.5,0.21,,dry,16.0,,False,41,52.0,shrub,ok,2.0,,False,"Feb, Apr–Jun, Sep, Nov"
+ca_southeast:00318,1029.4,,,dry,5.0,acid_plutonic,True,42,52.0,shrub,ok,1136.0,2007.0,True,May–Oct
+ca_southeast:00319,999.6,,,dry,5.0,acid_plutonic,True,42,52.0,shrub,ok,1357.0,2007.0,True,May–Oct
+ca_southeast:00320,991.8,0.26,,dry,19.0,,False,41,52.0,shrub,ok,1894.0,2006.0,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00321,964.6,0.26,,dry,19.0,,False,41,31.0,barren,ok,1662.0,2006.0,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00322,124.3,,,dry,5.0,acid_plutonic,True,41,23.0,developed_med,drop,22.0,2007.0,True,May–Oct
+ca_southeast:00323,129.4,,,dry,5.0,acid_plutonic,True,41,21.0,developed_open,drop,83.0,2007.0,True,May–Oct
+ca_southeast:00324,110.9,0.09,,dry,3.0,non_carb_sed,False,41,52.0,shrub,ok,948.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00325,78.6,0.09,,dry,3.0,non_carb_sed,False,31,52.0,shrub,ok,40.0,2013.0,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00326,342.7,,,dry,19.0,,False,41,52.0,shrub,ok,10.0,,True,May–Oct
+ca_southeast:00327,370.9,,,dry,5.0,acid_plutonic,True,42,90.0,woody_wetland,ok,153.0,,True,May–Oct
+ca_southeast:00328,165.0,0.09,,dry,19.0,,False,34,52.0,shrub,ok,141.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00329,160.2,,,dry,19.0,,False,34,31.0,barren,ok,323.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00330,214.6,0.09,,dry,19.0,,False,24,31.0,barren,ok,2027.0,,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00331,245.0,0.09,,dry,19.0,,False,34,31.0,barren,ok,2047.0,,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00332,95.7,0.09,,dry,19.0,,False,34,52.0,shrub,ok,1446.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00333,74.2,0.09,,dry,19.0,,False,34,52.0,shrub,ok,231.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00334,183.3,0.09,,dry,16.0,,False,31,52.0,shrub,ok,285.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00335,161.5,0.09,,dry,16.0,,False,34,23.0,developed_med,drop,10.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00336,65.4,0.09,,dry,5.0,acid_plutonic,True,41,71.0,grassland,ok,158.0,2013.0,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00337,93.9,0.09,,dry,5.0,acid_plutonic,True,21,52.0,shrub,ok,518.0,2013.0,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00338,290.3,0.09,,dry,16.0,,False,34,31.0,barren,ok,1049.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00339,266.3,0.09,,dry,16.0,,False,34,31.0,barren,ok,167.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00340,1081.7,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,58.0,2002.0,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00341,1029.5,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,109.0,2004.0,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00342,134.6,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,940.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00343,157.8,,,dry,5.0,acid_plutonic,True,41,31.0,barren,ok,631.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00344,80.8,,,dry,5.0,acid_plutonic,True,42,22.0,developed_low,drop,185.0,2007.0,True,May–Oct
+ca_southeast:00345,148.1,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,416.0,2007.0,True,May–Oct
+ca_southeast:00346,307.6,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,18.0,,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00347,328.6,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,114.0,,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00348,-9.9,,,dry,19.0,,False,24,31.0,barren,ok,1443.0,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00349,-16.9,,,dry,19.0,,False,34,31.0,barren,ok,103.0,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00350,446.5,,,dry,19.0,,False,34,52.0,shrub,ok,1469.0,,True,"Feb, Apr–Jun, Sep, Nov"
+ca_southeast:00351,437.2,,,dry,19.0,,False,34,52.0,shrub,ok,594.0,,True,"Feb, Apr–Jun, Sep, Nov"
+ca_southeast:00352,88.5,,,dry,19.0,,False,41,52.0,shrub,ok,1689.0,,False,"Feb, Apr–Jul, Sep"
+ca_southeast:00353,101.2,,,dry,19.0,,False,34,52.0,shrub,ok,1499.0,,False,"Feb, Apr–Jul, Sep"
+ca_southeast:00354,195.4,,,dry,5.0,acid_plutonic,True,31,31.0,barren,ok,4720.0,,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00355,237.4,,,dry,5.0,acid_plutonic,True,32,31.0,barren,ok,,,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00356,223.7,0.09,,dry,3.0,non_carb_sed,False,31,52.0,shrub,ok,49.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00357,236.9,0.09,,dry,3.0,non_carb_sed,False,34,52.0,shrub,ok,116.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00358,239.2,0.09,,dry,19.0,,False,31,52.0,shrub,ok,306.0,,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00359,250.6,0.09,,dry,19.0,,False,41,52.0,shrub,ok,275.0,,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00360,510.1,,,dry,19.0,,False,31,52.0,shrub,ok,395.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00361,599.8,,,dry,5.0,acid_plutonic,True,42,52.0,shrub,ok,2719.0,,True,"Apr–Jul, Sep, Nov"
+ca_southeast:00362,565.5,0.21,,dry,19.0,,False,34,52.0,shrub,ok,309.0,,True,"Feb, Apr–Jun, Sep, Nov"
+ca_southeast:00363,598.0,0.21,,dry,19.0,,False,34,52.0,shrub,ok,482.0,,True,"Feb, Apr–Jun, Sep, Nov"
+ca_southeast:00364,420.7,,,dry,19.0,,False,31,52.0,shrub,ok,18.0,1995.0,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00365,455.3,,,dry,19.0,,False,31,52.0,shrub,ok,25.0,1995.0,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00366,452.8,,,dry,5.0,acid_plutonic,True,41,71.0,grassland,ok,51.0,,True,May–Oct
+ca_southeast:00367,455.3,,,dry,5.0,acid_plutonic,True,41,71.0,grassland,ok,164.0,,True,May–Oct
+ca_southeast:00368,590.0,,,dry,5.0,acid_plutonic,True,42,52.0,shrub,ok,1505.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00369,626.2,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,1894.0,,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00370,309.2,0.21,,dry,19.0,,False,31,31.0,barren,ok,853.0,,False,"Feb, Apr–Jul, Sep"
+ca_southeast:00371,345.0,0.21,,dry,19.0,,False,31,31.0,barren,ok,462.0,,False,"Feb, Apr–Jul, Sep"
+ca_southeast:00372,,,,dry,,,False,31,,,unknown,706.0,2016.0,False,May–Oct
+ca_southeast:00373,627.6,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,233.0,2016.0,True,May–Oct
+ca_southeast:00374,84.1,,,dry,19.0,,False,41,31.0,barren,ok,76.0,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00375,111.4,,,dry,19.0,,False,31,52.0,shrub,ok,895.0,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00376,83.9,,,dry,16.0,,False,24,31.0,barren,ok,4889.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00377,95.7,,,dry,16.0,,False,24,31.0,barren,ok,3732.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00378,267.4,0.09,,dry,19.0,,False,34,52.0,shrub,ok,206.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00379,276.1,0.09,,dry,19.0,,False,34,52.0,shrub,ok,197.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00380,43.0,,,dry,19.0,,False,31,95.0,herb_wetland,ok,12.0,1989.0,False,"Apr–Jul, Sep, Nov"
+ca_southeast:00381,78.2,,,dry,19.0,,False,31,52.0,shrub,ok,209.0,1989.0,True,"Apr–Jul, Sep, Nov"
+ca_southeast:00382,464.1,0.21,,dry,19.0,,False,31,52.0,shrub,ok,880.0,,True,"Feb, Apr–Jul, Nov"
+ca_southeast:00383,529.1,0.21,,dry,19.0,,False,31,52.0,shrub,ok,139.0,,True,"Feb, Apr–Jul, Nov"
+ca_southeast:00384,443.6,,,dry,5.0,acid_plutonic,True,42,52.0,shrub,ok,170.0,2018.0,True,May–Oct
+ca_southeast:00385,539.5,,,dry,5.0,acid_plutonic,True,42,52.0,shrub,ok,35.0,2018.0,True,May–Oct
+ca_southeast:00386,354.7,,,dry,19.0,,False,41,22.0,developed_low,drop,13.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00387,406.9,,,dry,19.0,,False,32,52.0,shrub,ok,18.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00388,493.9,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,636.0,2004.0,True,May–Oct
+ca_southeast:00389,460.5,,,dry,19.0,,False,41,81.0,pasture,drop,679.0,2004.0,True,May–Oct
+ca_southeast:00390,453.8,,,dry,19.0,,False,31,52.0,shrub,ok,1579.0,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00391,507.7,,,dry,5.0,acid_plutonic,True,31,52.0,shrub,ok,2390.0,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00392,168.3,,,dry,5.0,acid_plutonic,True,41,90.0,woody_wetland,ok,262.0,2007.0,True,May–Oct
+ca_southeast:00393,243.7,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,120.0,2007.0,True,May–Oct
+ca_southeast:00394,268.1,,,dry,3.0,non_carb_sed,False,41,52.0,shrub,ok,15.0,2008.0,True,May–Oct
+ca_southeast:00395,216.4,,,dry,3.0,non_carb_sed,False,41,52.0,shrub,ok,85.0,2008.0,True,May–Oct
+ca_southeast:00396,1167.3,,,dry,5.0,acid_plutonic,True,41,21.0,developed_open,drop,140.0,,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00397,1119.1,,,dry,5.0,acid_plutonic,True,42,52.0,shrub,ok,512.0,,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00398,815.2,,,dry,5.0,acid_plutonic,True,41,71.0,grassland,ok,122.0,1999.0,True,May–Oct
+ca_southeast:00399,810.6,,,dry,5.0,acid_plutonic,True,41,95.0,herb_wetland,ok,145.0,1999.0,True,May–Oct
+ca_southeast:00400,397.9,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,7.0,2003.0,True,May–Oct
+ca_southeast:00401,337.8,,,dry,5.0,acid_plutonic,True,31,21.0,developed_open,drop,0.0,2003.0,True,May–Oct
+ca_southeast:00402,183.5,0.09,,dry,19.0,,False,34,52.0,shrub,ok,261.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00403,190.6,0.09,,dry,19.0,,False,34,31.0,barren,ok,140.0,,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00404,57.6,0.09,,dry,19.0,,False,34,90.0,woody_wetland,ok,622.0,1989.0,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00405,56.8,,99.0,year_round,19.0,,False,41,11.0,open_water,ok,735.0,1989.0,True,"Feb, Apr–Jul, Sep"
+ca_southeast:00406,456.7,,,dry,5.0,acid_plutonic,True,41,71.0,grassland,ok,33.0,2004.0,True,May–Oct
+ca_southeast:00407,463.5,,,dry,5.0,acid_plutonic,True,41,21.0,developed_open,drop,32.0,2004.0,True,May–Oct
+ca_southeast:00408,967.0,,,dry,19.0,,False,41,52.0,shrub,ok,34.0,2023.0,True,"Apr–Jun, Sep–Nov"
+ca_southeast:00409,959.1,,,dry,3.0,non_carb_sed,False,41,52.0,shrub,ok,33.0,,True,"Apr–Jun, Sep–Nov"
+ca_southeast:00410,439.1,,,dry,19.0,,False,34,52.0,shrub,ok,1.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00411,458.3,,,dry,19.0,,False,34,52.0,shrub,ok,827.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00412,1110.2,,,dry,5.0,acid_plutonic,True,41,42.0,evergreen,ok,752.0,2009.0,True,May–Oct
+ca_southeast:00413,910.0,,,dry,5.0,acid_plutonic,True,41,42.0,evergreen,ok,354.0,2009.0,True,May–Oct
+ca_southeast:00414,242.6,0.09,,dry,19.0,,False,34,52.0,shrub,ok,510.0,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00415,216.4,0.09,,dry,19.0,,False,34,52.0,shrub,ok,635.0,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00416,597.1,0.26,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,55.0,2005.0,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00417,707.0,0.26,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,90.0,2005.0,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00418,928.1,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,828.0,,True,"Apr–Jun, Sep–Nov"
+ca_southeast:00419,911.8,,,dry,5.0,acid_plutonic,True,42,52.0,shrub,ok,1716.0,,True,"Apr–Jun, Sep–Nov"
+ca_southeast:00420,843.5,,,dry,19.0,,False,31,52.0,shrub,ok,289.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00421,1025.3,,,dry,3.0,non_carb_sed,False,32,52.0,shrub,ok,2034.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00422,351.8,,,dry,5.0,acid_plutonic,True,31,71.0,grassland,ok,4185.0,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00423,372.7,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,3796.0,,True,"Feb, Apr–Jul, Oct"
+ca_southeast:00424,841.6,,,dry,19.0,,False,41,21.0,developed_open,drop,40.0,1999.0,True,May–Oct
+ca_southeast:00425,860.3,,,dry,19.0,,False,41,71.0,grassland,ok,314.0,1999.0,True,May–Oct
+ca_southeast:00426,1064.8,,,dry,5.0,acid_plutonic,True,42,52.0,shrub,ok,359.0,2012.0,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00427,1105.2,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,596.0,2012.0,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00428,1942.2,0.26,,dry,19.0,,False,31,42.0,evergreen,ok,0.0,2020.0,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00429,2007.7,0.26,,dry,19.0,,False,32,42.0,evergreen,ok,3.0,2020.0,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00430,922.2,,,dry,5.0,acid_plutonic,True,41,71.0,grassland,ok,128.0,2012.0,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00431,985.2,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,144.0,2012.0,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00432,255.3,,,dry,19.0,,False,31,31.0,barren,ok,174.0,,True,"Apr–Jul, Sep, Nov"
+ca_southeast:00433,216.7,,,dry,19.0,,False,31,31.0,barren,ok,257.0,,True,"Apr–Jul, Sep, Nov"
+ca_southeast:00434,364.4,,,dry,3.0,non_carb_sed,False,41,52.0,shrub,ok,78.0,2020.0,True,May–Oct
+ca_southeast:00435,373.0,,,dry,3.0,non_carb_sed,False,41,71.0,grassland,ok,134.0,2020.0,True,May–Oct
+ca_southeast:00436,-36.7,,,dry,19.0,,False,34,52.0,shrub,ok,951.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00437,-44.7,,,dry,19.0,,False,34,52.0,shrub,ok,510.0,,True,"Apr–Jul, Oct–Nov"
+ca_southeast:00438,740.7,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,2428.0,,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00439,862.2,,,dry,5.0,acid_plutonic,True,41,52.0,shrub,ok,2757.0,,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00440,1133.5,0.26,,dry,5.0,acid_plutonic,True,42,52.0,shrub,ok,1356.0,2006.0,True,"Apr–Jul, Sep–Oct"
+ca_southeast:00441,1231.8,0.26,,dry,5.0,acid_plutonic,True,42,52.0,shrub,ok,1603.0,2006.0,True,"Apr–Jul, Sep–Oct"

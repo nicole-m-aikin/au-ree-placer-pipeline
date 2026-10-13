@@ -1,0 +1,56 @@
+pin_id,elev10_m,slope10_deg,water_pct,water_regime,lith_code,lith_name,lith_favor,landform_code,nlcd,nlcd_name,land_filter,road_m,fire_year,has_lidar_1m,best_months
+ca_transverse:00001,926.7,0.32,,dry,19,,False,34,52,shrub,ok,136.0,2004.0,True,"Apr–Jul, Sep–Oct"
+ca_transverse:00002,900.8,0.32,,dry,19,,False,34,52,shrub,ok,69.0,2004.0,True,"Apr–Jul, Sep–Oct"
+ca_transverse:00003,942.9,0.32,,dry,3,non_carb_sed,False,42,52,shrub,ok,739.0,2024.0,True,May–Oct
+ca_transverse:00004,920.5,0.32,,dry,3,non_carb_sed,False,41,52,shrub,ok,739.0,2024.0,True,May–Oct
+ca_transverse:00005,950.4,0.18,,dry,3,non_carb_sed,False,41,52,shrub,ok,39.0,,True,May–Oct
+ca_transverse:00006,1138.8,0.18,,dry,5,acid_plutonic,True,41,52,shrub,ok,32.0,,True,May–Oct
+ca_transverse:00007,1590.2,0.18,,dry,19,,False,41,52,shrub,ok,17.0,,True,May–Oct
+ca_transverse:00008,1699.0,0.18,,dry,3,non_carb_sed,False,31,42,evergreen,ok,227.0,,True,May–Oct
+ca_transverse:00009,1498.5,0.18,,dry,19,,False,41,52,shrub,ok,28.0,2006.0,True,May–Oct
+ca_transverse:00010,1479.7,0.18,,dry,19,,False,41,52,shrub,ok,73.0,2006.0,True,May–Oct
+ca_transverse:00011,1879.0,0.32,,dry,3,non_carb_sed,False,41,42,evergreen,ok,1053.0,2013.0,True,May–Oct
+ca_transverse:00012,1580.6,0.32,,dry,3,non_carb_sed,False,31,52,shrub,ok,98.0,2013.0,True,May–Oct
+ca_transverse:00013,1311.3,0.32,,dry,3,non_carb_sed,False,42,52,shrub,ok,18.0,2006.0,True,May–Oct
+ca_transverse:00014,1253.2,0.32,,dry,3,non_carb_sed,False,42,21,developed_open,drop,2310.0,2006.0,True,May–Oct
+ca_transverse:00015,1101.4,0.32,,dry,3,non_carb_sed,False,42,52,shrub,ok,1601.0,2006.0,True,May–Oct
+ca_transverse:00016,1118.1,0.32,,dry,3,non_carb_sed,False,42,52,shrub,ok,1224.0,2006.0,True,May–Oct
+ca_transverse:00017,882.9,0.32,,dry,19,,False,34,52,shrub,ok,11.0,2004.0,True,"Apr–Jul, Sep–Oct"
+ca_transverse:00018,944.1,0.32,,dry,19,,False,31,71,grassland,ok,365.0,2004.0,True,"Apr–Jul, Sep–Oct"
+ca_transverse:00019,806.9,0.32,,dry,3,non_carb_sed,False,41,52,shrub,ok,3104.0,,True,May–Oct
+ca_transverse:00020,712.9,0.32,,dry,19,,False,41,52,shrub,ok,3405.0,1996.0,True,May–Oct
+ca_transverse:00021,1371.3,0.18,,dry,3,non_carb_sed,False,42,52,shrub,ok,64.0,2006.0,True,May–Oct
+ca_transverse:00022,1327.0,0.18,,dry,3,non_carb_sed,False,42,90,woody_wetland,ok,127.0,2006.0,True,May–Oct
+ca_transverse:00023,1527.8,0.18,,dry,19,,False,41,90,woody_wetland,ok,744.0,2006.0,True,May–Oct
+ca_transverse:00024,1547.1,0.18,,dry,19,,False,41,52,shrub,ok,203.0,2006.0,True,May–Oct
+ca_transverse:00025,799.3,0.32,,dry,3,non_carb_sed,False,42,52,shrub,ok,675.0,2024.0,True,"Apr–Jul, Sep–Oct"
+ca_transverse:00026,845.6,0.32,,dry,3,non_carb_sed,False,41,52,shrub,ok,160.0,2024.0,True,"Apr–Jul, Sep–Oct"
+ca_transverse:00027,1365.9,0.18,,dry,3,non_carb_sed,False,42,52,shrub,ok,98.0,2006.0,True,May–Oct
+ca_transverse:00028,1281.1,0.32,,dry,3,non_carb_sed,False,42,90,woody_wetland,ok,1117.0,2006.0,True,May–Oct
+ca_transverse:00029,461.6,0.32,98.0,year_round,3,non_carb_sed,False,41,11,open_water,ok,275.0,2022.0,True,May–Oct
+ca_transverse:00030,484.8,0.32,,dry,3,non_carb_sed,False,42,52,shrub,ok,129.0,2022.0,True,"Apr–Jul, Sep–Oct"
+ca_transverse:00031,493.6,,,dry,5,acid_plutonic,True,41,52,shrub,ok,1639.0,1993.0,True,May–Oct
+ca_transverse:00032,663.0,0.18,,dry,3,non_carb_sed,False,41,52,shrub,ok,852.0,1993.0,True,May–Oct
+ca_transverse:00033,1525.6,0.32,,dry,19,,False,41,52,shrub,ok,26.0,,True,May–Oct
+ca_transverse:00034,1552.4,0.32,,dry,19,,False,42,52,shrub,ok,117.0,,True,May–Oct
+ca_transverse:00035,1527.8,0.18,,dry,19,,False,41,52,shrub,ok,4.0,,True,May–Oct
+ca_transverse:00036,1616.5,0.18,,dry,19,,False,41,42,evergreen,ok,13.0,,True,May–Oct
+ca_transverse:00037,73.0,,,dry,3,non_carb_sed,False,41,71,grassland,ok,138.0,2000.0,True,May–Oct
+ca_transverse:00038,100.1,,,dry,3,non_carb_sed,False,41,52,shrub,ok,245.0,1993.0,True,May–Oct
+ca_transverse:00039,189.5,0.32,,dry,19,,False,34,71,grassland,ok,197.0,2009.0,True,"Apr–Jul, Sep–Oct"
+ca_transverse:00040,195.7,0.32,,dry,19,,False,34,71,grassland,ok,447.0,2009.0,True,"Apr–Jul, Sep–Oct"
+ca_transverse:00041,915.5,0.18,,dry,3,non_carb_sed,False,41,52,shrub,ok,46.0,,True,May–Oct
+ca_transverse:00042,819.0,0.18,,dry,3,non_carb_sed,False,42,21,developed_open,drop,50.0,,True,May–Oct
+ca_transverse:00043,937.3,0.32,,dry,19,,False,31,52,shrub,ok,609.0,2004.0,True,"Apr–Jul, Sep–Oct"
+ca_transverse:00044,1022.5,0.32,,dry,5,acid_plutonic,True,31,52,shrub,ok,1972.0,2004.0,True,"Apr–Jul, Sep–Oct"
+ca_transverse:00045,1357.9,0.18,,dry,5,acid_plutonic,True,42,52,shrub,ok,1735.0,2006.0,True,May–Oct
+ca_transverse:00046,1351.5,0.18,,dry,5,acid_plutonic,True,42,52,shrub,ok,2191.0,2006.0,True,May–Oct
+ca_transverse:00047,121.2,,,dry,16,,False,32,95,herb_wetland,ok,378.0,,True,May–Oct
+ca_transverse:00048,342.1,0.32,,dry,19,,False,41,22,developed_low,drop,88.0,2022.0,True,"Apr–Jul, Sep–Oct"
+ca_transverse:00049,334.1,0.32,,dry,19,,False,41,95,herb_wetland,ok,162.0,2017.0,True,"Apr–Jul, Sep–Oct"
+ca_transverse:00050,141.1,,,dry,3,non_carb_sed,False,34,95,herb_wetland,ok,347.0,,True,May–Oct
+ca_transverse:00051,140.1,,,dry,3,non_carb_sed,False,34,31,barren,ok,345.0,,True,May–Oct
+ca_transverse:00052,1375.7,0.18,,dry,5,acid_plutonic,True,42,52,shrub,ok,1872.0,2006.0,True,May–Oct
+ca_transverse:00053,1336.3,0.18,,dry,5,acid_plutonic,True,41,42,evergreen,ok,565.0,2006.0,True,May–Oct
+ca_transverse:00054,1084.0,0.32,,dry,5,acid_plutonic,True,42,52,shrub,ok,38.0,1987.0,True,"Apr–Jul, Sep–Oct"
+ca_transverse:00055,998.4,0.32,,dry,5,acid_plutonic,True,42,21,developed_open,drop,17.0,1987.0,True,"Apr–Jul, Sep–Oct"

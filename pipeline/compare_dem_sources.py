@@ -11,8 +11,8 @@ informational, not blended into evidence_score.
 
 Usage:
   python -m pipeline.compare_dem_sources \
-      --baseline configs/kern_river_subset/config.yaml \
-      --compared configs/kern_river_subset_3dep10m/config.yaml \
+      --baseline configs/_tests/kern_river_subset/config.yaml \
+      --compared configs/_tests/kern_river_subset_3dep10m/config.yaml \
       --label-baseline "30 m Copernicus" --label-compared "10 m 3DEP"
 """
 
@@ -97,8 +97,6 @@ def sample_surface_water(cfg, lons, lats):
 def run(baseline_cfg_path, compared_cfg_path, label_base, label_cmp):
     base_cfg, base = _load(baseline_cfg_path)
     _, comp = _load(compared_cfg_path)
-
-    print(f'  {label_base}: {len(base)} pans   {label_cmp}: {len(comp)} pans')
 
     matched = match_nearest(base, comp)
     lines = [

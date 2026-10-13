@@ -1,0 +1,107 @@
+pin_id,elev10_m,slope10_deg,water_pct,water_regime,lith_code,lith_name,lith_favor,landform_code,nlcd,nlcd_name,land_filter,road_m,fire_year,has_lidar_1m,best_months
+ca_san_gabriel:00001,533.7,0.14,,dry,5,acid_plutonic,True,42,90,woody_wetland,ok,35.0,2012.0,True,May–Oct
+ca_san_gabriel:00002,565.5,0.14,,dry,5,acid_plutonic,True,42,52,shrub,ok,68.0,2012.0,True,May–Oct
+ca_san_gabriel:00003,1178.0,0.32,,dry,5,acid_plutonic,True,41,52,shrub,ok,34.0,2009.0,True,May–Oct
+ca_san_gabriel:00004,1043.5,0.32,,dry,5,acid_plutonic,True,41,52,shrub,ok,85.0,2009.0,True,May–Oct
+ca_san_gabriel:00005,866.3,0.32,,dry,5,acid_plutonic,True,41,52,shrub,ok,15.0,,True,"Apr–Jul, Sep–Oct"
+ca_san_gabriel:00006,818.2,0.32,,dry,5,acid_plutonic,True,34,52,shrub,ok,19.0,2004.0,True,May–Oct
+ca_san_gabriel:00007,1169.7,0.32,,dry,5,acid_plutonic,True,42,52,shrub,ok,50.0,2009.0,True,May–Oct
+ca_san_gabriel:00008,1216.8,0.32,,dry,5,acid_plutonic,True,42,52,shrub,ok,121.0,2009.0,True,May–Oct
+ca_san_gabriel:00009,419.5,0.32,,dry,19,,False,42,21,developed_open,drop,48.0,2017.0,True,May–Oct
+ca_san_gabriel:00010,379.9,0.32,,dry,3,non_carb_sed,False,41,21,developed_open,drop,71.0,2017.0,True,May–Oct
+ca_san_gabriel:00011,256.0,0.14,,dry,5,acid_plutonic,True,41,52,shrub,ok,102.0,2020.0,True,May–Oct
+ca_san_gabriel:00012,274.2,0.14,,dry,5,acid_plutonic,True,41,52,shrub,ok,236.0,2020.0,True,May–Oct
+ca_san_gabriel:00013,716.1,0.14,,dry,5,acid_plutonic,True,42,90,woody_wetland,ok,1803.0,2012.0,True,May–Oct
+ca_san_gabriel:00014,666.5,0.14,,dry,5,acid_plutonic,True,42,52,shrub,ok,496.0,2012.0,True,May–Oct
+ca_san_gabriel:00015,386.6,0.32,,dry,19,,False,41,21,developed_open,drop,94.0,,True,"Apr–Jul, Sep–Oct"
+ca_san_gabriel:00016,348.4,0.32,,dry,19,,False,34,82,cropland,drop,46.0,,True,"Apr–Jul, Sep–Oct"
+ca_san_gabriel:00017,525.3,0.32,,dry,3,non_carb_sed,False,34,52,shrub,ok,58.0,2016.0,True,May–Oct
+ca_san_gabriel:00018,495.3,0.32,,dry,3,non_carb_sed,False,34,52,shrub,ok,101.0,2016.0,True,May–Oct
+ca_san_gabriel:00019,1152.5,0.14,,dry,5,acid_plutonic,True,31,52,shrub,ok,3954.0,,True,May–Oct
+ca_san_gabriel:00020,906.8,0.14,,dry,5,acid_plutonic,True,41,21,developed_open,drop,2546.0,2002.0,True,May–Oct
+ca_san_gabriel:00021,1377.9,0.14,,dry,5,acid_plutonic,True,41,90,woody_wetland,ok,2531.0,1997.0,True,May–Oct
+ca_san_gabriel:00022,1571.8,0.14,,dry,5,acid_plutonic,True,41,90,woody_wetland,ok,932.0,1997.0,True,May–Oct
+ca_san_gabriel:00023,1088.6,0.32,,dry,5,acid_plutonic,True,41,21,developed_open,drop,1488.0,2020.0,True,"May–Jul, Sep–Nov"
+ca_san_gabriel:00024,1071.8,0.32,,dry,5,acid_plutonic,True,42,52,shrub,ok,1172.0,2020.0,True,"May–Jul, Sep–Nov"
+ca_san_gabriel:00025,970.2,0.32,,dry,5,acid_plutonic,True,42,21,developed_open,drop,60.0,2009.0,True,May–Oct
+ca_san_gabriel:00026,1009.4,0.32,,dry,5,acid_plutonic,True,41,52,shrub,ok,38.0,2009.0,True,May–Oct
+ca_san_gabriel:00027,1114.9,0.32,,dry,5,acid_plutonic,True,32,52,shrub,ok,168.0,2009.0,True,May–Oct
+ca_san_gabriel:00028,1305.1,0.32,,dry,5,acid_plutonic,True,41,52,shrub,ok,182.0,2009.0,True,May–Oct
+ca_san_gabriel:00029,446.6,0.14,,dry,5,acid_plutonic,True,42,95,herb_wetland,ok,137.0,2020.0,True,May–Oct
+ca_san_gabriel:00030,439.7,0.14,,dry,5,acid_plutonic,True,42,95,herb_wetland,ok,151.0,2020.0,True,May–Oct
+ca_san_gabriel:00031,813.5,0.14,,dry,5,acid_plutonic,True,42,52,shrub,ok,3370.0,2012.0,True,May–Oct
+ca_san_gabriel:00032,754.0,0.14,,dry,5,acid_plutonic,True,42,90,woody_wetland,ok,2682.0,2002.0,True,May–Oct
+ca_san_gabriel:00033,360.2,0.32,,dry,19,,False,31,24,developed_high,drop,17.0,,True,"Apr–Jul, Sep–Oct"
+ca_san_gabriel:00034,349.0,0.32,,dry,19,,False,34,95,herb_wetland,ok,86.0,,True,"Apr–Jul, Sep–Oct"
+ca_san_gabriel:00035,368.9,0.32,,dry,5,acid_plutonic,True,41,52,shrub,ok,99.0,2020.0,True,May–Oct
+ca_san_gabriel:00036,425.0,0.32,,dry,5,acid_plutonic,True,42,71,grassland,ok,309.0,2020.0,True,May–Oct
+ca_san_gabriel:00037,851.5,0.32,,dry,5,acid_plutonic,True,41,52,shrub,ok,122.0,2009.0,True,"Apr–Jul, Sep–Oct"
+ca_san_gabriel:00038,774.7,0.32,,dry,5,acid_plutonic,True,41,71,grassland,ok,84.0,2009.0,True,May–Oct
+ca_san_gabriel:00039,1176.5,0.32,,dry,5,acid_plutonic,True,42,52,shrub,ok,285.0,2009.0,True,May–Oct
+ca_san_gabriel:00040,1287.6,0.32,,dry,5,acid_plutonic,True,42,52,shrub,ok,80.0,2009.0,True,May–Oct
+ca_san_gabriel:00041,1188.6,0.32,,dry,5,acid_plutonic,True,41,52,shrub,ok,1778.0,2009.0,True,May–Oct
+ca_san_gabriel:00042,1107.5,0.32,,dry,5,acid_plutonic,True,42,52,shrub,ok,1618.0,2009.0,True,May–Oct
+ca_san_gabriel:00043,652.4,0.32,,dry,5,acid_plutonic,True,42,22,developed_low,drop,18.0,2017.0,True,May–Oct
+ca_san_gabriel:00044,610.4,0.32,,dry,5,acid_plutonic,True,42,52,shrub,ok,387.0,2017.0,True,May–Oct
+ca_san_gabriel:00045,1244.8,0.14,,dry,5,acid_plutonic,True,42,52,shrub,ok,2808.0,1997.0,True,May–Oct
+ca_san_gabriel:00046,1154.4,0.14,,dry,5,acid_plutonic,True,41,52,shrub,ok,3661.0,1997.0,True,May–Oct
+ca_san_gabriel:00047,1149.5,0.32,,dry,5,acid_plutonic,True,42,71,grassland,ok,24.0,2016.0,True,May–Oct
+ca_san_gabriel:00048,1118.9,0.32,,dry,5,acid_plutonic,True,42,52,shrub,ok,57.0,2016.0,True,May–Oct
+ca_san_gabriel:00049,757.0,0.14,,dry,5,acid_plutonic,True,41,22,developed_low,drop,9.0,2003.0,True,May–Oct
+ca_san_gabriel:00050,719.5,0.14,,dry,5,acid_plutonic,True,41,52,shrub,ok,102.0,2003.0,True,May–Oct
+ca_san_gabriel:00051,459.7,0.14,,dry,5,acid_plutonic,True,42,22,developed_low,drop,27.0,2012.0,True,May–Oct
+ca_san_gabriel:00052,479.2,0.14,,dry,5,acid_plutonic,True,42,90,woody_wetland,ok,81.0,2012.0,True,May–Oct
+ca_san_gabriel:00053,741.3,0.32,,dry,5,acid_plutonic,True,41,52,shrub,ok,52.0,2016.0,True,May–Oct
+ca_san_gabriel:00054,763.9,0.32,,dry,5,acid_plutonic,True,41,90,woody_wetland,ok,208.0,2009.0,True,May–Oct
+ca_san_gabriel:00055,461.3,0.32,,dry,3,non_carb_sed,False,41,22,developed_low,drop,57.0,2019.0,True,"Apr–Jul, Sep–Oct"
+ca_san_gabriel:00056,422.1,0.32,,dry,3,non_carb_sed,False,34,31,barren,ok,136.0,2004.0,True,"Apr–Jul, Sep–Oct"
+ca_san_gabriel:00057,704.0,0.32,,dry,5,acid_plutonic,True,41,52,shrub,ok,42.0,2009.0,True,May–Oct
+ca_san_gabriel:00058,411.6,0.32,,dry,19,,False,31,21,developed_open,drop,1.0,2009.0,True,May–Oct
+ca_san_gabriel:00059,622.3,0.32,,dry,3,non_carb_sed,False,42,22,developed_low,drop,15.0,2019.0,True,"Apr–Jul, Sep–Oct"
+ca_san_gabriel:00060,582.6,0.32,,dry,3,non_carb_sed,False,42,71,grassland,ok,35.0,2019.0,True,"Apr–Jul, Sep–Oct"
+ca_san_gabriel:00061,504.0,0.32,,dry,3,non_carb_sed,False,41,21,developed_open,drop,71.0,2019.0,True,May–Oct
+ca_san_gabriel:00062,508.2,0.32,,dry,3,non_carb_sed,False,41,31,barren,ok,163.0,2020.0,True,May–Oct
+ca_san_gabriel:00063,394.7,0.32,,dry,19,,False,41,22,developed_low,drop,14.0,,True,"Apr–Jul, Sep–Oct"
+ca_san_gabriel:00064,418.3,0.32,,dry,19,,False,41,22,developed_low,drop,121.0,2008.0,True,"Apr–Jul, Sep–Oct"
+ca_san_gabriel:00065,1149.8,0.32,,dry,5,acid_plutonic,True,41,52,shrub,ok,2079.0,2009.0,True,May–Oct
+ca_san_gabriel:00066,1561.8,0.32,,dry,5,acid_plutonic,True,31,52,shrub,ok,635.0,2009.0,True,May–Oct
+ca_san_gabriel:00067,443.4,0.32,,dry,3,non_carb_sed,False,42,52,shrub,ok,14.0,2007.0,True,"Apr–Jul, Sep–Oct"
+ca_san_gabriel:00068,458.1,0.32,,dry,3,non_carb_sed,False,41,52,shrub,ok,17.0,2007.0,True,"Apr–Jul, Sep–Oct"
+ca_san_gabriel:00069,660.1,0.32,,dry,5,acid_plutonic,True,41,71,grassland,ok,100.0,2016.0,True,May–Oct
+ca_san_gabriel:00070,544.8,0.32,,dry,3,non_carb_sed,False,34,22,developed_low,drop,80.0,2016.0,True,May–Oct
+ca_san_gabriel:00071,1459.5,0.14,,dry,5,acid_plutonic,True,42,42,evergreen,ok,2401.0,1997.0,True,May–Oct
+ca_san_gabriel:00072,1410.5,0.14,,dry,5,acid_plutonic,True,41,43,mixed_forest,ok,2815.0,1997.0,True,May–Oct
+ca_san_gabriel:00073,538.3,0.32,,dry,3,non_carb_sed,False,41,52,shrub,ok,43.0,2019.0,True,"Apr–Jul, Sep–Oct"
+ca_san_gabriel:00074,577.9,0.32,,dry,3,non_carb_sed,False,31,52,shrub,ok,280.0,2019.0,True,"Apr–Jul, Sep–Oct"
+ca_san_gabriel:00075,1065.0,0.14,,dry,5,acid_plutonic,True,42,52,shrub,ok,4011.0,1997.0,True,May–Oct
+ca_san_gabriel:00076,937.2,0.14,,dry,5,acid_plutonic,True,42,52,shrub,ok,,2002.0,True,May–Oct
+ca_san_gabriel:00077,1217.3,0.14,,dry,3,non_carb_sed,False,41,52,shrub,ok,70.0,2020.0,True,"Apr–Jul, Sep–Oct"
+ca_san_gabriel:00078,1201.4,0.14,,dry,19,,False,41,95,herb_wetland,ok,104.0,2020.0,True,"Apr–Jul, Sep–Oct"
+ca_san_gabriel:00079,446.5,0.32,,dry,19,,False,41,71,grassland,ok,32.0,2016.0,True,"Apr–Jul, Sep–Oct"
+ca_san_gabriel:00080,493.8,0.32,,dry,19,,False,41,52,shrub,ok,216.0,2016.0,True,May–Oct
+ca_san_gabriel:00081,545.1,0.32,,dry,3,non_carb_sed,False,32,52,shrub,ok,1074.0,2020.0,True,May–Oct
+ca_san_gabriel:00082,490.0,0.32,,dry,3,non_carb_sed,False,41,95,herb_wetland,ok,260.0,2019.0,True,May–Oct
+ca_san_gabriel:00083,672.2,0.14,,dry,5,acid_plutonic,True,42,52,shrub,ok,1060.0,2012.0,True,May–Oct
+ca_san_gabriel:00084,733.7,0.14,,dry,5,acid_plutonic,True,42,52,shrub,ok,2336.0,2002.0,True,May–Oct
+ca_san_gabriel:00085,372.0,0.32,,dry,19,,False,34,71,grassland,ok,163.0,,True,"Apr–Jul, Sep–Oct"
+ca_san_gabriel:00086,367.0,0.32,,dry,19,,False,41,95,herb_wetland,ok,62.0,,True,"Apr–Jul, Sep–Oct"
+ca_san_gabriel:00087,717.6,0.32,,dry,3,non_carb_sed,False,15,52,shrub,ok,1598.0,2009.0,True,May–Oct
+ca_san_gabriel:00088,801.1,0.32,,dry,5,acid_plutonic,True,41,52,shrub,ok,854.0,2009.0,True,May–Oct
+ca_san_gabriel:00089,414.4,0.14,91.0,year_round,5,acid_plutonic,True,34,11,open_water,ok,246.0,2020.0,True,May–Oct
+ca_san_gabriel:00090,395.1,0.14,,dry,5,acid_plutonic,True,41,52,shrub,ok,51.0,2020.0,True,May–Oct
+ca_san_gabriel:00091,568.6,0.32,,dry,5,acid_plutonic,True,41,52,shrub,ok,368.0,2009.0,True,May–Oct
+ca_san_gabriel:00092,557.5,0.32,,dry,5,acid_plutonic,True,42,52,shrub,ok,581.0,2009.0,True,May–Oct
+ca_san_gabriel:00093,971.7,0.14,,dry,19,,False,31,52,shrub,ok,28.0,,True,"May–Jul, Sep–Nov"
+ca_san_gabriel:00094,909.5,0.14,,dry,19,,False,34,52,shrub,ok,182.0,,True,"May–Jul, Sep–Nov"
+ca_san_gabriel:00095,702.4,0.32,,dry,5,acid_plutonic,True,41,90,woody_wetland,ok,3.0,2016.0,True,May–Oct
+ca_san_gabriel:00096,679.7,0.32,,dry,5,acid_plutonic,True,42,90,woody_wetland,ok,81.0,2016.0,True,May–Oct
+ca_san_gabriel:00097,901.3,0.32,,dry,5,acid_plutonic,True,42,21,developed_open,drop,18.0,2016.0,True,May–Oct
+ca_san_gabriel:00098,822.6,0.32,,dry,5,acid_plutonic,True,42,71,grassland,ok,19.0,2016.0,True,May–Oct
+ca_san_gabriel:00099,733.5,0.32,,dry,5,acid_plutonic,True,42,71,grassland,ok,1068.0,2016.0,True,May–Oct
+ca_san_gabriel:00100,698.9,0.32,,dry,5,acid_plutonic,True,41,71,grassland,ok,668.0,2016.0,True,May–Oct
+ca_san_gabriel:00101,410.8,0.32,,dry,19,,False,42,22,developed_low,drop,93.0,2017.0,True,May–Oct
+ca_san_gabriel:00102,672.3,0.32,,dry,5,acid_plutonic,True,33,52,shrub,ok,792.0,2017.0,True,May–Oct
+ca_san_gabriel:00103,468.7,0.14,,dry,5,acid_plutonic,True,41,52,shrub,ok,34.0,2020.0,True,May–Oct
+ca_san_gabriel:00104,423.8,0.14,30.0,year_round,5,acid_plutonic,True,41,11,open_water,ok,159.0,2020.0,True,May–Oct
+ca_san_gabriel:00105,753.9,0.32,,dry,3,non_carb_sed,False,42,71,grassland,ok,37.0,2016.0,True,May–Oct
+ca_san_gabriel:00106,833.2,0.32,,dry,5,acid_plutonic,True,42,90,woody_wetland,ok,39.0,2016.0,True,May–Oct

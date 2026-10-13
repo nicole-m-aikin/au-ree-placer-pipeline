@@ -1,0 +1,157 @@
+pin_id,elev10_m,slope10_deg,water_pct,water_regime,lith_code,lith_name,lith_favor,landform_code,nlcd,nlcd_name,land_filter,road_m,fire_year,has_lidar_1m,best_months
+ca_kern_river:00001,1227.0,0.61,,dry,5,acid_plutonic,True,32,52,shrub,ok,209.0,2010.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00002,963.8,0.61,,dry,5,acid_plutonic,True,41,52,shrub,ok,97.0,2010.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00003,1633.9,0.61,,dry,5,acid_plutonic,True,41,42,evergreen,ok,1144.0,2008.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00004,1419.8,0.61,,dry,5,acid_plutonic,True,41,42,evergreen,ok,1112.0,2008.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00005,1989.4,0.61,,dry,5,acid_plutonic,True,31,42,evergreen,ok,106.0,2008.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00006,1902.2,0.61,,dry,5,acid_plutonic,True,41,42,evergreen,ok,63.0,2008.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00007,743.1,0.61,,dry,5,acid_plutonic,True,41,52,shrub,ok,238.0,2002.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00008,731.2,0.61,,dry,19,,False,41,22,developed_low,drop,5.0,2002.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00009,563.5,0.61,,dry,5,acid_plutonic,True,42,52,shrub,ok,47.0,1994.0,True,"Apr, Jun–Oct"
+ca_kern_river:00010,530.5,0.61,,dry,5,acid_plutonic,True,42,52,shrub,ok,39.0,1994.0,True,May–Oct
+ca_kern_river:00011,780.3,0.61,37.0,year_round,0,,False,34,11,open_water,ok,495.0,2014.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00012,860.1,0.61,,dry,5,acid_plutonic,True,32,52,shrub,ok,52.0,2014.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00013,1501.3,0.61,,dry,5,acid_plutonic,True,31,52,shrub,ok,1177.0,,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00014,1322.1,0.61,,dry,5,acid_plutonic,True,31,52,shrub,ok,251.0,,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00015,846.5,0.61,,dry,5,acid_plutonic,True,41,71,grassland,ok,577.0,2011.0,True,May–Oct
+ca_kern_river:00016,770.8,0.61,,dry,5,acid_plutonic,True,41,71,grassland,ok,35.0,2011.0,True,May–Oct
+ca_kern_river:00017,1068.2,0.61,,dry,5,acid_plutonic,True,42,52,shrub,ok,34.0,2016.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00018,1192.8,0.61,,dry,5,acid_plutonic,True,42,52,shrub,ok,80.0,1984.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00019,1254.4,0.61,,dry,5,acid_plutonic,True,31,52,shrub,ok,276.0,2017.0,True,May–Oct
+ca_kern_river:00020,1059.0,0.61,,dry,5,acid_plutonic,True,32,52,shrub,ok,567.0,2017.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00021,1314.8,0.61,,dry,5,acid_plutonic,True,41,42,evergreen,ok,41.0,2008.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00022,1301.5,0.61,,dry,5,acid_plutonic,True,41,52,shrub,ok,20.0,2008.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00023,901.7,0.61,,dry,5,acid_plutonic,True,41,52,shrub,ok,319.0,2010.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00024,932.5,0.61,,dry,5,acid_plutonic,True,41,52,shrub,ok,85.0,2010.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00025,254.4,0.61,,dry,5,acid_plutonic,True,42,52,shrub,ok,367.0,2005.0,True,May–Oct
+ca_kern_river:00026,377.9,0.61,,dry,5,acid_plutonic,True,31,71,grassland,ok,74.0,2005.0,True,May–Oct
+ca_kern_river:00027,1026.2,0.61,,dry,19,,False,34,71,grassland,ok,276.0,2011.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00028,1063.7,0.61,,dry,19,,False,31,52,shrub,ok,30.0,2020.0,True,May–Oct
+ca_kern_river:00029,513.1,0.61,,dry,5,acid_plutonic,True,41,52,shrub,ok,563.0,,True,May–Oct
+ca_kern_river:00030,446.8,0.61,,dry,5,acid_plutonic,True,42,71,grassland,ok,719.0,,True,May–Oct
+ca_kern_river:00031,750.3,0.61,,dry,5,acid_plutonic,True,41,22,developed_low,drop,12.0,2016.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00032,778.3,0.61,66.0,year_round,0,,False,41,52,shrub,ok,146.0,2021.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00033,744.0,0.61,,dry,5,acid_plutonic,True,42,52,shrub,ok,141.0,2002.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00034,792.4,0.61,,dry,5,acid_plutonic,True,41,52,shrub,ok,126.0,2002.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00035,1939.5,0.61,,dry,5,acid_plutonic,True,31,42,evergreen,ok,355.0,2008.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00036,2001.9,0.61,,dry,5,acid_plutonic,True,31,52,shrub,ok,83.0,2008.0,True,"May–Jul, Sep–Oct"
+ca_kern_river:00037,882.3,0.61,,dry,5,acid_plutonic,True,42,52,shrub,ok,125.0,2010.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00038,804.9,0.61,,dry,5,acid_plutonic,True,42,52,shrub,ok,37.0,2010.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00039,1007.5,0.61,,dry,5,acid_plutonic,True,42,52,shrub,ok,41.0,2016.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00040,975.9,0.61,,dry,5,acid_plutonic,True,42,52,shrub,ok,13.0,2016.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00041,1150.7,0.61,,dry,5,acid_plutonic,True,42,52,shrub,ok,828.0,2021.0,True,May–Oct
+ca_kern_river:00042,1076.7,0.61,,dry,5,acid_plutonic,True,41,43,mixed_forest,ok,239.0,2021.0,True,May–Oct
+ca_kern_river:00043,293.7,0.61,,dry,3,non_carb_sed,False,42,71,grassland,ok,61.0,,True,May–Oct
+ca_kern_river:00044,316.3,0.61,,dry,3,non_carb_sed,False,42,71,grassland,ok,45.0,,True,May–Oct
+ca_kern_river:00045,941.8,0.61,,dry,5,acid_plutonic,True,41,52,shrub,ok,24.0,,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00046,915.7,0.61,,dry,5,acid_plutonic,True,41,52,shrub,ok,25.0,,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00047,1383.6,0.61,,dry,5,acid_plutonic,True,41,42,evergreen,ok,626.0,2008.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00048,1542.0,0.61,,dry,5,acid_plutonic,True,42,42,evergreen,ok,845.0,2008.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00049,642.8,0.61,,dry,5,acid_plutonic,True,42,52,shrub,ok,142.0,2010.0,True,May–Oct
+ca_kern_river:00050,639.2,0.61,,dry,5,acid_plutonic,True,42,52,shrub,ok,205.0,2010.0,True,May–Oct
+ca_kern_river:00051,1199.2,0.61,,dry,19,,False,41,52,shrub,ok,176.0,2016.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00052,1183.0,0.61,,dry,19,,False,41,52,shrub,ok,248.0,2016.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00053,506.1,0.61,,dry,5,acid_plutonic,True,41,52,shrub,ok,139.0,2011.0,True,May–Oct
+ca_kern_river:00054,452.0,0.61,,dry,5,acid_plutonic,True,41,71,grassland,ok,115.0,2011.0,True,May–Oct
+ca_kern_river:00055,148.4,0.61,,dry,19,,False,41,71,grassland,ok,161.0,1997.0,True,May–Oct
+ca_kern_river:00056,145.7,0.61,,dry,19,,False,41,95,herb_wetland,ok,78.0,1997.0,True,May–Oct
+ca_kern_river:00057,466.4,0.61,,dry,5,acid_plutonic,True,42,52,shrub,ok,1235.0,2005.0,True,May–Oct
+ca_kern_river:00058,417.7,0.61,,dry,5,acid_plutonic,True,42,71,grassland,ok,1797.0,2005.0,True,May–Oct
+ca_kern_river:00059,856.7,0.61,,dry,5,acid_plutonic,True,42,52,shrub,ok,48.0,2010.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00060,956.2,0.61,,dry,5,acid_plutonic,True,41,43,mixed_forest,ok,725.0,2010.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00061,252.8,0.61,,dry,5,acid_plutonic,True,42,71,grassland,ok,15.0,,True,May–Oct
+ca_kern_river:00062,252.2,0.61,,dry,5,acid_plutonic,True,42,71,grassland,ok,20.0,,True,May–Oct
+ca_kern_river:00063,1448.8,0.61,,dry,5,acid_plutonic,True,41,52,shrub,ok,338.0,2017.0,True,May–Oct
+ca_kern_river:00064,1517.6,0.61,,dry,5,acid_plutonic,True,31,52,shrub,ok,87.0,2017.0,True,May–Oct
+ca_kern_river:00065,1414.9,0.61,,dry,5,acid_plutonic,True,41,52,shrub,ok,84.0,,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00066,1676.1,0.61,,dry,5,acid_plutonic,True,41,42,evergreen,ok,962.0,2006.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00067,1713.8,0.61,,dry,5,acid_plutonic,True,41,52,shrub,ok,2525.0,2016.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00068,1697.2,0.61,,dry,5,acid_plutonic,True,31,52,shrub,ok,2102.0,2016.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00069,1544.9,0.61,,dry,5,acid_plutonic,True,42,42,evergreen,ok,1200.0,2012.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00070,1382.3,0.61,,dry,5,acid_plutonic,True,42,42,evergreen,ok,1460.0,2012.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00071,678.1,0.61,,dry,5,acid_plutonic,True,42,11,open_water,ok,220.0,2017.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00072,682.2,0.61,,dry,5,acid_plutonic,True,42,52,shrub,ok,99.0,2017.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00073,1267.0,0.61,,dry,5,acid_plutonic,True,42,52,shrub,ok,275.0,2016.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00074,1473.8,0.61,,dry,5,acid_plutonic,True,42,52,shrub,ok,279.0,2016.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00075,830.7,0.61,,dry,5,acid_plutonic,True,31,71,grassland,ok,86.0,2016.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00076,956.5,0.61,,dry,5,acid_plutonic,True,32,71,grassland,ok,21.0,2016.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00077,556.2,0.61,,dry,5,acid_plutonic,True,42,52,shrub,ok,486.0,2005.0,True,May–Oct
+ca_kern_river:00078,360.4,0.61,,dry,5,acid_plutonic,True,42,52,shrub,ok,1344.0,2005.0,True,May–Oct
+ca_kern_river:00079,720.5,0.61,,dry,5,acid_plutonic,True,42,52,shrub,ok,163.0,2010.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00080,704.7,0.61,,dry,5,acid_plutonic,True,42,11,open_water,ok,138.0,2010.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00081,429.9,0.61,,dry,5,acid_plutonic,True,31,71,grassland,ok,691.0,,True,May–Oct
+ca_kern_river:00082,451.0,0.61,,dry,5,acid_plutonic,True,41,71,grassland,ok,479.0,,True,May–Oct
+ca_kern_river:00083,1385.2,0.61,,dry,5,acid_plutonic,True,31,52,shrub,ok,141.0,,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00084,1412.0,0.61,,dry,5,acid_plutonic,True,31,52,shrub,ok,42.0,,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00085,1225.4,0.61,,dry,5,acid_plutonic,True,32,71,grassland,ok,330.0,2021.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00086,1086.1,0.61,,dry,5,acid_plutonic,True,31,52,shrub,ok,125.0,2021.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00087,777.2,0.61,28.0,year_round,0,,False,41,95,herb_wetland,ok,155.0,2005.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00088,811.0,0.61,,dry,5,acid_plutonic,True,31,52,shrub,ok,66.0,2005.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00089,429.3,0.61,,dry,5,acid_plutonic,True,42,52,shrub,ok,621.0,2011.0,True,May–Oct
+ca_kern_river:00090,364.2,0.61,,dry,5,acid_plutonic,True,42,71,grassland,ok,699.0,2011.0,True,May–Oct
+ca_kern_river:00091,658.3,0.61,,dry,5,acid_plutonic,True,41,71,grassland,ok,53.0,,True,May–Oct
+ca_kern_river:00092,611.6,0.61,,dry,5,acid_plutonic,True,41,71,grassland,ok,112.0,,True,May–Oct
+ca_kern_river:00093,150.9,0.61,,dry,19,,False,42,71,grassland,ok,127.0,1997.0,True,May–Oct
+ca_kern_river:00094,204.2,0.61,,dry,19,,False,31,71,grassland,ok,78.0,1997.0,True,May–Oct
+ca_kern_river:00095,1149.5,0.61,,dry,5,acid_plutonic,True,32,52,shrub,ok,62.0,2021.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00096,1330.6,0.61,,dry,5,acid_plutonic,True,41,71,grassland,ok,41.0,2021.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00097,1137.6,0.61,,dry,5,acid_plutonic,True,31,52,shrub,ok,163.0,2000.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00098,1305.7,0.61,,dry,5,acid_plutonic,True,41,52,shrub,ok,562.0,2020.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00099,771.6,0.61,95.0,year_round,0,,False,34,11,open_water,ok,1095.0,2016.0,True,"Apr, Aug–Sep"
+ca_kern_river:00100,775.2,0.61,80.0,year_round,0,,False,34,11,open_water,ok,1480.0,2016.0,True,"Sep, Dec"
+ca_kern_river:00101,381.8,0.61,,dry,5,acid_plutonic,True,41,21,developed_open,drop,35.0,,True,May–Oct
+ca_kern_river:00102,350.2,0.61,,dry,5,acid_plutonic,True,41,71,grassland,ok,3.0,,True,May–Oct
+ca_kern_river:00103,1380.7,0.61,,dry,5,acid_plutonic,True,31,52,shrub,ok,184.0,2021.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00104,1509.5,0.61,,dry,5,acid_plutonic,True,31,52,shrub,ok,35.0,2021.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00105,1178.9,0.61,,dry,19,,False,42,52,shrub,ok,102.0,,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00106,1161.7,0.61,,dry,5,acid_plutonic,True,42,95,herb_wetland,ok,246.0,2012.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00107,684.1,0.61,,dry,5,acid_plutonic,True,42,42,evergreen,ok,1803.0,2011.0,True,May–Oct
+ca_kern_river:00108,952.0,0.61,,dry,5,acid_plutonic,True,32,52,shrub,ok,990.0,2011.0,True,May–Oct
+ca_kern_river:00109,438.3,0.61,,dry,5,acid_plutonic,True,41,71,grassland,ok,476.0,,True,May–Oct
+ca_kern_river:00110,416.1,0.61,,dry,5,acid_plutonic,True,41,71,grassland,ok,119.0,2011.0,True,May–Oct
+ca_kern_river:00111,1263.5,0.61,,dry,5,acid_plutonic,True,41,52,shrub,ok,772.0,2012.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00112,1234.1,0.61,,dry,5,acid_plutonic,True,41,42,evergreen,ok,168.0,2012.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00113,367.3,0.61,,dry,3,non_carb_sed,False,41,71,grassland,ok,703.0,,True,May–Oct
+ca_kern_river:00114,480.5,0.61,,dry,3,non_carb_sed,False,31,71,grassland,ok,240.0,2005.0,True,May–Oct
+ca_kern_river:00115,1185.2,0.61,,dry,5,acid_plutonic,True,31,52,shrub,ok,458.0,2017.0,True,May–Oct
+ca_kern_river:00116,704.4,0.61,,dry,5,acid_plutonic,True,41,52,shrub,ok,13.0,2017.0,True,May–Oct
+ca_kern_river:00117,1374.0,0.61,,dry,5,acid_plutonic,True,42,52,shrub,ok,1518.0,2016.0,True,May–Oct
+ca_kern_river:00118,1315.0,0.61,,dry,5,acid_plutonic,True,42,42,evergreen,ok,1562.0,2016.0,True,May–Oct
+ca_kern_river:00119,149.5,0.41,88.0,year_round,19,,False,34,11,open_water,ok,274.0,2017.0,True,May–Oct
+ca_kern_river:00120,161.0,0.41,,dry,19,,False,41,71,grassland,ok,32.0,2017.0,True,May–Oct
+ca_kern_river:00121,158.2,0.41,,dry,19,,False,34,23,developed_med,drop,54.0,,True,May–Oct
+ca_kern_river:00122,159.5,0.41,,dry,19,,False,34,82,cropland,drop,53.0,,True,May–Oct
+ca_kern_river:00123,136.7,0.61,,dry,19,,False,41,11,open_water,ok,79.0,1996.0,True,May–Oct
+ca_kern_river:00124,145.7,0.61,,dry,19,,False,41,23,developed_med,drop,10.0,1996.0,True,May–Oct
+ca_kern_river:00125,752.0,0.61,,dry,5,acid_plutonic,True,41,52,shrub,ok,55.0,2016.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00126,761.3,0.61,98.0,year_round,0,,False,34,11,open_water,ok,764.0,2016.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00127,1304.0,0.61,,dry,19,,False,41,52,shrub,ok,432.0,2006.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00128,1281.7,0.61,,dry,19,,False,41,52,shrub,ok,303.0,2006.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00129,326.3,0.61,,dry,5,acid_plutonic,True,42,21,developed_open,drop,17.0,,True,May–Oct
+ca_kern_river:00130,350.6,0.61,,dry,5,acid_plutonic,True,41,21,developed_open,drop,8.0,,True,May–Oct
+ca_kern_river:00131,364.0,0.61,,dry,5,acid_plutonic,True,42,22,developed_low,drop,15.0,2011.0,True,May–Oct
+ca_kern_river:00132,379.9,0.61,,dry,5,acid_plutonic,True,42,52,shrub,ok,60.0,2011.0,True,May–Oct
+ca_kern_river:00133,1341.4,0.61,,dry,5,acid_plutonic,True,31,52,shrub,ok,73.0,,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00134,1300.5,0.61,,dry,5,acid_plutonic,True,41,52,shrub,ok,100.0,,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00135,510.5,0.61,,dry,5,acid_plutonic,True,31,71,grassland,ok,288.0,,True,May–Oct
+ca_kern_river:00136,560.8,0.61,,dry,5,acid_plutonic,True,41,71,grassland,ok,28.0,,True,May–Oct
+ca_kern_river:00137,1876.0,0.61,,dry,5,acid_plutonic,True,15,52,shrub,ok,589.0,2008.0,True,"May–Jul, Sep–Oct"
+ca_kern_river:00138,1997.6,0.61,,dry,5,acid_plutonic,True,41,52,shrub,ok,593.0,2008.0,True,"Jun–Jul, Sep–Oct"
+ca_kern_river:00139,1027.9,0.61,,dry,5,acid_plutonic,True,41,52,shrub,ok,90.0,,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00140,1197.4,0.61,,dry,5,acid_plutonic,True,41,42,evergreen,ok,793.0,,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00141,1911.5,0.61,,dry,5,acid_plutonic,True,41,42,evergreen,ok,621.0,2008.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00142,1878.8,0.61,,dry,5,acid_plutonic,True,41,52,shrub,ok,357.0,2008.0,True,"Apr–Jul, Sep–Oct"
+ca_kern_river:00143,244.0,0.61,,dry,5,acid_plutonic,True,41,71,grassland,ok,690.0,2002.0,True,May–Oct
+ca_kern_river:00144,214.4,0.61,,dry,5,acid_plutonic,True,41,71,grassland,ok,286.0,,True,May–Oct
+ca_kern_river:00145,199.6,0.41,,dry,0,,False,41,90,woody_wetland,ok,452.0,,True,May–Oct
+ca_kern_river:00146,244.5,0.41,,dry,0,,False,21,71,grassland,ok,311.0,2006.0,True,May–Oct
+ca_kern_river:00147,257.4,0.61,,dry,5,acid_plutonic,True,42,71,grassland,ok,503.0,,True,May–Oct
+ca_kern_river:00148,269.7,0.61,,dry,5,acid_plutonic,True,42,71,grassland,ok,9.0,,True,May–Oct
+ca_kern_river:00149,1431.3,0.61,,dry,5,acid_plutonic,True,42,71,grassland,ok,251.0,2021.0,True,May–Oct
+ca_kern_river:00150,1511.7,0.61,,dry,5,acid_plutonic,True,41,71,grassland,ok,326.0,2021.0,True,May–Oct
+ca_kern_river:00151,454.4,0.41,,dry,5,acid_plutonic,True,41,71,grassland,ok,432.0,2017.0,True,May–Oct
+ca_kern_river:00152,393.4,0.41,,dry,5,acid_plutonic,True,42,52,shrub,ok,107.0,2017.0,True,May–Oct
+ca_kern_river:00153,372.4,0.61,,dry,5,acid_plutonic,True,41,71,grassland,ok,237.0,,True,May–Oct
+ca_kern_river:00154,345.3,0.61,,dry,5,acid_plutonic,True,42,71,grassland,ok,53.0,,True,May–Oct
+ca_kern_river:00155,980.6,0.61,,dry,5,acid_plutonic,True,41,52,shrub,ok,50.0,2007.0,True,May–Oct
+ca_kern_river:00156,971.5,0.61,,dry,5,acid_plutonic,True,41,22,developed_low,drop,28.0,2010.0,True,May–Oct

@@ -1,0 +1,452 @@
+pin_id,elev10_m,slope10_deg,water_pct,water_regime,lith_code,lith_name,lith_favor,landform_code,nlcd,nlcd_name,land_filter,road_m,fire_year,has_lidar_1m,best_months
+ca_trinity_shasta:00001,901.0,0.45,,dry,5,acid_plutonic,True,42,21,developed_open,drop,31.0,2014.0,True,May–Oct
+ca_trinity_shasta:00002,753.9,0.45,,dry,5,acid_plutonic,True,42,21,developed_open,drop,18.0,2014.0,True,May–Oct
+ca_trinity_shasta:00003,605.8,0.34,,dry,1,unconsolidated,False,42,42,evergreen,ok,7.0,2018.0,True,May–Oct
+ca_trinity_shasta:00004,748.4,0.34,,dry,1,unconsolidated,False,42,52,shrub,ok,52.0,2018.0,True,May–Oct
+ca_trinity_shasta:00005,622.1,0.45,,dry,5,acid_plutonic,True,41,42,evergreen,ok,48.0,2021.0,True,May–Oct
+ca_trinity_shasta:00006,772.2,0.45,,dry,5,acid_plutonic,True,31,42,evergreen,ok,212.0,2017.0,True,May–Oct
+ca_trinity_shasta:00007,535.1,0.34,,dry,1,unconsolidated,False,42,21,developed_open,drop,21.0,2018.0,True,May–Oct
+ca_trinity_shasta:00008,591.4,0.34,,dry,1,unconsolidated,False,42,21,developed_open,drop,31.0,2018.0,True,May–Oct
+ca_trinity_shasta:00009,774.2,0.38,,dry,5,acid_plutonic,True,42,42,evergreen,ok,101.0,2022.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00010,807.6,0.38,,dry,5,acid_plutonic,True,42,42,evergreen,ok,110.0,2022.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00011,892.3,0.38,,dry,5,acid_plutonic,True,41,52,shrub,ok,23.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00012,874.6,0.38,,dry,5,acid_plutonic,True,41,52,shrub,ok,50.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00013,669.2,0.34,,dry,3,non_carb_sed,False,41,52,shrub,ok,139.0,2006.0,True,May–Oct
+ca_trinity_shasta:00014,618.7,0.34,,dry,3,non_carb_sed,False,41,52,shrub,ok,158.0,2001.0,True,May–Oct
+ca_trinity_shasta:00015,210.4,0.34,,dry,5,acid_plutonic,True,41,71,grassland,ok,148.0,2018.0,True,May–Oct
+ca_trinity_shasta:00016,150.6,0.34,63.0,year_round,5,acid_plutonic,True,42,11,open_water,ok,211.0,2018.0,True,May–Oct
+ca_trinity_shasta:00017,1090.0,0.38,,dry,5,acid_plutonic,True,42,90,woody_wetland,ok,27.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00018,1068.2,0.38,,dry,5,acid_plutonic,True,42,42,evergreen,ok,12.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00019,1074.6,0.38,,dry,5,acid_plutonic,True,41,52,shrub,ok,629.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00020,1063.1,0.38,,dry,5,acid_plutonic,True,42,42,evergreen,ok,285.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00021,509.7,0.45,,dry,5,acid_plutonic,True,42,42,evergreen,ok,55.0,2016.0,True,May–Oct
+ca_trinity_shasta:00022,521.9,0.45,,dry,5,acid_plutonic,True,41,52,shrub,ok,118.0,2016.0,True,May–Oct
+ca_trinity_shasta:00023,777.3,0.38,,dry,1,unconsolidated,False,41,90,woody_wetland,ok,105.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00024,801.9,0.38,,dry,5,acid_plutonic,True,34,22,developed_low,drop,13.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00025,584.0,0.45,,dry,5,acid_plutonic,True,42,42,evergreen,ok,219.0,2021.0,True,Jun–Oct
+ca_trinity_shasta:00026,555.0,0.45,,dry,5,acid_plutonic,True,42,42,evergreen,ok,168.0,2021.0,True,May–Oct
+ca_trinity_shasta:00027,563.5,0.38,,dry,5,acid_plutonic,True,42,90,woody_wetland,ok,55.0,2022.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00028,556.8,0.38,,dry,5,acid_plutonic,True,42,11,open_water,ok,43.0,2022.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00029,262.3,0.34,,dry,5,acid_plutonic,True,41,52,shrub,ok,36.0,2018.0,True,May–Oct
+ca_trinity_shasta:00030,252.4,0.34,,dry,5,acid_plutonic,True,41,21,developed_open,drop,21.0,2018.0,True,May–Oct
+ca_trinity_shasta:00031,353.0,0.34,,dry,5,acid_plutonic,True,41,71,grassland,ok,84.0,2020.0,True,May–Oct
+ca_trinity_shasta:00032,336.6,0.34,,dry,5,acid_plutonic,True,41,21,developed_open,drop,13.0,2020.0,True,May–Oct
+ca_trinity_shasta:00033,943.0,0.38,,dry,5,acid_plutonic,True,42,21,developed_open,drop,8.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00034,901.1,0.38,,dry,5,acid_plutonic,True,41,31,barren,ok,82.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00035,565.2,0.45,,dry,1,unconsolidated,False,42,42,evergreen,ok,209.0,2020.0,True,May–Oct
+ca_trinity_shasta:00036,463.9,0.45,,dry,1,unconsolidated,False,42,42,evergreen,ok,39.0,2020.0,True,May–Oct
+ca_trinity_shasta:00037,590.6,0.34,,dry,3,non_carb_sed,False,41,52,shrub,ok,163.0,2001.0,True,May–Oct
+ca_trinity_shasta:00038,659.3,0.34,,dry,3,non_carb_sed,False,41,42,evergreen,ok,97.0,2006.0,True,May–Oct
+ca_trinity_shasta:00039,565.7,0.45,,dry,5,acid_plutonic,True,32,42,evergreen,ok,176.0,2023.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00040,504.4,0.45,,dry,5,acid_plutonic,True,42,52,shrub,ok,92.0,2023.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00041,507.8,0.45,,dry,5,acid_plutonic,True,41,71,grassland,ok,233.0,2023.0,True,May–Oct
+ca_trinity_shasta:00042,457.9,0.45,,dry,5,acid_plutonic,True,42,42,evergreen,ok,155.0,2023.0,True,May–Oct
+ca_trinity_shasta:00043,933.2,0.38,,dry,5,acid_plutonic,True,42,52,shrub,ok,88.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00044,954.0,0.38,,dry,5,acid_plutonic,True,42,52,shrub,ok,46.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00045,568.0,0.38,,dry,1,unconsolidated,False,42,90,woody_wetland,ok,88.0,2007.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00046,579.3,0.38,,dry,1,unconsolidated,False,42,52,shrub,ok,81.0,2019.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00047,326.2,0.45,,dry,1,unconsolidated,False,41,11,open_water,ok,133.0,2020.0,True,May–Oct
+ca_trinity_shasta:00048,324.6,0.45,,dry,1,unconsolidated,False,41,90,woody_wetland,ok,110.0,2020.0,True,May–Oct
+ca_trinity_shasta:00049,622.4,0.38,,dry,5,acid_plutonic,True,42,42,evergreen,ok,71.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00050,622.9,0.38,,dry,5,acid_plutonic,True,42,24,developed_high,drop,4.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00051,355.9,0.45,,dry,1,unconsolidated,False,42,52,shrub,ok,193.0,2013.0,True,May–Oct
+ca_trinity_shasta:00052,357.1,0.45,,dry,1,unconsolidated,False,42,42,evergreen,ok,186.0,2013.0,True,May–Oct
+ca_trinity_shasta:00053,366.5,0.34,95.0,year_round,0,,False,41,11,open_water,ok,60.0,2018.0,True,May–Oct
+ca_trinity_shasta:00054,1039.1,0.38,,dry,1,unconsolidated,False,41,52,shrub,ok,95.0,2021.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00055,1052.1,0.38,,dry,1,unconsolidated,False,41,42,evergreen,ok,102.0,2021.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00056,410.1,0.45,25.0,year_round,5,acid_plutonic,True,41,11,open_water,ok,252.0,2022.0,True,May–Oct
+ca_trinity_shasta:00057,412.0,0.45,30.0,year_round,5,acid_plutonic,True,41,90,woody_wetland,ok,87.0,2022.0,True,May–Oct
+ca_trinity_shasta:00058,881.0,0.38,,dry,5,acid_plutonic,True,42,42,evergreen,ok,10.0,2022.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00059,828.4,0.38,,dry,5,acid_plutonic,True,42,42,evergreen,ok,35.0,2022.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00060,502.1,0.38,,dry,5,acid_plutonic,True,42,95,herb_wetland,ok,65.0,2022.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00061,503.8,0.38,24.0,seasonal,5,acid_plutonic,True,42,21,developed_open,drop,12.0,2022.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00062,958.2,0.38,,dry,5,acid_plutonic,True,42,42,evergreen,ok,49.0,2014.0,True,Apr–Sep
+ca_trinity_shasta:00063,887.0,0.38,,dry,5,acid_plutonic,True,41,42,evergreen,ok,33.0,2014.0,True,Apr–Sep
+ca_trinity_shasta:00064,270.5,0.45,,dry,5,acid_plutonic,True,42,42,evergreen,ok,34.0,2023.0,True,May–Oct
+ca_trinity_shasta:00065,310.6,0.45,,dry,1,unconsolidated,False,42,52,shrub,ok,94.0,2013.0,True,May–Oct
+ca_trinity_shasta:00066,1035.3,0.38,,dry,5,acid_plutonic,True,42,21,developed_open,drop,2.0,2022.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00067,994.2,0.38,,dry,5,acid_plutonic,True,42,21,developed_open,drop,15.0,2022.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00068,724.4,0.38,,dry,1,unconsolidated,False,41,23,developed_med,drop,90.0,,True,May–Oct
+ca_trinity_shasta:00069,721.4,0.38,,dry,0,,False,41,23,developed_med,drop,48.0,,True,Jun–Oct
+ca_trinity_shasta:00070,387.8,0.45,1.0,seasonal,1,unconsolidated,False,42,90,woody_wetland,ok,26.0,2022.0,True,May–Oct
+ca_trinity_shasta:00071,389.7,0.45,23.0,seasonal,1,unconsolidated,False,42,11,open_water,ok,145.0,2022.0,True,May–Oct
+ca_trinity_shasta:00072,435.5,0.08,,dry,5,acid_plutonic,True,41,71,grassland,ok,133.0,2021.0,True,May–Oct
+ca_trinity_shasta:00073,431.3,0.08,,dry,5,acid_plutonic,True,41,90,woody_wetland,ok,144.0,2021.0,True,May–Oct
+ca_trinity_shasta:00074,411.1,0.45,,dry,1,unconsolidated,False,41,42,evergreen,ok,101.0,2020.0,True,May–Oct
+ca_trinity_shasta:00075,386.1,0.45,,dry,1,unconsolidated,False,41,42,evergreen,ok,28.0,2020.0,False,May–Oct
+ca_trinity_shasta:00076,142.9,0.34,,dry,19,,False,41,71,grassland,ok,401.0,,True,May–Oct
+ca_trinity_shasta:00077,138.6,0.34,,dry,19,,False,41,90,woody_wetland,ok,164.0,1999.0,True,May–Oct
+ca_trinity_shasta:00078,630.3,0.38,,dry,5,acid_plutonic,True,42,22,developed_low,drop,15.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00079,655.7,0.38,,dry,5,acid_plutonic,True,42,52,shrub,ok,93.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00080,788.7,0.45,,dry,5,acid_plutonic,True,42,42,evergreen,ok,685.0,1987.0,True,May–Oct
+ca_trinity_shasta:00081,835.1,0.45,,dry,5,acid_plutonic,True,42,21,developed_open,drop,14.0,1987.0,True,May–Oct
+ca_trinity_shasta:00082,887.5,0.38,,dry,1,unconsolidated,False,41,82,cropland,drop,107.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00083,876.4,0.38,,dry,19,,False,41,22,developed_low,drop,14.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00084,925.8,0.38,,dry,1,unconsolidated,False,41,11,open_water,ok,180.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00085,917.0,0.38,,dry,5,acid_plutonic,True,41,24,developed_high,drop,346.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00086,201.8,0.34,,dry,5,acid_plutonic,True,42,52,shrub,ok,200.0,2018.0,True,May–Oct
+ca_trinity_shasta:00087,159.4,0.34,,dry,19,,False,41,21,developed_open,drop,82.0,2018.0,True,May–Oct
+ca_trinity_shasta:00088,637.1,0.38,,dry,5,acid_plutonic,True,42,23,developed_med,drop,0.0,2018.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00089,624.3,0.38,,dry,5,acid_plutonic,True,42,23,developed_med,drop,7.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00090,766.1,0.38,,dry,5,acid_plutonic,True,31,42,evergreen,ok,204.0,,True,Jun–Oct
+ca_trinity_shasta:00091,717.6,0.38,13.0,seasonal,0,,False,41,95,herb_wetland,ok,185.0,,True,Jun–Oct
+ca_trinity_shasta:00092,572.9,0.38,,dry,5,acid_plutonic,True,41,90,woody_wetland,ok,87.0,2022.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00093,542.0,0.38,,dry,5,acid_plutonic,True,42,90,woody_wetland,ok,52.0,2022.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00094,420.1,0.08,,dry,5,acid_plutonic,True,42,71,grassland,ok,133.0,2015.0,True,May–Oct
+ca_trinity_shasta:00095,378.6,0.08,,dry,1,unconsolidated,False,42,71,grassland,ok,79.0,2015.0,True,May–Oct
+ca_trinity_shasta:00096,560.2,0.34,,dry,5,acid_plutonic,True,42,21,developed_open,drop,40.0,2018.0,True,May–Oct
+ca_trinity_shasta:00097,580.4,0.34,97.0,year_round,5,acid_plutonic,True,41,11,open_water,ok,357.0,2018.0,True,May–Oct
+ca_trinity_shasta:00098,577.8,0.34,,dry,3,non_carb_sed,False,41,52,shrub,ok,23.0,,True,May–Oct
+ca_trinity_shasta:00099,572.7,0.34,,dry,3,non_carb_sed,False,41,21,developed_open,drop,1.0,,True,May–Oct
+ca_trinity_shasta:00100,381.4,0.34,,dry,5,acid_plutonic,True,32,52,shrub,ok,65.0,2018.0,True,May–Oct
+ca_trinity_shasta:00101,422.0,0.34,,dry,5,acid_plutonic,True,41,52,shrub,ok,130.0,2018.0,True,May–Oct
+ca_trinity_shasta:00102,285.5,0.45,,dry,5,acid_plutonic,True,42,31,barren,ok,41.0,2023.0,True,May–Oct
+ca_trinity_shasta:00103,275.3,0.45,27.0,year_round,5,acid_plutonic,True,42,11,open_water,ok,87.0,2023.0,True,May–Oct
+ca_trinity_shasta:00104,366.2,0.45,,dry,1,unconsolidated,False,41,52,shrub,ok,73.0,2013.0,True,May–Oct
+ca_trinity_shasta:00105,451.7,0.45,,dry,1,unconsolidated,False,33,42,evergreen,ok,245.0,2021.0,True,May–Oct
+ca_trinity_shasta:00106,623.6,0.34,,dry,5,acid_plutonic,True,41,42,evergreen,ok,1281.0,,True,May–Oct
+ca_trinity_shasta:00107,652.1,0.34,,dry,5,acid_plutonic,True,42,42,evergreen,ok,1207.0,,True,May–Oct
+ca_trinity_shasta:00108,616.2,0.34,,dry,1,unconsolidated,False,42,71,grassland,ok,336.0,2018.0,True,May–Oct
+ca_trinity_shasta:00109,544.2,0.34,,dry,1,unconsolidated,False,42,90,woody_wetland,ok,15.0,2018.0,True,May–Oct
+ca_trinity_shasta:00110,811.2,0.38,,dry,19,,False,41,71,grassland,ok,195.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00111,837.9,0.38,79.0,year_round,5,acid_plutonic,True,41,11,open_water,ok,211.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00112,907.9,0.38,,dry,5,acid_plutonic,True,41,52,shrub,ok,166.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00113,927.0,0.38,,dry,5,acid_plutonic,True,41,52,shrub,ok,145.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00114,652.9,0.34,,dry,5,acid_plutonic,True,42,90,woody_wetland,ok,65.0,,True,May–Oct
+ca_trinity_shasta:00115,646.1,0.34,,dry,5,acid_plutonic,True,42,42,evergreen,ok,536.0,,True,May–Oct
+ca_trinity_shasta:00116,474.6,0.34,,dry,1,unconsolidated,False,42,21,developed_open,drop,7.0,2018.0,True,May–Oct
+ca_trinity_shasta:00117,442.8,0.34,,dry,1,unconsolidated,False,42,42,evergreen,ok,98.0,2018.0,True,May–Oct
+ca_trinity_shasta:00118,979.0,0.38,,dry,1,unconsolidated,False,41,52,shrub,ok,109.0,2021.0,True,May–Oct
+ca_trinity_shasta:00119,960.8,0.38,,dry,1,unconsolidated,False,41,71,grassland,ok,174.0,,True,May–Oct
+ca_trinity_shasta:00120,406.6,0.08,,dry,1,unconsolidated,False,42,21,developed_open,drop,13.0,2021.0,True,May–Oct
+ca_trinity_shasta:00121,390.2,0.08,18.0,seasonal,1,unconsolidated,False,42,11,open_water,ok,61.0,2021.0,True,May–Oct
+ca_trinity_shasta:00122,275.8,0.08,,dry,5,acid_plutonic,True,42,42,evergreen,ok,763.0,2021.0,True,May–Oct
+ca_trinity_shasta:00123,253.9,0.08,,dry,5,acid_plutonic,True,41,42,evergreen,ok,360.0,2021.0,True,May–Oct
+ca_trinity_shasta:00124,729.2,0.45,,dry,5,acid_plutonic,True,42,42,evergreen,ok,46.0,2014.0,True,May–Oct
+ca_trinity_shasta:00125,734.8,0.45,,dry,5,acid_plutonic,True,42,42,evergreen,ok,139.0,2017.0,True,May–Oct
+ca_trinity_shasta:00126,503.0,0.08,,dry,5,acid_plutonic,True,42,42,evergreen,ok,71.0,2021.0,True,May–Oct
+ca_trinity_shasta:00127,486.4,0.08,,dry,5,acid_plutonic,True,42,43,mixed_forest,ok,60.0,2006.0,True,May–Oct
+ca_trinity_shasta:00128,318.7,0.45,90.0,year_round,5,acid_plutonic,True,41,11,open_water,ok,157.0,2020.0,True,May–Oct
+ca_trinity_shasta:00129,323.9,0.45,,dry,5,acid_plutonic,True,41,21,developed_open,drop,105.0,2020.0,True,May–Oct
+ca_trinity_shasta:00130,731.7,0.38,,dry,5,acid_plutonic,True,41,21,developed_open,drop,11.0,2022.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00131,692.6,0.38,,dry,5,acid_plutonic,True,42,52,shrub,ok,113.0,2022.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00132,914.2,0.38,,dry,5,acid_plutonic,True,41,52,shrub,ok,15.0,2019.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00133,1068.2,0.38,,dry,5,acid_plutonic,True,41,43,mixed_forest,ok,15.0,2019.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00134,685.8,0.08,,dry,5,acid_plutonic,True,42,52,shrub,ok,831.0,2006.0,True,May–Oct
+ca_trinity_shasta:00135,671.3,0.08,,dry,5,acid_plutonic,True,42,52,shrub,ok,145.0,2021.0,True,May–Oct
+ca_trinity_shasta:00136,969.6,0.38,,dry,5,acid_plutonic,True,42,31,barren,ok,93.0,2021.0,True,May–Oct
+ca_trinity_shasta:00137,1022.8,0.38,,dry,5,acid_plutonic,True,42,21,developed_open,drop,6.0,2021.0,True,May–Oct
+ca_trinity_shasta:00138,481.7,0.34,,dry,5,acid_plutonic,True,41,52,shrub,ok,45.0,,True,May–Oct
+ca_trinity_shasta:00139,478.1,0.34,,dry,1,unconsolidated,False,42,52,shrub,ok,69.0,,True,May–Oct
+ca_trinity_shasta:00140,437.6,0.45,,dry,1,unconsolidated,False,42,42,evergreen,ok,105.0,2020.0,True,May–Oct
+ca_trinity_shasta:00141,450.1,0.45,,dry,5,acid_plutonic,True,42,52,shrub,ok,37.0,2020.0,True,May–Oct
+ca_trinity_shasta:00142,746.1,0.45,,dry,1,unconsolidated,False,42,42,evergreen,ok,105.0,2021.0,True,May–Oct
+ca_trinity_shasta:00143,769.7,0.45,,dry,1,unconsolidated,False,42,42,evergreen,ok,73.0,2021.0,True,May–Oct
+ca_trinity_shasta:00144,849.5,0.38,,dry,5,acid_plutonic,True,42,31,barren,ok,109.0,2021.0,True,Jun–Oct
+ca_trinity_shasta:00145,866.4,0.38,,dry,5,acid_plutonic,True,42,42,evergreen,ok,25.0,2021.0,True,Jun–Oct
+ca_trinity_shasta:00146,946.8,0.38,,dry,5,acid_plutonic,True,41,42,evergreen,ok,4.0,2021.0,True,May–Oct
+ca_trinity_shasta:00147,820.8,0.38,,dry,5,acid_plutonic,True,42,52,shrub,ok,113.0,2021.0,True,May–Oct
+ca_trinity_shasta:00148,644.6,0.34,,dry,1,unconsolidated,False,42,42,evergreen,ok,22.0,,True,May–Oct
+ca_trinity_shasta:00149,735.1,0.34,,dry,1,unconsolidated,False,42,42,evergreen,ok,49.0,,True,May–Oct
+ca_trinity_shasta:00150,89.4,0.45,,dry,5,acid_plutonic,True,42,31,barren,ok,192.0,,True,May–Oct
+ca_trinity_shasta:00151,90.0,0.45,36.0,year_round,5,acid_plutonic,True,42,31,barren,ok,171.0,,True,May–Oct
+ca_trinity_shasta:00152,426.4,0.34,,dry,5,acid_plutonic,True,42,52,shrub,ok,788.0,2020.0,True,May–Oct
+ca_trinity_shasta:00153,405.6,0.34,,dry,5,acid_plutonic,True,41,43,mixed_forest,ok,685.0,2020.0,True,May–Oct
+ca_trinity_shasta:00154,604.6,0.38,,dry,5,acid_plutonic,True,42,42,evergreen,ok,78.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00155,594.9,0.38,,dry,1,unconsolidated,False,42,23,developed_med,drop,31.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00156,1012.3,0.38,,dry,5,acid_plutonic,True,42,42,evergreen,ok,460.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00157,1077.3,0.38,,dry,5,acid_plutonic,True,41,95,herb_wetland,ok,82.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00158,542.1,0.45,,dry,1,unconsolidated,False,41,71,grassland,ok,91.0,2020.0,True,May–Oct
+ca_trinity_shasta:00159,549.3,0.45,,dry,5,acid_plutonic,True,42,22,developed_low,drop,46.0,2020.0,True,May–Oct
+ca_trinity_shasta:00160,435.3,0.34,,dry,5,acid_plutonic,True,41,42,evergreen,ok,401.0,2008.0,True,May–Oct
+ca_trinity_shasta:00161,311.8,0.34,33.0,year_round,0,,False,42,31,barren,ok,820.0,2018.0,True,May–Oct
+ca_trinity_shasta:00162,853.4,0.38,,dry,5,acid_plutonic,True,41,71,grassland,ok,97.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00163,875.5,0.38,,dry,5,acid_plutonic,True,41,52,shrub,ok,39.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00164,714.0,0.38,31.0,year_round,0,,False,41,95,herb_wetland,ok,92.0,,True,May–Oct
+ca_trinity_shasta:00165,1331.2,0.38,,dry,5,acid_plutonic,True,42,90,woody_wetland,ok,54.0,2021.0,True,Jun–Sep
+ca_trinity_shasta:00166,1346.8,0.38,,dry,5,acid_plutonic,True,42,42,evergreen,ok,96.0,2021.0,True,Jun–Sep
+ca_trinity_shasta:00167,527.1,0.34,,dry,5,acid_plutonic,True,42,52,shrub,ok,97.0,,True,May–Oct
+ca_trinity_shasta:00168,588.4,0.34,,dry,5,acid_plutonic,True,42,42,evergreen,ok,399.0,,True,May–Oct
+ca_trinity_shasta:00169,259.1,0.45,15.0,seasonal,5,acid_plutonic,True,42,11,open_water,ok,72.0,2023.0,True,May–Oct
+ca_trinity_shasta:00170,263.5,0.45,24.0,seasonal,5,acid_plutonic,True,42,42,evergreen,ok,99.0,2023.0,True,May–Oct
+ca_trinity_shasta:00171,758.3,0.38,,dry,1,unconsolidated,False,42,52,shrub,ok,345.0,,True,Apr–Sep
+ca_trinity_shasta:00172,795.1,0.38,,dry,1,unconsolidated,False,42,52,shrub,ok,246.0,,True,Apr–Sep
+ca_trinity_shasta:00173,534.6,0.45,,dry,5,acid_plutonic,True,42,42,evergreen,ok,259.0,2021.0,True,May–Oct
+ca_trinity_shasta:00174,482.9,0.45,,dry,5,acid_plutonic,True,42,52,shrub,ok,139.0,2021.0,True,May–Oct
+ca_trinity_shasta:00175,164.5,0.34,,dry,19,,False,42,71,grassland,ok,160.0,2012.0,True,May–Oct
+ca_trinity_shasta:00176,151.0,0.34,,dry,19,,False,41,95,herb_wetland,ok,697.0,,True,May–Oct
+ca_trinity_shasta:00177,753.3,0.34,,dry,5,acid_plutonic,True,41,42,evergreen,ok,1525.0,,True,May–Oct
+ca_trinity_shasta:00178,715.6,0.34,,dry,5,acid_plutonic,True,41,42,evergreen,ok,712.0,,True,May–Oct
+ca_trinity_shasta:00179,418.6,0.08,,dry,1,unconsolidated,False,42,42,evergreen,ok,81.0,2021.0,True,May–Oct
+ca_trinity_shasta:00180,417.8,0.08,,dry,1,unconsolidated,False,42,42,evergreen,ok,97.0,2021.0,True,May–Oct
+ca_trinity_shasta:00181,338.1,0.45,,dry,1,unconsolidated,False,41,52,shrub,ok,144.0,2014.0,True,May–Oct
+ca_trinity_shasta:00182,332.6,0.45,37.0,year_round,1,unconsolidated,False,41,11,open_water,ok,77.0,2020.0,True,May–Oct
+ca_trinity_shasta:00183,987.1,0.38,,dry,1,unconsolidated,False,42,90,woody_wetland,ok,112.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00184,1014.4,0.38,,dry,1,unconsolidated,False,42,43,mixed_forest,ok,104.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00185,579.8,0.08,,dry,5,acid_plutonic,True,42,52,shrub,ok,224.0,2017.0,True,May–Oct
+ca_trinity_shasta:00186,566.4,0.08,,dry,5,acid_plutonic,True,42,42,evergreen,ok,87.0,2017.0,True,May–Oct
+ca_trinity_shasta:00187,153.4,0.45,9.0,seasonal,5,acid_plutonic,True,42,11,open_water,ok,254.0,2023.0,True,May–Oct
+ca_trinity_shasta:00188,255.6,0.45,,dry,1,unconsolidated,False,32,42,evergreen,ok,225.0,,True,May–Oct
+ca_trinity_shasta:00189,198.3,0.45,,dry,5,acid_plutonic,True,41,42,evergreen,ok,28.0,2023.0,True,May–Oct
+ca_trinity_shasta:00190,120.9,0.45,12.0,seasonal,5,acid_plutonic,True,42,11,open_water,ok,168.0,2023.0,True,May–Oct
+ca_trinity_shasta:00191,170.3,0.08,,dry,5,acid_plutonic,True,42,52,shrub,ok,140.0,2022.0,True,May–Oct
+ca_trinity_shasta:00192,168.8,0.08,16.0,seasonal,5,acid_plutonic,True,41,42,evergreen,ok,53.0,2022.0,True,May–Oct
+ca_trinity_shasta:00193,580.4,0.34,97.0,year_round,5,acid_plutonic,True,42,11,open_water,ok,75.0,,True,May–Oct
+ca_trinity_shasta:00194,714.0,0.34,99.0,year_round,0,,False,34,11,open_water,ok,499.0,,True,May–Oct
+ca_trinity_shasta:00195,617.4,0.38,,dry,5,acid_plutonic,True,42,52,shrub,ok,15.0,2022.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00196,921.5,0.38,,dry,1,unconsolidated,False,33,41,deciduous,ok,505.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00197,332.8,0.34,,dry,5,acid_plutonic,True,42,71,grassland,ok,59.0,2018.0,True,May–Oct
+ca_trinity_shasta:00198,311.6,0.34,52.0,year_round,0,,False,42,95,herb_wetland,ok,114.0,2018.0,True,May–Oct
+ca_trinity_shasta:00199,70.7,0.45,,dry,5,acid_plutonic,True,42,11,open_water,ok,143.0,2009.0,True,May–Sep
+ca_trinity_shasta:00200,60.5,0.45,72.0,year_round,5,acid_plutonic,True,42,11,open_water,ok,152.0,2009.0,True,May–Sep
+ca_trinity_shasta:00201,401.6,0.34,,dry,5,acid_plutonic,True,42,42,evergreen,ok,36.0,2018.0,True,May–Oct
+ca_trinity_shasta:00202,369.4,0.34,,dry,0,,False,42,21,developed_open,drop,32.0,2018.0,True,May–Oct
+ca_trinity_shasta:00203,1288.4,0.38,,dry,5,acid_plutonic,True,42,42,evergreen,ok,91.0,2022.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00204,1271.3,0.38,,dry,5,acid_plutonic,True,41,52,shrub,ok,132.0,2022.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00205,489.6,0.38,,dry,5,acid_plutonic,True,41,52,shrub,ok,213.0,2022.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00206,485.9,0.45,,dry,5,acid_plutonic,True,41,81,pasture,drop,72.0,2016.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00207,171.2,0.34,,dry,19,,False,42,52,shrub,ok,455.0,,True,May–Oct
+ca_trinity_shasta:00208,182.7,0.34,,dry,19,,False,42,52,shrub,ok,108.0,,True,May–Oct
+ca_trinity_shasta:00209,1115.4,0.45,,dry,5,acid_plutonic,True,41,42,evergreen,ok,9.0,2014.0,True,May–Oct
+ca_trinity_shasta:00210,1268.4,0.45,,dry,5,acid_plutonic,True,41,42,evergreen,ok,548.0,2014.0,True,May–Oct
+ca_trinity_shasta:00211,892.4,0.45,,dry,5,acid_plutonic,True,42,42,evergreen,ok,57.0,2014.0,True,May–Oct
+ca_trinity_shasta:00212,1128.9,0.45,,dry,5,acid_plutonic,True,41,42,evergreen,ok,1272.0,2014.0,True,May–Oct
+ca_trinity_shasta:00213,588.9,0.08,,dry,1,unconsolidated,False,42,42,evergreen,ok,407.0,2021.0,True,May–Oct
+ca_trinity_shasta:00214,583.9,0.08,,dry,1,unconsolidated,False,42,42,evergreen,ok,42.0,2021.0,True,May–Oct
+ca_trinity_shasta:00215,660.6,0.38,,dry,5,acid_plutonic,True,41,90,woody_wetland,ok,6.0,2022.0,True,May–Oct
+ca_trinity_shasta:00216,679.3,0.38,,dry,5,acid_plutonic,True,42,42,evergreen,ok,53.0,2022.0,True,May–Oct
+ca_trinity_shasta:00217,717.4,0.45,,dry,5,acid_plutonic,True,42,42,evergreen,ok,81.0,2021.0,True,May–Oct
+ca_trinity_shasta:00218,759.4,0.45,,dry,1,unconsolidated,False,42,52,shrub,ok,72.0,2021.0,True,May–Oct
+ca_trinity_shasta:00219,143.7,0.08,34.0,year_round,5,acid_plutonic,True,42,11,open_water,ok,89.0,2022.0,True,May–Oct
+ca_trinity_shasta:00220,158.0,0.08,,dry,5,acid_plutonic,True,41,23,developed_med,drop,125.0,2022.0,True,May–Oct
+ca_trinity_shasta:00221,434.6,0.45,,dry,5,acid_plutonic,True,42,11,open_water,ok,104.0,2016.0,True,May–Oct
+ca_trinity_shasta:00222,442.9,0.45,86.0,year_round,5,acid_plutonic,True,42,11,open_water,ok,92.0,2016.0,True,May–Oct
+ca_trinity_shasta:00223,651.3,0.34,,dry,3,non_carb_sed,False,31,21,developed_open,drop,70.0,2001.0,True,May–Oct
+ca_trinity_shasta:00224,637.7,0.34,,dry,3,non_carb_sed,False,31,52,shrub,ok,59.0,2001.0,True,May–Oct
+ca_trinity_shasta:00225,619.6,0.45,,dry,5,acid_plutonic,True,41,42,evergreen,ok,487.0,2021.0,True,May–Oct
+ca_trinity_shasta:00226,757.6,0.45,,dry,5,acid_plutonic,True,32,42,evergreen,ok,649.0,2021.0,True,May–Oct
+ca_trinity_shasta:00227,450.3,0.45,,dry,1,unconsolidated,False,41,90,woody_wetland,ok,106.0,2020.0,True,May–Oct
+ca_trinity_shasta:00228,437.0,0.45,,dry,1,unconsolidated,False,41,71,grassland,ok,309.0,2020.0,True,May–Oct
+ca_trinity_shasta:00229,427.0,0.34,,dry,5,acid_plutonic,True,42,42,evergreen,ok,122.0,2018.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00230,525.2,0.34,,dry,5,acid_plutonic,True,42,52,shrub,ok,1270.0,2018.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00231,380.9,0.34,,dry,1,unconsolidated,False,41,90,woody_wetland,ok,104.0,2018.0,True,May–Oct
+ca_trinity_shasta:00232,394.2,0.34,,dry,5,acid_plutonic,True,42,52,shrub,ok,138.0,2018.0,True,May–Oct
+ca_trinity_shasta:00233,767.7,0.08,,dry,1,unconsolidated,False,42,42,evergreen,ok,110.0,2015.0,True,May–Oct
+ca_trinity_shasta:00234,780.1,0.08,,dry,1,unconsolidated,False,42,52,shrub,ok,141.0,2015.0,True,May–Oct
+ca_trinity_shasta:00235,374.1,0.08,,dry,1,unconsolidated,False,42,21,developed_open,drop,12.0,2021.0,True,May–Oct
+ca_trinity_shasta:00236,389.4,0.08,,dry,1,unconsolidated,False,42,42,evergreen,ok,156.0,2021.0,True,May–Oct
+ca_trinity_shasta:00237,511.4,0.45,,dry,1,unconsolidated,False,42,42,evergreen,ok,859.0,2020.0,True,May–Oct
+ca_trinity_shasta:00238,734.5,0.45,,dry,1,unconsolidated,False,41,42,evergreen,ok,705.0,1987.0,True,May–Oct
+ca_trinity_shasta:00239,531.3,0.38,,dry,1,unconsolidated,False,42,52,shrub,ok,69.0,2022.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00240,566.7,0.38,,dry,1,unconsolidated,False,42,42,evergreen,ok,45.0,2022.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00241,879.0,0.38,,dry,19,,False,34,90,woody_wetland,ok,511.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00242,886.9,0.38,,dry,19,,False,32,90,woody_wetland,ok,452.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00243,537.0,0.34,,dry,1,unconsolidated,False,42,42,evergreen,ok,17.0,2018.0,True,May–Oct
+ca_trinity_shasta:00244,497.5,0.34,,dry,1,unconsolidated,False,42,42,evergreen,ok,48.0,2018.0,True,May–Oct
+ca_trinity_shasta:00245,1152.9,0.38,,dry,5,acid_plutonic,True,42,21,developed_open,drop,102.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00246,1248.5,0.38,,dry,5,acid_plutonic,True,41,42,evergreen,ok,212.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00247,926.6,0.45,,dry,5,acid_plutonic,True,42,42,evergreen,ok,183.0,1987.0,True,May–Oct
+ca_trinity_shasta:00248,982.1,0.45,,dry,5,acid_plutonic,True,42,42,evergreen,ok,196.0,1987.0,True,May–Oct
+ca_trinity_shasta:00249,678.2,0.34,,dry,5,acid_plutonic,True,41,42,evergreen,ok,482.0,2018.0,True,May–Oct
+ca_trinity_shasta:00250,636.2,0.34,,dry,5,acid_plutonic,True,41,42,evergreen,ok,606.0,2018.0,True,May–Oct
+ca_trinity_shasta:00251,503.6,0.34,,dry,1,unconsolidated,False,42,71,grassland,ok,46.0,2018.0,True,May–Oct
+ca_trinity_shasta:00252,975.1,0.34,,dry,1,unconsolidated,False,31,52,shrub,ok,123.0,2018.0,True,May–Oct
+ca_trinity_shasta:00253,648.3,0.38,,dry,5,acid_plutonic,True,42,90,woody_wetland,ok,89.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00254,666.8,0.38,,dry,5,acid_plutonic,True,42,52,shrub,ok,225.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00255,166.4,0.34,,dry,19,,False,41,71,grassland,ok,351.0,,True,May–Oct
+ca_trinity_shasta:00256,170.7,0.34,,dry,19,,False,41,52,shrub,ok,312.0,,True,May–Oct
+ca_trinity_shasta:00257,183.3,0.45,21.0,seasonal,5,acid_plutonic,True,42,11,open_water,ok,197.0,2017.0,True,May–Oct
+ca_trinity_shasta:00258,183.5,0.45,,dry,5,acid_plutonic,True,41,31,barren,ok,255.0,2017.0,True,May–Oct
+ca_trinity_shasta:00259,370.4,0.08,,dry,1,unconsolidated,False,42,42,evergreen,ok,113.0,2021.0,True,May–Oct
+ca_trinity_shasta:00260,386.8,0.08,,dry,1,unconsolidated,False,42,42,evergreen,ok,160.0,2021.0,True,May–Oct
+ca_trinity_shasta:00261,498.7,0.08,,dry,1,unconsolidated,False,42,71,grassland,ok,103.0,2020.0,True,May–Oct
+ca_trinity_shasta:00262,507.0,0.08,,dry,1,unconsolidated,False,42,42,evergreen,ok,195.0,2020.0,True,May–Oct
+ca_trinity_shasta:00263,128.0,0.34,67.0,year_round,19,,False,34,11,open_water,ok,609.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00264,157.4,0.34,,dry,19,,False,32,52,shrub,ok,85.0,1999.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00265,527.2,0.45,,dry,5,acid_plutonic,True,42,52,shrub,ok,83.0,2016.0,True,May–Oct
+ca_trinity_shasta:00266,597.2,0.45,,dry,5,acid_plutonic,True,42,52,shrub,ok,53.0,2016.0,True,May–Oct
+ca_trinity_shasta:00267,427.5,0.08,,dry,5,acid_plutonic,True,41,43,mixed_forest,ok,112.0,2021.0,True,May–Oct
+ca_trinity_shasta:00268,432.9,0.08,,dry,5,acid_plutonic,True,41,71,grassland,ok,134.0,2021.0,True,May–Oct
+ca_trinity_shasta:00269,1039.4,0.32,,dry,5,acid_plutonic,True,42,42,evergreen,ok,940.0,2020.0,True,May–Oct
+ca_trinity_shasta:00270,984.7,0.32,,dry,5,acid_plutonic,True,41,71,grassland,ok,586.0,2020.0,True,May–Oct
+ca_trinity_shasta:00271,117.3,0.45,,dry,5,acid_plutonic,True,41,11,open_water,ok,163.0,2023.0,True,May–Oct
+ca_trinity_shasta:00272,403.5,0.45,,dry,5,acid_plutonic,True,41,42,evergreen,ok,633.0,2023.0,True,May–Sep
+ca_trinity_shasta:00273,902.1,0.38,,dry,5,acid_plutonic,True,42,42,evergreen,ok,75.0,2014.0,True,Apr–Sep
+ca_trinity_shasta:00274,948.8,0.38,,dry,5,acid_plutonic,True,42,42,evergreen,ok,30.0,,True,Apr–Sep
+ca_trinity_shasta:00275,1121.0,0.38,,dry,1,unconsolidated,False,42,52,shrub,ok,3766.0,2021.0,True,May–Oct
+ca_trinity_shasta:00276,1068.3,0.38,,dry,1,unconsolidated,False,42,52,shrub,ok,4482.0,2021.0,True,May–Sep
+ca_trinity_shasta:00277,714.0,0.34,98.0,year_round,0,,False,34,11,open_water,ok,624.0,,True,Jun–Oct
+ca_trinity_shasta:00278,714.0,0.34,99.0,year_round,0,,False,34,11,open_water,ok,654.0,,True,Jun–Oct
+ca_trinity_shasta:00279,273.3,0.45,38.0,year_round,5,acid_plutonic,True,42,11,open_water,ok,100.0,2023.0,True,May–Oct
+ca_trinity_shasta:00280,274.1,0.45,,dry,5,acid_plutonic,True,42,42,evergreen,ok,121.0,2023.0,True,May–Oct
+ca_trinity_shasta:00281,522.5,0.38,,dry,5,acid_plutonic,True,42,52,shrub,ok,122.0,2022.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00282,513.2,0.38,,dry,5,acid_plutonic,True,42,11,open_water,ok,37.0,2022.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00283,879.9,0.08,,dry,1,unconsolidated,False,42,42,evergreen,ok,91.0,2015.0,True,May–Oct
+ca_trinity_shasta:00284,806.0,0.08,,dry,1,unconsolidated,False,42,21,developed_open,drop,5.0,2015.0,True,May–Oct
+ca_trinity_shasta:00285,101.9,0.45,,dry,5,acid_plutonic,True,41,52,shrub,ok,86.0,,True,May–Oct
+ca_trinity_shasta:00286,109.4,0.45,,dry,5,acid_plutonic,True,41,43,mixed_forest,ok,226.0,,False,May–Oct
+ca_trinity_shasta:00287,860.4,0.38,,dry,5,acid_plutonic,True,41,71,grassland,ok,77.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00288,917.0,0.38,,dry,5,acid_plutonic,True,41,52,shrub,ok,57.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00289,742.5,0.38,,dry,3,non_carb_sed,False,32,52,shrub,ok,95.0,2018.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00290,676.5,0.38,,dry,3,non_carb_sed,False,42,52,shrub,ok,98.0,2018.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00291,714.0,0.34,75.0,year_round,0,,False,34,11,open_water,ok,691.0,,True,Jun–Oct
+ca_trinity_shasta:00292,714.0,0.34,99.0,year_round,0,,False,34,11,open_water,ok,886.0,,True,Jun–Sep
+ca_trinity_shasta:00293,138.4,0.08,6.0,seasonal,5,acid_plutonic,True,41,71,grassland,ok,55.0,2022.0,True,May–Oct
+ca_trinity_shasta:00294,133.6,0.08,71.0,year_round,5,acid_plutonic,True,41,11,open_water,ok,106.0,2022.0,True,May–Oct
+ca_trinity_shasta:00295,148.8,0.34,,dry,19,,False,42,11,open_water,ok,20.0,2018.0,True,May–Oct
+ca_trinity_shasta:00296,162.1,0.34,,dry,5,acid_plutonic,True,42,71,grassland,ok,725.0,2018.0,True,May–Oct
+ca_trinity_shasta:00297,1221.0,0.38,,dry,5,acid_plutonic,True,41,42,evergreen,ok,2.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00298,1182.4,0.38,,dry,5,acid_plutonic,True,41,52,shrub,ok,145.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00299,1424.5,0.38,,dry,1,unconsolidated,False,41,42,evergreen,ok,30.0,2021.0,True,May–Sep
+ca_trinity_shasta:00300,1694.6,0.38,,dry,1,unconsolidated,False,41,42,evergreen,ok,100.0,2021.0,True,Jun–Sep
+ca_trinity_shasta:00301,564.8,0.34,,dry,1,unconsolidated,False,42,43,mixed_forest,ok,73.0,1994.0,True,May–Oct
+ca_trinity_shasta:00302,548.6,0.34,,dry,5,acid_plutonic,True,41,90,woody_wetland,ok,29.0,1994.0,True,May–Oct
+ca_trinity_shasta:00303,576.0,0.34,,dry,5,acid_plutonic,True,42,52,shrub,ok,83.0,,True,May–Oct
+ca_trinity_shasta:00304,605.5,0.34,,dry,5,acid_plutonic,True,41,42,evergreen,ok,309.0,,True,May–Oct
+ca_trinity_shasta:00305,451.7,0.08,,dry,5,acid_plutonic,True,42,52,shrub,ok,1104.0,2021.0,True,May–Oct
+ca_trinity_shasta:00306,454.9,0.08,,dry,5,acid_plutonic,True,42,42,evergreen,ok,505.0,2021.0,True,May–Oct
+ca_trinity_shasta:00307,951.3,0.37,,dry,5,acid_plutonic,True,42,21,developed_open,drop,21.0,,True,May–Oct
+ca_trinity_shasta:00308,915.5,0.32,84.0,year_round,5,acid_plutonic,True,42,11,open_water,ok,69.0,,True,May–Oct
+ca_trinity_shasta:00309,759.2,0.38,,dry,5,acid_plutonic,True,41,42,evergreen,ok,146.0,,True,Jun–Oct
+ca_trinity_shasta:00310,828.2,0.38,,dry,5,acid_plutonic,True,41,42,evergreen,ok,15.0,,True,May–Oct
+ca_trinity_shasta:00311,1271.9,0.38,,dry,5,acid_plutonic,True,41,42,evergreen,ok,199.0,,True,May–Oct
+ca_trinity_shasta:00312,1208.2,0.38,,dry,5,acid_plutonic,True,41,42,evergreen,ok,79.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00313,540.0,0.08,,dry,5,acid_plutonic,True,42,43,mixed_forest,ok,28.0,2021.0,True,May–Oct
+ca_trinity_shasta:00314,567.2,0.08,,dry,5,acid_plutonic,True,42,42,evergreen,ok,53.0,2021.0,True,May–Oct
+ca_trinity_shasta:00315,459.5,0.08,,dry,5,acid_plutonic,True,42,11,open_water,ok,334.0,2021.0,True,May–Oct
+ca_trinity_shasta:00316,501.5,0.08,,dry,5,acid_plutonic,True,41,42,evergreen,ok,389.0,2021.0,True,May–Oct
+ca_trinity_shasta:00317,619.4,0.34,,dry,5,acid_plutonic,True,42,42,evergreen,ok,12.0,,True,May–Oct
+ca_trinity_shasta:00318,544.9,0.34,,dry,5,acid_plutonic,True,41,21,developed_open,drop,9.0,,True,May–Oct
+ca_trinity_shasta:00319,641.6,0.38,,dry,1,unconsolidated,False,41,21,developed_open,drop,1.0,2022.0,True,May–Oct
+ca_trinity_shasta:00320,592.6,0.38,,dry,1,unconsolidated,False,41,21,developed_open,drop,7.0,2022.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00321,732.0,0.34,,dry,0,,False,31,42,evergreen,ok,160.0,,True,May–Oct
+ca_trinity_shasta:00322,348.0,0.34,,dry,1,unconsolidated,False,42,52,shrub,ok,66.0,2021.0,True,May–Oct
+ca_trinity_shasta:00323,363.5,0.34,,dry,1,unconsolidated,False,42,71,grassland,ok,186.0,2018.0,True,May–Oct
+ca_trinity_shasta:00324,620.1,0.34,,dry,3,non_carb_sed,False,41,22,developed_low,drop,11.0,2001.0,True,May–Oct
+ca_trinity_shasta:00325,663.4,0.34,,dry,3,non_carb_sed,False,31,52,shrub,ok,108.0,2006.0,True,May–Oct
+ca_trinity_shasta:00326,1134.9,0.38,,dry,5,acid_plutonic,True,42,42,evergreen,ok,43.0,,True,May–Sep
+ca_trinity_shasta:00327,1176.7,0.37,,dry,5,acid_plutonic,True,42,42,evergreen,ok,467.0,,True,May–Oct
+ca_trinity_shasta:00328,374.6,0.34,,dry,5,acid_plutonic,True,42,52,shrub,ok,570.0,2018.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00329,351.2,0.34,,dry,5,acid_plutonic,True,42,71,grassland,ok,492.0,2018.0,True,May–Oct
+ca_trinity_shasta:00330,1098.3,0.38,,dry,5,acid_plutonic,True,41,42,evergreen,ok,591.0,2021.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00331,1126.9,0.38,,dry,5,acid_plutonic,True,41,42,evergreen,ok,497.0,2021.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00332,442.2,0.34,,dry,1,unconsolidated,False,41,52,shrub,ok,76.0,2018.0,True,May–Oct
+ca_trinity_shasta:00333,452.9,0.34,,dry,1,unconsolidated,False,42,52,shrub,ok,49.0,2018.0,True,May–Oct
+ca_trinity_shasta:00334,719.8,0.34,,dry,1,unconsolidated,False,42,42,evergreen,ok,29.0,,True,May–Oct
+ca_trinity_shasta:00335,760.1,0.34,,dry,1,unconsolidated,False,42,42,evergreen,ok,55.0,,True,May–Oct
+ca_trinity_shasta:00336,818.2,0.45,,dry,1,unconsolidated,False,41,42,evergreen,ok,134.0,2021.0,True,May–Oct
+ca_trinity_shasta:00337,796.7,0.45,,dry,1,unconsolidated,False,42,42,evergreen,ok,29.0,2021.0,True,May–Oct
+ca_trinity_shasta:00338,190.8,0.34,,dry,3,non_carb_sed,False,42,90,woody_wetland,ok,32.0,2020.0,True,May–Oct
+ca_trinity_shasta:00339,190.1,0.34,,dry,3,non_carb_sed,False,42,52,shrub,ok,131.0,2020.0,True,May–Oct
+ca_trinity_shasta:00340,440.7,0.08,,dry,1,unconsolidated,False,42,52,shrub,ok,101.0,2015.0,True,May–Oct
+ca_trinity_shasta:00341,515.6,0.08,,dry,1,unconsolidated,False,42,52,shrub,ok,137.0,2015.0,True,May–Oct
+ca_trinity_shasta:00342,295.9,0.08,,dry,5,acid_plutonic,True,42,42,evergreen,ok,55.0,2021.0,True,May–Oct
+ca_trinity_shasta:00343,376.8,0.08,,dry,5,acid_plutonic,True,41,42,evergreen,ok,81.0,2021.0,True,May–Oct
+ca_trinity_shasta:00344,186.9,0.34,,dry,3,non_carb_sed,False,42,52,shrub,ok,490.0,2020.0,True,May–Oct
+ca_trinity_shasta:00345,184.3,0.34,,dry,19,,False,42,52,shrub,ok,64.0,2020.0,True,May–Oct
+ca_trinity_shasta:00346,780.1,0.08,,dry,1,unconsolidated,False,31,42,evergreen,ok,76.0,2020.0,True,May–Oct
+ca_trinity_shasta:00347,514.9,0.08,,dry,1,unconsolidated,False,42,42,evergreen,ok,158.0,2020.0,True,May–Oct
+ca_trinity_shasta:00348,310.0,0.45,,dry,5,acid_plutonic,True,42,11,open_water,ok,67.0,2020.0,True,May–Oct
+ca_trinity_shasta:00349,319.1,0.45,,dry,5,acid_plutonic,True,42,21,developed_open,drop,37.0,2020.0,True,May–Oct
+ca_trinity_shasta:00350,458.0,0.45,,dry,1,unconsolidated,False,42,21,developed_open,drop,45.0,2020.0,True,May–Oct
+ca_trinity_shasta:00351,444.1,0.45,,dry,1,unconsolidated,False,42,42,evergreen,ok,179.0,2020.0,True,May–Oct
+ca_trinity_shasta:00352,224.7,0.45,,dry,5,acid_plutonic,True,42,42,evergreen,ok,57.0,2023.0,True,May–Oct
+ca_trinity_shasta:00353,228.4,0.45,45.0,year_round,5,acid_plutonic,True,42,11,open_water,ok,162.0,2023.0,True,May–Oct
+ca_trinity_shasta:00354,545.2,0.38,22.0,seasonal,5,acid_plutonic,True,42,11,open_water,ok,48.0,2022.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00355,555.0,0.38,,dry,5,acid_plutonic,True,42,21,developed_open,drop,26.0,2022.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00356,616.0,0.08,,dry,5,acid_plutonic,True,42,52,shrub,ok,149.0,2017.0,True,May–Oct
+ca_trinity_shasta:00357,607.6,0.08,,dry,5,acid_plutonic,True,42,42,evergreen,ok,257.0,2017.0,True,May–Oct
+ca_trinity_shasta:00358,447.9,0.08,,dry,5,acid_plutonic,True,41,11,open_water,ok,248.0,2021.0,True,May–Oct
+ca_trinity_shasta:00359,455.7,0.08,,dry,5,acid_plutonic,True,41,52,shrub,ok,180.0,2021.0,True,May–Oct
+ca_trinity_shasta:00360,1423.2,0.38,,dry,1,unconsolidated,False,42,90,woody_wetland,ok,52.0,2021.0,True,Jun–Sep
+ca_trinity_shasta:00361,1443.6,0.38,,dry,1,unconsolidated,False,42,21,developed_open,drop,4.0,2021.0,True,Jun–Sep
+ca_trinity_shasta:00362,473.7,0.45,22.0,seasonal,5,acid_plutonic,True,42,11,open_water,ok,42.0,2023.0,True,May–Oct
+ca_trinity_shasta:00363,480.7,0.45,,dry,5,acid_plutonic,True,42,52,shrub,ok,56.0,2023.0,True,May–Oct
+ca_trinity_shasta:00364,658.0,0.45,,dry,1,unconsolidated,False,42,42,evergreen,ok,62.0,2021.0,True,May–Oct
+ca_trinity_shasta:00365,698.8,0.45,,dry,1,unconsolidated,False,42,42,evergreen,ok,68.0,2021.0,True,May–Oct
+ca_trinity_shasta:00366,784.8,0.34,,dry,5,acid_plutonic,True,42,42,evergreen,ok,61.0,,True,May–Oct
+ca_trinity_shasta:00367,824.9,0.34,,dry,5,acid_plutonic,True,42,42,evergreen,ok,1.0,,True,May–Oct
+ca_trinity_shasta:00368,858.4,0.45,,dry,5,acid_plutonic,True,42,43,mixed_forest,ok,134.0,2021.0,True,May–Oct
+ca_trinity_shasta:00369,835.5,0.45,,dry,5,acid_plutonic,True,42,52,shrub,ok,105.0,2021.0,True,May–Oct
+ca_trinity_shasta:00370,681.8,0.38,,dry,1,unconsolidated,False,41,42,evergreen,ok,63.0,2022.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00371,645.4,0.38,,dry,5,acid_plutonic,True,41,71,grassland,ok,97.0,2022.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00372,692.2,0.08,,dry,19,,False,41,52,shrub,ok,216.0,2021.0,True,May–Oct
+ca_trinity_shasta:00373,699.4,0.08,,dry,19,,False,41,21,developed_open,drop,54.0,2015.0,True,May–Oct
+ca_trinity_shasta:00374,1166.0,0.38,,dry,5,acid_plutonic,True,42,52,shrub,ok,54.0,,True,Jun–Sep
+ca_trinity_shasta:00375,1149.6,0.38,14.0,seasonal,5,acid_plutonic,True,42,24,developed_high,drop,29.0,,True,Jun–Sep
+ca_trinity_shasta:00376,534.0,0.34,,dry,5,acid_plutonic,True,41,52,shrub,ok,283.0,2009.0,True,May–Oct
+ca_trinity_shasta:00377,527.6,0.34,,dry,5,acid_plutonic,True,41,42,evergreen,ok,70.0,2009.0,True,May–Oct
+ca_trinity_shasta:00378,135.6,0.08,33.0,year_round,5,acid_plutonic,True,41,11,open_water,ok,165.0,2022.0,True,May–Oct
+ca_trinity_shasta:00379,118.8,0.08,,dry,5,acid_plutonic,True,41,31,barren,ok,161.0,2022.0,True,May–Oct
+ca_trinity_shasta:00380,402.9,0.34,,dry,1,unconsolidated,False,42,42,evergreen,ok,106.0,2018.0,True,May–Oct
+ca_trinity_shasta:00381,378.2,0.34,,dry,1,unconsolidated,False,41,52,shrub,ok,273.0,2021.0,True,May–Oct
+ca_trinity_shasta:00382,817.7,0.38,,dry,5,acid_plutonic,True,42,42,evergreen,ok,35.0,,True,May–Oct
+ca_trinity_shasta:00383,854.7,0.38,,dry,5,acid_plutonic,True,42,21,developed_open,drop,5.0,,True,Jun–Oct
+ca_trinity_shasta:00384,882.8,0.38,,dry,19,,False,32,95,herb_wetland,ok,236.0,,True,Apr–Sep
+ca_trinity_shasta:00385,963.8,0.38,,dry,19,,False,32,21,developed_open,drop,43.0,,True,"Apr, Jun–Sep"
+ca_trinity_shasta:00386,904.5,0.38,,dry,5,acid_plutonic,True,42,42,evergreen,ok,118.0,,True,Jun–Oct
+ca_trinity_shasta:00387,864.7,0.38,,dry,5,acid_plutonic,True,42,42,evergreen,ok,79.0,,True,May–Oct
+ca_trinity_shasta:00388,208.5,0.45,27.0,year_round,5,acid_plutonic,True,42,11,open_water,ok,83.0,2021.0,True,May–Oct
+ca_trinity_shasta:00389,203.8,0.45,18.0,seasonal,5,acid_plutonic,True,41,11,open_water,ok,115.0,2008.0,True,May–Oct
+ca_trinity_shasta:00390,115.8,0.45,85.0,year_round,5,acid_plutonic,True,42,11,open_water,ok,115.0,2023.0,True,May–Oct
+ca_trinity_shasta:00391,108.8,0.45,77.0,year_round,5,acid_plutonic,True,41,11,open_water,ok,56.0,2023.0,True,May–Oct
+ca_trinity_shasta:00392,306.4,0.34,,dry,5,acid_plutonic,True,41,52,shrub,ok,264.0,2018.0,True,May–Oct
+ca_trinity_shasta:00393,371.2,0.34,,dry,5,acid_plutonic,True,41,71,grassland,ok,1060.0,2018.0,True,May–Oct
+ca_trinity_shasta:00394,752.0,0.34,,dry,1,unconsolidated,False,42,42,evergreen,ok,98.0,,True,May–Oct
+ca_trinity_shasta:00395,818.4,0.34,,dry,1,unconsolidated,False,41,21,developed_open,drop,66.0,,True,May–Oct
+ca_trinity_shasta:00396,1469.9,0.38,,dry,5,acid_plutonic,True,42,42,evergreen,ok,608.0,2021.0,True,Jun–Sep
+ca_trinity_shasta:00397,1405.3,0.38,,dry,5,acid_plutonic,True,42,42,evergreen,ok,1802.0,2021.0,True,Jun–Sep
+ca_trinity_shasta:00398,824.8,0.38,,dry,19,,False,34,95,herb_wetland,ok,228.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00399,819.2,0.38,4.0,seasonal,19,,False,41,11,open_water,ok,162.0,,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00400,701.2,0.45,,dry,1,unconsolidated,False,41,42,evergreen,ok,232.0,2021.0,True,May–Oct
+ca_trinity_shasta:00401,700.0,0.45,,dry,1,unconsolidated,False,41,42,evergreen,ok,193.0,2021.0,True,May–Oct
+ca_trinity_shasta:00402,507.2,0.34,,dry,1,unconsolidated,False,42,42,evergreen,ok,572.0,2018.0,True,May–Oct
+ca_trinity_shasta:00403,584.4,0.34,,dry,1,unconsolidated,False,41,42,evergreen,ok,1460.0,2018.0,True,May–Oct
+ca_trinity_shasta:00404,1244.0,0.45,,dry,1,unconsolidated,False,41,42,evergreen,ok,213.0,2021.0,True,May–Oct
+ca_trinity_shasta:00405,1122.3,0.45,,dry,1,unconsolidated,False,42,42,evergreen,ok,81.0,2021.0,True,May–Oct
+ca_trinity_shasta:00406,926.1,0.38,,dry,3,non_carb_sed,False,41,52,shrub,ok,22.0,,True,May–Oct
+ca_trinity_shasta:00407,839.1,0.38,,dry,3,non_carb_sed,False,41,71,grassland,ok,48.0,2018.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00408,841.0,0.38,,dry,1,unconsolidated,False,42,42,evergreen,ok,21.0,2022.0,True,May–Oct
+ca_trinity_shasta:00409,970.1,0.38,,dry,1,unconsolidated,False,42,42,evergreen,ok,47.0,2022.0,True,May–Oct
+ca_trinity_shasta:00410,1151.9,0.38,,dry,1,unconsolidated,False,41,42,evergreen,ok,130.0,,True,May–Oct
+ca_trinity_shasta:00411,1364.5,0.38,,dry,1,unconsolidated,False,41,42,evergreen,ok,243.0,,True,Jun–Sep
+ca_trinity_shasta:00412,329.7,0.08,,dry,1,unconsolidated,False,42,42,evergreen,ok,157.0,2021.0,True,May–Oct
+ca_trinity_shasta:00413,324.8,0.08,59.0,year_round,1,unconsolidated,False,42,11,open_water,ok,69.0,2021.0,True,May–Oct
+ca_trinity_shasta:00414,1380.4,0.38,,dry,5,acid_plutonic,True,42,42,evergreen,ok,312.0,2021.0,True,Jun–Sep
+ca_trinity_shasta:00415,1351.6,0.38,,dry,5,acid_plutonic,True,42,52,shrub,ok,83.0,2021.0,True,Jun–Sep
+ca_trinity_shasta:00416,385.7,0.45,,dry,5,acid_plutonic,True,42,42,evergreen,ok,601.0,1999.0,True,May–Oct
+ca_trinity_shasta:00417,464.1,0.45,,dry,5,acid_plutonic,True,42,43,mixed_forest,ok,155.0,1999.0,True,May–Oct
+ca_trinity_shasta:00418,542.8,0.34,,dry,5,acid_plutonic,True,42,43,mixed_forest,ok,79.0,2018.0,True,May–Oct
+ca_trinity_shasta:00419,559.2,0.34,,dry,5,acid_plutonic,True,42,42,evergreen,ok,36.0,2018.0,True,May–Oct
+ca_trinity_shasta:00420,355.4,0.45,,dry,1,unconsolidated,False,41,31,barren,ok,97.0,2022.0,True,May–Oct
+ca_trinity_shasta:00421,354.6,0.45,,dry,1,unconsolidated,False,42,31,barren,ok,121.0,2022.0,True,May–Oct
+ca_trinity_shasta:00422,1106.7,0.38,,dry,5,acid_plutonic,True,42,42,evergreen,ok,91.0,,True,Jun–Oct
+ca_trinity_shasta:00423,1155.9,0.38,,dry,5,acid_plutonic,True,42,42,evergreen,ok,489.0,,True,Jun–Oct
+ca_trinity_shasta:00424,714.0,0.34,98.0,year_round,0,,False,41,11,open_water,ok,1247.0,,True,Jun–Sep
+ca_trinity_shasta:00425,774.8,0.34,,dry,1,unconsolidated,False,32,42,evergreen,ok,506.0,,True,May–Oct
+ca_trinity_shasta:00426,1298.9,0.38,,dry,5,acid_plutonic,True,42,52,shrub,ok,73.0,,True,Jun–Sep
+ca_trinity_shasta:00427,1341.8,0.38,,dry,5,acid_plutonic,True,42,42,evergreen,ok,146.0,,True,Jun–Sep
+ca_trinity_shasta:00428,79.1,0.45,,dry,5,acid_plutonic,True,41,42,evergreen,ok,6.0,,True,May–Oct
+ca_trinity_shasta:00429,127.6,0.08,,dry,5,acid_plutonic,True,41,52,shrub,ok,235.0,2022.0,True,May–Oct
+ca_trinity_shasta:00430,620.4,0.08,,dry,5,acid_plutonic,True,42,42,evergreen,ok,245.0,2021.0,True,May–Oct
+ca_trinity_shasta:00431,613.1,0.08,,dry,5,acid_plutonic,True,42,42,evergreen,ok,588.0,2021.0,True,May–Oct
+ca_trinity_shasta:00432,145.7,0.34,,dry,19,,False,41,95,herb_wetland,ok,232.0,,True,May–Oct
+ca_trinity_shasta:00433,163.1,0.34,,dry,19,,False,31,71,grassland,ok,31.0,,True,May–Oct
+ca_trinity_shasta:00434,244.3,0.34,,dry,5,acid_plutonic,True,41,52,shrub,ok,576.0,2018.0,True,May–Oct
+ca_trinity_shasta:00435,176.7,0.34,80.0,year_round,5,acid_plutonic,True,42,11,open_water,ok,242.0,2018.0,True,May–Oct
+ca_trinity_shasta:00436,737.6,0.38,,dry,1,unconsolidated,False,41,42,evergreen,ok,684.0,2022.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00437,844.9,0.38,,dry,1,unconsolidated,False,41,52,shrub,ok,1505.0,2022.0,True,"Apr, Jun–Oct"
+ca_trinity_shasta:00438,506.4,0.45,,dry,5,acid_plutonic,True,41,71,grassland,ok,278.0,2023.0,True,May–Oct
+ca_trinity_shasta:00439,449.1,0.45,,dry,5,acid_plutonic,True,42,95,herb_wetland,ok,124.0,2016.0,True,May–Oct
+ca_trinity_shasta:00440,1391.7,0.38,,dry,5,acid_plutonic,True,42,52,shrub,ok,2886.0,2021.0,True,Jun–Sep
+ca_trinity_shasta:00441,1288.4,0.38,,dry,5,acid_plutonic,True,41,52,shrub,ok,1560.0,2021.0,True,Jun–Sep
+ca_trinity_shasta:00442,619.2,0.45,,dry,1,unconsolidated,False,42,21,developed_open,drop,1707.0,2020.0,True,May–Oct
+ca_trinity_shasta:00443,568.1,0.45,,dry,1,unconsolidated,False,42,42,evergreen,ok,1015.0,2020.0,True,May–Oct
+ca_trinity_shasta:00444,238.6,0.34,,dry,3,non_carb_sed,False,42,71,grassland,ok,1196.0,2020.0,True,May–Oct
+ca_trinity_shasta:00445,234.5,0.34,,dry,3,non_carb_sed,False,42,71,grassland,ok,1049.0,2020.0,True,May–Oct
+ca_trinity_shasta:00446,406.2,0.08,,dry,1,unconsolidated,False,41,52,shrub,ok,292.0,2021.0,True,May–Oct
+ca_trinity_shasta:00447,339.3,0.08,0.0,dry,1,unconsolidated,False,42,42,evergreen,ok,137.0,2021.0,True,May–Oct
+ca_trinity_shasta:00448,714.0,0.34,68.0,year_round,0,,False,41,95,herb_wetland,ok,97.0,,True,May–Oct
+ca_trinity_shasta:00449,714.0,0.34,49.0,year_round,0,,False,42,95,herb_wetland,ok,158.0,,True,May–Oct
+ca_trinity_shasta:00450,460.6,0.34,,dry,5,acid_plutonic,True,42,71,grassland,ok,31.0,2018.0,True,May–Oct
+ca_trinity_shasta:00451,446.0,0.34,,dry,5,acid_plutonic,True,41,90,woody_wetland,ok,53.0,2018.0,True,May–Oct

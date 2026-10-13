@@ -1,0 +1,417 @@
+pin_id,elev10_m,slope10_deg,water_pct,water_regime,lith_code,lith_name,lith_favor,landform_code,nlcd,nlcd_name,land_filter,road_m,fire_year,has_lidar_1m,best_months
+ca_southern_sierra:00001,376.4,0.57,,dry,5,acid_plutonic,True,42,52,shrub,ok,154.0,2008.0,True,May–Oct
+ca_southern_sierra:00002,323.9,0.57,,dry,5,acid_plutonic,True,42,52,shrub,ok,118.0,2017.0,True,May–Oct
+ca_southern_sierra:00003,254.2,0.57,,dry,5,acid_plutonic,True,42,71,grassland,ok,578.0,2017.0,True,May–Oct
+ca_southern_sierra:00004,331.8,0.57,,dry,5,acid_plutonic,True,41,71,grassland,ok,84.0,2017.0,True,May–Oct
+ca_southern_sierra:00005,675.2,0.66,,dry,5,acid_plutonic,True,41,23,developed_med,drop,64.0,,True,May–Oct
+ca_southern_sierra:00006,697.5,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,6.0,,True,May–Oct
+ca_southern_sierra:00007,445.3,0.57,,dry,5,acid_plutonic,True,42,52,shrub,ok,117.0,2008.0,True,May–Oct
+ca_southern_sierra:00008,574.4,0.57,,dry,5,acid_plutonic,True,41,52,shrub,ok,342.0,2008.0,True,May–Oct
+ca_southern_sierra:00009,516.9,0.57,,dry,5,acid_plutonic,True,41,21,developed_open,drop,31.0,2017.0,True,May–Oct
+ca_southern_sierra:00010,500.7,0.57,,dry,5,acid_plutonic,True,41,52,shrub,ok,76.0,2017.0,True,May–Oct
+ca_southern_sierra:00011,384.4,0.66,,dry,1,unconsolidated,False,42,71,grassland,ok,62.0,2019.0,True,May–Oct
+ca_southern_sierra:00012,426.0,0.66,,dry,1,unconsolidated,False,42,42,evergreen,ok,265.0,2019.0,True,May–Oct
+ca_southern_sierra:00013,591.0,0.66,,dry,5,acid_plutonic,True,42,42,evergreen,ok,531.0,2004.0,True,May–Oct
+ca_southern_sierra:00014,715.3,0.66,,dry,5,acid_plutonic,True,41,43,mixed_forest,ok,216.0,2004.0,True,May–Oct
+ca_southern_sierra:00015,698.0,0.57,,dry,5,acid_plutonic,True,31,42,evergreen,ok,37.0,2020.0,True,May–Oct
+ca_southern_sierra:00016,655.7,0.57,96.0,year_round,5,acid_plutonic,True,31,11,open_water,ok,104.0,2020.0,True,May–Oct
+ca_southern_sierra:00017,604.8,0.57,,dry,5,acid_plutonic,True,42,71,grassland,ok,120.0,2017.0,True,May–Oct
+ca_southern_sierra:00018,638.2,0.57,,dry,5,acid_plutonic,True,31,52,shrub,ok,33.0,2017.0,True,May–Oct
+ca_southern_sierra:00019,264.1,0.57,,dry,5,acid_plutonic,True,41,52,shrub,ok,426.0,2017.0,True,May–Oct
+ca_southern_sierra:00020,471.4,0.57,,dry,5,acid_plutonic,True,41,21,developed_open,drop,4.0,2000.0,True,May–Oct
+ca_southern_sierra:00021,770.7,0.57,,dry,1,unconsolidated,False,32,42,evergreen,ok,64.0,2020.0,True,May–Oct
+ca_southern_sierra:00022,607.2,0.57,,dry,5,acid_plutonic,True,31,71,grassland,ok,86.0,2020.0,True,May–Oct
+ca_southern_sierra:00023,425.0,0.57,,dry,5,acid_plutonic,True,42,71,grassland,ok,418.0,2017.0,True,May–Oct
+ca_southern_sierra:00024,333.2,0.57,,dry,5,acid_plutonic,True,42,42,evergreen,ok,73.0,2017.0,True,May–Oct
+ca_southern_sierra:00025,633.8,0.57,,dry,5,acid_plutonic,True,41,42,evergreen,ok,10.0,2017.0,True,May–Oct
+ca_southern_sierra:00026,575.7,0.57,,dry,5,acid_plutonic,True,41,52,shrub,ok,376.0,2000.0,True,May–Oct
+ca_southern_sierra:00027,767.0,0.57,,dry,1,unconsolidated,False,42,42,evergreen,ok,99.0,1987.0,True,May–Oct
+ca_southern_sierra:00028,720.2,0.57,,dry,1,unconsolidated,False,42,42,evergreen,ok,64.0,1987.0,True,May–Oct
+ca_southern_sierra:00029,461.8,0.57,,dry,1,unconsolidated,False,42,42,evergreen,ok,495.0,2017.0,True,May–Oct
+ca_southern_sierra:00030,474.4,0.57,,dry,1,unconsolidated,False,42,52,shrub,ok,301.0,2017.0,True,May–Oct
+ca_southern_sierra:00031,2558.6,0.66,,dry,7,silicic_residual,False,41,42,evergreen,ok,142.0,,True,"Jun–Jul, Sep"
+ca_southern_sierra:00032,2622.4,0.66,,dry,7,silicic_residual,False,42,42,evergreen,ok,86.0,,True,"Jun–Jul, Sep"
+ca_southern_sierra:00033,259.4,0.66,,dry,5,acid_plutonic,True,42,42,evergreen,ok,196.0,,True,May–Oct
+ca_southern_sierra:00034,342.5,0.66,,dry,5,acid_plutonic,True,31,52,shrub,ok,71.0,,True,May–Oct
+ca_southern_sierra:00035,241.1,0.57,99.0,year_round,5,acid_plutonic,True,41,11,open_water,ok,84.0,2006.0,True,May–Oct
+ca_southern_sierra:00036,241.1,0.57,98.0,year_round,5,acid_plutonic,True,42,11,open_water,ok,248.0,2006.0,True,May–Oct
+ca_southern_sierra:00037,449.0,0.57,,dry,5,acid_plutonic,True,42,42,evergreen,ok,337.0,2017.0,True,May–Oct
+ca_southern_sierra:00038,525.3,0.57,,dry,5,acid_plutonic,True,41,52,shrub,ok,493.0,2017.0,True,May–Oct
+ca_southern_sierra:00039,464.1,0.66,,dry,1,unconsolidated,False,41,52,shrub,ok,62.0,2018.0,True,May–Oct
+ca_southern_sierra:00040,429.0,0.66,,dry,1,unconsolidated,False,42,52,shrub,ok,18.0,2018.0,True,May–Oct
+ca_southern_sierra:00041,452.7,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,168.0,2017.0,True,May–Oct
+ca_southern_sierra:00042,468.4,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,6.0,2017.0,True,May–Oct
+ca_southern_sierra:00043,255.9,0.57,10.0,seasonal,5,acid_plutonic,True,42,52,shrub,ok,16.0,2017.0,True,May–Oct
+ca_southern_sierra:00044,314.3,0.57,,dry,5,acid_plutonic,True,41,52,shrub,ok,93.0,2017.0,True,May–Oct
+ca_southern_sierra:00045,275.1,0.57,,dry,5,acid_plutonic,True,42,52,shrub,ok,221.0,2017.0,True,May–Oct
+ca_southern_sierra:00046,446.0,0.57,,dry,5,acid_plutonic,True,41,71,grassland,ok,732.0,2017.0,True,May–Oct
+ca_southern_sierra:00047,407.5,0.66,,dry,5,acid_plutonic,True,42,52,shrub,ok,553.0,,True,May–Oct
+ca_southern_sierra:00048,369.6,0.66,,dry,5,acid_plutonic,True,42,52,shrub,ok,274.0,,True,May–Oct
+ca_southern_sierra:00049,2025.1,0.34,,dry,4,metamorphic,True,41,52,shrub,ok,28.0,,True,"Apr, Jun–Jul, Sep"
+ca_southern_sierra:00050,2053.6,0.34,,dry,4,metamorphic,True,42,52,shrub,ok,4.0,,True,"Apr, Jun–Jul, Sep"
+ca_southern_sierra:00051,1887.6,0.34,,dry,19,,False,32,52,shrub,ok,88.0,,True,"Apr, Jun–Jul, Sep–Oct"
+ca_southern_sierra:00052,1772.7,0.34,,dry,19,,False,32,52,shrub,ok,276.0,,True,"Apr, Jun–Oct"
+ca_southern_sierra:00053,594.3,0.57,,dry,5,acid_plutonic,True,41,71,grassland,ok,97.0,2019.0,True,May–Oct
+ca_southern_sierra:00054,600.4,0.57,,dry,5,acid_plutonic,True,41,52,shrub,ok,231.0,2019.0,True,May–Oct
+ca_southern_sierra:00055,241.5,0.57,64.0,year_round,5,acid_plutonic,True,41,11,open_water,ok,214.0,1992.0,True,May–Oct
+ca_southern_sierra:00056,797.7,0.57,,dry,1,unconsolidated,False,41,42,evergreen,ok,85.0,,True,May–Oct
+ca_southern_sierra:00057,822.4,0.57,,dry,1,unconsolidated,False,41,41,deciduous,ok,36.0,,True,May–Oct
+ca_southern_sierra:00058,479.3,0.66,,dry,1,unconsolidated,False,42,71,grassland,ok,221.0,2019.0,True,May–Oct
+ca_southern_sierra:00059,655.1,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,10.0,2019.0,True,May–Oct
+ca_southern_sierra:00060,471.0,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,67.0,,True,May–Oct
+ca_southern_sierra:00061,512.9,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,132.0,,True,May–Oct
+ca_southern_sierra:00062,370.7,0.66,,dry,5,acid_plutonic,True,42,52,shrub,ok,120.0,,True,May–Oct
+ca_southern_sierra:00063,361.0,0.66,,dry,5,acid_plutonic,True,41,41,deciduous,ok,79.0,,True,May–Oct
+ca_southern_sierra:00064,1269.5,0.34,,dry,19,,False,34,52,shrub,ok,71.0,,False,"Apr, Jun–Oct"
+ca_southern_sierra:00065,1403.9,0.34,,dry,19,,False,31,52,shrub,ok,12.0,,False,"Apr, Jun–Oct"
+ca_southern_sierra:00066,494.8,0.57,,dry,5,acid_plutonic,True,41,42,evergreen,ok,60.0,2017.0,True,May–Oct
+ca_southern_sierra:00067,535.1,0.57,,dry,5,acid_plutonic,True,41,71,grassland,ok,386.0,2017.0,True,May–Oct
+ca_southern_sierra:00068,463.4,0.57,,dry,1,unconsolidated,False,42,71,grassland,ok,229.0,2017.0,True,May–Oct
+ca_southern_sierra:00069,475.8,0.57,,dry,1,unconsolidated,False,42,71,grassland,ok,543.0,2017.0,True,May–Oct
+ca_southern_sierra:00070,257.6,0.57,9.0,seasonal,5,acid_plutonic,True,42,71,grassland,ok,312.0,2017.0,True,May–Oct
+ca_southern_sierra:00071,263.0,0.57,,dry,5,acid_plutonic,True,42,71,grassland,ok,899.0,2017.0,True,May–Oct
+ca_southern_sierra:00072,255.8,0.57,,dry,5,acid_plutonic,True,41,52,shrub,ok,11.0,,True,"Apr, Jun–Oct"
+ca_southern_sierra:00073,258.0,0.57,,dry,5,acid_plutonic,True,41,71,grassland,ok,144.0,,True,"Apr, Jun–Oct"
+ca_southern_sierra:00074,250.1,0.57,14.0,seasonal,5,acid_plutonic,True,42,71,grassland,ok,576.0,2017.0,True,May–Oct
+ca_southern_sierra:00075,292.6,0.57,,dry,5,acid_plutonic,True,42,52,shrub,ok,136.0,2017.0,True,May–Oct
+ca_southern_sierra:00076,276.7,0.57,15.0,seasonal,5,acid_plutonic,True,42,42,evergreen,ok,416.0,2017.0,True,May–Oct
+ca_southern_sierra:00077,412.4,0.57,,dry,5,acid_plutonic,True,42,71,grassland,ok,641.0,2020.0,True,May–Oct
+ca_southern_sierra:00078,400.0,0.57,,dry,5,acid_plutonic,True,42,71,grassland,ok,177.0,2020.0,True,May–Oct
+ca_southern_sierra:00079,568.3,0.66,,dry,5,acid_plutonic,True,42,52,shrub,ok,124.0,,True,May–Oct
+ca_southern_sierra:00080,414.5,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,297.0,,True,May–Oct
+ca_southern_sierra:00081,226.5,0.66,,dry,5,acid_plutonic,True,42,42,evergreen,ok,157.0,,True,May–Oct
+ca_southern_sierra:00082,240.6,0.66,,dry,5,acid_plutonic,True,31,71,grassland,ok,579.0,,True,May–Oct
+ca_southern_sierra:00083,250.6,0.57,93.0,year_round,0,,False,41,11,open_water,ok,1468.0,2017.0,True,"Apr, Jun–Oct"
+ca_southern_sierra:00084,271.8,0.57,,dry,0,,False,41,52,shrub,ok,897.0,2017.0,True,May–Oct
+ca_southern_sierra:00085,292.4,0.57,,dry,5,acid_plutonic,True,42,41,deciduous,ok,364.0,2017.0,True,May–Oct
+ca_southern_sierra:00086,257.1,0.57,,dry,5,acid_plutonic,True,42,71,grassland,ok,765.0,2017.0,True,May–Oct
+ca_southern_sierra:00087,334.5,0.57,,dry,5,acid_plutonic,True,41,41,deciduous,ok,661.0,2017.0,True,May–Oct
+ca_southern_sierra:00088,256.3,0.57,,dry,5,acid_plutonic,True,42,41,deciduous,ok,203.0,,True,May–Oct
+ca_southern_sierra:00089,323.5,0.57,,dry,1,unconsolidated,False,42,52,shrub,ok,45.0,2008.0,True,May–Oct
+ca_southern_sierra:00090,326.3,0.57,,dry,1,unconsolidated,False,42,52,shrub,ok,84.0,2008.0,True,May–Oct
+ca_southern_sierra:00091,2137.8,0.34,,dry,4,metamorphic,True,41,52,shrub,ok,162.0,,True,"Apr, Jun–Jul, Sep"
+ca_southern_sierra:00092,2090.2,0.34,,dry,4,metamorphic,True,42,52,shrub,ok,21.0,,True,"Apr, Jun–Jul, Sep"
+ca_southern_sierra:00093,615.8,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,239.0,,True,May–Oct
+ca_southern_sierra:00094,600.4,0.66,,dry,5,acid_plutonic,True,41,52,shrub,ok,442.0,,True,May–Oct
+ca_southern_sierra:00095,1311.8,0.34,,dry,19,,False,31,90,woody_wetland,ok,28.0,,True,"Apr–Jul, Sep–Oct"
+ca_southern_sierra:00096,1321.4,0.34,,dry,19,,False,34,52,shrub,ok,1.0,,True,"Apr–Jul, Sep–Oct"
+ca_southern_sierra:00097,1414.0,0.34,,dry,19,,False,31,52,shrub,ok,233.0,,False,"Apr–Jul, Sep–Oct"
+ca_southern_sierra:00098,1353.6,0.34,,dry,19,,False,31,52,shrub,ok,84.0,,False,"Apr–Jul, Sep–Oct"
+ca_southern_sierra:00099,382.2,0.66,,dry,1,unconsolidated,False,42,52,shrub,ok,6.0,2019.0,True,May–Oct
+ca_southern_sierra:00100,457.0,0.66,,dry,1,unconsolidated,False,41,52,shrub,ok,57.0,2018.0,True,May–Oct
+ca_southern_sierra:00101,2059.6,0.41,,dry,5,acid_plutonic,True,32,52,shrub,ok,483.0,2007.0,True,"Jun–Jul, Sep–Oct"
+ca_southern_sierra:00102,2237.7,0.41,,dry,5,acid_plutonic,True,32,52,shrub,ok,138.0,2007.0,True,"Jun–Jul, Sep–Oct"
+ca_southern_sierra:00103,117.1,0.66,,dry,5,acid_plutonic,True,42,71,grassland,ok,848.0,,True,May–Oct
+ca_southern_sierra:00104,120.7,0.66,,dry,5,acid_plutonic,True,42,90,woody_wetland,ok,102.0,,True,May–Oct
+ca_southern_sierra:00105,367.8,0.57,,dry,5,acid_plutonic,True,42,71,grassland,ok,667.0,2017.0,True,May–Oct
+ca_southern_sierra:00106,418.9,0.57,,dry,5,acid_plutonic,True,41,52,shrub,ok,747.0,2017.0,True,May–Oct
+ca_southern_sierra:00107,820.7,0.66,,dry,1,unconsolidated,False,42,52,shrub,ok,146.0,1987.0,True,May–Oct
+ca_southern_sierra:00108,872.6,0.66,,dry,1,unconsolidated,False,41,42,evergreen,ok,115.0,2008.0,True,May–Oct
+ca_southern_sierra:00109,471.9,0.66,,dry,1,unconsolidated,False,42,42,evergreen,ok,46.0,2018.0,True,May–Oct
+ca_southern_sierra:00110,463.2,0.66,,dry,1,unconsolidated,False,42,11,open_water,ok,36.0,2018.0,True,May–Oct
+ca_southern_sierra:00111,1850.4,0.34,,dry,19,,False,32,52,shrub,ok,42.0,,True,"Apr, Jun–Oct"
+ca_southern_sierra:00112,1753.7,0.34,,dry,19,,False,31,52,shrub,ok,156.0,,True,"Apr, Jun–Oct"
+ca_southern_sierra:00113,2108.5,0.34,,dry,5,acid_plutonic,True,41,52,shrub,ok,174.0,,True,"Apr, Jun–Jul, Sep"
+ca_southern_sierra:00114,2040.6,0.34,,dry,5,acid_plutonic,True,41,52,shrub,ok,321.0,,True,"Apr, Jun–Jul, Sep–Oct"
+ca_southern_sierra:00115,657.2,0.57,,dry,1,unconsolidated,False,42,42,evergreen,ok,480.0,1987.0,True,May–Oct
+ca_southern_sierra:00116,693.4,0.57,,dry,1,unconsolidated,False,42,42,evergreen,ok,569.0,1987.0,True,May–Oct
+ca_southern_sierra:00117,249.3,0.57,,dry,5,acid_plutonic,True,41,71,grassland,ok,114.0,1992.0,True,May–Oct
+ca_southern_sierra:00118,187.5,0.66,,dry,0,,False,41,42,evergreen,ok,1449.0,,True,May–Oct
+ca_southern_sierra:00119,391.5,0.57,,dry,5,acid_plutonic,True,42,52,shrub,ok,1264.0,2017.0,True,May–Oct
+ca_southern_sierra:00120,407.8,0.57,,dry,5,acid_plutonic,True,42,52,shrub,ok,698.0,2017.0,True,May–Oct
+ca_southern_sierra:00121,921.1,0.66,,dry,1,unconsolidated,False,42,42,evergreen,ok,1012.0,2022.0,True,May–Oct
+ca_southern_sierra:00122,691.7,0.66,,dry,1,unconsolidated,False,42,42,evergreen,ok,2145.0,2022.0,True,May–Oct
+ca_southern_sierra:00123,108.6,0.57,,dry,5,acid_plutonic,True,42,71,grassland,ok,154.0,,True,"Apr, Jun–Oct"
+ca_southern_sierra:00124,121.3,0.57,,dry,5,acid_plutonic,True,41,52,shrub,ok,144.0,,True,"Apr, Jun–Oct"
+ca_southern_sierra:00125,432.4,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,418.0,2017.0,True,May–Oct
+ca_southern_sierra:00126,457.1,0.66,,dry,5,acid_plutonic,True,31,52,shrub,ok,159.0,2017.0,True,May–Oct
+ca_southern_sierra:00127,424.0,0.66,,dry,5,acid_plutonic,True,31,71,grassland,ok,153.0,,True,May–Oct
+ca_southern_sierra:00128,414.3,0.66,,dry,5,acid_plutonic,True,31,71,grassland,ok,59.0,,True,May–Oct
+ca_southern_sierra:00129,358.0,0.57,,dry,5,acid_plutonic,True,41,71,grassland,ok,254.0,2017.0,True,May–Oct
+ca_southern_sierra:00130,458.2,0.57,,dry,5,acid_plutonic,True,41,41,deciduous,ok,1138.0,2017.0,True,May–Oct
+ca_southern_sierra:00131,357.8,0.57,,dry,5,acid_plutonic,True,42,52,shrub,ok,1060.0,2017.0,True,May–Oct
+ca_southern_sierra:00132,323.5,0.57,,dry,5,acid_plutonic,True,42,71,grassland,ok,1379.0,,True,May–Oct
+ca_southern_sierra:00133,425.5,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,695.0,,True,May–Oct
+ca_southern_sierra:00134,456.1,0.66,,dry,5,acid_plutonic,True,31,42,evergreen,ok,22.0,2017.0,True,May–Oct
+ca_southern_sierra:00135,742.8,0.66,,dry,5,acid_plutonic,True,42,21,developed_open,drop,24.0,2022.0,True,May–Oct
+ca_southern_sierra:00136,756.7,0.66,,dry,5,acid_plutonic,True,42,42,evergreen,ok,64.0,2022.0,True,May–Oct
+ca_southern_sierra:00137,436.2,0.57,,dry,5,acid_plutonic,True,42,52,shrub,ok,87.0,2013.0,True,May–Oct
+ca_southern_sierra:00138,411.9,0.57,,dry,5,acid_plutonic,True,42,52,shrub,ok,232.0,2013.0,True,May–Oct
+ca_southern_sierra:00139,522.9,0.66,,dry,1,unconsolidated,False,42,42,evergreen,ok,340.0,2018.0,True,May–Oct
+ca_southern_sierra:00140,550.6,0.66,,dry,1,unconsolidated,False,42,52,shrub,ok,276.0,2018.0,True,May–Oct
+ca_southern_sierra:00141,182.7,0.57,,dry,5,acid_plutonic,True,42,71,grassland,ok,1058.0,,True,May–Oct
+ca_southern_sierra:00142,174.5,0.57,,dry,5,acid_plutonic,True,42,71,grassland,ok,1086.0,,True,May–Oct
+ca_southern_sierra:00143,89.5,1.01,2.0,seasonal,19,,False,42,11,open_water,ok,241.0,2008.0,True,May–Oct
+ca_southern_sierra:00144,100.6,1.01,,dry,19,,False,41,71,grassland,ok,240.0,2008.0,True,May–Oct
+ca_southern_sierra:00145,67.8,0.57,,dry,19,,False,34,82,cropland,drop,57.0,,True,May–Oct
+ca_southern_sierra:00146,64.8,0.57,,dry,19,,False,34,82,cropland,drop,436.0,,True,May–Oct
+ca_southern_sierra:00147,82.9,1.01,,dry,19,,False,41,71,grassland,ok,195.0,,True,May–Oct
+ca_southern_sierra:00148,286.9,0.57,,dry,5,acid_plutonic,True,31,71,grassland,ok,132.0,,True,May–Oct
+ca_southern_sierra:00149,261.5,0.57,,dry,5,acid_plutonic,True,31,71,grassland,ok,43.0,,True,May–Oct
+ca_southern_sierra:00150,615.6,0.66,,dry,1,unconsolidated,False,41,71,grassland,ok,1133.0,2019.0,True,May–Oct
+ca_southern_sierra:00151,524.0,0.66,,dry,1,unconsolidated,False,41,42,evergreen,ok,520.0,2019.0,True,May–Oct
+ca_southern_sierra:00152,115.5,0.57,,dry,5,acid_plutonic,True,41,71,grassland,ok,551.0,2008.0,True,May–Oct
+ca_southern_sierra:00153,92.4,0.57,,dry,3,non_carb_sed,False,34,71,grassland,ok,333.0,,True,May–Oct
+ca_southern_sierra:00154,974.0,0.57,,dry,1,unconsolidated,False,41,42,evergreen,ok,25.0,,True,May–Oct
+ca_southern_sierra:00155,974.0,0.57,,dry,1,unconsolidated,False,41,71,grassland,ok,203.0,,True,May–Oct
+ca_southern_sierra:00156,142.4,0.66,,dry,5,acid_plutonic,True,41,71,grassland,ok,5.0,,True,May–Oct
+ca_southern_sierra:00157,129.4,0.66,,dry,5,acid_plutonic,True,42,71,grassland,ok,5.0,,True,May–Oct
+ca_southern_sierra:00158,250.7,0.57,31.0,year_round,5,acid_plutonic,True,41,95,herb_wetland,ok,161.0,2000.0,True,May–Oct
+ca_southern_sierra:00159,251.0,0.57,26.0,year_round,5,acid_plutonic,True,41,71,grassland,ok,285.0,2017.0,True,May–Oct
+ca_southern_sierra:00160,154.4,0.57,,dry,5,acid_plutonic,True,41,71,grassland,ok,99.0,,True,May–Oct
+ca_southern_sierra:00161,149.1,0.57,,dry,5,acid_plutonic,True,41,71,grassland,ok,100.0,,True,May–Oct
+ca_southern_sierra:00162,97.4,0.57,,dry,19,,False,34,71,grassland,ok,544.0,,True,May–Oct
+ca_southern_sierra:00163,102.3,0.57,,dry,19,,False,34,81,pasture,drop,214.0,,True,May–Oct
+ca_southern_sierra:00164,161.3,0.57,,dry,5,acid_plutonic,True,42,71,grassland,ok,899.0,2008.0,True,May–Oct
+ca_southern_sierra:00165,163.5,0.57,,dry,5,acid_plutonic,True,42,52,shrub,ok,1678.0,2008.0,True,May–Oct
+ca_southern_sierra:00166,539.1,0.66,,dry,5,acid_plutonic,True,42,42,evergreen,ok,531.0,,True,May–Oct
+ca_southern_sierra:00167,517.5,0.66,,dry,5,acid_plutonic,True,42,42,evergreen,ok,26.0,,True,May–Oct
+ca_southern_sierra:00168,345.2,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,111.0,2021.0,True,May–Oct
+ca_southern_sierra:00169,414.1,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,711.0,2021.0,True,May–Oct
+ca_southern_sierra:00170,52.2,0.57,,dry,19,,False,42,71,grassland,ok,416.0,,True,May–Oct
+ca_southern_sierra:00171,48.2,0.57,1.0,seasonal,19,,False,41,71,grassland,ok,131.0,,True,May–Oct
+ca_southern_sierra:00172,1412.8,0.34,,dry,19,,False,21,52,shrub,ok,25.0,,False,"Apr, Jun–Jul, Sep–Nov"
+ca_southern_sierra:00173,1305.4,0.34,,dry,19,,False,31,52,shrub,ok,58.0,,False,"Apr, Jun–Jul, Sep–Nov"
+ca_southern_sierra:00174,404.0,0.66,,dry,5,acid_plutonic,True,41,52,shrub,ok,369.0,,True,May–Oct
+ca_southern_sierra:00175,349.6,0.66,,dry,5,acid_plutonic,True,42,41,deciduous,ok,169.0,2021.0,True,May–Oct
+ca_southern_sierra:00176,1587.9,0.34,,dry,4,metamorphic,True,31,52,shrub,ok,954.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_southern_sierra:00177,1670.7,0.34,,dry,4,metamorphic,True,31,31,barren,ok,500.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_southern_sierra:00178,2037.8,0.66,,dry,5,acid_plutonic,True,42,52,shrub,ok,367.0,2020.0,True,Jun–Sep
+ca_southern_sierra:00179,1953.7,0.66,,dry,5,acid_plutonic,True,41,71,grassland,ok,1225.0,2020.0,True,Jun–Sep
+ca_southern_sierra:00180,211.4,1.01,,dry,5,acid_plutonic,True,42,52,shrub,ok,110.0,1987.0,True,May–Oct
+ca_southern_sierra:00181,182.0,1.01,,dry,5,acid_plutonic,True,41,52,shrub,ok,124.0,1987.0,True,May–Oct
+ca_southern_sierra:00182,549.7,1.01,,dry,5,acid_plutonic,True,41,52,shrub,ok,110.0,,True,May–Oct
+ca_southern_sierra:00183,507.9,1.01,,dry,5,acid_plutonic,True,41,42,evergreen,ok,258.0,,True,May–Oct
+ca_southern_sierra:00184,96.1,0.57,,dry,3,non_carb_sed,False,42,71,grassland,ok,153.0,,True,May–Oct
+ca_southern_sierra:00185,95.7,0.57,,dry,3,non_carb_sed,False,41,71,grassland,ok,710.0,,True,May–Oct
+ca_southern_sierra:00186,162.7,0.57,,dry,5,acid_plutonic,True,42,71,grassland,ok,1292.0,,True,May–Oct
+ca_southern_sierra:00187,153.1,0.57,,dry,5,acid_plutonic,True,41,71,grassland,ok,552.0,,True,May–Oct
+ca_southern_sierra:00188,172.5,0.57,,dry,5,acid_plutonic,True,42,71,grassland,ok,43.0,,True,May–Oct
+ca_southern_sierra:00189,140.8,0.57,,dry,5,acid_plutonic,True,42,71,grassland,ok,52.0,,True,May–Oct
+ca_southern_sierra:00190,133.5,0.66,,dry,19,,False,31,71,grassland,ok,277.0,,True,May–Oct
+ca_southern_sierra:00191,135.0,0.66,,dry,5,acid_plutonic,True,42,52,shrub,ok,391.0,,True,May–Oct
+ca_southern_sierra:00192,712.3,0.57,,dry,1,unconsolidated,False,42,42,evergreen,ok,112.0,2017.0,True,May–Oct
+ca_southern_sierra:00193,781.9,0.57,,dry,1,unconsolidated,False,42,42,evergreen,ok,274.0,2017.0,True,May–Oct
+ca_southern_sierra:00194,2546.0,0.34,,dry,5,acid_plutonic,True,41,42,evergreen,ok,84.0,2009.0,True,"Jun–Jul, Sep–Oct"
+ca_southern_sierra:00195,2482.9,0.34,,dry,11,water,False,41,21,developed_open,drop,32.0,2009.0,True,"Jun–Jul, Sep–Oct"
+ca_southern_sierra:00196,79.8,0.57,,dry,19,,False,41,71,grassland,ok,96.0,,True,May–Oct
+ca_southern_sierra:00197,75.9,0.57,,dry,19,,False,41,31,barren,ok,152.0,,True,May–Oct
+ca_southern_sierra:00198,59.6,0.57,,dry,19,,False,31,82,cropland,drop,737.0,,True,May–Oct
+ca_southern_sierra:00199,40.9,0.57,,dry,19,,False,42,90,woody_wetland,ok,551.0,,True,May–Oct
+ca_southern_sierra:00200,179.7,0.66,,dry,5,acid_plutonic,True,42,52,shrub,ok,278.0,,True,May–Oct
+ca_southern_sierra:00201,180.0,0.66,16.0,seasonal,5,acid_plutonic,True,42,52,shrub,ok,926.0,,True,May–Oct
+ca_southern_sierra:00202,90.1,1.01,4.0,seasonal,19,,False,41,71,grassland,ok,311.0,2008.0,True,May–Oct
+ca_southern_sierra:00203,149.5,0.41,88.0,year_round,19,,False,34,11,open_water,ok,274.0,2017.0,True,May–Oct
+ca_southern_sierra:00204,161.0,0.41,,dry,19,,False,41,71,grassland,ok,32.0,2017.0,True,May–Oct
+ca_southern_sierra:00205,172.4,0.66,,dry,0,,False,42,71,grassland,ok,321.0,,True,May–Oct
+ca_southern_sierra:00206,204.7,0.66,,dry,5,acid_plutonic,True,41,52,shrub,ok,233.0,,True,May–Oct
+ca_southern_sierra:00207,128.1,0.57,,dry,5,acid_plutonic,True,42,71,grassland,ok,369.0,,True,May–Oct
+ca_southern_sierra:00208,195.4,0.57,,dry,5,acid_plutonic,True,41,52,shrub,ok,770.0,1985.0,True,May–Oct
+ca_southern_sierra:00209,661.2,0.66,,dry,1,unconsolidated,False,41,42,evergreen,ok,812.0,2018.0,True,May–Oct
+ca_southern_sierra:00210,590.6,0.66,,dry,1,unconsolidated,False,42,71,grassland,ok,181.0,2018.0,True,May–Oct
+ca_southern_sierra:00211,291.1,0.57,,dry,5,acid_plutonic,True,42,52,shrub,ok,874.0,,True,May–Oct
+ca_southern_sierra:00212,251.7,0.57,,dry,5,acid_plutonic,True,41,52,shrub,ok,869.0,,True,May–Oct
+ca_southern_sierra:00213,1727.1,0.34,,dry,5,acid_plutonic,True,41,52,shrub,ok,1080.0,,False,"Apr, Jun–Jul, Sep–Nov"
+ca_southern_sierra:00214,1566.1,0.34,,dry,5,acid_plutonic,True,31,52,shrub,ok,31.0,,False,"Apr, Jun–Jul, Sep–Nov"
+ca_southern_sierra:00215,490.4,0.66,,dry,1,unconsolidated,False,42,21,developed_open,drop,13.0,2018.0,True,May–Oct
+ca_southern_sierra:00216,517.5,0.66,,dry,1,unconsolidated,False,42,52,shrub,ok,25.0,2018.0,True,May–Oct
+ca_southern_sierra:00217,371.3,0.66,,dry,5,acid_plutonic,True,42,52,shrub,ok,245.0,,True,May–Oct
+ca_southern_sierra:00218,323.3,0.66,,dry,5,acid_plutonic,True,42,52,shrub,ok,828.0,,True,May–Oct
+ca_southern_sierra:00219,97.4,0.57,,dry,19,,False,41,71,grassland,ok,203.0,,True,May–Oct
+ca_southern_sierra:00220,109.5,0.57,,dry,5,acid_plutonic,True,41,71,grassland,ok,139.0,,True,May–Oct
+ca_southern_sierra:00221,319.0,0.57,,dry,1,unconsolidated,False,42,71,grassland,ok,1341.0,2017.0,True,May–Oct
+ca_southern_sierra:00222,632.0,0.57,,dry,1,unconsolidated,False,32,52,shrub,ok,829.0,2017.0,True,May–Oct
+ca_southern_sierra:00223,988.0,0.66,,dry,1,unconsolidated,False,41,42,evergreen,ok,1575.0,2018.0,True,May–Oct
+ca_southern_sierra:00224,826.1,0.66,,dry,1,unconsolidated,False,41,42,evergreen,ok,711.0,2018.0,True,May–Oct
+ca_southern_sierra:00225,988.9,0.66,,dry,1,unconsolidated,False,42,52,shrub,ok,328.0,2018.0,True,May–Oct
+ca_southern_sierra:00226,612.9,0.66,,dry,1,unconsolidated,False,41,52,shrub,ok,644.0,2018.0,True,May–Oct
+ca_southern_sierra:00227,370.6,0.66,,dry,1,unconsolidated,False,42,11,open_water,ok,23.0,2019.0,True,May–Oct
+ca_southern_sierra:00228,357.1,0.66,,dry,1,unconsolidated,False,42,52,shrub,ok,31.0,2019.0,True,May–Oct
+ca_southern_sierra:00229,680.8,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,212.0,2022.0,True,May–Oct
+ca_southern_sierra:00230,665.9,0.66,,dry,5,acid_plutonic,True,42,42,evergreen,ok,74.0,,True,May–Oct
+ca_southern_sierra:00231,2441.4,0.34,,dry,11,water,False,41,42,evergreen,ok,3.0,,True,Jun–Sep
+ca_southern_sierra:00232,2424.9,0.34,,dry,11,water,False,41,21,developed_open,drop,40.0,,True,Jun–Sep
+ca_southern_sierra:00233,1300.7,0.34,,dry,19,,False,34,52,shrub,ok,188.0,,False,"Apr–Jul, Sep–Oct"
+ca_southern_sierra:00234,1284.8,0.34,,dry,19,,False,41,52,shrub,ok,79.0,,False,"Apr–Jul, Sep–Oct"
+ca_southern_sierra:00235,345.1,0.66,,dry,5,acid_plutonic,True,42,43,mixed_forest,ok,55.0,,True,May–Oct
+ca_southern_sierra:00236,366.2,0.66,,dry,5,acid_plutonic,True,41,71,grassland,ok,248.0,,True,May–Oct
+ca_southern_sierra:00237,560.1,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,0.0,,True,May–Oct
+ca_southern_sierra:00238,494.2,0.66,,dry,5,acid_plutonic,True,41,52,shrub,ok,223.0,,True,May–Oct
+ca_southern_sierra:00239,334.2,0.57,,dry,5,acid_plutonic,True,41,52,shrub,ok,20.0,,True,May–Oct
+ca_southern_sierra:00240,302.7,0.57,,dry,5,acid_plutonic,True,42,43,mixed_forest,ok,332.0,,True,May–Oct
+ca_southern_sierra:00241,312.1,0.57,,dry,5,acid_plutonic,True,42,41,deciduous,ok,727.0,2017.0,True,May–Oct
+ca_southern_sierra:00242,348.1,0.57,,dry,5,acid_plutonic,True,42,41,deciduous,ok,344.0,2017.0,True,May–Oct
+ca_southern_sierra:00243,342.9,0.57,,dry,5,acid_plutonic,True,41,21,developed_open,drop,7.0,,True,May–Oct
+ca_southern_sierra:00244,296.0,0.57,,dry,5,acid_plutonic,True,41,21,developed_open,drop,10.0,,True,May–Oct
+ca_southern_sierra:00245,833.9,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,290.0,2022.0,True,May–Oct
+ca_southern_sierra:00246,697.0,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,59.0,2022.0,True,May–Oct
+ca_southern_sierra:00247,672.0,0.66,,dry,1,unconsolidated,False,42,52,shrub,ok,1128.0,2018.0,True,May–Oct
+ca_southern_sierra:00248,695.7,0.66,,dry,1,unconsolidated,False,42,52,shrub,ok,294.0,2018.0,True,May–Oct
+ca_southern_sierra:00249,114.5,0.57,,dry,19,,False,34,71,grassland,ok,652.0,,True,May–Oct
+ca_southern_sierra:00250,126.5,0.57,,dry,19,,False,31,71,grassland,ok,139.0,,True,May–Oct
+ca_southern_sierra:00251,784.0,0.57,,dry,1,unconsolidated,False,41,42,evergreen,ok,43.0,,True,May–Oct
+ca_southern_sierra:00252,850.8,0.57,,dry,1,unconsolidated,False,41,42,evergreen,ok,2.0,,True,May–Oct
+ca_southern_sierra:00253,120.2,0.66,,dry,19,,False,21,71,grassland,ok,16.0,,True,May–Oct
+ca_southern_sierra:00254,109.9,0.66,,dry,19,,False,41,71,grassland,ok,23.0,,True,May–Oct
+ca_southern_sierra:00255,275.6,0.66,,dry,5,acid_plutonic,True,41,52,shrub,ok,364.0,2017.0,True,May–Oct
+ca_southern_sierra:00256,328.5,0.66,,dry,5,acid_plutonic,True,41,21,developed_open,drop,6.0,2017.0,True,May–Oct
+ca_southern_sierra:00257,208.5,0.66,0.0,dry,5,acid_plutonic,True,42,52,shrub,ok,107.0,,True,May–Oct
+ca_southern_sierra:00258,187.7,0.66,,dry,5,acid_plutonic,True,42,90,woody_wetland,ok,232.0,,True,May–Oct
+ca_southern_sierra:00259,1699.7,0.34,,dry,19,,False,32,22,developed_low,drop,7.0,1995.0,True,"Apr–Jul, Sep–Oct"
+ca_southern_sierra:00260,1802.5,0.34,,dry,19,,False,41,21,developed_open,drop,18.0,1995.0,True,"May–Jul, Sep–Oct"
+ca_southern_sierra:00261,1711.1,0.41,,dry,5,acid_plutonic,True,32,52,shrub,ok,261.0,2007.0,True,"Apr–Jul, Sep–Oct"
+ca_southern_sierra:00262,2077.2,0.41,,dry,5,acid_plutonic,True,31,52,shrub,ok,449.0,2007.0,True,"Apr–Jul, Sep–Oct"
+ca_southern_sierra:00263,45.6,0.57,,dry,19,,False,42,71,grassland,ok,52.0,,True,May–Oct
+ca_southern_sierra:00264,39.6,0.57,,dry,19,,False,42,82,cropland,drop,336.0,,True,May–Oct
+ca_southern_sierra:00265,177.6,1.01,,dry,5,acid_plutonic,True,41,71,grassland,ok,406.0,,True,May–Oct
+ca_southern_sierra:00266,166.4,1.01,,dry,5,acid_plutonic,True,41,71,grassland,ok,29.0,,True,May–Oct
+ca_southern_sierra:00267,309.1,1.01,,dry,5,acid_plutonic,True,31,42,evergreen,ok,435.0,,True,May–Oct
+ca_southern_sierra:00268,412.2,1.01,,dry,5,acid_plutonic,True,31,71,grassland,ok,495.0,,True,May–Oct
+ca_southern_sierra:00269,257.7,0.57,15.0,seasonal,5,acid_plutonic,True,41,71,grassland,ok,92.0,2000.0,True,May–Oct
+ca_southern_sierra:00270,283.5,0.57,,dry,5,acid_plutonic,True,42,43,mixed_forest,ok,49.0,2000.0,True,May–Oct
+ca_southern_sierra:00271,81.5,0.57,,dry,19,,False,41,82,cropland,drop,801.0,,True,May–Oct
+ca_southern_sierra:00272,84.3,0.57,,dry,19,,False,41,82,cropland,drop,460.0,,True,May–Oct
+ca_southern_sierra:00273,589.6,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,103.0,,True,May–Oct
+ca_southern_sierra:00274,597.9,0.66,,dry,5,acid_plutonic,True,41,52,shrub,ok,334.0,,True,May–Oct
+ca_southern_sierra:00275,1501.2,0.34,,dry,7,silicic_residual,False,32,52,shrub,ok,65.0,2011.0,True,"Apr–Jul, Sep–Oct"
+ca_southern_sierra:00276,1627.3,0.34,,dry,5,acid_plutonic,True,31,52,shrub,ok,75.0,2011.0,True,"Apr–Jul, Sep–Oct"
+ca_southern_sierra:00277,278.1,0.57,,dry,5,acid_plutonic,True,42,52,shrub,ok,151.0,,True,May–Oct
+ca_southern_sierra:00278,281.5,0.57,,dry,5,acid_plutonic,True,42,41,deciduous,ok,107.0,,True,May–Oct
+ca_southern_sierra:00279,2092.4,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,467.0,,True,Jun–Sep
+ca_southern_sierra:00280,1867.6,0.66,,dry,5,acid_plutonic,True,15,42,evergreen,ok,119.0,,True,Jun–Sep
+ca_southern_sierra:00281,79.9,0.57,91.0,year_round,19,,False,41,11,open_water,ok,495.0,,True,May–Oct
+ca_southern_sierra:00282,120.7,0.57,,dry,5,acid_plutonic,True,31,71,grassland,ok,796.0,,True,May–Oct
+ca_southern_sierra:00283,179.6,0.66,20.0,seasonal,5,acid_plutonic,True,42,95,herb_wetland,ok,1316.0,,True,May–Oct
+ca_southern_sierra:00284,179.6,0.66,79.0,year_round,5,acid_plutonic,True,34,11,open_water,ok,1583.0,,True,May–Oct
+ca_southern_sierra:00285,48.1,0.57,,dry,19,,False,42,11,open_water,ok,188.0,,True,May–Oct
+ca_southern_sierra:00286,46.4,0.57,,dry,19,,False,42,11,open_water,ok,424.0,,True,May–Oct
+ca_southern_sierra:00287,572.2,0.66,,dry,5,acid_plutonic,True,41,52,shrub,ok,88.0,2021.0,True,May–Oct
+ca_southern_sierra:00288,558.8,0.66,,dry,5,acid_plutonic,True,42,42,evergreen,ok,235.0,2021.0,True,May–Oct
+ca_southern_sierra:00289,2126.5,0.34,,dry,5,acid_plutonic,True,41,52,shrub,ok,259.0,,True,"Apr, Jun–Jul, Sep"
+ca_southern_sierra:00290,2020.7,0.34,,dry,5,acid_plutonic,True,41,52,shrub,ok,227.0,,True,"Apr, Jun–Jul, Sep"
+ca_southern_sierra:00291,453.6,0.41,,dry,5,acid_plutonic,True,42,52,shrub,ok,398.0,,True,May–Oct
+ca_southern_sierra:00292,631.4,0.41,,dry,5,acid_plutonic,True,41,52,shrub,ok,1389.0,,True,May–Oct
+ca_southern_sierra:00293,328.6,0.08,,dry,3,non_carb_sed,False,41,71,grassland,ok,46.0,2003.0,True,"Apr, Jun–Oct"
+ca_southern_sierra:00294,324.2,0.08,,dry,3,non_carb_sed,False,41,71,grassland,ok,97.0,2003.0,True,"Apr, Jun–Oct"
+ca_southern_sierra:00295,296.6,0.57,,dry,5,acid_plutonic,True,41,52,shrub,ok,90.0,,True,May–Oct
+ca_southern_sierra:00296,241.2,0.57,31.0,year_round,5,acid_plutonic,True,42,71,grassland,ok,126.0,,True,May–Oct
+ca_southern_sierra:00297,810.4,0.57,,dry,1,unconsolidated,False,42,42,evergreen,ok,28.0,,True,May–Oct
+ca_southern_sierra:00298,792.6,0.57,,dry,1,unconsolidated,False,42,42,evergreen,ok,14.0,,True,May–Oct
+ca_southern_sierra:00299,600.9,0.66,,dry,5,acid_plutonic,True,42,42,evergreen,ok,42.0,2018.0,True,May–Oct
+ca_southern_sierra:00300,787.8,0.66,,dry,5,acid_plutonic,True,41,52,shrub,ok,373.0,2018.0,True,May–Oct
+ca_southern_sierra:00301,1846.7,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,4195.0,2022.0,True,Jun–Sep
+ca_southern_sierra:00302,2108.3,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,3155.0,2022.0,True,Jun–Sep
+ca_southern_sierra:00303,392.5,0.66,,dry,5,acid_plutonic,True,31,52,shrub,ok,35.0,,True,May–Oct
+ca_southern_sierra:00304,345.1,0.66,,dry,5,acid_plutonic,True,42,52,shrub,ok,596.0,,True,May–Oct
+ca_southern_sierra:00305,2333.3,0.34,,dry,11,water,False,41,42,evergreen,ok,230.0,2009.0,True,"Jun–Jul, Sep–Oct"
+ca_southern_sierra:00306,2440.1,0.34,,dry,5,acid_plutonic,True,41,42,evergreen,ok,62.0,2009.0,True,"Jun–Jul, Sep–Oct"
+ca_southern_sierra:00307,123.1,0.57,,dry,5,acid_plutonic,True,42,71,grassland,ok,367.0,,True,May–Oct
+ca_southern_sierra:00308,151.8,0.66,,dry,5,acid_plutonic,True,41,71,grassland,ok,96.0,,True,May–Oct
+ca_southern_sierra:00309,115.6,1.01,,dry,19,,False,41,71,grassland,ok,48.0,,True,May–Oct
+ca_southern_sierra:00310,123.2,1.01,,dry,5,acid_plutonic,True,31,71,grassland,ok,325.0,1997.0,True,May–Oct
+ca_southern_sierra:00311,3080.2,0.34,,dry,5,acid_plutonic,True,41,52,shrub,ok,2505.0,,True,"Jun–Jul, Sep"
+ca_southern_sierra:00312,3117.9,0.34,,dry,5,acid_plutonic,True,42,42,evergreen,ok,3455.0,,True,"Jun–Jul, Sep"
+ca_southern_sierra:00313,90.5,1.01,61.0,year_round,19,,False,42,11,open_water,ok,125.0,2008.0,True,May–Oct
+ca_southern_sierra:00314,1291.6,0.34,,dry,19,,False,34,52,shrub,ok,237.0,,False,"Apr–Jul, Sep–Oct"
+ca_southern_sierra:00315,1299.2,0.34,,dry,19,,False,34,52,shrub,ok,69.0,,False,"Apr–Jul, Sep–Oct"
+ca_southern_sierra:00316,1360.2,0.66,,dry,5,acid_plutonic,True,31,52,shrub,ok,410.0,2018.0,True,Jun–Oct
+ca_southern_sierra:00317,1421.1,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,417.0,2018.0,True,Jun–Oct
+ca_southern_sierra:00318,1324.1,0.41,,dry,5,acid_plutonic,True,42,42,evergreen,ok,849.0,2020.0,True,May–Oct
+ca_southern_sierra:00319,1302.0,0.41,,dry,5,acid_plutonic,True,41,71,grassland,ok,249.0,2020.0,True,May–Oct
+ca_southern_sierra:00320,2421.6,0.41,,dry,5,acid_plutonic,True,33,42,evergreen,ok,781.0,2007.0,True,"Jun–Jul, Sep–Oct"
+ca_southern_sierra:00321,1924.6,0.41,,dry,19,,False,41,52,shrub,ok,251.0,2007.0,True,"Apr–Jul, Sep–Oct"
+ca_southern_sierra:00322,2322.6,0.66,,dry,11,water,False,32,42,evergreen,ok,,2022.0,True,Jun–Sep
+ca_southern_sierra:00323,2154.2,0.66,,dry,11,water,False,41,52,shrub,ok,,2022.0,True,Jun–Sep
+ca_southern_sierra:00324,552.3,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,163.0,1996.0,True,May–Oct
+ca_southern_sierra:00325,472.0,0.66,,dry,5,acid_plutonic,True,42,41,deciduous,ok,252.0,,True,"Apr, Jun–Oct"
+ca_southern_sierra:00326,95.2,0.57,,dry,3,non_carb_sed,False,42,71,grassland,ok,146.0,2018.0,True,May–Oct
+ca_southern_sierra:00327,100.4,0.57,,dry,3,non_carb_sed,False,41,71,grassland,ok,815.0,2018.0,True,May–Oct
+ca_southern_sierra:00328,397.9,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,8.0,,True,May–Oct
+ca_southern_sierra:00329,378.1,0.66,,dry,5,acid_plutonic,True,42,52,shrub,ok,112.0,,True,May–Oct
+ca_southern_sierra:00330,115.5,0.66,,dry,5,acid_plutonic,True,41,71,grassland,ok,601.0,,True,May–Oct
+ca_southern_sierra:00331,110.4,0.66,,dry,19,,False,41,90,woody_wetland,ok,124.0,,True,May–Oct
+ca_southern_sierra:00332,104.4,0.57,,dry,3,non_carb_sed,False,31,71,grassland,ok,92.0,2010.0,True,May–Oct
+ca_southern_sierra:00333,111.3,0.57,,dry,3,non_carb_sed,False,41,71,grassland,ok,363.0,,True,May–Oct
+ca_southern_sierra:00334,1540.6,0.34,,dry,4,metamorphic,True,41,52,shrub,ok,118.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_southern_sierra:00335,1657.3,0.34,,dry,4,metamorphic,True,41,52,shrub,ok,335.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_southern_sierra:00336,189.4,0.3,,dry,19,,False,41,71,grassland,ok,511.0,2010.0,True,May–Oct
+ca_southern_sierra:00337,182.7,0.3,,dry,19,,False,41,71,grassland,ok,94.0,,True,May–Oct
+ca_southern_sierra:00338,304.4,0.66,,dry,5,acid_plutonic,True,42,52,shrub,ok,683.0,1994.0,True,May–Oct
+ca_southern_sierra:00339,340.6,0.66,,dry,5,acid_plutonic,True,31,42,evergreen,ok,38.0,2015.0,True,May–Oct
+ca_southern_sierra:00340,79.4,1.01,5.0,seasonal,19,,False,34,31,barren,ok,579.0,,True,May–Oct
+ca_southern_sierra:00341,86.0,1.01,,dry,19,,False,41,90,woody_wetland,ok,709.0,,True,May–Oct
+ca_southern_sierra:00342,85.3,0.57,,dry,19,,False,41,90,woody_wetland,ok,434.0,,True,May–Oct
+ca_southern_sierra:00343,81.0,0.57,0.0,dry,19,,False,41,41,deciduous,ok,493.0,,True,May–Oct
+ca_southern_sierra:00344,276.5,0.66,,dry,5,acid_plutonic,True,42,52,shrub,ok,280.0,,True,May–Oct
+ca_southern_sierra:00345,264.4,0.66,,dry,5,acid_plutonic,True,42,42,evergreen,ok,286.0,,True,May–Oct
+ca_southern_sierra:00346,312.5,0.66,,dry,5,acid_plutonic,True,42,42,evergreen,ok,158.0,1994.0,True,May–Oct
+ca_southern_sierra:00347,305.9,0.66,,dry,5,acid_plutonic,True,42,71,grassland,ok,204.0,1994.0,True,May–Oct
+ca_southern_sierra:00348,254.1,0.57,,dry,5,acid_plutonic,True,42,52,shrub,ok,467.0,2006.0,True,May–Oct
+ca_southern_sierra:00349,304.5,0.57,,dry,5,acid_plutonic,True,41,71,grassland,ok,143.0,,True,May–Oct
+ca_southern_sierra:00350,252.8,0.61,,dry,5,acid_plutonic,True,42,71,grassland,ok,15.0,,True,May–Oct
+ca_southern_sierra:00351,252.2,0.61,,dry,5,acid_plutonic,True,42,71,grassland,ok,20.0,,True,May–Oct
+ca_southern_sierra:00352,181.0,0.66,,dry,5,acid_plutonic,True,42,52,shrub,ok,628.0,,True,May–Oct
+ca_southern_sierra:00353,204.9,0.66,,dry,5,acid_plutonic,True,42,71,grassland,ok,148.0,,True,May–Oct
+ca_southern_sierra:00354,142.9,1.01,,dry,19,,False,31,90,woody_wetland,ok,155.0,,True,May–Oct
+ca_southern_sierra:00355,147.0,1.01,,dry,19,,False,34,90,woody_wetland,ok,173.0,,True,May–Oct
+ca_southern_sierra:00356,108.4,0.66,,dry,19,,False,41,71,grassland,ok,196.0,,True,May–Oct
+ca_southern_sierra:00357,110.1,0.66,,dry,19,,False,41,90,woody_wetland,ok,232.0,,True,May–Oct
+ca_southern_sierra:00358,1432.7,0.34,,dry,5,acid_plutonic,True,31,71,grassland,ok,60.0,,True,"Apr–Jul, Sep–Oct"
+ca_southern_sierra:00359,1387.8,0.34,,dry,5,acid_plutonic,True,32,71,grassland,ok,13.0,,True,"Apr–Jul, Sep–Oct"
+ca_southern_sierra:00360,2182.7,0.34,,dry,5,acid_plutonic,True,41,52,shrub,ok,119.0,,True,"Apr, Jun–Jul, Sep"
+ca_southern_sierra:00361,2204.1,0.34,,dry,5,acid_plutonic,True,41,52,shrub,ok,58.0,,True,Jun–Sep
+ca_southern_sierra:00362,28.1,0.57,,dry,19,,False,42,11,open_water,ok,85.0,,True,May–Oct
+ca_southern_sierra:00363,32.2,0.57,,dry,19,,False,42,90,woody_wetland,ok,181.0,,True,May–Oct
+ca_southern_sierra:00364,464.4,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,11.0,,True,"Apr, Jun–Oct"
+ca_southern_sierra:00365,446.3,0.66,,dry,5,acid_plutonic,True,31,52,shrub,ok,21.0,2021.0,True,"Apr, Jun–Oct"
+ca_southern_sierra:00366,739.4,0.66,,dry,5,acid_plutonic,True,42,71,grassland,ok,989.0,2020.0,True,May–Oct
+ca_southern_sierra:00367,756.2,0.66,,dry,5,acid_plutonic,True,42,71,grassland,ok,1700.0,2020.0,True,May–Oct
+ca_southern_sierra:00368,82.6,1.01,68.0,year_round,19,,False,41,11,open_water,ok,33.0,,True,May–Oct
+ca_southern_sierra:00369,87.7,1.01,,dry,19,,False,34,71,grassland,ok,15.0,,True,May–Oct
+ca_southern_sierra:00370,365.7,0.09,,dry,19,,False,34,95,herb_wetland,ok,77.0,2018.0,True,May–Oct
+ca_southern_sierra:00371,356.8,0.09,,dry,19,,False,34,95,herb_wetland,ok,147.0,2018.0,True,May–Oct
+ca_southern_sierra:00372,1780.2,0.34,,dry,19,,False,31,52,shrub,ok,336.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_southern_sierra:00373,1671.4,0.34,,dry,19,,False,31,52,shrub,ok,1246.0,,True,"Apr, Jun–Jul, Sep–Nov"
+ca_southern_sierra:00374,1759.4,0.41,,dry,5,acid_plutonic,True,41,42,evergreen,ok,133.0,2015.0,True,Jun–Sep
+ca_southern_sierra:00375,1800.5,0.41,,dry,5,acid_plutonic,True,41,42,evergreen,ok,555.0,2023.0,True,Jun–Sep
+ca_southern_sierra:00376,181.9,0.66,,dry,5,acid_plutonic,True,42,95,herb_wetland,ok,409.0,,True,May–Oct
+ca_southern_sierra:00377,237.0,0.66,,dry,5,acid_plutonic,True,42,41,deciduous,ok,512.0,,True,May–Oct
+ca_southern_sierra:00378,327.3,0.61,,dry,5,acid_plutonic,True,42,52,shrub,ok,52.0,,True,May–Oct
+ca_southern_sierra:00379,350.6,0.61,,dry,5,acid_plutonic,True,41,21,developed_open,drop,8.0,,True,May–Oct
+ca_southern_sierra:00380,415.8,1.01,,dry,5,acid_plutonic,True,41,52,shrub,ok,38.0,2015.0,True,May–Oct
+ca_southern_sierra:00381,441.1,1.01,,dry,5,acid_plutonic,True,41,42,evergreen,ok,210.0,2015.0,True,May–Oct
+ca_southern_sierra:00382,119.7,0.57,,dry,3,non_carb_sed,False,42,71,grassland,ok,205.0,,True,May–Oct
+ca_southern_sierra:00383,145.5,0.57,,dry,5,acid_plutonic,True,31,71,grassland,ok,214.0,,True,May–Oct
+ca_southern_sierra:00384,264.6,0.57,,dry,0,,False,31,52,shrub,ok,664.0,2017.0,True,May–Oct
+ca_southern_sierra:00385,250.7,0.57,97.0,year_round,0,,False,41,11,open_water,ok,545.0,2017.0,True,May–Oct
+ca_southern_sierra:00386,574.1,0.66,,dry,1,unconsolidated,False,42,21,developed_open,drop,16.0,2018.0,True,May–Oct
+ca_southern_sierra:00387,843.6,0.66,,dry,5,acid_plutonic,True,31,52,shrub,ok,998.0,2018.0,True,May–Oct
+ca_southern_sierra:00388,243.3,0.57,35.0,year_round,5,acid_plutonic,True,42,71,grassland,ok,85.0,1992.0,True,May–Oct
+ca_southern_sierra:00389,263.2,0.57,,dry,5,acid_plutonic,True,42,41,deciduous,ok,27.0,2020.0,True,May–Oct
+ca_southern_sierra:00390,53.8,0.57,,dry,19,,False,42,71,grassland,ok,79.0,,True,May–Oct
+ca_southern_sierra:00391,57.5,0.57,,dry,3,non_carb_sed,False,42,71,grassland,ok,170.0,,True,May–Oct
+ca_southern_sierra:00392,105.3,0.57,,dry,3,non_carb_sed,False,32,71,grassland,ok,352.0,2018.0,True,May–Oct
+ca_southern_sierra:00393,91.3,0.57,,dry,3,non_carb_sed,False,41,71,grassland,ok,102.0,2018.0,True,May–Oct
+ca_southern_sierra:00394,1677.2,0.41,,dry,5,acid_plutonic,True,42,71,grassland,ok,2054.0,2021.0,True,Jun–Oct
+ca_southern_sierra:00395,1586.0,0.41,,dry,5,acid_plutonic,True,41,71,grassland,ok,2955.0,2021.0,True,May–Oct
+ca_southern_sierra:00396,278.0,0.66,,dry,5,acid_plutonic,True,31,42,evergreen,ok,556.0,,True,May–Oct
+ca_southern_sierra:00397,199.3,0.66,,dry,5,acid_plutonic,True,41,42,evergreen,ok,752.0,,True,May–Oct
+ca_southern_sierra:00398,886.4,0.57,,dry,1,unconsolidated,False,42,42,evergreen,ok,481.0,2013.0,True,May–Oct
+ca_southern_sierra:00399,883.1,0.57,,dry,1,unconsolidated,False,42,42,evergreen,ok,559.0,2013.0,True,May–Oct
+ca_southern_sierra:00400,1070.2,0.66,,dry,5,acid_plutonic,True,42,52,shrub,ok,196.0,2018.0,True,May–Oct
+ca_southern_sierra:00401,1239.0,0.66,,dry,5,acid_plutonic,True,41,52,shrub,ok,99.0,2018.0,True,May–Oct
+ca_southern_sierra:00402,316.3,1.01,,dry,0,,False,31,71,grassland,ok,37.0,1996.0,True,May–Oct
+ca_southern_sierra:00403,290.8,1.01,31.0,year_round,0,,False,34,71,grassland,ok,201.0,1996.0,True,May–Oct
+ca_southern_sierra:00404,271.9,0.66,,dry,5,acid_plutonic,True,41,71,grassland,ok,227.0,,True,May–Oct
+ca_southern_sierra:00405,277.8,0.66,,dry,5,acid_plutonic,True,41,71,grassland,ok,63.0,,True,May–Oct
+ca_southern_sierra:00406,443.4,1.01,,dry,5,acid_plutonic,True,42,42,evergreen,ok,107.0,1987.0,True,May–Oct
+ca_southern_sierra:00407,447.8,1.01,,dry,5,acid_plutonic,True,42,52,shrub,ok,5.0,1987.0,True,May–Oct
+ca_southern_sierra:00408,91.5,0.57,,dry,19,,False,34,71,grassland,ok,213.0,,True,May–Oct
+ca_southern_sierra:00409,84.4,0.57,,dry,19,,False,41,82,cropland,drop,127.0,,True,May–Oct
+ca_southern_sierra:00410,263.2,1.01,,dry,5,acid_plutonic,True,41,52,shrub,ok,959.0,,True,May–Oct
+ca_southern_sierra:00411,231.8,1.01,,dry,5,acid_plutonic,True,41,52,shrub,ok,576.0,,True,May–Oct
+ca_southern_sierra:00412,2458.2,0.66,,dry,5,acid_plutonic,True,42,42,evergreen,ok,2203.0,,True,"Jun–Jul, Sep"
+ca_southern_sierra:00413,2656.2,0.66,,dry,5,acid_plutonic,True,31,42,evergreen,ok,2320.0,,True,"Jun–Jul, Sep"
+ca_southern_sierra:00414,171.5,0.66,97.0,year_round,0,,False,41,11,open_water,ok,945.0,,True,May–Oct
+ca_southern_sierra:00415,30.5,0.57,5.0,seasonal,19,,False,41,11,open_water,ok,975.0,,True,May–Oct
+ca_southern_sierra:00416,37.0,0.57,,dry,19,,False,41,71,grassland,ok,1339.0,,True,May–Oct
