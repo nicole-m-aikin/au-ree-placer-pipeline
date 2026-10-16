@@ -188,7 +188,7 @@ def collect_mrds(config_paths):
         g['region'] = short
         keep = [c for c in (
             'dep_id', 'site_name', 'dev_stat', 'code_list', 'target_commodity',
-            'lon', 'lat', 'region', 'geometry',
+            'dep_tp', 'url', 'county', 'lon', 'lat', 'region', 'geometry',
         ) if c in g.columns]
         parts.append(g[keep])
     if not parts:

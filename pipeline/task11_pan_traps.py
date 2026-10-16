@@ -23,13 +23,16 @@ N_PANS = 2
 JUNCTION_M = 180.0
 CONFINE_M = (150.0, 300.0)
 UTM = 'EPSG:32611'
-# Weights follow the cheap GIS list in LIT_REVIEW §10.3.
-W_SLOPE_BREAK = 2.0
-W_SL_FOOT = 2.0
-W_POWER_DROP = 2.0
-W_JUNCTION = 1.5
-W_VALLEY_OPEN = 1.0
+# One gradient break, then the two places a placer hand actually stops.
+# The three slope tests are one physical thing and score once.
+W_GRADIENT = 2.0
+W_JUNCTION = 3.0
+W_VALLEY_OPEN = 3.0
 W_NEAR_NURE = 1.5
+# Kept so older notes that name the separate tests still resolve.
+W_SLOPE_BREAK = W_GRADIENT
+W_SL_FOOT = W_GRADIENT
+W_POWER_DROP = W_GRADIENT
 
 
 def score_reach(z, s, acc=None, junction=None, confinement=None):
@@ -116,10 +119,9 @@ def score_reach(z, s, acc=None, junction=None, confinement=None):
     out['power_drop'] = pdrop
     out['junction'] = jn
     out['valley_open'] = vo
+    gradient = sb | slf | pdrop
     out['trap_score'] = (
-        W_SLOPE_BREAK * sb.astype(float)
-        + W_SL_FOOT * slf.astype(float)
-        + W_POWER_DROP * pdrop.astype(float)
+        W_GRADIENT * gradient.astype(float)
         + W_JUNCTION * jn.astype(float)
         + W_VALLEY_OPEN * vo.astype(float)
     )
@@ -149,10 +151,11 @@ def pick_separated(df, n=N_PANS, min_sep_m=MIN_SEP_M,
 
 def why_flags(row):
     bits = []
+    if any(bool(row.get(name)) for name in (
+        'slope_break', 'sl_foot', 'power_drop', 'gradient_break',
+    )):
+        bits.append('gradient_break')
     for name, label in (
-        ('slope_break', 'slope_break'),
-        ('sl_foot', 'knickpoint_foot'),
-        ('power_drop', 'power_drop'),
         ('junction', 'tributary_junction'),
         ('valley_open', 'valley_opens'),
         ('near_nure', 'near_hot_nure'),
@@ -160,6 +163,64 @@ def why_flags(row):
         if bool(row.get(name)):
             bits.append(label)
     return ';'.join(bits) if bits else 'outlet_fallback'
+
+
+def junction_from_area(acc, min_jump_km2=0.5, min_frac=0.25):
+    """True where drainage area steps up downstream — a tributary came in.
+
+    acc is upstream area along a downstream-ordered reach, in km².
+    """
+    acc = np.asarray(acc, dtype=float)
+    out = np.zeros(acc.size, dtype=bool)
+    for i in range(1, acc.size):
+        a0, a1 = acc[i - 1], acc[i]
+        if not np.isfinite(a0) or not np.isfinite(a1):
+            continue
+        jump = a1 - a0
+        if jump >= min_jump_km2 and jump >= min_frac * max(float(a0), 0.1):
+            out[i] = True
+    return out
+
+
+def confinement_along(elv, rows, cols, side_cells=(2, 3)):
+    """Valley-wall height: side elevation minus the channel, in metres.
+
+    rows, cols index elv along a downstream-ordered path. Side samples sit
+    a couple of cells off the perpendicular. NaN where the window runs out.
+    """
+    elv = np.asarray(elv, dtype=float)
+    rows = np.asarray(rows, dtype=int)
+    cols = np.asarray(cols, dtype=int)
+    n = int(rows.size)
+    conf = np.full(n, np.nan)
+    if n == 0 or elv.ndim != 2:
+        return conf
+    nrows, ncols = elv.shape
+    for i in range(n):
+        if n == 1:
+            dr, dc = 0, 1
+        elif i == 0:
+            dr = int(rows[1] - rows[0])
+            dc = int(cols[1] - cols[0])
+        else:
+            dr = int(rows[i] - rows[i - 1])
+            dc = int(cols[i] - cols[i - 1])
+        pr, pc = -float(dc), float(dr)
+        norm = float(np.hypot(pr, pc)) or 1.0
+        pr, pc = pr / norm, pc / norm
+        samples = []
+        for dist in side_cells:
+            for sign in (-1.0, 1.0):
+                rr = int(round(rows[i] + sign * pr * dist))
+                cc = int(round(cols[i] + sign * pc * dist))
+                if 0 <= rr < nrows and 0 <= cc < ncols:
+                    z = elv[rr, cc]
+                    if np.isfinite(z) and z != -9999:
+                        samples.append(float(z))
+        z0 = elv[rows[i], cols[i]] if 0 <= rows[i] < nrows and 0 <= cols[i] < ncols else np.nan
+        if samples and np.isfinite(z0) and z0 != -9999:
+            conf[i] = float(np.mean(samples) - z0)
+    return conf
 
 
 def ensure_accumulation_tif(dem_path, cache_path):

@@ -91,8 +91,19 @@ TRIBAL_NOT_LOADED = 'tribal layer not loaded'
 
 RULES_BY_ACCESS = {
     'tribal': 'tribal permission required',
-    'usfs': 'USFS: confirm casual-use vs Notice of Intent with district ranger',
-    'blm': 'BLM: confirm casual-use vs Notice with the field office',
+    'usfs': (
+        'USFS open land, negligible disturbance, no notice (36 CFR 228.4): '
+        'pan, hand tools, crevice tool, classifier, non-motorized sluice, '
+        'metal detector, battery drywasher. Notice of Intent to the district '
+        'ranger before a motorized highbanker, suction dredge, trommel, or '
+        'other work that might significantly disturb the surface'
+    ),
+    'blm': (
+        'BLM open land, casual use (43 CFR 3809.5): pan, hand tools, crevice '
+        'tool, classifier, non-motorized sluice, metal detector, battery '
+        'drywasher. Ask the field office before a suction dredge or motorized '
+        'highbanker. Mechanized earth-moving equipment is not casual use'
+    ),
     'state_park': 'state park: confirm panning rules with park staff',
     'state_other': 'state land: confirm rules with the managing agency',
     'nps': 'NPS: confirm collecting rules with the park',
@@ -105,7 +116,10 @@ RULES_BY_ACCESS = {
     'unknown': 'land status unchecked: confirm owner / manager',
 }
 RULES_BY_STATE = {
-    'CA': 'CA: confirm current motorized suction-dredge rules',
+    'CA': (
+        'CA: motorized suction-dredge and vacuum dredge are prohibited in '
+        'rivers, streams, and lakes (Fish and Game Code 5653.1)'
+    ),
     'WA': 'WA: follow current WDFW Gold and Fish rules / HPA',
 }
 _STATE_ABBR = frozenset({

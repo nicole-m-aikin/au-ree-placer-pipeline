@@ -424,7 +424,9 @@ suite of minerals that co-concentrate through hydraulic sorting in placer enviro
 Ti, Fe, Zr, and Y all concentrate by the same hydraulic sorting mechanism as monazite
 (specific gravity 4.6–5.2). Including the full oxide and silicate heavy mineral
 suite means the model learns the entire placer assemblage fingerprint, not only the
-REE-bearing fraction. With the full 11-element feature set, CV ROC-AUC = 0.891 ± 0.018 (NE Washington).
+REE-bearing fraction. Skill is reported as spatial CV: 0.58 0.4° block on the validated
+NE WA data (see *Impact on Task 9* above); history only: the full 11-element set scored
+0.891 ± 0.018 shuffled CV on the unvalidated extract, which does not survive validation.
 
 **Elevation filter (downstream/valley-floor constraint):**
 

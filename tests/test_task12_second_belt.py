@@ -55,13 +55,18 @@ def test_hssr_maps_units_and_mdl_flags():
 
 def test_mrds_xml_keeps_gold_drops_ree():
     xml = '''<search>
-      <record dep_id="1" site_name="Warren Creek" code_list=" AU " x="-115.65" y="45.25"/>
+      <record dep_id="1" site_name="Warren Creek" code_list=" AU "
+              url="https://mrdata.usgs.gov/mrds/show-mrds.php?dep_id=1" x="-115.65" y="45.25">
+        <mrds_xml><deposits dep_tp="Placer"/><location county="Idaho"/></mrds_xml>
+      </record>
       <record dep_id="2" site_name="Monazite pit" code_list=" REE TH " x="-115.60" y="45.30"/>
       <record dep_id="3" site_name="No coords" code_list=" AU "/>
     </search>'''
     df = parse_mrds_bbox_xml(xml)
     assert list(df['dep_id']) == ['1']
     assert df.iloc[0]['target_commodity'] == 'Gold'
+    assert df.iloc[0]['dep_tp'] == 'Placer'
+    assert df.iloc[0]['county'] == 'Idaho'
 
 
 def test_frozen_transfer_auc_is_not_random_on_separated_chemistry():

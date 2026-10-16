@@ -22,7 +22,9 @@ import numpy as np
 import pandas as pd
 import yaml
 
-from pipeline.task11_pan_traps import SPACING_M, score_reach, why_flags
+from pipeline.task11_pan_traps import (
+    SPACING_M, confinement_along, junction_from_area, score_reach, why_flags,
+)
 
 import os
 
@@ -159,7 +161,25 @@ def _path_to_vertices(path, elev, upa, spacing_m=SPACING_M):
     }
 
 
-def _score_and_pick(vert, walk_id, seed, pans_per_walk, taken_xy, snap_i):
+def _flags_on_vertices(vert, cells, junction, confinement):
+    """Nearest cell flag for each resampled vertex."""
+    n = len(vert['lon'])
+    j = np.zeros(n, dtype=bool)
+    conf = np.full(n, np.nan)
+    if not cells:
+        return j, conf
+    clon = np.array([p[0] for p in cells], dtype=float)
+    clat = np.array([p[1] for p in cells], dtype=float)
+    for i, (lon, lat) in enumerate(zip(vert['lon'], vert['lat'])):
+        d = (clon - lon) ** 2 + (clat - lat) ** 2
+        k = int(np.argmin(d))
+        j[i] = bool(junction[k])
+        conf[i] = confinement[k]
+    return j, conf
+
+
+def _score_and_pick(vert, walk_id, seed, pans_per_walk, taken_xy, snap_i,
+                    junction=None, confinement=None):
     import geopandas as gpd
     from shapely.geometry import LineString
 
@@ -173,7 +193,9 @@ def _score_and_pick(vert, walk_id, seed, pans_per_walk, taken_xy, snap_i):
         z = 1000.0 - (vert['s'] / 100.0)
     # Convert upa km² to a pseudo cell-count for score_reach omega
     acc = np.maximum(vert['acc'], 0.01) * 1e6 / (PIXEL_M ** 2)
-    scored = score_reach(z, vert['s'], acc=acc)
+    scored = score_reach(
+        z, vert['s'], acc=acc, junction=junction, confinement=confinement,
+    )
     utm = utm_epsg(float(vert['lon'][0]), float(vert['lat'][0]))
     pts = gpd.GeoSeries(
         gpd.points_from_xy(vert['lon'], vert['lat']), crs='EPSG:4326',
@@ -277,6 +299,12 @@ def walk_seeds_ee(specs, project=DEFAULT_PROJECT, pans_per_walk=2,
         vert = _path_to_vertices(path, elev, upa)
         if vert is None:
             continue
+        cell_ll = path
+        rows = [r for r, _c in cells]
+        cols = [c for _r, c in cells]
+        junc_cells = junction_from_area(np.asarray(upa, dtype=float))
+        conf_cells = confinement_along(w['elv'], rows, cols)
+        junc_v, conf_v = _flags_on_vertices(vert, cell_ll, junc_cells, conf_cells)
         seed = {
             'seed_kind': spec.get('seed_kind', 'mrds'),
             'name': spec.get('anchor_name', ''),
@@ -287,6 +315,7 @@ def walk_seeds_ee(specs, project=DEFAULT_PROJECT, pans_per_walk=2,
         }
         reach, pans = _score_and_pick(
             vert, spec['walk_id'], seed, pans_per_walk, taken_xy, len(up_path),
+            junction=junc_v, confinement=conf_v,
         )
         if reach is None:
             continue

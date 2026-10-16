@@ -559,8 +559,8 @@ def _write_summary(cfg, walks, pans):
         )
     lines += [
         '',
-        'Trap score = slope break 2 + knickpoint foot 2 + power drop 2 +',
-        'tributary mouth 1.5 + valley opening 1 (max 8.5; no NURE bonus).',
+        'Trap score = one gradient break (2) + tributary mouth (3) +',
+        'valley opening (3). The three slope tests count once.',
         'Scores are relative to each reach. 30 m DEM sees system-scale traps,',
         'not a bar head or a bedrock crack. Confirm claims and rules on site.',
     ]

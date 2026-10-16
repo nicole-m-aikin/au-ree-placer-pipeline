@@ -21,12 +21,15 @@ from pipeline.county_rank import (
     closed_claim_hits,
     corridor_alongs,
     evidence_score,
+    gold_site_weight,
     grid_seeds,
     hobby_seeds,
     padus_overlap_flags,
     rank_within_county,
+    reach_hits,
     score_pans,
     seed_specs,
+    trap_on_new_scale,
     source_component,
     stake_status,
     upstream_source_component,
@@ -91,13 +94,23 @@ def test_source_component_decays_and_zeroes_missing():
     assert s[2] == 0.0
 
 
-def test_evidence_score_renormalises_without_chem():
-    with_chem = evidence_score([8.5], [1.0], [1.0])
-    without = evidence_score([8.5], [1.0], [np.nan])
-    assert with_chem[0] == pytest.approx(100.0)
-    assert without[0] == pytest.approx(100.0)
-    low_chem = evidence_score([8.5], [1.0], [0.0])
-    assert low_chem[0] == pytest.approx(80.0)
+def test_old_triple_flag_collapses_to_one_break():
+    got = trap_on_new_scale(
+        [6.0, 4.0, 8.0],
+        ['slope_break;knickpoint_foot;power_drop',
+         'knickpoint_foot;power_drop;tributary_junction',
+         'gradient_break;tributary_junction;valley_opens'],
+    )
+    assert list(got) == [2.0, 5.0, 8.0]
+
+
+def test_evidence_score_ignores_chemistry():
+    full = evidence_score([8.0], [1.0], [1.0])
+    blank = evidence_score([8.0], [1.0], [np.nan])
+    weak = evidence_score([8.0], [1.0], [0.2])
+    assert full[0] == pytest.approx(100.0)
+    assert blank[0] == full[0]
+    assert weak[0] == full[0]
 
 
 def test_chem_component_uses_best_sample_in_radius():
@@ -130,10 +143,11 @@ def test_upstream_corridor_ignores_the_next_ridge():
     assert upstream_source_component([0.0, 0.0]) == 1.0
 
 
-def test_channel_bonus_does_not_penalise_distant_creeks():
+def test_channel_bonus_only_on_the_unit():
     assert channel_component([0.0, 2.0, np.nan])[0] == pytest.approx(1.0)
     assert channel_bonus([0.0])[0] == pytest.approx(CHANNEL_BONUS)
-    assert channel_bonus([2.0])[0] == pytest.approx(CHANNEL_BONUS * np.exp(-1.0))
+    assert channel_bonus([0.8])[0] == 0.0
+    assert channel_bonus([2.0])[0] == 0.0
     assert channel_bonus([180.0])[0] == 0.0
     assert channel_bonus([np.nan])[0] == 0.0
     pans = pd.DataFrame({
@@ -149,9 +163,31 @@ def test_channel_bonus_does_not_penalise_distant_creeks():
         on_mined=[False, False, True],
     )
     on_gravel, far, mined = scored['evidence_score']
-    assert far == pytest.approx(83.5)
+    assert far == pytest.approx(85.9)
     assert on_gravel == pytest.approx(min(100.0, far + CHANNEL_BONUS))
     assert mined == pytest.approx(round(min(100.0, far + CHANNEL_BONUS) * MINED_FACTOR, 1))
+
+
+def test_reach_hits_follow_the_bend_and_drop_the_seed():
+    lat0 = 35.5
+    line = LineString([(-118.50, 35.55), (-118.50, 35.50), (-118.45, 35.50)])
+    pin_lon, pin_lat = -118.47, 35.50
+    idx, alongs = reach_hits(
+        line, pin_lon, pin_lat,
+        [-118.50, -118.47, -118.50],
+        [35.53, pin_lat + 3.0 / 111.32, 35.55],
+        lat0,
+        seed_lon=-118.50, seed_lat=35.55,
+    )
+    assert list(idx) == [0]
+    assert alongs[0] > 1.0
+
+
+def test_prospect_weighs_less_than_a_producer():
+    assert gold_site_weight('Big Mine', 'Past Producer') == 1.0
+    assert gold_site_weight('Unnamed Prospect', 'Prospect') == 0.25
+    assert upstream_source_component([0.0], [0.25]) == pytest.approx(0.25)
+    assert upstream_source_component([0.0, 0.0], [1.0, 1.0]) == 1.0
 
 
 def test_chem_component_nan_without_nure():
@@ -201,7 +237,7 @@ def test_closed_claim_hits_within_radius():
     far = -118.5 + 2000 / m_per_deg_lon
     names = closed_claim_hits(_pts([(near, lat), (far, lat)]), closed, radius_m=300)
     assert names == ['CURLY', '']
-    assert CLOSED_CLAIM_BONUS > 0
+    assert CLOSED_CLAIM_BONUS == 0.0
 
 
 # ── Counties + ranks ─────────────────────────────────────────────────────────

@@ -34,6 +34,11 @@ data/padus/
 data/mlrs/
 data/aiannh/
 
+# Members-only club claim materials — local only, never publish.
+data/gpaa/
+pipeline/gpaa_membership.py
+tests/test_gpaa_membership.py
+
 # Census county boundaries (python -m pipeline.fetch_region)
 data/counties/
 

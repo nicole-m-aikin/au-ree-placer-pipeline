@@ -112,12 +112,17 @@ def parse_mrds_bbox_xml(xml_text):
             lat = float(rec.attrib['y'])
         except (KeyError, TypeError, ValueError):
             continue
+        deposit = rec.find('.//deposits')
+        place = rec.find('.//location')
         rows.append({
             'dep_id': rec.attrib.get('dep_id'),
             'site_name': rec.attrib.get('site_name'),
             'dev_stat': rec.attrib.get('dev_stat'),
             'code_list': rec.attrib.get('code_list'),
             'target_commodity': 'Gold',
+            'dep_tp': deposit.attrib.get('dep_tp') if deposit is not None else None,
+            'url': rec.attrib.get('url'),
+            'county': place.attrib.get('county') if place is not None else None,
             'lon': lon,
             'lat': lat,
         })

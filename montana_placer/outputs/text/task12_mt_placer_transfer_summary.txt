@@ -10,7 +10,9 @@ Transfer AUC (0.05°): 0.3278
 Mean P near gold / far: 0.2837 / 0.3768
 Mean P all grabs:       0.2892
 
-NE WA random CV:  0.8912799999999999
-NE WA spatial CV: 0.6988467686686458
+NE WA validated CV (result of record, 287 grabs): 0.58 block / 0.66 shuffled
+NE WA spatial CV (dead-zone, unvalidated extract): 0.6988467686686458
+NE WA shuffled CV 0.8912799999999999 is history only: unvalidated extract; it does not
+survive the CIM audit (submitter alone predicts the label at AUC 0.57).
 
 Do not retrain from this number. Do not call the doorbell national.

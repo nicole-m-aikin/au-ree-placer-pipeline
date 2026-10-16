@@ -24,6 +24,59 @@ IDAHO_TRANSFER_KEYS = ('id_batholith', 'Idaho Batholith')
 # Only these shorts may overwrite the doorbell files.
 PUBLISHED_SHORTS = frozenset({'ne_wa', 'ne_washington', ''})
 
+HEADLINE_NOTE = (
+    'Quote the spatial, validated numbers. On the validated NE WA NURE '
+    '(287 grabs, CIM audit) the forest scores 0.58 0.4-degree block / 0.63 '
+    'dead-zone / 0.66 shuffled. On the unvalidated extract the dead-zone CV '
+    'is 0.70. The frozen forest scores about 0.5 on new belts (Montana 0.34).'
+)
+
+LEGACY_CV_NOTE = (
+    'cv_auc_mean (0.891) is history: shuffled 5-fold CV on the unvalidated '
+    'extract. It does not survive the CIM audit (548 of 1,045 grabs on one '
+    'placeholder point; submitter alone predicts the label at AUC 0.57). '
+    'Kept for backward compatibility, not as a performance claim.'
+)
+
+
+def validated_cv_summary(cv_csv, confound_csv=None):
+    """Validated-scenario AUCs from task9_validated_cv.csv (validation_impact).
+
+    Returns {} when the table or its 'validated' row is missing, so a run
+    without the validated impact table still persists.
+    """
+    import os
+
+    import pandas as pd
+
+    if not cv_csv or not os.path.exists(cv_csv):
+        return {}
+    cv = pd.read_csv(cv_csv)
+    row = cv.loc[cv['scenario'] == 'validated']
+    if row.empty:
+        return {}
+    r = row.iloc[0]
+
+    def _num(key):
+        v = r.get(key)
+        return None if v is None or pd.isna(v) else round(float(v), 4)
+
+    summary = {
+        'validated_block_cv_auc_mean': _num('block_auc_mean'),
+        'validated_deadzone_cv_auc_mean': _num('deadzone_auc_mean'),
+        'validated_shuffled_cv_auc_mean': _num('shuffled_auc_mean'),
+        'validated_n_samples': int(r['n_samples']),
+        'validated_n_positive': int(r['n_positive']),
+        'validated_features': [f for f in str(r.get('features') or '').split(',') if f],
+        'validated_source': 'ne_wa_ree/outputs/tables/task9_validated_cv.csv (scenario=validated)',
+    }
+    if confound_csv and os.path.exists(confound_csv):
+        conf = pd.read_csv(confound_csv)
+        hit = conf.loc[conf['group'] == 'submitter_only_predictor', 'shuffled_auc_mean']
+        if len(hit) and pd.notna(hit.iloc[0]):
+            summary['submitter_only_auc'] = round(float(hit.iloc[0]), 4)
+    return summary
+
 
 def published_model_path(model_dir=None):
     d = Path(model_dir) if model_dir else MODEL_DIR

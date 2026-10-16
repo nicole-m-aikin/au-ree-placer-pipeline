@@ -56,17 +56,34 @@ def test_pick_separated_ignores_zero_scores():
     assert picked.empty
 
 
-def test_why_flags_names_the_votes():
+def test_why_flags_count_a_gradient_break_once():
     row = {
         'slope_break': True, 'sl_foot': False, 'power_drop': True,
         'junction': True, 'valley_open': False, 'near_nure': True,
     }
     why = why_flags(row)
-    assert 'slope_break' in why
-    assert 'power_drop' in why
+    assert why.split(';').count('gradient_break') == 1
+    assert 'slope_break' not in why
+    assert 'power_drop' not in why
     assert 'tributary_junction' in why
     assert 'near_hot_nure' in why
     assert 'knickpoint_foot' not in why
+
+
+def test_three_slope_flags_score_as_one_break():
+    s = np.arange(8) * 150.0
+    z = np.array([200.0, 185.0, 170.0, 155.0, 153.0, 152.0, 151.0, 150.0])
+    scored = score_reach(z, s)
+    hit = scored[scored['slope_break'] | scored['sl_foot'] | scored['power_drop']]
+    assert not hit.empty
+    assert hit['trap_score'].max() == 2.0
+
+
+def test_junction_from_area_flags_a_tributary_step():
+    from pipeline.task11_pan_traps import junction_from_area
+
+    flags = junction_from_area(np.array([1.0, 1.1, 1.2, 4.0]))
+    assert flags.tolist() == [False, False, False, True]
 
 
 def test_geopackage_writes_nure_and_pan_layers(tmp_path):
