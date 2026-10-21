@@ -47,6 +47,16 @@ def _tiny_artifacts(tmp_path, sklearn_version=None):
         'cv_auc_folds': [0.87, 0.89, 0.90, 0.88, 0.91],
         'cv_auc_mean': 0.89,
         'cv_auc_std': 0.015,
+        'validated_block_cv_auc_mean': 0.581,
+        'validated_deadzone_cv_auc_mean': 0.628,
+        'validated_shuffled_cv_auc_mean': 0.6594,
+        'validated_n_samples': 287,
+        'validated_n_positive': 138,
+        'validated_features': ['Ce', 'La', 'P', 'Ti', 'Fe', 'Zr', 'Y'],
+        'validated_source': (
+            'ne_wa_ree/outputs/tables/task9_validated_cv.csv '
+            '(scenario=validated)'
+        ),
         'feature_importances': {f: 0.0 for f in FEATURES},
         'study_area': 'test',
         'resource_tonnage_uncertainty': (
@@ -128,7 +138,19 @@ class TestModelInfo:
         r = client.get('/model-info')
         assert r.status_code == 200
         body = r.json()
-        assert body['cv_auc_mean'] == pytest.approx(0.89)
+        assert 'cv_auc_mean' not in body
+        assert body['legacy_unvalidated_shuffled_auc'] == pytest.approx(0.89)
+        assert body['legacy_unvalidated_shuffled_auc_folds'] == [
+            0.87, 0.89, 0.90, 0.88, 0.91
+        ]
+        assert body['legacy_unvalidated_shuffled_auc_std'] == pytest.approx(0.015)
+        assert 'history' in body['legacy_metric_note']
+        assert body['validated_block_cv_auc_mean'] == pytest.approx(0.581)
+        assert body['validated_deadzone_cv_auc_mean'] == pytest.approx(0.628)
+        assert body['validated_shuffled_cv_auc_mean'] == pytest.approx(0.6594)
+        assert body['validated_n_samples'] == 287
+        assert body['validated_n_positive'] == 138
+        assert body['validated_features'] == ['Ce', 'La', 'P', 'Ti', 'Fe', 'Zr', 'Y']
         assert body['feature_importances']['U'] == pytest.approx(0.233)
         assert body['label_method'] == 'proximity'
         assert 'Task 4' in body['resource_tonnage_uncertainty']
@@ -137,7 +159,6 @@ class TestModelInfo:
         assert 'gold' in body['target_question'].lower()
         assert 'barren' in body['negative_class_note']
         assert body['spatial_cv_auc_mean'] == pytest.approx(0.72)
-        assert body['cv_auc_mean'] == pytest.approx(0.89)
         assert body['transfer_belt'] == 'Idaho Batholith'
         assert body['transfer_auc'] == pytest.approx(0.61)
         assert body['transfer_retrained'] is False

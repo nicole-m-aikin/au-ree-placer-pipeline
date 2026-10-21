@@ -86,7 +86,7 @@ A FastAPI service loads the **frozen** Task 9 forest. It is a doorbell, not a
 discovery engine: send NURE-style ppm (and `fe_unit`), get `probability`,
 `tree_vote_spread`, and — if you send lon/lat — distance to the nearest
 **training** gold mine. It does not emit Task 4 tonnes. It is not a national
-model. Quote the spatial numbers: validated block CV 0.58 (submitter alone 0.57), dead-zone spatial CV 0.70 on the unvalidated extract, and the transfer belts (Idaho 0.50, California 0.52, Montana 0.34, Colorado 0.56, Fall Zone 0.50). `/model-info` still carries the legacy shuffled CV (`cv_auc_mean` 0.891) for backward compatibility; that number is history, from the unvalidated extract, and does not survive the CIM audit. Live Render may still be Idaho-only until Manual Deploy. East-of-Kettle hold-out is 0.53.
+model. Quote the spatial numbers: validated block CV 0.58 (submitter alone 0.57), dead-zone spatial CV 0.70 on the unvalidated extract, and the transfer belts (Idaho 0.50, California 0.52, Montana 0.34, Colorado 0.56, Fall Zone 0.50). `/model-info` labels 0.891 as `legacy_unvalidated_shuffled_auc` and exposes the validated 0.581 block-CV result separately; the legacy number is history and does not survive the CIM audit. Live Render may still be Idaho-only until Manual Deploy. East-of-Kettle hold-out is 0.53.
 
 ```bash
 # local

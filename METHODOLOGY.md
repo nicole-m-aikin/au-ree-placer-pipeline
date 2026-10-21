@@ -442,7 +442,9 @@ samples on the same valley-floor terrace as the deposit. Samples with no DEM cov
 For NE Washington: the DEM is a Copernicus GLO-30 mosaic (8 × 1° tiles, downloaded from
 AWS Open Data via `download_dem.py`), covering lon −120→−116 / lat 47→49, 14400×7200 px
 at ~30m resolution, elevation range 171–2529m. After applying the elevation filter,
-290 of 1045 samples (27.8%) are labelled positive, with final CV ROC-AUC = 0.891 ± 0.018.
+290 of 1045 legacy samples (27.8%) are labelled positive. Their shuffled CV ROC-AUC
+was 0.891 ± 0.018; this is a legacy result on the unvalidated extract, not the final
+performance claim. The validated result of record is 0.581 0.4° block CV on 287 samples.
 
 **Validation:** 5-fold stratified cross-validation; metrics reported: ROC-AUC,
 precision, recall, F1 for the anomalous class. Shuffled k-fold does not account
@@ -558,8 +560,9 @@ essentially a hydrologic tightening of the circle, not a new labeled
 population. Five-fold CV ROC-AUC is 0.947 ± 0.014 with Fe as the top
 Gini feature. That AUC is not a resume number: the class is cleaner
 than proximity and still spatially autocorrelated. Do not quote 0.947
-or 0.959 as model performance. Result of record remains proximity
-(0.891 ± 0.018, ~290 positives, U first). Ledger:
+or 0.959 as model performance. The validated proximity result of record
+remains 0.581 0.4° block CV (287 samples / 138 positives, La first);
+0.891 ± 0.018 is legacy shuffled CV on the unvalidated extract. Ledger:
 `ne_wa_ree/outputs/tables/task9_same_basin_qa.csv`.
 
 The published Task 9 numbers, Fig 10, and resume claims use

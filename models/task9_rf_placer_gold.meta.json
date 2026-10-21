@@ -10,6 +10,21 @@
   "cv_auc_mean": 0.8912799999999999,
   "cv_auc_std": 0.018244780075407856,
   "cv_optimism_note": "cv_auc_mean is shuffled 5-fold stratified CV. It can be optimistic because nearby samples often share the same mine. spatial_cv_auc_mean is the same fold split after dropping training samples within 0.15\u00b0 of any test sample (the label radius). That is the more honest number for new drainages.",
+  "validated_block_cv_auc_mean": 0.581,
+  "validated_deadzone_cv_auc_mean": 0.628,
+  "validated_shuffled_cv_auc_mean": 0.6594,
+  "validated_n_samples": 287,
+  "validated_n_positive": 138,
+  "validated_features": [
+    "Ce",
+    "La",
+    "P",
+    "Ti",
+    "Fe",
+    "Zr",
+    "Y"
+  ],
+  "validated_source": "ne_wa_ree/outputs/tables/task9_validated_cv.csv (scenario=validated)",
   "feature_importances": {
     "As": 0.09543843449497981,
     "Au": 0.02611831610011862,

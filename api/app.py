@@ -22,6 +22,7 @@ from api.schemas import (
 )
 from api.scoring import UnitError, predict_with_spread
 from pipeline.ml_artifacts import (
+    LEGACY_CV_NOTE,
     load_gold_mrds,
     load_published_artifacts,
     load_transfer,
@@ -172,9 +173,17 @@ def create_app(model_dir=None):
             feature_order=meta['feature_order'],
             feature_units=meta.get('feature_units', {}),
             feature_importances=meta.get('feature_importances', {}),
-            cv_auc_mean=meta['cv_auc_mean'],
-            cv_auc_folds=meta['cv_auc_folds'],
-            cv_auc_std=meta.get('cv_auc_std', 0.0),
+            legacy_unvalidated_shuffled_auc=meta['cv_auc_mean'],
+            legacy_unvalidated_shuffled_auc_folds=meta['cv_auc_folds'],
+            legacy_unvalidated_shuffled_auc_std=meta.get('cv_auc_std', 0.0),
+            legacy_metric_note=LEGACY_CV_NOTE,
+            validated_block_cv_auc_mean=meta['validated_block_cv_auc_mean'],
+            validated_deadzone_cv_auc_mean=meta['validated_deadzone_cv_auc_mean'],
+            validated_shuffled_cv_auc_mean=meta['validated_shuffled_cv_auc_mean'],
+            validated_n_samples=meta['validated_n_samples'],
+            validated_n_positive=meta['validated_n_positive'],
+            validated_features=meta['validated_features'],
+            validated_source=meta['validated_source'],
             spatial_cv_auc_mean=meta.get('spatial_cv_auc_mean'),
             spatial_cv_auc_std=meta.get('spatial_cv_auc_std'),
             spatial_cv_auc_folds=meta.get('spatial_cv_auc_folds'),

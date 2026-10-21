@@ -169,9 +169,17 @@ class ModelInfoResponse(BaseModel):
     feature_order: list
     feature_units: dict
     feature_importances: dict
-    cv_auc_mean: float
-    cv_auc_folds: list
-    cv_auc_std: float
+    legacy_unvalidated_shuffled_auc: float
+    legacy_unvalidated_shuffled_auc_folds: list
+    legacy_unvalidated_shuffled_auc_std: float
+    legacy_metric_note: str
+    validated_block_cv_auc_mean: float
+    validated_deadzone_cv_auc_mean: float
+    validated_shuffled_cv_auc_mean: float
+    validated_n_samples: int
+    validated_n_positive: int
+    validated_features: list
+    validated_source: str
     spatial_cv_auc_mean: Optional[float] = None
     spatial_cv_auc_std: Optional[float] = None
     spatial_cv_auc_folds: Optional[list] = None
